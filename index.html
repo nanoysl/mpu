@@ -3,385 +3,432 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MPU Experten | Zurück in die Spur</title>
+    <title>MPU Experten | Der klare Fahrplan</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --nav-height: 80px;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --accent-color: #ffffff;
-            --whatsapp-color: #25D366;
+            --dark-glass: rgba(20, 20, 20, 0.7);
+            --border-light: rgba(255, 255, 255, 0.15);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --accent: #ffffff;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
         body, html {
             width: 100%;
-            height: 100vh;
             background-color: #000000;
             color: #ffffff;
-            overflow: hidden;
+            overflow-x: hidden; /* Scrollen nach unten ist jetzt erlaubt! */
         }
 
-        /* --- INTRO (Unverändert) --- */
-        #intro-container {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            perspective: 1500px;
-            pointer-events: none;
-        }
-        .license-card {
-            width: 400px;
-            height: 250px;
-            background: linear-gradient(135deg, #e6c5d1 0%, #d8e0e8 100%);
-            border-radius: 12px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-            padding: 20px;
-            position: relative;
-            transform-style: preserve-3d;
-            opacity: 0;
-        }
-        .license-photo { position: absolute; top: 40px; left: 20px; width: 80px; height: 100px; background: rgba(0,0,0,0.2); border-radius: 4px; }
-        .license-eu { position: absolute; top: 15px; left: 15px; width: 40px; height: 25px; background: #003399; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #ffcc00; font-size: 10px; font-weight: bold; }
-        .license-lines { position: absolute; top: 40px; left: 120px; width: 240px; display: flex; flex-direction: column; gap: 12px; }
-        .l-line { height: 8px; background: rgba(0,0,0,0.15); border-radius: 4px; width: 100%; }
+        /* Hintergrund-Wellen (Fixed) */
+        #line-waves-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
-        /* --- HERO SECTION --- */
-        #hero-container {
-            position: fixed;
-            inset: 0;
-            z-index: 10;
-            opacity: 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #line-waves-bg { position: absolute; inset: 0; z-index: 0; }
-
-        .ui-layer {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            background: radial-gradient(circle at 20% 50%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
-        }
-
-        /* Navbar */
+        /* Navbar (Fixed) */
         .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 5vw;
-            height: var(--nav-height);
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 4vw; height: var(--nav-height);
+            border-bottom: 1px solid var(--border-light);
+            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
-        .nav-logo { font-weight: 700; font-size: 1.2rem; }
+        .nav-logo { font-weight: 700; font-size: 1.2rem; letter-spacing: -0.02em; }
         .nav-cta {
-            padding: 0.7rem 1.5rem;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 100px;
-            font-size: 0.85rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            padding: 0.7rem 1.5rem; background: #ffffff; color: #000000;
+            text-decoration: none; border-radius: 100px; font-size: 0.85rem; font-weight: 600;
+            transition: transform 0.3s ease;
         }
-        .nav-cta:hover { background: #fff; color: #000; }
+        .nav-cta:hover { transform: scale(1.05); }
 
-        /* Main Grid Content */
-        .hero-main {
-            flex-grow: 1;
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            align-items: center;
-            padding: 0 5vw;
-            gap: 4rem;
+        /* =========================================
+           1. INTRO (Der wilde Führerschein)
+           ========================================= */
+        #intro-container {
+            position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+            z-index: 9999; perspective: 1500px; pointer-events: none;
         }
+        .intro-card {
+            width: 400px; height: 250px; background: linear-gradient(135deg, #e6c5d1 0%, #d8e0e8 100%);
+            border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.5);
+            padding: 20px; position: relative; opacity: 0;
+        }
+        .intro-photo { position: absolute; top: 40px; left: 20px; width: 80px; height: 100px; background: rgba(0,0,0,0.2); border-radius: 4px; }
+        .intro-lines { position: absolute; top: 40px; left: 120px; width: 240px; display: flex; flex-direction: column; gap: 12px; }
+        .i-line { height: 8px; background: rgba(0,0,0,0.15); border-radius: 4px; }
+        .i-line:nth-child(1) { width: 100%; } .i-line:nth-child(2) { width: 80%; } .i-line:nth-child(3) { width: 60%; } .i-line:nth-child(4) { width: 90%; }
+        .intro-eu { position: absolute; top: 15px; left: 15px; width: 40px; height: 25px; background: #003399; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #ffcc00; font-size: 10px; font-weight: bold; }
 
-        /* Links: Content */
-        .content-left { max-width: 700px; }
+        /* =========================================
+           2. HERO SECTION
+           ========================================= */
+        .hero-section {
+            position: relative; z-index: 2; height: 100vh; display: flex;
+            align-items: center; justify-content: center; text-align: center;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.6) 100%);
+        }
+        .hero-content { opacity: 0; padding: 0 2rem; }
+        .badge { display: inline-block; background: rgba(255,255,255,0.1); border: 1px solid var(--border-light); padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem; }
+        .headline { font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.5rem; max-width: 900px; margin-inline: auto; }
+        .subtext { font-size: clamp(1rem, 1.2vw, 1.2rem); color: var(--text-muted); max-width: 600px; line-height: 1.6; margin: 0 auto; }
+
+        /* =========================================
+           3. PREMIUM SCROLL STORY
+           ========================================= */
+        /* Der Wrapper sorgt für den Scroll-Raum (Pinned durch GSAP) */
+        .story-wrapper { position: relative; z-index: 2; width: 100%; }
         
-        .tag-row { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-        .tag {
-            padding: 0.4rem 0.8rem;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 100px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: rgba(255,255,255,0.6);
+        /* Das Container-Element, das "sticky" bleibt */
+        .story-pinned {
+            height: 100vh; width: 100%; position: relative;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+            background: radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, #000000 100%);
         }
 
-        .headline {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            margin-bottom: 1.5rem;
+        /* --- Die 3D Karte (Apple Keynote Style) --- */
+        .card-scene {
+            perspective: 2000px; position: absolute; z-index: 10;
+            width: 420px; height: 260px;
         }
-        .headline span { color: rgba(255,255,255,0.5); }
-
-        .subtext {
-            font-size: 1.15rem;
-            color: rgba(255,255,255,0.7);
-            line-height: 1.6;
-            margin-bottom: 2.5rem;
-            max-width: 500px;
+        .story-card {
+            width: 100%; height: 100%; position: relative;
+            transform-style: preserve-3d;
         }
-
-        .cta-group { display: flex; gap: 1rem; align-items: center; }
-        .btn {
-            padding: 1.1rem 2.2rem;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.7rem;
+        .card-face {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            border-radius: 16px; border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(20px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.1);
+            overflow: hidden; padding: 25px; display: flex; flex-direction: column;
         }
-        .btn-primary { background: #fff; color: #000; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,255,255,0.2); }
+        .card-front { transform: rotateY(0deg); }
+        .card-back { transform: rotateY(180deg); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: rgba(25, 25, 25, 0.9); }
         
-        .btn-whatsapp { 
-            background: transparent; 
-            border: 1px solid var(--glass-border); 
-            color: #fff; 
-            backdrop-filter: blur(10px);
-        }
-        .btn-whatsapp:hover { border-color: var(--whatsapp-color); color: var(--whatsapp-color); }
-
-        /* Rechts: Fahrplan Stepper */
-        .roadmap-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        .step-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            padding: 1.5rem;
-            border-radius: 16px;
-            backdrop-filter: blur(15px);
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            transform: translateX(50px);
-            opacity: 0;
-        }
-        .step-num {
-            font-size: 0.8rem;
-            font-weight: 700;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255,255,255,0.4);
-        }
-        .step-content h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.2rem; }
-        .step-content p { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
-
-        /* Mobile Sticky CTA */
-        .mobile-sticky {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 1rem;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--glass-border);
-            z-index: 100;
-            grid-template-columns: 1fr 3fr;
-            gap: 0.8rem;
+        /* Lichtreflex-Effekt beim Drehen */
+        .light-sweep {
+            position: absolute; top: -50%; bottom: -50%; width: 50px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: rotate(25deg); left: -100%; pointer-events: none; z-index: 5;
         }
 
+        /* Karten-UI Vorderseite */
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;}
+        .card-eu { display: flex; gap: 8px; align-items: center; font-size: 0.7rem; color: var(--text-muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+        .card-eu span { background: #1a1a1a; padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
+        
+        .card-steps-list { display: flex; flex-direction: column; gap: 12px; flex-grow: 1; justify-content: center; }
+        .c-step { display: flex; align-items: center; gap: 12px; opacity: 0.2; transition: opacity 0.5s ease; }
+        .c-step.active { opacity: 1; }
+        .c-step-num { font-size: 0.7rem; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        .c-step-text { font-size: 0.9rem; font-weight: 500; }
+
+        /* Karten-UI Rückseite */
+        .back-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; letter-spacing: 0.05em; color: var(--accent); }
+        .back-list { display: flex; flex-direction: column; gap: 15px; width: 100%; padding: 0 20px; }
+        .back-item { display: flex; justify-content: space-between; font-size: 0.85rem; color: rgba(255,255,255,0.8); border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
+        .back-status { color: #4ade80; font-weight: 600; }
+
+        /* --- Text Container (Rechts & Links) --- */
+        .text-panel { position: absolute; width: 35vw; top: 50%; transform: translateY(-50%); z-index: 5; }
+        
+        .panel-right { right: 8vw; }
+        .panel-left { left: 8vw; opacity: 0; pointer-events: none; }
+
+        .text-block { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; opacity: 0; visibility: hidden; }
+        
+        .sup-title { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+        .main-title { font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+        .desc-text { font-size: 1.1rem; color: rgba(255,255,255,0.7); line-height: 1.6; }
+
+        .final-cta { display: inline-block; margin-top: 2rem; padding: 1.2rem 2.5rem; background: #fff; color: #000; border-radius: 100px; font-weight: 600; text-decoration: none; transition: transform 0.3s; }
+        .final-cta:hover { transform: translateY(-3px); }
+
+        /* Responsive */
         @media (max-width: 1024px) {
-            .hero-main { grid-template-columns: 1fr; text-align: center; overflow-y: auto; padding-top: 2rem; padding-bottom: 100px; }
-            .content-left { margin: 0 auto; }
-            .tag-row { justify-content: center; }
-            .cta-group { justify-content: center; flex-direction: column; }
-            .btn { width: 100%; justify-content: center; }
-            .roadmap-container { margin-top: 3rem; }
-            .mobile-sticky { display: grid; }
-            body, html { overflow: auto; }
+            .card-scene { width: 320px; height: 200px; }
+            .text-panel { width: 90vw; left: 5vw !important; right: auto; text-align: center; }
+            .panel-right { top: 75%; }
+            .panel-left { top: 75%; }
+            .main-title { font-size: 1.8rem; }
+            .c-step-text { font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
 
+    <div id="line-waves-bg"></div>
+
+    <nav class="navbar">
+        <div class="nav-logo">MPU Experten</div>
+        <a href="#" class="nav-cta">Erstgespräch</a>
+    </nav>
+
     <div id="intro-container">
-        <div class="license-card" id="license">
-            <div class="license-eu">D</div>
-            <div class="license-photo"></div>
-            <div class="license-lines">
-                <div class="l-line"></div>
-                <div class="l-line"></div>
-                <div class="l-line"></div>
-                <div class="l-line" style="width:60%"></div>
+        <div class="intro-card" id="intro-license">
+            <div class="intro-eu">D</div>
+            <div class="intro-photo"></div>
+            <div class="intro-lines">
+                <div class="i-line"></div><div class="i-line"></div><div class="i-line"></div><div class="i-line"></div>
             </div>
         </div>
     </div>
 
-    <div id="hero-container">
-        <div id="line-waves-bg"></div>
+    <main>
         
-        <div class="ui-layer">
-            <nav class="navbar">
-                <div class="nav-logo">MPU Experten</div>
-                <a href="#" class="nav-cta">Mit Experten sprechen</a>
-            </nav>
+        <section class="hero-section" id="hero">
+            <div class="hero-content" id="hero-content">
+                <div class="badge">Der Fahrplan zurück zur Mobilität</div>
+                <h1 class="headline">Reiten Sie die Welle<br>zurück zum Führerschein.</h1>
+                <p class="subtext">Keine unseriösen Versprechen, sondern klare Struktur. Wir begleiten Sie diskret und wissenschaftlich fundiert.</p>
+            </div>
+        </section>
 
-            <main class="hero-main">
-                <div class="content-left">
-                    <div class="tag-row">
-                        <span class="tag">Alkohol</span>
-                        <span class="tag">Drogen</span>
-                        <span class="tag">Punkte</span>
-                        <span class="tag">Straftaten</span>
-                    </div>
-                    <h1 class="headline">Zurück in die Spur<br><span>in [Dein Ort].</span></h1>
-                    <p class="subtext">
-                        Persönliche MPU-Vorbereitung statt Standardkurs. Diskret, wissenschaftlich fundiert und mit klarem Ziel: Ihr Führerschein.
-                    </p>
-                    <div class="cta-group">
-                        <a href="#" class="btn btn-primary">Erstgespräch vereinbaren</a>
-                        <a href="#" class="btn btn-whatsapp">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.747-2.874-2.512-2.96-2.626-.087-.115-.708-.941-.708-1.793 0-.852.449-1.271.608-1.442.159-.171.348-.215.464-.215.117 0 .231.001.332.006.106.005.249-.04.391.297.144.346.491 1.2.535 1.287.043.087.072.188.014.304-.058.115-.087.188-.174.289l-.26.304c-.087.101-.177.211-.077.383.1.172.443.731.952 1.185.656.584 1.209.765 1.382.852.173.087.275.072.376-.043.1-.115.434-.506.549-.68.115-.173.231-.144.39-.087.158.058 1.012.477 1.185.564.173.087.289.129.332.202.043.073.043.419-.101.824z"/></svg>
-                            WhatsApp Chat
-                        </a>
+        <section class="story-wrapper" id="story-trigger">
+            <div class="story-pinned">
+                
+                <div class="card-scene">
+                    <div class="story-card">
+                        <div class="light-sweep"></div>
+                        
+                        <div class="card-face card-front">
+                            <div class="card-header">
+                                <div class="card-eu"><span>EU</span> Fahrplan</div>
+                                <div style="color: rgba(255,255,255,0.3); font-size: 0.7rem;">ID: MPU-2026</div>
+                            </div>
+                            <div class="card-steps-list">
+                                <div class="c-step c-step-1"><div class="c-step-num">1</div><div class="c-step-text">Ausgangslage klären</div></div>
+                                <div class="c-step c-step-2"><div class="c-step-num">2</div><div class="c-step-text">Nachweise prüfen</div></div>
+                                <div class="c-step c-step-3"><div class="c-step-num">3</div><div class="c-step-text">Verhalten verstehen</div></div>
+                                <div class="c-step c-step-4"><div class="c-step-num">4</div><div class="c-step-text">Sicher ins Gespräch</div></div>
+                            </div>
+                        </div>
+
+                        <div class="card-face card-back">
+                            <div class="back-title">Ihr MPU-Ergebnis</div>
+                            <div class="back-list">
+                                <div class="back-item"><span>Analyse</span> <span class="back-status">Abgeschlossen</span></div>
+                                <div class="back-item"><span>Strategie</span> <span class="back-status">Aktiv</span></div>
+                                <div class="back-item"><span>Nachweise</span> <span class="back-status">Geprüft</span></div>
+                                <div class="back-item"><span>Simulation</span> <span class="back-status">Bestanden</span></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="roadmap-container">
-                    <div class="step-card">
-                        <div class="step-num">01</div>
-                        <div class="step-content">
-                            <h3>Fall verstehen</h3>
-                            <p>Analyse Ihrer Akte & Delikthistorie.</p>
-                        </div>
+                <div class="text-panel panel-right">
+                    <div class="text-block t-step-1">
+                        <div class="sup-title">Struktur statt Chaos</div>
+                        <h2 class="main-title">Ihr Weg beginnt nicht mit Glück.</h2>
+                        <p class="desc-text">Wir analysieren Ihre Akte präzise. Warum kam es zur MPU? Alkohol, Drogen oder Punkte? Wir schaffen sofortige Klarheit über Ihre Ausgangslage.</p>
                     </div>
-                    <div class="step-card">
-                        <div class="step-num">02</div>
-                        <div class="step-content">
-                            <h3>Strategie planen</h3>
-                            <p>Individueller Fahrplan für Abstinenz & Kurse.</p>
-                        </div>
+                    <div class="text-block t-step-2">
+                        <div class="sup-title">Fristen & Dokumente</div>
+                        <h2 class="main-title">Wir ordnen das System für Sie.</h2>
+                        <p class="desc-text">Keine verpassten Deadlines. Wir klären exakt, welche Abstinenznachweise und Unterlagen Sie wirklich brauchen – und welche nicht.</p>
                     </div>
-                    <div class="step-card">
-                        <div class="step-num">03</div>
-                        <div class="step-content">
-                            <h3>Wandel belegen</h3>
-                            <p>Wissenschaftliche Aufarbeitung der Ursachen.</p>
-                        </div>
+                    <div class="text-block t-step-3">
+                        <div class="sup-title">Wissenschaftliche Basis</div>
+                        <h2 class="main-title">Keine auswendig gelernten Sätze.</h2>
+                        <p class="desc-text">Der Gutachter durchschaut Phrasen. Wir arbeiten die echten Ursachen auf, damit Sie authentisch, stabil und überzeugend argumentieren.</p>
                     </div>
-                    <div class="step-card">
-                        <div class="step-num">04</div>
-                        <div class="step-content">
-                            <h3>Sicher bestehen</h3>
-                            <p>Simulation des Gutachter-Gesprächs.</p>
-                        </div>
+                    <div class="text-block t-step-4">
+                        <div class="sup-title">Die Prüfung</div>
+                        <h2 class="main-title">Sicher ins Gespräch gehen.</h2>
+                        <p class="desc-text">Wir simulieren das psychologische Gutachtergespräch unter Realbedingungen. Mit hartem Feedback, bis Sie zu 100% vorbereitet sind.</p>
                     </div>
                 </div>
-            </main>
-        </div>
-    </div>
 
-    <div class="mobile-sticky">
-        <a href="tel:+4912345678" class="btn btn-whatsapp" style="padding:0; justify-content:center;">📞</a>
-        <a href="#" class="btn btn-primary">Jetzt Erstgespräch</a>
-    </div>
+                <div class="text-panel panel-left">
+                    <div class="sup-title">Der Perspektivwechsel</div>
+                    <h2 class="main-title">Wir drehen die MPU für Sie um.</h2>
+                    <p class="desc-text">Von quälender Unsicherheit zu einem klaren, abgehakten Plan. Begleitung auf Top-Niveau statt Alleingang.</p>
+                    <a href="#" class="final-cta">Kostenloses Erstgespräch</a>
+                </div>
+
+            </div>
+        </section>
+
+        <section style="height: 100vh; background: #000; display:flex; align-items:center; justify-content:center; border-top: 1px solid #333;">
+            <p style="color: #666;">Weitere Website Sections...</p>
+        </section>
+    </main>
 
     <script type="module">
         import { Renderer, Program, Mesh, Triangle } from 'https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm';
 
-        // --- SHADER & OGL SETUP (Gekürzt für Übersicht, entspricht deinem Original) ---
+        // GSAP Plugins registrieren
+        gsap.registerPlugin(ScrollTrigger);
+
+        /* =========================================================
+           1. OGL SHADER SETUP (ReactBits)
+           ========================================================= */
         const vertexShader = `attribute vec2 uv; attribute vec2 position; varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position, 0, 1); }`;
-        const fragmentShader = `precision highp float; uniform float uTime; uniform vec3 uResolution; uniform float uSpeed; uniform float uInnerLines; uniform float uOuterLines; uniform float uWarpIntensity; uniform float uRotation; uniform float uBrightness; uniform vec3 uColor1; uniform vec2 uMouse; void main() { vec2 coords = gl_FragCoord.xy / uResolution.xy; coords = coords * 2.0 - 1.0; float fullT = uTime * uSpeed; float pattern = sin(coords.x * uInnerLines + fullT) * cos(coords.y * uOuterLines); vec3 col = uColor1 * pattern * uBrightness; gl_FragColor = vec4(col, 1.0); }`; 
-        // Hinweis: Ich nutze hier einen Placeholder-Shader für die Demo, dein Original-Shader funktioniert 1:1 weiterhin!
+        const fragmentShader = `
+            precision highp float;
+            uniform float uTime; uniform vec3 uResolution; uniform float uSpeed; uniform float uInnerLines; uniform float uOuterLines; uniform float uWarpIntensity; uniform float uRotation; uniform float uEdgeFadeWidth; uniform float uColorCycleSpeed; uniform float uBrightness; uniform vec3 uColor1; uniform vec3 uColor2; uniform vec3 uColor3; uniform vec2 uMouse; uniform float uMouseInfluence; uniform bool uEnableMouse;
+            #define HALF_PI 1.5707963
+            float hashF(float n) { return fract(sin(n * 127.1) * 43758.5453123); }
+            float smoothNoise(float x) { float i = floor(x); float f = fract(x); float u = f * f * (3.0 - 2.0 * f); return mix(hashF(i), hashF(i + 1.0), u); }
+            float displaceA(float coord, float t) { float result = sin(coord * 2.123) * 0.2; result += sin(coord * 3.234 + t * 4.345) * 0.1; result += sin(coord * 0.589 + t * 0.934) * 0.5; return result; }
+            float displaceB(float coord, float t) { float result = sin(coord * 1.345) * 0.3; result += sin(coord * 2.734 + t * 3.345) * 0.2; result += sin(coord * 0.189 + t * 0.934) * 0.3; return result; }
+            vec2 rotate2D(vec2 p, float angle) { float c = cos(angle); float s = sin(angle); return vec2(p.x * c - p.y * s, p.x * s + p.y * c); }
+            void main() {
+                vec2 coords = gl_FragCoord.xy / uResolution.xy; coords = coords * 2.0 - 1.0; coords = rotate2D(coords, uRotation);
+                float halfT = uTime * uSpeed * 0.5; float fullT = uTime * uSpeed; float mouseWarp = 0.0;
+                if (uEnableMouse) { vec2 mPos = rotate2D(uMouse * 2.0 - 1.0, uRotation); float mDist = length(coords - mPos); mouseWarp = uMouseInfluence * exp(-mDist * mDist * 4.0); }
+                float warpAx = coords.x + displaceA(coords.y, halfT) * uWarpIntensity + mouseWarp; float warpAy = coords.y - displaceA(coords.x * cos(fullT) * 1.235, halfT) * uWarpIntensity; float warpBx = coords.x + displaceB(coords.y, halfT) * uWarpIntensity + mouseWarp; float warpBy = coords.y - displaceB(coords.x * sin(fullT) * 1.235, halfT) * uWarpIntensity;
+                vec2 fieldA = vec2(warpAx, warpAy); vec2 fieldB = vec2(warpBx, warpBy); vec2 blended = mix(fieldA, fieldB, mix(fieldA, fieldB, 0.5));
+                float fadeTop = smoothstep(uEdgeFadeWidth, uEdgeFadeWidth + 0.4, blended.y); float fadeBottom = smoothstep(-uEdgeFadeWidth, -(uEdgeFadeWidth + 0.4), blended.y); float vMask = 1.0 - max(fadeTop, fadeBottom);
+                float tileCount = mix(uOuterLines, uInnerLines, vMask); float scaledY = blended.y * tileCount; float nY = smoothNoise(abs(scaledY));
+                float ridge = pow(step(abs(nY - blended.x) * 2.0, HALF_PI) * cos(2.0 * (nY - blended.x)), 5.0);
+                float lines = 0.0; for (float i = 1.0; i < 3.0; i += 1.0) { lines += pow(max(fract(scaledY), fract(-scaledY)), i * 2.0); }
+                float pattern = vMask * lines; float cycleT = fullT * uColorCycleSpeed;
+                float rChannel = (pattern + lines * ridge) * (cos(blended.y + cycleT * 0.234) * 0.5 + 1.0); float gChannel = (pattern + vMask * ridge) * (sin(blended.x + cycleT * 1.745) * 0.5 + 1.0); float bChannel = (pattern + lines * ridge) * (cos(blended.x + cycleT * 0.534) * 0.5 + 1.0);
+                vec3 col = (rChannel * uColor1 + gChannel * uColor2 + bChannel * uColor3) * uBrightness; float alpha = clamp(length(col), 0.0, 1.0);
+                gl_FragColor = vec4(col, alpha);
+            }
+        `;
+
+        function hexToVec3(hex) { const h = hex.replace('#', ''); return [parseInt(h.slice(0, 2), 16) / 255, parseInt(h.slice(2, 4), 16) / 255, parseInt(h.slice(4, 6), 16) / 255]; }
+        const config = { speed: 0.3, innerLineCount: 32, outerLineCount: 36, warpIntensity: 1, rotation: -45, edgeFadeWidth: 0, colorCycleSpeed: 1, brightness: 0.2, color1: "#ffffff", color2: "#ffffff", color3: "#ffffff", enableMouseInteraction: true, mouseInfluence: 2 };
 
         const container = document.getElementById('line-waves-bg');
-        const renderer = new Renderer({ alpha: true });
-        const gl = renderer.gl;
-        container.appendChild(gl.canvas);
+        const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
+        const gl = renderer.gl; gl.clearColor(0, 0, 0, 0); container.appendChild(gl.canvas);
+
+        let currentMouse = [0.5, 0.5]; let targetMouse = [0.5, 0.5];
+        function resize() { renderer.setSize(container.offsetWidth, container.offsetHeight); if (window.oglProgram) window.oglProgram.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height]; }
+        window.addEventListener('resize', resize);
 
         const geometry = new Triangle(gl);
-        const program = new Program(gl, {
-            vertex: vertexShader,
-            fragment: fragmentShader,
+        window.oglProgram = new Program(gl, { // Global gemacht für GSAP ScrollTrigger
+            vertex: vertexShader, fragment: fragmentShader,
             uniforms: {
-                uTime: { value: 0 },
-                uResolution: { value: [0, 0, 0] },
-                uSpeed: { value: 0.3 },
-                uInnerLines: { value: 32 },
-                uOuterLines: { value: 36 },
-                uBrightness: { value: 0.2 },
-                uColor1: { value: [1, 1, 1] }
+                uTime: { value: 0 }, uResolution: { value: [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height] },
+                uSpeed: { value: config.speed }, uInnerLines: { value: config.innerLineCount }, uOuterLines: { value: config.outerLineCount },
+                uWarpIntensity: { value: config.warpIntensity }, uRotation: { value: (config.rotation * Math.PI) / 180 }, uEdgeFadeWidth: { value: config.edgeFadeWidth },
+                uColorCycleSpeed: { value: config.colorCycleSpeed }, uBrightness: { value: config.brightness }, uColor1: { value: hexToVec3(config.color1) },
+                uColor2: { value: hexToVec3(config.color2) }, uColor3: { value: hexToVec3(config.color3) }, uMouse: { value: new Float32Array([0.5, 0.5]) },
+                uMouseInfluence: { value: config.mouseInfluence }, uEnableMouse: { value: config.enableMouseInteraction }
             }
         });
-        const mesh = new Mesh(gl, { geometry, program });
+        const mesh = new Mesh(gl, { geometry, program: window.oglProgram }); resize();
 
-        function resize() {
-            renderer.setSize(container.offsetWidth, container.offsetHeight);
-            program.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height];
+        if (config.enableMouseInteraction) {
+            gl.canvas.addEventListener('mousemove', (e) => { const rect = gl.canvas.getBoundingClientRect(); targetMouse = [(e.clientX - rect.left) / rect.width, 1.0 - (e.clientY - rect.top) / rect.height]; });
+            gl.canvas.addEventListener('mouseleave', () => { targetMouse = [0.5, 0.5]; });
         }
-        window.addEventListener('resize', resize);
-        resize();
-
         function update(time) {
-            requestAnimationFrame(update);
-            program.uniforms.uTime.value = time * 0.001;
+            requestAnimationFrame(update); window.oglProgram.uniforms.uTime.value = time * 0.001;
+            if (config.enableMouseInteraction) { currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]); currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]); window.oglProgram.uniforms.uMouse.value[0] = currentMouse[0]; window.oglProgram.uniforms.uMouse.value[1] = currentMouse[1]; }
             renderer.render({ scene: mesh });
         }
         requestAnimationFrame(update);
 
-        // --- GSAP ANIMATION SEQUENCE ---
+        /* =========================================================
+           2. GSAP ANIMATIONEN (Intro + Scroll Story)
+           ========================================================= */
         window.addEventListener('load', () => {
-            const tl = gsap.timeline();
-
-            // 1. License Intro
-            tl.fromTo("#license", 
-                { z: -1000, rotationY: 720, opacity: 0 },
-                { z: 0, rotationY: 0, opacity: 1, duration: 1.2, ease: "power3.out" }
-            )
-            .to("#license", { duration: 0.6 })
-            .to("#license", { 
-                scale: 3, rotationY: 180, filter: "blur(30px)", opacity: 0, duration: 1, ease: "power2.in" 
-            })
-
-            // 2. Hero Reveal
-            .to("#hero-container", { opacity: 1, duration: 1 }, "-=0.4")
             
-            // 3. Roadmap Stagger (Das neue Element)
-            .to(".step-card", {
-                x: 0,
-                opacity: 1,
-                duration: 0.8,
-                stagger: 0.15,
-                ease: "box.out"
-            }, "-=0.5");
+            // --- A. INTRO ANIMATION ---
+            const introTl = gsap.timeline();
+            introTl.fromTo("#intro-license", 
+                { z: -2000, rotationY: 720, rotationZ: -45, opacity: 0 },
+                { z: 0, rotationY: 0, rotationZ: 0, opacity: 1, duration: 1.5, ease: "power3.out" }
+            )
+            .to("#intro-license", { duration: 0.5 }) 
+            .to("#intro-license", { scale: 4, rotationY: 360, filter: "blur(40px)", opacity: 0, duration: 1.2, ease: "power2.in" })
+            .to("#hero-content", { opacity: 1, y: -20, duration: 1.5, ease: "power2.out" }, "-=0.5")
+            .add(() => { document.getElementById('intro-container').remove(); }); // DOM aufräumen
+
+            // --- B. SCROLL STORY ANIMATION ---
+            let mm = gsap.matchMedia();
+
+            // Desktop Logik (Horizontaler Wechsel)
+            mm.add("(min-width: 1025px)", () => {
+                const storyTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: "#story-trigger",
+                        start: "top top",     // Startet wenn Section oben andockt
+                        end: "+=500%",        // Scroll-Länge: 5 Viewport-Höhen
+                        scrub: 1,             // Weiches Scrubbing
+                        pin: true             // Hält die Ansicht fest
+                    }
+                });
+
+                // 1. Hero ausblenden, Wellen beruhigen, Karte aus der Tiefe holen
+                storyTl.to("#hero-content", { opacity: 0, y: -100, duration: 1 })
+                       .to(window.oglProgram.uniforms.uSpeed, { value: 0.05, duration: 1 }, "<") // Wellen langsam!
+                       .fromTo(".card-scene", { z: -1000, opacity: 0, x: "-25vw", rotationY: 15 }, { z: 0, opacity: 1, rotationY: 0, duration: 1.5, ease: "power1.out" }, "<0.5")
+                       .to(".t-step-1", { opacity: 1, autoAlpha: 1, duration: 0.5 }, "<0.5")
+                       .to(".c-step-1", { opacity: 1, duration: 0.2 }, "<");
+
+                // 2. Durch die Schritte iterieren
+                // Step 2
+                storyTl.to(".t-step-1", { opacity: 0, autoAlpha: 0, y: -30, duration: 0.5 }, "+=1")
+                       .to(".c-step-1", { opacity: 0.2, duration: 0.2 }, "<")
+                       .fromTo(".t-step-2", { opacity: 0, y: 30 }, { opacity: 1, autoAlpha: 1, y: 0, duration: 0.5 }, "<0.2")
+                       .to(".c-step-2", { opacity: 1, duration: 0.2 }, "<");
+                // Step 3
+                storyTl.to(".t-step-2", { opacity: 0, autoAlpha: 0, y: -30, duration: 0.5 }, "+=1")
+                       .to(".c-step-2", { opacity: 0.2, duration: 0.2 }, "<")
+                       .fromTo(".t-step-3", { opacity: 0, y: 30 }, { opacity: 1, autoAlpha: 1, y: 0, duration: 0.5 }, "<0.2")
+                       .to(".c-step-3", { opacity: 1, duration: 0.2 }, "<");
+                // Step 4
+                storyTl.to(".t-step-3", { opacity: 0, autoAlpha: 0, y: -30, duration: 0.5 }, "+=1")
+                       .to(".c-step-3", { opacity: 0.2, duration: 0.2 }, "<")
+                       .fromTo(".t-step-4", { opacity: 0, y: 30 }, { opacity: 1, autoAlpha: 1, y: 0, duration: 0.5 }, "<0.2")
+                       .to(".c-step-4", { opacity: 1, duration: 0.2 }, "<");
+
+                // 3. WENDEPUNKT: In die Mitte fahren, Text rechts weg
+                storyTl.to(".t-step-4", { opacity: 0, autoAlpha: 0, x: 50, duration: 1 }, "+=1")
+                       .to(".card-scene", { x: "0vw", scale: 1.1, duration: 1.5, ease: "power2.inOut" }, "<");
+
+                // 4. FLIP & Lichteffekt
+                storyTl.to(".story-card", { rotationY: 180, duration: 1.5, ease: "power2.inOut" })
+                       .to(".light-sweep", { left: "200%", duration: 1 }, "<0.2");
+
+                // 5. Auf die rechte Seite fahren, Finaler Text kommt von links
+                storyTl.to(".card-scene", { x: "20vw", scale: 1, duration: 1.5, ease: "power2.inOut" }, "+=0.2")
+                       .to(".panel-left", { opacity: 1, autoAlpha: 1, duration: 1 }, "<0.5")
+                       .to({}, { duration: 1 }); // Puffer am Ende
+            });
+
+            // Mobile Logik (Alles bleibt vertikal zentriert, kein X-Shift)
+            mm.add("(max-width: 1024px)", () => {
+                const storyTl = gsap.timeline({
+                    scrollTrigger: { trigger: "#story-trigger", start: "top top", end: "+=400%", scrub: 1, pin: true }
+                });
+
+                storyTl.to("#hero-content", { opacity: 0, y: -50, duration: 1 })
+                       .to(window.oglProgram.uniforms.uSpeed, { value: 0.05, duration: 1 }, "<")
+                       .fromTo(".card-scene", { z: -500, opacity: 0, y: "-10vh" }, { z: 0, opacity: 1, y: "-20vh", duration: 1.5 }, "<0.5")
+                       .to(".t-step-1", { opacity: 1, autoAlpha: 1, duration: 0.5 }, "<0.5")
+                       .to(".c-step-1", { opacity: 1, duration: 0.2 }, "<");
+
+                // Kurz iterieren für Mobile
+                storyTl.to(".t-step-1", { opacity: 0, autoAlpha: 0, duration: 0.5 }, "+=1")
+                       .to(".c-step-1", { opacity: 0.2 }, "<").fromTo(".t-step-2", { opacity: 0 }, { opacity: 1, autoAlpha: 1, duration: 0.5 }, "<").to(".c-step-2", { opacity: 1 }, "<");
+                storyTl.to(".t-step-2", { opacity: 0, autoAlpha: 0, duration: 0.5 }, "+=1")
+                       .to(".c-step-2", { opacity: 0.2 }, "<").fromTo(".t-step-3", { opacity: 0 }, { opacity: 1, autoAlpha: 1, duration: 0.5 }, "<").to(".c-step-3", { opacity: 1 }, "<");
+                storyTl.to(".t-step-3", { opacity: 0, autoAlpha: 0, duration: 0.5 }, "+=1")
+                       .to(".c-step-3", { opacity: 0.2 }, "<").fromTo(".t-step-4", { opacity: 0 }, { opacity: 1, autoAlpha: 1, duration: 0.5 }, "<").to(".c-step-4", { opacity: 1 }, "<");
+
+                // Flip auf der Stelle
+                storyTl.to(".t-step-4", { opacity: 0, autoAlpha: 0, duration: 1 }, "+=1")
+                       .to(".story-card", { rotationY: 180, duration: 1.5, ease: "power2.inOut" })
+                       .to(".light-sweep", { left: "200%", duration: 1 }, "<0.2")
+                       .to(".panel-left", { opacity: 1, autoAlpha: 1, duration: 1 }, "<0.5");
+            });
         });
     </script>
 </body>
