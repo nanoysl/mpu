@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MPU Kompetenz | Premium Vorbereitung</title>
+    <title>MPU Vorbereitung | Premium Ersteinschätzung</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -15,19 +15,14 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            bg: '#05070a',       // Extrem tiefes Schwarzblau
-                            surface: '#0f141e',  // Leichte Erhebung
-                            border: '#1e293b',   // Dezente Kanten
-                            text: '#f1f5f9',     // Klarer Kontrast
-                            textMuted: '#94a3b8',// Sekundärtext
-                            accent: '#0d9488',   // Seriöses Teal/Petrol
-                            accentGlow: 'rgba(13, 148, 136, 0.4)'
-                        }
+                        void: '#030407',       // Abyssal Black
+                        silver: '#e2e8f0',     // Premium Text
+                        obsidian: '#0f111a',   // Darker surface
+                        accent: '#00f0ff',     // Cyan/Teal glow for clarity
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
                     }
                 }
             }
@@ -36,175 +31,218 @@
 
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
     <style>
-        /* Base Resets & Premium Utilities */
-        body {
-            background-color: #05070a;
-            color: #f1f5f9;
+        body, html {
+            background-color: #030407;
+            color: #e2e8f0;
+            margin: 0;
+            padding: 0;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            cursor: none; /* Custom Cursor */
         }
 
-        /* SVG Noise Filter für Textur */
-        .premium-noise {
-            position: fixed;
-            inset: 0;
-            z-index: 50;
+        /* SVG Noise Filter */
+        .noise-overlay {
+            position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* WebGL-like Liquid Aura strictly using CSS & SVG Filters */
+        .liquid-aura {
+            position: absolute;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(0,240,255,0.15) 0%, rgba(0,100,255,0.05) 40%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(40px) url(#displacementFilter);
             pointer-events: none;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            will-change: transform;
         }
 
-        /* Glassmorphism Classes */
-        .glass-panel {
-            background: rgba(15, 20, 30, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        /* Typographic clipping for smooth reveals */
+        .clip-wrap { overflow: hidden; display: inline-block; }
+        .char-wrap { display: inline-block; will-change: transform, opacity; }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+            background: #fff; border-radius: 50%; pointer-events: none;
+            mix-blend-mode: difference; z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            will-change: transform, width, height;
+        }
+        .custom-cursor.hovering { width: 80px; height: 80px; background: rgba(0, 240, 255, 0.8); }
+        
+        /* Outline Cursor Follower */
+        .cursor-follower {
+            position: fixed; top: 0; left: 0; width: 40px; height: 40px;
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 50%;
+            pointer-events: none; z-index: 9998;
+            transform: translate(-50%, -50%);
+            will-change: transform;
         }
 
-        /* Clip-Path Utility für Text Reveals */
-        .clip-text-mask {
-            clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+        /* Hide default selection, make it look custom */
+        ::selection { background: #00f0ff; color: #030407; }
+
+        /* Loader */
+        #initial-loader {
+            position: fixed; inset: 0; background: #030407; z-index: 10000;
+            display: flex; justify-content: center; items-center; color: #fff;
         }
 
-        /* Verstecken vor dem Load um Flackern zu vermeiden */
-        #root { opacity: 0; transition: opacity 0.3s ease; }
-        #root.ready { opacity: 1; }
-
-        /* Hide Scrollbar but keep functionality */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #05070a; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        @media (max-width: 768px) {
+            body { cursor: auto; }
+            .custom-cursor, .cursor-follower { display: none; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="premium-noise"></div>
+    <svg style="width:0;height:0;position:absolute;" aria-hidden="true">
+        <filter id="displacementFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3" result="noise">
+                <animate attributeName="baseFrequency" values="0.01; 0.015; 0.01" dur="10s" repeatCount="indefinite" />
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="150" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
 
+    <div class="noise-overlay"></div>
     <div id="root"></div>
 
     <script type="text/babel">
         const { useEffect, useRef, useState, useLayoutEffect } = React;
 
+        // --- UTILS ---
+        
+        // Custom Hook for Mouse Tracking
+        const useMousePosition = () => {
+            const [mousePosition, setMousePosition] = useState({ x: window.innerWidth/2, y: window.innerHeight/2 });
+            useEffect(() => {
+                const updateMousePosition = ev => {
+                    setMousePosition({ x: ev.clientX, y: ev.clientY });
+                };
+                window.addEventListener('mousemove', updateMousePosition);
+                return () => window.removeEventListener('mousemove', updateMousePosition);
+            }, []);
+            return mousePosition;
+        };
+
         // --- COMPONENTS ---
 
-        // 1. Magnetic Button mit innerem Flare
-        const MagneticCTA = ({ children, primary = true }) => {
-            const buttonRef = useRef(null);
-            const flareRef = useRef(null);
+        // 1. Interactive Custom Cursor
+        const Cursor = () => {
+            const cursorRef = useRef(null);
+            const followerRef = useRef(null);
+            const mousePosition = useMousePosition();
+            const [isHovering, setIsHovering] = useState(false);
 
             useEffect(() => {
-                const btn = buttonRef.current;
-                const flare = flareRef.current;
-                if (!btn) return;
-
-                // Respect reduced motion
-                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-                const moveMouse = (e) => {
-                    const rect = btn.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    // Magnetic pull (subtle)
-                    const xPos = (x - rect.width / 2) * 0.2;
-                    const yPos = (y - rect.height / 2) * 0.2;
-                    
-                    gsap.to(btn, { x: xPos, y: yPos, duration: 0.4, ease: "power2.out" });
-                    
-                    // Inner light flare follow
-                    if(flare) {
-                        gsap.to(flare, { x: x, y: y, opacity: 1, duration: 0.3 });
-                    }
-                };
-
-                const leaveMouse = () => {
-                    gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
-                    if(flare) gsap.to(flare, { opacity: 0, duration: 0.3 });
-                };
-
-                btn.addEventListener('mousemove', moveMouse);
-                btn.addEventListener('mouseleave', leaveMouse);
+                const addHover = () => setIsHovering(true);
+                const removeHover = () => setIsHovering(false);
+                
+                const hoverElements = document.querySelectorAll('a, button, .hover-trigger');
+                hoverElements.forEach(el => {
+                    el.addEventListener('mouseenter', addHover);
+                    el.addEventListener('mouseleave', removeHover);
+                });
 
                 return () => {
-                    btn.removeEventListener('mousemove', moveMouse);
-                    btn.removeEventListener('mouseleave', leaveMouse);
+                    hoverElements.forEach(el => {
+                        el.removeEventListener('mouseenter', addHover);
+                        el.removeEventListener('mouseleave', removeHover);
+                    });
                 };
-            }, []);
+            });
 
-            const baseStyle = "relative overflow-hidden inline-flex items-center justify-center px-8 py-4 rounded-lg font-medium tracking-wide transition-colors z-10 w-full sm:w-auto text-center";
-            const primaryStyle = "bg-brand-accent text-white hover:bg-teal-500 shadow-[0_0_20px_rgba(13,148,136,0.2)]";
-            const secondaryStyle = "bg-transparent border border-white/10 text-brand-text hover:bg-white/5";
+            useEffect(() => {
+                // Main cursor instant follow
+                gsap.to(cursorRef.current, {
+                    x: mousePosition.x, y: mousePosition.y, duration: 0, ease: "none"
+                });
+                // Follower delayed
+                gsap.to(followerRef.current, {
+                    x: mousePosition.x, y: mousePosition.y, duration: 0.6, ease: "power3.out"
+                });
+            }, [mousePosition]);
 
             return (
-                <a href="#" ref={buttonRef} className={`${baseStyle} ${primary ? primaryStyle : secondaryStyle}`}>
-                    <span className="relative z-10 flex items-center gap-2">
-                        {children}
-                        {primary && (
-                            <svg className="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                        )}
-                    </span>
-                    {/* Inner Hover Flare */}
-                    {primary && (
-                        <div 
-                            ref={flareRef} 
-                            className="absolute pointer-events-none w-24 h-24 bg-white/30 rounded-full blur-xl opacity-0 transform -translate-x-1/2 -translate-y-1/2"
-                        ></div>
-                    )}
-                </a>
+                <>
+                    <div ref={cursorRef} className={`custom-cursor ${isHovering ? 'hovering' : ''}`} />
+                    <div ref={followerRef} className="cursor-follower" />
+                </>
             );
         };
 
-        // 2. Das interaktive System: Chaos to Order (Der Fahrplan)
-        const ChaosSystem = ({ steps }) => {
+        // 2. Custom Split Text Component (Da GSAP SplitText Premium ist)
+        const SplitText = ({ text, className }) => {
+            return (
+                <span className={className} aria-label={text}>
+                    {text.split(' ').map((word, wordIndex) => (
+                        <span key={wordIndex} className="clip-wrap mr-[0.3em]">
+                            {word.split('').map((char, charIndex) => (
+                                <span key={charIndex} className="char-wrap" dangerouslySetInnerHTML={{ __html: char === ' ' ? '&nbsp;' : char }} />
+                            ))}
+                        </span>
+                    ))}
+                </span>
+            );
+        };
+
+        // 3. The Interactive Blueprint Accordion (Fahrplan)
+        const BlueprintFahrplan = () => {
+            const [activeIndex, setActiveIndex] = useState(null);
             const containerRef = useRef(null);
-            const cardsRef = useRef([]);
 
-            useEffect(() => {
-                // Initial: Cards sind wild verteilt (Chaos)
-                gsap.set(cardsRef.current, {
-                    x: () => gsap.utils.random(-200, 200),
-                    y: () => gsap.utils.random(-150, 150),
-                    rotation: () => gsap.utils.random(-25, 25),
-                    scale: 0.8,
-                    opacity: 0
-                });
+            const steps = [
+                { num: "01", title: "Akte & Fall", desc: "Tiefenanalyse der Behördenakte. Wir entschlüsseln die exakten Vorwürfe und Fristen." },
+                { num: "02", title: "Nachweise", desc: "Strategische Klärung: Sind Abstinenznachweise zwingend? Wir verhindern verlorene Monate." },
+                { num: "03", title: "Aufarbeitung", desc: "Kein Auswendiglernen. Echte, psychologisch fundierte Reflexion Ihres Falls in Einzelgesprächen." },
+                { num: "04", title: "Simulation", desc: "Wir simulieren das Gutachtergespräch unter Realbedingungen, bis die Unsicherheit verschwindet." }
+            ];
 
-                // Master Timeline ruft später die Ordnung auf
-            }, []);
+            const handleEnter = (index) => {
+                setActiveIndex(index);
+                gsap.to(`.step-content-${index}`, { height: 'auto', opacity: 1, duration: 0.6, ease: "expo.out" });
+                gsap.to(`.step-num-${index}`, { x: 20, color: '#00f0ff', duration: 0.4 });
+            };
+
+            const handleLeave = (index) => {
+                setActiveIndex(null);
+                gsap.to(`.step-content-${index}`, { height: 0, opacity: 0, duration: 0.4, ease: "power2.inOut" });
+                gsap.to(`.step-num-${index}`, { x: 0, color: 'rgba(226, 232, 240, 0.2)', duration: 0.4 });
+            };
 
             return (
-                <div ref={containerRef} className="relative w-full max-w-lg mx-auto lg:ml-auto lg:mr-0 grid gap-4 grid-cols-1 sm:grid-cols-2 z-20 perspective-1000 mt-12 lg:mt-0">
-                    {/* Decorative Background Lines */}
-                    <div className="absolute inset-0 border border-white/5 rounded-2xl -z-10 transform -rotate-3 scale-105"></div>
-                    <div className="absolute inset-0 border border-brand-accent/20 rounded-2xl -z-10 transform rotate-2 scale-105"></div>
-
+                <div className="flex flex-col gap-0 border-t border-white/10 w-full lg:max-w-md mt-16 lg:mt-0 relative z-20" ref={containerRef}>
+                    <div className="text-[10px] uppercase tracking-[0.2em] text-accent mb-6 font-bold">Protokoll / Fahrplan</div>
+                    
                     {steps.map((step, i) => (
                         <div 
                             key={i} 
-                            ref={el => cardsRef.current[i] = el}
-                            className={`glass-panel p-6 rounded-xl flex flex-col justify-between min-h-[160px] system-card
-                                ${i === 0 ? 'sm:col-span-2' : ''}
-                                hover:border-brand-accent/50 hover:bg-white/[0.04] transition-colors duration-500 cursor-default
-                            `}
+                            className="group relative border-b border-white/10 py-6 cursor-none hover-trigger"
+                            onMouseEnter={() => handleEnter(i)}
+                            onMouseLeave={() => handleLeave(i)}
                         >
-                            <div className="flex justify-between items-start mb-4">
-                                <span className="text-brand-accent text-sm font-bold tracking-wider">PHASE 0{i+1}</span>
-                                <div className="w-2 h-2 rounded-full bg-brand-accent/50"></div>
+                            <div className="flex items-center gap-8 pointer-events-none">
+                                <span className={`step-num-${i} text-5xl font-display font-bold text-white/20 transition-colors duration-500`}>
+                                    {step.num}
+                                </span>
+                                <h3 className="text-xl font-medium tracking-wide text-silver">{step.title}</h3>
                             </div>
-                            <div>
-                                <h3 className="text-lg font-medium text-white mb-1">{step.title}</h3>
-                                <p className="text-sm text-brand-textMuted leading-relaxed">{step.desc}</p>
+                            
+                            <div className={`step-content-${i} h-0 overflow-hidden opacity-0 pl-[5.5rem] pr-4`}>
+                                <div className="pt-4 pb-2 text-sm text-silver/60 leading-relaxed font-light">
+                                    {step.desc}
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -212,85 +250,67 @@
             );
         };
 
-        // 3. Main App / Hero Component
-        const Hero = () => {
+        // 4. Main Hero Scene
+        const App = () => {
             const heroRef = useRef(null);
-            const headlineRef = useRef(null);
-            const subheadRef = useRef(null);
-            const trustRefs = useRef([]);
-            const buttonClusterRef = useRef(null);
-            const bgGlowRef = useRef(null);
+            const mousePos = useMousePosition();
+            const auraRef = useRef(null);
 
-            const steps = [
-                { title: "Fall verstehen", desc: "Akte analysieren und genaue Vorwürfe klären." },
-                { title: "Fristen klären", desc: "Sperrfristen und Abstinenznachweise prüfen." },
-                { title: "Planung", desc: "Strukturierte Aufarbeitung ohne Auswendiglernen." },
-                { title: "Sicherheit", desc: "Mentale Simulation des Gutachter-Gesprächs." }
-            ];
-
-            useLayoutEffect(() => {
-                document.getElementById('root').classList.add('ready');
-
-                const ctx = gsap.context(() => {
-                    const tl = gsap.timeline({ delay: 0.2 });
-
-                    // 1. Background Pulse
-                    tl.to(bgGlowRef.current, {
-                        opacity: 1,
-                        scale: 1.2,
-                        duration: 3,
-                        ease: "power2.out"
-                    }, 0);
-
-                    // 2. Headline Reveal (Clip Path Masking) - The text acts like it's pulled out of the dark
-                    tl.to(".headline-line", {
-                        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-                        y: 0,
-                        duration: 1.2,
-                        stagger: 0.15,
-                        ease: "power4.out"
-                    }, 0.2);
-
-                    tl.fromTo(subheadRef.current, 
-                        { opacity: 0, y: 20 },
-                        { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
-                        "-=0.8"
-                    );
-
-                    // 3. Trust Signals stagger
-                    tl.fromTo(trustRefs.current,
-                        { opacity: 0, scale: 0.9, y: 10 },
-                        { opacity: 1, scale: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "back.out(1.5)" },
-                        "-=0.5"
-                    );
-
-                    // 4. SIGNATURE MOTION: Chaos to Order
-                    tl.to(".system-card", {
-                        x: 0,
-                        y: 0,
-                        rotation: 0,
-                        scale: 1,
-                        opacity: 1,
-                        duration: 1.5,
-                        stagger: 0.1,
-                        ease: "expo.out"
-                    }, 0.4);
-
-                    // 5. Buttons Reveal
-                    tl.fromTo(buttonClusterRef.current,
-                        { opacity: 0, y: 20 },
-                        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
-                        "-=1"
-                    );
-
-                    // 6. Mobile Sticky CTA delay
-                    gsap.to(".mobile-sticky", {
-                        y: 0,
-                        opacity: 1,
-                        duration: 0.5,
-                        delay: 2.5,
+            // Aura Parallax Logic
+            useEffect(() => {
+                if (window.innerWidth > 768 && auraRef.current) {
+                    const x = (mousePos.x - window.innerWidth / 2) * 0.1;
+                    const y = (mousePos.y - window.innerHeight / 2) * 0.1;
+                    gsap.to(auraRef.current, {
+                        x: x - window.innerWidth * 0.3, // offset for center
+                        y: y - window.innerHeight * 0.3,
+                        duration: 2,
                         ease: "power2.out"
                     });
+                }
+            }, [mousePos]);
+
+            // Master Entry Animation
+            useLayoutEffect(() => {
+                const ctx = gsap.context(() => {
+                    const tl = gsap.timeline();
+
+                    // Initial States
+                    gsap.set(".char-wrap", { y: "120%", rotateX: -90, opacity: 0 });
+                    gsap.set(".fade-up", { y: 40, opacity: 0 });
+                    gsap.set(".trust-line", { scaleX: 0, transformOrigin: "left" });
+
+                    // 1. Aura Swells up
+                    tl.fromTo(auraRef.current, 
+                        { scale: 0, opacity: 0 },
+                        { scale: 1, opacity: 1, duration: 3, ease: "expo.out" },
+                        0
+                    );
+
+                    // 2. Cinematic Typography Reveal
+                    tl.to(".char-wrap", {
+                        y: "0%",
+                        rotateX: 0,
+                        opacity: 1,
+                        duration: 1.5,
+                        stagger: 0.02,
+                        ease: "expo.out"
+                    }, 0.5);
+
+                    // 3. Subtext & Trust Elements
+                    tl.to(".fade-up", {
+                        y: 0,
+                        opacity: 1,
+                        duration: 1.2,
+                        stagger: 0.1,
+                        ease: "power3.out"
+                    }, 1.2);
+
+                    tl.to(".trust-line", {
+                        scaleX: 1,
+                        duration: 1.5,
+                        ease: "expo.inOut"
+                    }, 1.2);
 
                 }, heroRef);
 
@@ -298,98 +318,103 @@
             }, []);
 
             return (
-                <div ref={heroRef} className="relative min-h-[100dvh] flex flex-col justify-center">
+                <div ref={heroRef} className="relative min-h-[100dvh] w-full flex flex-col justify-between pt-8 lg:pt-12 pb-24 px-6 lg:px-12 selection:bg-accent selection:text-void">
                     
-                    {/* Deep Ambient Background Glow */}
-                    <div 
-                        ref={bgGlowRef}
-                        className="absolute top-1/4 -right-1/4 w-full h-[80%] bg-brand-accent/10 rounded-[100%] blur-[120px] opacity-0 pointer-events-none"
-                    ></div>
+                    <Cursor />
 
-                    {/* Header Minimal */}
-                    <header className="absolute top-0 w-full p-6 lg:p-10 flex justify-between items-center z-50">
-                        <div className="font-serif text-xl tracking-wider text-white flex items-center gap-2">
-                            <div className="w-2 h-2 rounded-full bg-brand-accent"></div>
-                            MPU Kompetenz
+                    {/* The WebGL-Simulated Aura */}
+                    <div ref={auraRef} className="liquid-aura top-1/2 left-1/2 hidden md:block"></div>
+
+                    {/* Header Top */}
+                    <header className="relative z-20 flex justify-between items-center fade-up w-full max-w-7xl mx-auto">
+                        <div className="flex flex-col">
+                            <span className="font-display font-bold tracking-widest text-lg uppercase flex items-center gap-3">
+                                <span className="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
+                                MPU Kompetenz
+                            </span>
+                            <span className="text-[10px] text-silver/50 uppercase tracking-[0.3em] mt-1 ml-5">
+                                [Stadt] & Secure Online
+                            </span>
                         </div>
-                        <div className="hidden sm:flex items-center gap-2 text-xs uppercase tracking-widest text-brand-textMuted border border-white/10 px-4 py-2 rounded-full glass-panel">
-                            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                            Vor Ort in [Stadt] & Online
-                        </div>
+                        <a href="#kontakt" className="hover-trigger relative overflow-hidden group px-6 py-3 border border-white/20 rounded-full text-xs font-medium tracking-widest uppercase transition-all duration-500 hover:border-accent hover:text-accent">
+                            <span className="relative z-10">Diskret Kontaktieren</span>
+                            <div className="absolute inset-0 bg-accent/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></div>
+                        </a>
                     </header>
 
-                    {/* Main Content Grid */}
-                    <main className="container mx-auto px-6 lg:px-12 relative z-10 pt-24 pb-32">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                    {/* Main Stage */}
+                    <main className="relative z-20 flex-grow flex flex-col lg:flex-row items-center justify-between gap-12 max-w-7xl mx-auto w-full mt-16 lg:mt-0">
+                        
+                        {/* Left: Colossal Typography & Action */}
+                        <div className="w-full lg:w-[60%] flex flex-col">
                             
-                            {/* Left: Typography & Conversion */}
-                            <div className="flex flex-col relative z-20">
-                                
-                                {/* Trust Signals */}
-                                <div className="flex flex-wrap gap-2 mb-8">
-                                    {["Diskrete Erstberatung", "Alkohol, Drogen, Punkte", "Ohne Auswendiglernen"].map((text, i) => (
-                                        <span 
-                                            key={i} 
-                                            ref={el => trustRefs.current[i] = el}
-                                            className="px-3 py-1.5 text-xs font-medium text-brand-textMuted border border-white/10 rounded-md bg-white/[0.02]"
-                                        >
-                                            {text}
-                                        </span>
-                                    ))}
+                            <div className="mb-6 fade-up">
+                                <div className="inline-flex items-center gap-3 px-4 py-2 border border-white/10 bg-white/[0.02] backdrop-blur-md rounded-full">
+                                    <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                                    <span className="text-xs tracking-[0.1em] text-silver/80 uppercase font-medium">100% Diskrete Ersteinschätzung</span>
                                 </div>
+                            </div>
 
-                                {/* Headline (Split for Clip-Path reveal) */}
-                                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-sans font-medium leading-[1.05] tracking-tight text-white mb-6">
-                                    <div className="overflow-hidden pb-2">
-                                        <div className="headline-line clip-text-mask translate-y-full">Zurück in die</div>
-                                    </div>
-                                    <div className="overflow-hidden pb-2">
-                                        <div className="headline-line clip-text-mask translate-y-full text-brand-accent font-serif italic">Spur des Lebens.</div>
-                                    </div>
-                                </h1>
+                            <h1 className="text-[4rem] sm:text-[6rem] lg:text-[7.5rem] leading-[0.85] font-display font-bold uppercase tracking-tight text-white mb-8 perspective-1000">
+                                <SplitText text="ZURÜCK" className="block" />
+                                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-accent via-white to-silver italic font-medium">
+                                    <SplitText text="IN DIE SPUR" className="" />
+                                </span>
+                            </h1>
 
-                                <p ref={subheadRef} className="text-lg sm:text-xl text-brand-textMuted font-light leading-relaxed max-w-xl mb-10">
-                                    Strukturierte, persönliche MPU-Vorbereitung in [Stadt]. Wir bringen Ordnung in Ihre Akte – diskret, ehrlich und mit klarem Fahrplan.
+                            <div className="pl-0 lg:pl-2 border-l border-transparent lg:border-accent/30 fade-up">
+                                <p className="text-lg lg:text-xl font-light text-silver/70 max-w-lg leading-relaxed mb-10">
+                                    Wir ordnen das Chaos. Strukturierte Vorbereitung bei Alkohol, Drogen, Cannabis oder Punkten in [Stadt]. <br/>
+                                    <strong className="font-semibold text-silver">Keine falschen Versprechen. Nur klare Fakten und ein sicherer Plan.</strong>
                                 </p>
 
-                                {/* CTAs */}
-                                <div ref={buttonClusterRef} className="flex flex-col sm:flex-row gap-4 items-center">
-                                    <MagneticCTA primary={true}>Kostenlose Ersteinschätzung</MagneticCTA>
-                                    <MagneticCTA primary={false}>Anrufen / WhatsApp</MagneticCTA>
+                                {/* Action Area */}
+                                <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+                                    <button className="hover-trigger group relative w-full sm:w-auto px-8 py-5 bg-white text-void rounded-none font-display font-bold uppercase tracking-widest text-sm overflow-hidden flex items-center justify-center gap-4">
+                                        <div className="absolute inset-0 bg-accent translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></div>
+                                        <span className="relative z-10">Kostenlose Fallanalyse</span>
+                                        <svg className="relative z-10 w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                                    </button>
+
+                                    <div className="flex flex-col gap-1">
+                                        <span className="text-xs uppercase tracking-widest text-silver/40">Direktkontakt</span>
+                                        <a href="tel:0123456" className="hover-trigger text-silver font-medium hover:text-accent transition-colors">0123 / 456 789 0</a>
+                                    </div>
                                 </div>
-
-                                {/* Disclaimer */}
-                                <div className="mt-8 flex items-start gap-3 opacity-60">
-                                    <svg className="w-5 h-5 flex-shrink-0 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                                    <p className="text-xs font-light text-brand-textMuted max-w-sm">
-                                        Keine Garantie-Märchen. Eine erfolgreiche MPU erfordert echte Aufarbeitung statt falscher Versprechen.
-                                    </p>
-                                </div>
-
                             </div>
-
-                            {/* Right: Chaos to Order System */}
-                            <div className="relative w-full h-full min-h-[400px] flex items-center justify-center mt-12 lg:mt-0">
-                                <ChaosSystem steps={steps} />
-                            </div>
-
                         </div>
+
+                        {/* Right: The Interactive Blueprint */}
+                        <div className="w-full lg:w-[40%] flex justify-end">
+                            <BlueprintFahrplan />
+                        </div>
+
                     </main>
 
-                    {/* Mobile Sticky CTA (Hidden on Desktop) */}
-                    <div className="mobile-sticky fixed bottom-0 left-0 w-full p-4 glass-panel border-t border-white/10 z-50 lg:hidden translate-y-full opacity-0">
-                        <a href="#" className="flex justify-center items-center w-full bg-brand-accent text-white py-3 rounded-lg font-medium shadow-lg">
-                            Ersteinschätzung anfragen
-                        </a>
+                    {/* Bottom Trust Line & Disclaimer */}
+                    <div className="relative z-20 w-full max-w-7xl mx-auto mt-20 pt-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 opacity-50">
+                        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-accent/50 to-transparent trust-line"></div>
+                        <p className="text-[10px] uppercase tracking-widest font-light">
+                            Seriöse Aufarbeitung & Einzelgespräche anstatt Auswendiglernen.
+                        </p>
+                        <p className="text-[10px] uppercase tracking-widest font-light">
+                            Hinweis: Keine unseriöse Bestehensgarantie.
+                        </p>
+                    </div>
+
+                    {/* Mobile Sticky CTA */}
+                    <div className="fixed bottom-0 left-0 w-full p-4 bg-void/90 backdrop-blur-xl border-t border-white/10 z-50 lg:hidden fade-up">
+                        <button className="w-full bg-accent text-void py-4 text-sm font-bold uppercase tracking-widest">
+                            Fallanalyse anfragen
+                        </button>
                     </div>
 
                 </div>
             );
         };
 
-        // Render App
         const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<Hero />);
+        root.render(<App />);
     </script>
 </body>
 </html>
