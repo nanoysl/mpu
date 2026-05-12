@@ -855,7 +855,9 @@
       border-radius: 999px;
       background: rgba(0,0,0,0.72);
       color: #fff;
-      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       align-self: center;
       justify-self: center;
       flex: 0 0 var(--step-dot-size);
@@ -863,13 +865,6 @@
     }
 
     .mpu-step-index span {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 100%;
-      display: block;
-      transform: translate(-50%, -50%);
-      text-align: center;
       font-size: var(--step-dot-font);
       line-height: 1;
       font-weight: 900;
@@ -1159,9 +1154,9 @@
         top: auto;
         left: 1.1rem;
         right: 1.1rem;
-        bottom: 4.75rem;
+        bottom: 2.55rem;
         width: auto;
-        min-height: 245px;
+        min-height: 328px;
         transform: none;
       }
 
@@ -1469,8 +1464,8 @@
       }
 
       .story-copy {
-        bottom: 3.75rem;
-        min-height: 228px;
+        bottom: 2.25rem;
+        min-height: 300px;
       }
 
       .story-copy-left {
