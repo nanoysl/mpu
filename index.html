@@ -605,3 +605,179 @@
                             <small>Fristen &amp; Unterlagen prüfen</small>
                           </div>
                         </div>
+
+                        <div class="mpu-step-row">
+                          <div class="mpu-step-index"><span>03</span></div>
+                          <div class="mpu-step-text">
+                            <strong>Verhalten</strong>
+                            <small>Veränderung glaubwürdig machen</small>
+                          </div>
+                        </div>
+
+                        <div class="mpu-step-row">
+                          <div class="mpu-step-index"><span>04</span></div>
+                          <div class="mpu-step-text">
+                            <strong>Simulation</strong>
+                            <small>Gespräch sicher trainieren</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mpu-front-footer">
+                    <span>Struktur statt Panik</span>
+                    <span>Diskret begleitet</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mpu-card-face mpu-card-back">
+                <div class="mpu-card-pattern"></div>
+                <div class="mpu-card-watermark">OK</div>
+                <div class="mpu-card-shine"></div>
+
+                <div class="mpu-card-safe mpu-back-safe">
+                  <div class="mpu-back-head">
+                    <h3>Ihr klarer<br />MPU-Plan</h3>
+                    <span>Rückseite</span>
+                  </div>
+
+                  <div class="mpu-result-list">
+                    <div class="mpu-result-row">
+                      <div class="mpu-result-copy">
+                        <strong>Klarheit</strong>
+                        <small>statt Unsicherheit</small>
+                      </div>
+                      <div class="mpu-result-ok">OK</div>
+                    </div>
+
+                    <div class="mpu-result-row">
+                      <div class="mpu-result-copy">
+                        <strong>Vorbereitung</strong>
+                        <small>statt Panik</small>
+                      </div>
+                      <div class="mpu-result-ok">OK</div>
+                    </div>
+
+                    <div class="mpu-result-row">
+                      <div class="mpu-result-copy">
+                        <strong>Struktur</strong>
+                        <small>statt Versprechen</small>
+                      </div>
+                      <div class="mpu-result-ok">OK</div>
+                    </div>
+
+                    <div class="mpu-result-row">
+                      <div class="mpu-result-copy">
+                        <strong>Begleitung</strong>
+                        <small>statt Alleingang</small>
+                      </div>
+                      <div class="mpu-result-ok">OK</div>
+                    </div>
+                  </div>
+
+                  <div class="mpu-back-footer">
+                    <div class="mpu-barcode"></div>
+                    <div class="mpu-machine-code">DE-MPU<br />READY</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="story-progress">
+            <div class="story-progress-fill"></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    const gsap = window.gsap;
+    const ScrollTrigger = window.ScrollTrigger;
+    gsap.registerPlugin(ScrollTrigger);
+
+    // --- STORY LOGIC (BEIBEHALTEN) ---
+    function initScrollStory() {
+      const cardStage = document.querySelector(".mpu-license-stage");
+      const cardObject = document.querySelector(".mpu-card-object");
+      const rightCopy = document.querySelector(".story-copy-right");
+      const leftCopy = document.querySelector(".story-copy-left");
+      const progressFill = document.querySelector(".story-progress-fill");
+      const stepCopies = gsap.utils.toArray(".step-copy");
+      const cardSteps = gsap.utils.toArray(".mpu-step-row");
+
+      let activeStep = -1;
+      function setActiveStep(index) {
+        if (index === activeStep) return; activeStep = index;
+        stepCopies.forEach((el, i) => el.classList.toggle("active", i === index));
+        cardSteps.forEach((el, i) => el.classList.toggle("is-active", i === index));
+      }
+
+      function updateStoryState(progress) {
+        if (progressFill) progressFill.style.transform = `scaleX(${progress})`;
+        const stepProgress = Math.min(progress, 0.58) / 0.58;
+        const nextStep = Math.min(3, Math.max(0, Math.floor(stepProgress * 4)));
+        setActiveStep(nextStep);
+      }
+
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 769px)", () => {
+        gsap.set(cardStage, { xPercent: -50, yPercent: -50, x: () => -window.innerWidth * 0.28, y: 0, rotationZ: -2, scale: 1, transformOrigin: "50% 50%" });
+        gsap.set(cardObject, { rotationY: -4, transformOrigin: "50% 50%", transformStyle: "preserve-3d" });
+        gsap.set(rightCopy, { autoAlpha: 1, x: 0, filter: "blur(0px)" });
+        gsap.set(leftCopy, { autoAlpha: 0, x: -50, filter: "blur(10px)" });
+
+        const tl = gsap.timeline({ scrollTrigger: { trigger: "#license-story", start: "top top", end: "bottom bottom", scrub: 0.75, onUpdate: self => updateStoryState(self.progress) } });
+        tl.to(cardStage, { rotationZ: 1.2, y: -10, duration: 0.18, ease: "none" }, 0).to(cardObject, { rotationY: -2, duration: 0.18, ease: "none" }, 0).to(cardStage, { y: 10, rotationZ: -0.8, duration: 0.18, ease: "none" }, 0.18).to(cardObject, { rotationY: -5, duration: 0.18, ease: "none" }, 0.18).to(cardStage, { y: -4, rotationZ: 0.8, duration: 0.18, ease: "none" }, 0.36).to(cardObject, { rotationY: -2, duration: 0.18, ease: "none" }, 0.36).to(cardStage, { x: 0, y: 0, scale: 1.055, rotationZ: 0, duration: 0.14, ease: "power1.inOut" }, 0.58).to(cardObject, { rotationY: 0, duration: 0.12, ease: "power1.inOut" }, 0.58).to(rightCopy, { autoAlpha: 0, x: 70, filter: "blur(10px)", duration: 0.11, ease: "power1.out" }, 0.6).to(cardObject, { rotationY: 180, duration: 0.22, ease: "none" }, 0.66).to(cardStage, { x: () => window.innerWidth * 0.28, scale: 1, rotationZ: 2, duration: 0.2, ease: "power1.inOut" }, 0.8).to(leftCopy, { autoAlpha: 1, x: 0, filter: "blur(0px)", duration: 0.15, ease: "power1.out" }, 0.84);
+        return () => tl.kill();
+      });
+
+      mm.add("(max-width: 768px)", () => {
+        gsap.set(cardStage, { xPercent: -50, yPercent: -50, x: 0, y: 0, rotationZ: -1, scale: 1, transformOrigin: "50% 50%" });
+        gsap.set(cardObject, { rotationY: 0, transformOrigin: "50% 50%", transformStyle: "preserve-3d" });
+        gsap.set(rightCopy, { autoAlpha: 1, y: 0, filter: "blur(0px)" });
+        gsap.set(leftCopy, { autoAlpha: 0, y: 24, filter: "blur(10px)" });
+
+        const tl = gsap.timeline({ scrollTrigger: { trigger: "#license-story", start: "top top", end: "bottom bottom", scrub: 0.75, onUpdate: self => updateStoryState(self.progress) } });
+        tl.to(cardStage, { y: -8, rotationZ: 1, duration: 0.25, ease: "none" }, 0).to(cardStage, { y: 7, rotationZ: -1, duration: 0.28, ease: "none" }, 0.25).to(rightCopy, { autoAlpha: 0, y: -20, filter: "blur(10px)", duration: 0.12, ease: "power1.out" }, 0.6).to(cardObject, { rotationY: 180, duration: 0.22, ease: "none" }, 0.66).to(cardStage, { scale: 1, y: 0, rotationZ: 0.6, duration: 0.2, ease: "power1.out" }, 0.66).to(leftCopy, { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.16, ease: "power1.out" }, 0.82);
+        return () => tl.kill();
+      });
+      setActiveStep(0); ScrollTrigger.refresh();
+    }
+
+    window.addEventListener("load", () => {
+      const tl = gsap.timeline();
+
+      tl.fromTo("#intro-license",
+        { z: -2000, rotationY: 720, rotationZ: -45, opacity: 0 },
+        { z: 0, rotationY: 0, rotationZ: 0, opacity: 1, duration: 1.5, ease: "power3.out" }
+      )
+      .to("#intro-license", { duration: 0.5 })
+      .to("#intro-license", { scale: 4, rotationY: 360, filter: "blur(40px)", opacity: 0, duration: 1.2, ease: "power2.in" })
+      .to("#page-content", { opacity: 1, duration: 1.45, ease: "power2.out" }, "-=0.55")
+      
+      // Weiches Einblenden der neuen Elemente
+      .from(".hero-reveal", { 
+        autoAlpha: 0, 
+        y: 20, 
+        duration: 0.8, 
+        stagger: 0.1, 
+        ease: "power3.out" 
+      }, "-=1.0")
+
+      .add(() => {
+        document.body.classList.remove("intro-lock");
+        const intro = document.getElementById("intro-container");
+        if (intro) intro.remove();
+
+        initScrollStory();
+        ScrollTrigger.refresh();
+      });
+    });
+  </script>
+</body>
+</html>
