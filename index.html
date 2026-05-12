@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MPU Experten | Zurück auf die Überholspur</title>
+  <title>MPU Experten | Fahrplan zurück zum Führerschein</title>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -12,186 +12,256 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <style>
-    /* =========================================
-       1:1 BILD 2 DESIGN SYSTEM (Angepasstes Scaling)
-       ========================================= */
     :root {
-      --bg-outer: #000000;         
-      --bg-app: #080c11;           
-      --cyan: #5CE1E6;             
-      --cyan-hover: #4bc5ca;
-      --text-main: #ffffff;
-      --text-muted: #a1a1aa;
-      --border-color: rgba(255, 255, 255, 0.08);
-      --nav-height: 75px; /* Etwas kompakter */
-      --white-soft: rgba(255,255,255,0.74);
+      --nav-height: 80px;
       --page-pad: clamp(1.5rem, 4vw, 4.5rem);
+      --white-soft: rgba(255,255,255,0.74);
+      --cyan: #5CE1E6; 
+      --cyan-hover: #4bc5ca;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Inter", sans-serif; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", sans-serif;
+    }
+
+    html {
+      background: #000;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
 
     body {
-      background-color: var(--bg-outer);
-      color: var(--text-main);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      padding: 1.5rem; 
-    }
-
-    a { text-decoration: none; color: inherit; }
-    body.intro-lock { height: 100vh; overflow: hidden; padding: 0; }
-
-    /* =========================================
-       DER APP-FRAME
-       ========================================= */
-    .app-frame {
-      position: relative;
       width: 100%;
-      max-width: 1600px; /* Begrenzt die max. Breite für den kompakten Look */
-      margin: 0 auto;
-      background: var(--bg-app);
-      border-radius: 20px;
-      border: 1px solid var(--border-color);
+      min-height: 100%;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    body.intro-lock {
+      height: 100vh;
       overflow: hidden;
-      box-shadow: 0 0 80px rgba(92, 225, 230, 0.05);
     }
 
-    /* =========================================
-       NAVBAR (Kompakter)
-       ========================================= */
-    .navbar {
-      display: flex; justify-content: space-between; align-items: center;
-      height: var(--nav-height); padding: 0 2.5rem; position: relative; z-index: 50; background: transparent;
-    }
-    .nav-logo { display: flex; flex-direction: column; line-height: 1; }
-    .nav-logo-top { font-size: 1.2rem; font-weight: 900; letter-spacing: 0.05em; color: #fff; }
-    .nav-logo-bottom { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.2em; color: var(--cyan); margin-top: 0.15rem; }
-
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links li a { font-size: 0.65rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.3rem; transition: color 0.3s ease; }
-    .nav-links li a:hover { color: #fff; }
-    .nav-links svg { width: 10px; height: 10px; opacity: 0.7; }
-
-    .nav-cta {
-      background: var(--cyan); color: #000; font-size: 0.65rem; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 0.1em; padding: 0.6rem 1.2rem; border-radius: 4px; display: flex; align-items: center; gap: 0.5rem; transition: background 0.3s ease;
-    }
-    .nav-cta:hover { background: var(--cyan-hover); }
-    .nav-cta svg { width: 12px; height: 12px; }
-
-    /* =========================================
-       HERO BEREICH (Runterskaliert für 100% Ansicht)
-       ========================================= */
-    .hero {
-      position: relative; display: flex; flex-direction: column; padding: 1rem 2.5rem 3rem 2.5rem;
-      min-height: calc(90vh - var(--nav-height)); /* Nimmt nicht mehr den ganzen Screen ein */
+    a {
+      color: inherit;
+      text-decoration: none;
     }
 
-    .hero-bg-image {
-      position: absolute; top: 0; right: 0; bottom: 0; width: 60%; 
-      background-image: url('mpu.png'); background-size: cover; background-position: center right;
+    /* DEIN ORIGINAL HINTERGRUND */
+    #line-waves-bg {
+      position: fixed;
+      inset: 0;
       z-index: 0;
+      opacity: 0;
+      pointer-events: none;
+      background: #000;
     }
-    .hero-bg-fade {
-      position: absolute; inset: 0;
-      background: linear-gradient(to right, var(--bg-app) 35%, transparent 65%);
+
+    #line-waves-bg canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .global-vignette {
+      position: fixed;
+      inset: 0;
       z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(0,0,0,0.08), rgba(0,0,0,0.76) 74%),
+        linear-gradient(to bottom, rgba(0,0,0,0.12), rgba(0,0,0,0.86));
     }
 
-    .hero-content {
-      position: relative; z-index: 10; max-width: 550px; margin-top: 3rem; 
+    #page-content {
+      position: relative;
+      z-index: 2;
+      opacity: 0;
     }
 
-    .kicker { color: var(--cyan); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.2rem; }
-
-    .headline {
-      font-size: clamp(2rem, 3.8vw, 3.6rem); /* Signifikant kleiner gemacht */
-      font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.2rem; text-transform: uppercase;
+    /* DEIN ORIGINAL INTRO */
+    #intro-container {
+      position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+      z-index: 9999; perspective: 1500px; pointer-events: none; background: #000;
     }
-    .headline .highlight { color: var(--cyan); }
-
-    .subtext {
-      font-size: 0.95rem; /* Kleiner */
-      line-height: 1.6; color: rgba(255,255,255,0.7); margin-bottom: 2.5rem; max-width: 480px;
+    .intro-license-card {
+      width: min(400px, 82vw); aspect-ratio: 1.6 / 1; background: linear-gradient(135deg, #e6c5d1 0%, #d8e0e8 100%);
+      border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.5);
+      padding: 20px; position: relative; transform-style: preserve-3d; opacity: 0; overflow: hidden;
     }
-
-    .hero-actions { display: flex; align-items: center; gap: 1.5rem; }
-    .btn-main {
-      background: var(--cyan); color: #000; padding: 0.9rem 1.6rem; border-radius: 6px;
-      font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;
-      transition: transform 0.2s ease;
+    .intro-license-card::after {
+      content: ""; position: absolute; inset: -40%; background: linear-gradient(115deg, transparent 0%, transparent 36%, rgba(255,255,255,0.55) 47%, transparent 58%, transparent 100%);
+      transform: translateX(-40%) rotate(12deg); opacity: 0.5;
     }
-    .btn-main:hover { transform: translateY(-2px); }
-    .btn-play { display: flex; align-items: center; gap: 0.8rem; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; cursor: pointer; }
-    .play-circle { width: 36px; height: 36px; border: 2px solid var(--cyan); border-radius: 50%; display: grid; place-items: center; color: var(--cyan); }
-    .play-circle svg { width: 12px; height: 12px; fill: var(--cyan); margin-left: 2px; }
-
-    /* TRUST BAR & ZITAT */
-    .hero-bottom {
-      position: relative; z-index: 10; margin-top: auto; padding-top: 3rem; display: flex; justify-content: space-between; align-items: flex-end;
+    .intro-license-eu {
+      position: absolute; top: 15px; left: 15px; width: 40px; height: 25px; background: #003399;
+      border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #ffcc00; font-size: 10px; font-weight: 800;
     }
-    .trust-items { display: flex; gap: 2.5rem; }
-    .t-item { display: flex; align-items: center; gap: 0.8rem; }
-    .t-icon { color: var(--cyan); }
-    .t-icon svg { width: 22px; height: 22px; stroke-width: 1.5; }
-    .t-item h4 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; font-weight: 800;}
-    .t-item p { font-size: 0.75rem; color: rgba(255,255,255,0.5); line-height: 1.3; }
-
-    .quote-card {
-      background: rgba(20, 24, 30, 0.7); border: 1px solid rgba(255,255,255,0.05);
-      padding: 1.2rem; border-radius: 12px; backdrop-filter: blur(10px); max-width: 260px; position: relative;
-    }
-    .quote-icon { position: absolute; top: -8px; left: -8px; color: var(--cyan); }
-    .quote-icon svg { width: 18px; height: 18px; fill: var(--cyan); }
-    .quote-card p { font-size: 0.8rem; line-height: 1.5; color: rgba(255,255,255,0.9); }
-    .quote-card p span { color: var(--cyan); font-weight: 700; }
-
-    /* =========================================
-       DEIN ORIGINAL STORY & 3D CSS
-       (Exakt kopiert aus deinem ersten funktionierenden Code)
-       ========================================= */
-    #intro-container { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 9999; perspective: 1500px; pointer-events: none; background: #000; }
-    .intro-license-card { width: min(400px, 82vw); aspect-ratio: 1.6 / 1; background: linear-gradient(135deg, #e6c5d1 0%, #d8e0e8 100%); border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.5); padding: 20px; position: relative; transform-style: preserve-3d; opacity: 0; overflow: hidden; }
-    .intro-license-card::after { content: ""; position: absolute; inset: -40%; background: linear-gradient(115deg, transparent 0%, transparent 36%, rgba(255,255,255,0.55) 47%, transparent 58%, transparent 100%); transform: translateX(-40%) rotate(12deg); opacity: 0.5; }
-    .intro-license-eu { position: absolute; top: 15px; left: 15px; width: 40px; height: 25px; background: #003399; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #ffcc00; font-size: 10px; font-weight: 800; }
     .intro-license-photo { position: absolute; top: 40px; left: 20px; width: 80px; height: 100px; background: rgba(0,0,0,0.2); border-radius: 4px; }
     .intro-license-lines { position: absolute; top: 40px; left: 120px; width: 240px; display: flex; flex-direction: column; gap: 12px; }
     .intro-l-line { height: 8px; background: rgba(0,0,0,0.15); border-radius: 4px; }
     .intro-l-line:nth-child(1) { width: 100%; } .intro-l-line:nth-child(2) { width: 80%; } .intro-l-line:nth-child(3) { width: 60%; } .intro-l-line:nth-child(4) { width: 90%; } .intro-l-line:nth-child(5) { width: 40%; margin-top: 20px; }
 
-    .license-story { position: relative; z-index: 3; height: 540vh; background: radial-gradient(circle at 30% 38%, rgba(255,255,255,0.08), transparent 32%), linear-gradient(to bottom, transparent, rgba(0,0,0,0.52) 8%, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.54)); }
+    /* =========================================
+       NEUE NAVBAR (Kompakt & Durchsichtig)
+       ========================================= */
+    .navbar {
+      position: absolute; /* Nicht fixed, damit sie clean oben liegt */
+      top: 0; left: 0; right: 0; z-index: 50;
+      height: var(--nav-height); display: flex; justify-content: space-between; align-items: center;
+      padding: 0 4vw; background: transparent;
+    }
+
+    .nav-logo { display: flex; flex-direction: column; line-height: 1.1; }
+    .nav-logo-top { font-size: 1.2rem; font-weight: 900; letter-spacing: 0.05em; color: #fff; }
+    .nav-logo-bottom { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; color: var(--cyan); }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links li a { font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.4rem; transition: color 0.3s ease; }
+    .nav-links li a:hover { color: #fff; }
+    .nav-links svg { width: 10px; height: 10px; opacity: 0.7; }
+
+    .nav-cta {
+      background: var(--cyan); color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.1em; padding: 0.6rem 1.2rem; border-radius: 4px; display: flex; align-items: center; gap: 0.4rem; transition: background 0.3s ease;
+    }
+    .nav-cta:hover { background: var(--cyan-hover); }
+    .nav-cta svg { width: 12px; height: 12px; }
+
+    /* =========================================
+       NEUER HERO BEREICH (Kompakt / Macbook Optimized)
+       ========================================= */
+    .hero-section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: calc(var(--nav-height) + 2rem) 4vw 2rem 4vw;
+    }
+
+    /* Das Bild: Ohne Gradient, 5% nach innen gerückt */
+    .hero-bg-image {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 5%; /* Hier die 5% reinkommen */
+      width: 55%; /* Nimmt gut die Hälfte ein */
+      height: 80%;
+      background-image: url('mpu.png');
+      background-size: contain; /* Contain stellt sicher, dass nichts abgeschnitten wird */
+      background-position: right center;
+      background-repeat: no-repeat;
+      z-index: 1; /* Über dem OGL-Canvas, unter dem Text */
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 550px; /* Begrenzte Breite für den kompakten Text */
+      margin-top: 4vh;
+    }
+
+    .kicker {
+      color: var(--cyan); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.2rem;
+    }
+
+    .hero-headline {
+      font-size: clamp(2.5rem, 4vw, 3.8rem); /* Runterskaliert für Macbook */
+      font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.2rem; text-transform: uppercase;
+    }
+    .hero-headline .highlight { color: var(--cyan); }
+
+    .hero-subtext {
+      font-size: 0.95rem; line-height: 1.6; color: var(--white-soft); margin-bottom: 2.5rem; max-width: 450px;
+    }
+
+    .hero-actions { display: flex; align-items: center; gap: 1.5rem; }
+    
+    .btn-hero-primary {
+      background: var(--cyan); color: #000; padding: 0.9rem 1.6rem; border-radius: 4px;
+      font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;
+    }
+    .btn-hero-primary svg { width: 14px; height: 14px; }
+    
+    .btn-play { display: flex; align-items: center; gap: 0.8rem; color: #fff; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; cursor: pointer; }
+    .play-circle { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; display: grid; place-items: center; }
+    .play-circle svg { width: 12px; height: 12px; fill: #fff; margin-left: 2px; }
+
+    /* Trust Bar unten im Hero */
+    .hero-bottom {
+      position: relative; z-index: 10; margin-top: auto; padding-top: 4rem; display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    
+    .trust-items { display: flex; gap: 3rem; }
+    .t-item { display: flex; align-items: center; gap: 0.8rem; }
+    .t-icon { color: var(--cyan); display: flex; align-items: center; }
+    .t-icon svg { width: 22px; height: 22px; stroke-width: 1.5; }
+    .t-text h4 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; font-weight: 800; color: #fff;}
+    .t-text p { font-size: 0.75rem; color: rgba(255,255,255,0.5); line-height: 1.3; }
+
+    .quote-card {
+      background: rgba(15, 20, 25, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05);
+      padding: 1.2rem; border-radius: 8px; max-width: 280px; position: relative;
+    }
+    .quote-icon { position: absolute; top: -10px; left: -10px; color: var(--cyan); }
+    .quote-icon svg { width: 20px; height: 20px; fill: var(--cyan); }
+    .quote-card p { font-size: 0.8rem; line-height: 1.5; color: rgba(255,255,255,0.9); }
+    .quote-card p span { color: var(--cyan); font-weight: 700; }
+
+    /* =========================================
+       DEIN ORIGINAL STORY & 3D CSS
+       ========================================= */
+    .license-story {
+      position: relative; z-index: 3; height: 540vh;
+      background:
+        radial-gradient(circle at 30% 38%, rgba(255,255,255,0.08), transparent 32%),
+        linear-gradient(to bottom, transparent, rgba(0,0,0,0.52) 8%, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.54));
+    }
     .story-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; perspective: 1800px; }
     .story-noise { position: absolute; inset: 0; pointer-events: none; opacity: 0.26; background-image: linear-gradient(rgba(255,255,255,0.026) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.026) 1px, transparent 1px); background-size: 70px 70px; mask-image: radial-gradient(circle at center, black, transparent 76%); }
+    
     .story-kicker { position: absolute; top: calc(var(--nav-height) + 2rem); left: var(--page-pad); z-index: 6; display: flex; align-items: center; gap: 0.75rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.62); pointer-events: none; }
     .story-kicker::before { content: ""; width: 34px; height: 1px; background: rgba(255,255,255,0.4); flex: 0 0 auto; }
+    
     .story-copy { position: absolute; top: 50%; z-index: 8; width: min(450px, 34vw); min-height: 390px; transform: translateY(-50%); pointer-events: none; }
     .story-copy-right { right: clamp(1.25rem, 7vw, 8rem); }
     .story-copy-left { left: clamp(1.25rem, 7vw, 8rem); opacity: 0; visibility: hidden; }
     .step-copy { position: absolute; inset: 0; opacity: 0; transform: translateY(28px); filter: blur(8px); transition: opacity 0.48s ease, transform 0.48s ease, filter 0.48s ease; }
     .step-copy.active { opacity: 1; transform: translateY(0); filter: blur(0); }
-    .step-eyebrow, .final-eyebrow { display: inline-flex; align-items: center; gap: 0.55rem; margin-bottom: 1rem; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--cyan); }
-    .step-eyebrow::before, .final-eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: var(--cyan); box-shadow: 0 0 20px rgba(92, 225, 230, 0.8); flex: 0 0 auto; }
+    
+    .step-eyebrow, .final-eyebrow { display: inline-flex; align-items: center; gap: 0.55rem; margin-bottom: 1rem; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.16em; color: rgba(255,255,255,0.58); }
+    .step-eyebrow::before, .final-eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: #fff; box-shadow: 0 0 20px rgba(255,255,255,0.8); flex: 0 0 auto; }
+    
     .step-copy h2, .story-copy-left h2 { font-size: clamp(2rem, 3.4vw, 4.3rem); line-height: 0.98; letter-spacing: -0.06em; font-weight: 900; margin-bottom: 1.1rem; text-wrap: balance; }
     .step-copy p, .story-copy-left p { color: var(--white-soft); line-height: 1.75; font-size: clamp(0.98rem, 1.05vw, 1.12rem); margin-bottom: 1.4rem; }
+    
     .micro-list { display: grid; gap: 0.65rem; color: rgba(255,255,255,0.68); font-size: 0.94rem; list-style: none; }
     .micro-list li { display: flex; gap: 0.65rem; align-items: flex-start; }
-    .micro-list li::before { content: ""; width: 5px; height: 5px; border-radius: 999px; background: var(--cyan); margin-top: 0.48rem; flex: 0 0 auto; }
+    .micro-list li::before { content: ""; width: 5px; height: 5px; border-radius: 999px; background: rgba(255,255,255,0.85); margin-top: 0.48rem; flex: 0 0 auto; }
+    
     .final-card-copy { padding: clamp(1.35rem, 2vw, 2rem); border: 1px solid rgba(255,255,255,0.14); background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035)); border-radius: 28px; box-shadow: 0 24px 80px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.08); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); overflow: hidden; pointer-events: auto; }
-    .final-cta { display: inline-flex; align-items: center; justify-content: center; margin-top: 0.5rem; padding: 0.98rem 1.45rem; border-radius: 6px; background: var(--cyan); color: #000; font-weight: 900; pointer-events: auto; text-align: center; }
-    .story-final-glow { position: absolute; top: 50%; left: 50%; z-index: 4; width: 48vw; aspect-ratio: 1 / 1; border-radius: 999px; background: radial-gradient(circle, rgba(92, 225, 230, 0.22), transparent 68%); transform: translate(-50%, -50%) scale(0.7); opacity: 0; pointer-events: none; filter: blur(10px); }
+    .final-cta { display: inline-flex; align-items: center; justify-content: center; margin-top: 0.5rem; padding: 0.98rem 1.45rem; border-radius: 999px; background: #fff; color: #000; font-weight: 900; pointer-events: auto; box-shadow: 0 18px 42px rgba(255,255,255,0.12); text-align: center; }
+    .story-final-glow { position: absolute; top: 50%; left: 50%; z-index: 4; width: 48vw; aspect-ratio: 1 / 1; border-radius: 999px; background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 68%); transform: translate(-50%, -50%) scale(0.7); opacity: 0; pointer-events: none; filter: blur(10px); }
     .story-progress { position: absolute; left: var(--page-pad); right: var(--page-pad); bottom: clamp(1.25rem, 3vh, 2rem); z-index: 10; height: 1px; background: rgba(255,255,255,0.12); overflow: hidden; }
-    .story-progress-fill { height: 100%; width: 100%; background: var(--cyan); transform: scaleX(0); transform-origin: left center; will-change: transform; }
+    .story-progress-fill { height: 100%; width: 100%; background: #fff; transform: scaleX(0); transform-origin: left center; will-change: transform; }
 
-    /* DEINE EXAKTE 3D KARTE */
+    /* DEIN ORIGINAL 3D FÜHRERSCHEIN */
     .mpu-license-stage { position: absolute; top: 50%; left: 50%; z-index: 7; width: clamp(470px, 39vw, 720px); aspect-ratio: 1.585 / 1; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; }
     .mpu-card-object { position: absolute; inset: 0; border-radius: 28px; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; transform-origin: center center; }
     .mpu-card-face { position: absolute; inset: 0; border-radius: 28px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; contain: layout paint; box-shadow: 0 38px 90px rgba(0,0,0,0.52), inset 0 0 0 1px rgba(255,255,255,0.62), inset 0 -20px 60px rgba(0,0,0,0.06); }
     .mpu-card-front { transform: rotateY(0deg) translateZ(1px); -webkit-transform: rotateY(0deg) translateZ(1px); background: radial-gradient(circle at 9% 12%, rgba(255,255,255,0.9), transparent 18%), radial-gradient(circle at 90% 85%, rgba(175,205,245,0.55), transparent 30%), linear-gradient(135deg, #f3d8e3 0%, #e8edf5 48%, #d5e2f4 100%); color: rgba(16,18,24,0.82); }
     .mpu-card-back { transform: rotateY(180deg) translateZ(1px); -webkit-transform: rotateY(180deg) translateZ(1px); background: radial-gradient(circle at 84% 10%, rgba(255,255,255,0.86), transparent 18%), radial-gradient(circle at 12% 90%, rgba(192,214,250,0.48), transparent 30%), linear-gradient(135deg, #e6dce7 0%, #f3dce8 52%, #dce8f8 100%); color: rgba(16,18,24,0.84); }
+    
     .mpu-card-pattern { position: absolute; inset: 0; opacity: 0.16; background: repeating-linear-gradient(45deg, rgba(255,255,255,0.5) 0 1px, transparent 1px 9px), repeating-radial-gradient(circle at 28% 38%, rgba(30,40,70,0.1) 0 1px, transparent 1px 13px); pointer-events: none; }
     .mpu-card-watermark { position: absolute; right: -2.5%; bottom: -9%; font-size: clamp(5rem, 8vw, 9rem); line-height: 1; font-weight: 900; letter-spacing: -0.1em; color: rgba(0,0,0,0.035); pointer-events: none; user-select: none; }
     .mpu-card-shine { position: absolute; inset: -70%; background: linear-gradient(115deg, transparent 0%, transparent 39%, rgba(255,255,255,0.72) 48%, transparent 57%, transparent 100%); opacity: 0.32; mix-blend-mode: screen; animation: mpuCardShine 7s linear infinite; pointer-events: none; }
     @keyframes mpuCardShine { 0% { transform: translateX(-42%) rotate(10deg); } 100% { transform: translateX(42%) rotate(10deg); } }
+
     .mpu-card-safe { position: relative; z-index: 2; width: 100%; height: 100%; padding: 5.25% 5.7% 5.25%; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: clamp(0.48rem, 0.74vw, 0.8rem); overflow: hidden; }
     .mpu-doc-head { display: grid; grid-template-columns: 62px minmax(0, 1fr) auto; align-items: center; gap: clamp(0.75rem, 1vw, 1.05rem); min-height: 38px; }
     .mpu-doc-head > div:nth-child(2) { min-width: 0; overflow: hidden; }
@@ -199,6 +269,7 @@
     .mpu-doc-label { font-size: clamp(0.47rem, 0.54vw, 0.62rem); text-transform: uppercase; letter-spacing: 0.14em; color: rgba(0,0,0,0.36); font-weight: 900; margin-bottom: 0.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .mpu-doc-title { font-size: clamp(0.92rem, 1.1vw, 1.15rem); text-transform: uppercase; letter-spacing: -0.02em; font-weight: 900; color: rgba(0,0,0,0.75); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .mpu-doc-code { justify-self: end; text-align: right; font-size: clamp(0.58rem, 0.7vw, 0.82rem); line-height: 1.05; letter-spacing: 0.13em; font-weight: 900; color: rgba(0,0,0,0.42); text-transform: uppercase; white-space: nowrap; }
+
     .mpu-front-body { display: grid; grid-template-columns: minmax(112px, 27.5%) minmax(0, 1fr); gap: clamp(0.85rem, 1.25vw, 1.25rem); min-height: 0; align-items: stretch; overflow: hidden; }
     .mpu-photo-panel { display: grid; grid-template-rows: minmax(0, 1fr) 0.9rem 0.78rem; gap: 0.18rem; min-height: 0; overflow: hidden; }
     .mpu-photo-box { position: relative; min-height: 0; height: 100%; border-radius: 17px; background: linear-gradient(to bottom, rgba(0,0,0,0.09), rgba(0,0,0,0.04)), rgba(255,255,255,0.38); box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08), inset 0 18px 40px rgba(255,255,255,0.17); overflow: hidden; }
@@ -209,6 +280,7 @@
     .mpu-signature-line::before { content: ""; position: absolute; top: 0.08rem; left: 0; right: 0; height: 1px; background: rgba(0,0,0,0.16); }
     .mpu-signature-line::after { content: "Signatur"; position: absolute; top: 0.3rem; left: 0; font-size: clamp(0.34rem, 0.43vw, 0.48rem); line-height: 1; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(0,0,0,0.33); white-space: nowrap; }
     .mpu-id-line { font-size: clamp(0.45rem, 0.56vw, 0.66rem); line-height: 1; font-weight: 900; letter-spacing: 0.11em; color: rgba(0,0,0,0.43); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase; align-self: end; }
+
     .mpu-step-panel { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 0.45rem; overflow: hidden; }
     .mpu-panel-meta { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; padding-bottom: 0.34rem; border-bottom: 1px solid rgba(0,0,0,0.08); min-height: 24px; overflow: hidden; }
     .mpu-panel-meta span { font-size: clamp(0.54rem, 0.66vw, 0.76rem); text-transform: uppercase; letter-spacing: 0.14em; font-weight: 900; color: rgba(0,0,0,0.42); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -221,9 +293,11 @@
     .mpu-step-text { min-width: 0; display: flex; flex-direction: column; justify-content: center; flex: 1 1 0; gap: 0.1rem; overflow: hidden; }
     .mpu-step-text strong { display: block; font-size: clamp(0.72rem, 0.84vw, 0.98rem); line-height: 1.02; letter-spacing: -0.035em; color: rgba(0,0,0,0.8); font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .mpu-step-text small { display: block; font-size: clamp(0.5rem, 0.58vw, 0.68rem); line-height: 1.05; color: rgba(0,0,0,0.46); font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    
     .mpu-front-footer { display: flex; justify-content: space-between; align-items: center; gap: 0.8rem; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 0.44rem; min-height: 18px; overflow: hidden; }
     .mpu-front-footer span { min-width: 0; font-size: clamp(0.46rem, 0.58vw, 0.7rem); line-height: 1; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.42); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .mpu-front-footer span:last-child { text-align: right; flex: 0 1 auto; }
+
     .mpu-back-safe { grid-template-rows: auto minmax(0, 1fr) auto; gap: clamp(0.55rem, 0.82vw, 0.9rem); }
     .mpu-back-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; min-height: 64px; overflow: hidden; }
     .mpu-back-head h3 { font-size: clamp(1.6rem, 2.35vw, 2.8rem); line-height: 0.9; letter-spacing: -0.075em; font-weight: 900; color: rgba(0,0,0,0.78); min-width: 0; }
@@ -238,101 +312,48 @@
     .mpu-barcode { width: 100%; height: 24px; border-radius: 7px; opacity: 0.38; background: repeating-linear-gradient(90deg, rgba(0,0,0,0.58) 0 2px, transparent 2px 6px, rgba(0,0,0,0.42) 6px 8px, transparent 8px 11px, rgba(0,0,0,0.5) 11px 12px, transparent 12px 17px); }
     .mpu-machine-code { font-size: clamp(0.46rem, 0.58vw, 0.7rem); line-height: 1.15; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.42); white-space: nowrap; text-align: right; }
 
-    /* KONTAKT SECTION */
-    .after-story { position: relative; z-index: 4; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--nav-height) + 4rem) var(--page-pad) 5rem; background: var(--bg-outer); }
+    /* DEIN ORIGINAL KONTAKT SECTION */
+    .after-story { position: relative; z-index: 4; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--nav-height) + 4rem) var(--page-pad) 5rem; background: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.1), transparent 34%), linear-gradient(to bottom, rgba(0,0,0,0.25), #000 75%); }
     .after-inner { width: min(860px, 100%); text-align: center; }
     .after-inner h2 { font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.98; letter-spacing: -0.07em; font-weight: 900; margin-bottom: 1.2rem; text-wrap: balance; }
-    .after-inner p { width: min(620px, 100%); margin: 0 auto 2.2rem; color: rgba(255,255,255,0.7); line-height: 1.7; font-size: clamp(1rem, 1.25vw, 1.18rem); }
-    .btn-bottom-primary { display: inline-flex; align-items: center; justify-content: center; padding: 1.18rem 3.4rem; background: var(--cyan); color: #000; font-weight: 800; border-radius: 6px; font-size: 1rem; text-transform: uppercase; transition: transform 0.3s ease; }
-    .btn-bottom-primary:hover { transform: translateY(-3px); }
+    .after-inner p { width: min(620px, 100%); margin: 0 auto 2.2rem; color: var(--white-soft); line-height: 1.7; font-size: clamp(1rem, 1.25vw, 1.18rem); }
 
-    /* RESPONSIVE */
+    /* RESPONSIVE HERO */
     @media (max-width: 1024px) {
-        .hero-bg-image { width: 100%; }
-        .hero-bg-fade { background: linear-gradient(to top, var(--bg-app) 0%, transparent 60%); }
-        .nav-links { display: none; }
-        .hero-actions { flex-direction: column; align-items: flex-start; }
+      .hero-bg-image { width: 80%; right: 0; opacity: 0.6;}
     }
-
     @media (max-width: 768px) {
-      body { padding: 0; } 
-      .app-frame { border-radius: 0; border: none; }
-      .navbar { padding: 0 1.5rem; height: 70px; }
-      .nav-cta { display: none; }
-      .hero { padding: 2rem 1.5rem; }
-      .headline { font-size: 2.5rem; }
-      .hero-actions { flex-direction: column; align-items: stretch; gap: 1rem; }
-      .btn-play { justify-content: center; }
-
-      .license-story { height: 520vh; }
-      .story-kicker { left: 1.5rem; top: calc(var(--nav-height) + 0.95rem); font-size: 0.64rem; gap: 0.68rem; letter-spacing: 0.13em; white-space: nowrap; overflow: hidden; }
-      .story-kicker::before { width: 36px; }
-      .story-copy { left: 1.5rem; right: 1.5rem; bottom: 2.5rem; top: auto; width: auto; min-height: 328px; transform: none; }
-      .story-copy-right, .story-copy-left { left: 1.5rem; right: 1.5rem; }
-      .story-copy-left { bottom: 2.55rem; min-height: 328px; z-index: 11; }
-      .step-copy h2 { font-size: clamp(2rem, 10vw, 3.15rem); }
-      .story-copy-left h2 { font-size: clamp(2.12rem, 9.8vw, 2.95rem); line-height: 0.95; margin-bottom: 0.85rem; }
-      .final-card-copy { border-radius: 22px; padding: 1.05rem; }
-      .final-cta { width: 100%; padding: 1rem 1.05rem; font-size: 0.92rem; line-height: 1.15; }
-      .story-progress { left: 1.5rem; right: 1.5rem; bottom: 1.85rem; }
-      .mpu-license-stage { width: min(94vw, 470px); top: 31%; }
-      .mpu-card-object, .mpu-card-face { border-radius: 22px; }
-      .mpu-card-safe { padding: 5.1% 5.3%; gap: 0.34rem; }
-      .mpu-doc-head { grid-template-columns: 45px minmax(0, 1fr) auto; gap: 0.5rem; min-height: 28px; }
-      .mpu-eu { width: 45px; height: 26px; border-radius: 7px; font-size: 0.58rem; background-size: 7px 7px; }
-      .mpu-doc-label { display: none; }
-      .mpu-doc-title { font-size: clamp(0.62rem, 2.25vw, 0.69rem); }
-      .mpu-doc-code { font-size: clamp(0.44rem, 1.75vw, 0.5rem); letter-spacing: 0.12em; }
-      .mpu-front-body { grid-template-columns: 72px minmax(0, 1fr); gap: 0.5rem; }
-      .mpu-photo-panel { grid-template-rows: minmax(0, 1fr) auto; gap: 0.22rem; }
-      .mpu-photo-box { min-height: 0; height: 100%; border-radius: 12px; }
-      .mpu-signature-line { display: none; }
-      .mpu-id-line { font-size: 0.39rem; }
-      .mpu-panel-meta { display: none; }
-      .mpu-step-panel { grid-template-rows: minmax(0, 1fr); }
-      .mpu-step-list { gap: 0.24rem; }
-      .mpu-step-row { --step-dot-size: 1.32rem; --step-dot-font: 0.47rem; gap: 0.36rem; padding: 0.29rem 0.4rem; border-radius: 10px; }
-      .mpu-step-row.is-active { transform: none; }
-      .mpu-step-index span { transform: none; }
-      .mpu-step-text { gap: 0.06rem; }
-      .mpu-step-text strong { font-size: clamp(0.5rem, 2.1vw, 0.56rem); line-height: 1; }
-      .mpu-step-text small { font-size: clamp(0.39rem, 1.72vw, 0.43rem); line-height: 1.03; }
-      .mpu-front-footer { padding-top: 0.28rem; min-height: 12px; }
-      .mpu-front-footer span { font-size: 0.38rem; }
-      .mpu-front-footer span:last-child { display: none; }
-      .mpu-back-safe { gap: 0.34rem; }
-      .mpu-back-head { min-height: 40px; gap: 0.5rem; }
-      .mpu-back-head h3 { font-size: clamp(1.08rem, 5.05vw, 1.28rem); line-height: 0.92; letter-spacing: -0.068em; }
-      .mpu-back-head span { font-size: 0.44rem; letter-spacing: 0.14em; }
-      .mpu-result-list { gap: 0.24rem; }
-      .mpu-result-row { padding: 0.3rem 0.46rem; border-radius: 10px; gap: 0.45rem; }
-      .mpu-result-copy { display: block; line-height: 1.03; }
-      .mpu-result-copy strong { display: block; font-size: clamp(0.5rem, 2.15vw, 0.56rem); line-height: 1.02; }
-      .mpu-result-copy small { display: block; font-size: clamp(0.38rem, 1.72vw, 0.43rem); line-height: 1.05; }
-      .mpu-result-ok { font-size: 0.44rem; }
-      .mpu-back-footer { grid-template-columns: 1fr; gap: 0.2rem; min-height: 18px; padding-top: 0.28rem; }
-      .mpu-barcode { height: 16px; border-radius: 6px; }
-      .mpu-machine-code { display: none; }
+      .navbar { padding: 0 1.5rem; }
+      .nav-links, .nav-cta { display: none; }
+      .hero { padding: 1.5rem 1.5rem 3rem 1.5rem; }
+      .hero-headline { font-size: 2.8rem; }
+      .hero-bg-image { width: 100%; right: -10%; opacity: 0.4; }
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .trust-items { flex-direction: column; gap: 1.5rem; }
+      .hero-bottom { flex-direction: column; align-items: flex-start; gap: 2rem; }
     }
   </style>
 </head>
+
 <body class="intro-lock">
-  
   <div id="intro-container">
     <div class="intro-license-card" id="intro-license">
       <div class="intro-license-eu">D</div>
       <div class="intro-license-photo"></div>
       <div class="intro-license-lines">
-        <div class="intro-l-line" style="width:100%"></div>
-        <div class="intro-l-line" style="width:80%"></div>
-        <div class="intro-l-line" style="width:60%"></div>
-        <div class="intro-l-line" style="width:90%"></div>
-        <div class="intro-l-line" style="width:40%; margin-top:20px;"></div>
+        <div class="intro-l-line"></div>
+        <div class="intro-l-line"></div>
+        <div class="intro-l-line"></div>
+        <div class="intro-l-line"></div>
+        <div class="intro-l-line"></div>
       </div>
     </div>
   </div>
 
-  <div class="app-frame" id="page-content">
+  <div id="line-waves-bg"></div>
+  <div class="global-vignette"></div>
+
+  <div id="page-content">
     
     <nav class="navbar">
       <div class="nav-logo">
@@ -355,26 +376,26 @@
     </nav>
 
     <main>
-      <section class="hero">
-        
+      <section class="hero-section">
         <div class="hero-bg-image"></div>
-        <div class="hero-bg-fade"></div>
         
-        <div class="hero-content">
-          <div class="kicker hero-reveal">Dein Neustart. Deine Zukunft.</div>
-          <h1 class="headline hero-reveal">
-            Wir bringen dich<br>zurück auf die<br><span class="highlight">Überholspur.</span>
+        <div class="hero-content hero-reveal">
+          <div class="kicker">Dein Neustart. Deine Zukunft.</div>
+          
+          <h1 class="hero-headline">
+            Wir bringen dich<br>zurück auf die<br>
+            <span class="highlight">Überholspur.</span>
           </h1>
-          <p class="subtext hero-reveal">
-            Professionelle MPU Vorbereitung, die dich wirklich weiterbringt. Individuell. Ehrlich. Erfolgreich.
+          
+          <p class="hero-subtext">
+            Professionelle MPU Vorbereitung, die dich wirklich weiterbringt.<br>Individuell. Ehrlich. Erfolgreich.
           </p>
 
-          <div class="hero-actions hero-reveal">
-            <a href="#kontakt" class="btn-main">
+          <div class="hero-actions">
+            <a href="#kontakt" class="btn-hero-primary">
               Kostenloses Erstgespräch
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px; height:14px;"><path d="m9 18 6-6-6-6"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
             </a>
-            
             <div class="btn-play">
               <div class="play-circle">
                 <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -390,7 +411,7 @@
               <div class="t-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
               </div>
-              <div>
+              <div class="t-text">
                 <h4>100% Individuell</h4>
                 <p>Maßgeschneiderte<br>Vorbereitung</p>
               </div>
@@ -400,7 +421,7 @@
               <div class="t-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               </div>
-              <div>
+              <div class="t-text">
                 <h4>Erfahrene Experten</h4>
                 <p>Psychologen &<br>MPU-Berater</p>
               </div>
@@ -410,7 +431,7 @@
               <div class="t-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
               </div>
-              <div>
+              <div class="t-text">
                 <h4>Hohe Erfolgsquote</h4>
                 <p>Durch bewährte<br>Methoden</p>
               </div>
@@ -421,10 +442,9 @@
             <div class="quote-icon">
               <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Zm15 0c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Z"/></svg>
             </div>
-            <p>"Der schwierigste Teil ist der erste Schritt. Den Rest gehen wir <span>gemeinsam.</span>"</p>
+            <p>"Der schwierigste Teil ist der erste Schritt.<br>Den Rest gehen wir <span>gemeinsam.</span>"</p>
           </div>
         </div>
-
       </section>
 
       <section id="license-story" class="license-story">
@@ -621,23 +641,48 @@
         </div>
       </section>
 
-      <section id="kontakt" class="after-story" style="position: relative; z-index: 4; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--nav-height) + 4rem) var(--page-pad) 5rem; background: var(--bg-outer);">
-        <div class="after-inner" style="width: min(860px, 100%); text-align: center;">
-          <h2 style="font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.98; letter-spacing: -0.07em; font-weight: 900; margin-bottom: 1.2rem; text-wrap: balance;">Bereit für den nächsten klaren Schritt?</h2>
-          <p style="width: min(620px, 100%); margin: 0 auto 2.2rem; color: rgba(255,255,255,0.7); line-height: 1.7; font-size: clamp(1rem, 1.25vw, 1.18rem);">Im Erstgespräch klären wir, wo Sie stehen, welche Vorbereitung sinnvoll ist und wie Ihr Weg zurück zum Führerschein strukturiert aussehen kann.</p>
-          <a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 1.18rem 3.4rem; background: var(--cyan); color: #000; font-weight: 800; border-radius: 6px; font-size: 1rem; text-transform: uppercase; transition: transform 0.3s ease;">Erstgespräch anfragen</a>
+      <section id="kontakt" class="after-story">
+        <div class="after-inner">
+          <h2>Bereit für den nächsten klaren Schritt?</h2>
+          <p>Im Erstgespräch klären wir, wo Sie stehen, welche Vorbereitung sinnvoll ist und wie Ihr Weg zurück zum Führerschein strukturiert aussehen kann.</p>
+          <a href="#" class="btn-primary" style="display: inline-flex; padding: 1.18rem 3.4rem; background: #fff; color: #000; border-radius: 10px;">Erstgespräch anfragen</a>
         </div>
       </section>
 
     </main>
   </div>
 
-  <script>
+  <script type="module">
+    import { Renderer, Program, Mesh, Triangle } from "https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm";
+
     const gsap = window.gsap;
     const ScrollTrigger = window.ScrollTrigger;
     gsap.registerPlugin(ScrollTrigger);
 
-    // --- STORY LOGIC (DEIN ORIGINAL) ---
+    const isTouchLike = window.matchMedia("(pointer: coarse)").matches;
+
+    // DEIN ORIGINAL OGL HINTERGRUND SCRIPT
+    const vertexShader = `attribute vec2 uv; attribute vec2 position; varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position, 0, 1); }`;
+    const fragmentShader = `precision highp float; uniform float uTime; uniform vec3 uResolution; uniform float uSpeed; uniform float uInnerLines; uniform float uOuterLines; uniform float uWarpIntensity; uniform float uRotation; uniform float uEdgeFadeWidth; uniform float uColorCycleSpeed; uniform float uBrightness; uniform vec3 uColor1; uniform vec3 uColor2; uniform vec3 uColor3; uniform vec2 uMouse; uniform float uMouseInfluence; uniform bool uEnableMouse; #define HALF_PI 1.5707963 float hashF(float n) { return fract(sin(n * 127.1) * 43758.5453123); } float smoothNoise(float x) { float i = floor(x); float f = fract(x); float u = f * f * (3.0 - 2.0 * f); return mix(hashF(i), hashF(i + 1.0), u); } float displaceA(float coord, float t) { float result = sin(coord * 2.123) * 0.2; result += sin(coord * 3.234 + t * 4.345) * 0.1; result += sin(coord * 0.589 + t * 0.934) * 0.5; return result; } float displaceB(float coord, float t) { float result = sin(coord * 1.345) * 0.3; result += sin(coord * 2.734 + t * 3.345) * 0.2; result += sin(coord * 0.189 + t * 0.934) * 0.3; return result; } vec2 rotate2D(vec2 p, float angle) { float c = cos(angle); float s = sin(angle); return vec2(p.x * c - p.y * s, p.x * s + p.y * c); } void main() { vec2 coords = gl_FragCoord.xy / uResolution.xy; coords = coords * 2.0 - 1.0; coords = rotate2D(coords, uRotation); float halfT = uTime * uSpeed * 0.5; float fullT = uTime * uSpeed; float mouseWarp = 0.0; if (uEnableMouse) { vec2 mPos = rotate2D(uMouse * 2.0 - 1.0, uRotation); float mDist = length(coords - mPos); mouseWarp = uMouseInfluence * exp(-mDist * mDist * 4.0); } float warpAx = coords.x + displaceA(coords.y, halfT) * uWarpIntensity + mouseWarp; float warpAy = coords.y - displaceA(coords.x * cos(fullT) * 1.235, halfT) * uWarpIntensity; float warpBx = coords.x + displaceB(coords.y, halfT) * uWarpIntensity + mouseWarp; float warpBy = coords.y - displaceB(coords.x * sin(fullT) * 1.235, halfT) * uWarpIntensity; vec2 fieldA = vec2(warpAx, warpAy); vec2 fieldB = vec2(warpBx, warpBy); vec2 blended = mix(fieldA, fieldB, mix(fieldA, fieldB, 0.5)); float fadeTop = smoothstep(uEdgeFadeWidth, uEdgeFadeWidth + 0.4, blended.y); float fadeBottom = smoothstep(-uEdgeFadeWidth, -(uEdgeFadeWidth + 0.4), blended.y); float vMask = 1.0 - max(fadeTop, fadeBottom); float tileCount = mix(uOuterLines, uInnerLines, vMask); float scaledY = blended.y * tileCount; float nY = smoothNoise(abs(scaledY)); float ridge = pow(step(abs(nY - blended.x) * 2.0, HALF_PI) * cos(2.0 * (nY - blended.x)), 5.0); float lines = 0.0; for (float i = 1.0; i < 3.0; i += 1.0) { lines += pow(max(fract(scaledY), fract(-scaledY)), i * 2.0); } float pattern = vMask * lines; float cycleT = fullT * uColorCycleSpeed; float rChannel = (pattern + lines * ridge) * (cos(blended.y + cycleT * 0.234) * 0.5 + 1.0); float gChannel = (pattern + vMask * ridge) * (sin(blended.x + cycleT * 1.745) * 0.5 + 1.0); float bChannel = (pattern + lines * ridge) * (cos(blended.x + cycleT * 0.534) * 0.5 + 1.0); vec3 col = (rChannel * uColor1 + gChannel * uColor2 + bChannel * uColor3) * uBrightness; float alpha = clamp(length(col), 0.0, 1.0); gl_FragColor = vec4(col, alpha); }`;
+    function hexToVec3(hex) { const h = hex.replace("#", ""); return [parseInt(h.slice(0, 2), 16) / 255, parseInt(h.slice(2, 4), 16) / 255, parseInt(h.slice(4, 6), 16) / 255]; }
+    const config = { speed: 0.3, innerLineCount: 32, outerLineCount: 36, warpIntensity: 1, rotation: -45, edgeFadeWidth: 0, colorCycleSpeed: 1, brightness: 0.2, color1: "#ffffff", color2: "#ffffff", color3: "#ffffff", enableMouseInteraction: !isTouchLike, mouseInfluence: isTouchLike ? 0 : 2 };
+    const container = document.getElementById("line-waves-bg");
+    const renderer = new Renderer({ alpha: true, premultipliedAlpha: false, dpr: Math.min(isTouchLike ? 1.15 : 1.6, window.devicePixelRatio || 1) });
+    const gl = renderer.gl; gl.clearColor(0, 0, 0, 0); gl.canvas.setAttribute("aria-hidden", "true"); container.appendChild(gl.canvas);
+    let currentMouse = [0.5, 0.5]; let targetMouse = [0.5, 0.5]; let program; let isPageVisible = true;
+    document.addEventListener("visibilitychange", () => { isPageVisible = !document.hidden; });
+    function handleMouseMove(e) { targetMouse = [e.clientX / window.innerWidth, 1.0 - e.clientY / window.innerHeight]; }
+    function handleMouseLeave() { targetMouse = [0.5, 0.5]; }
+    function resize() { const width = Math.max(1, container.offsetWidth); const height = Math.max(1, container.offsetHeight); renderer.setSize(width, height); if (program) { program.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height]; } }
+    window.addEventListener("resize", resize);
+    const geometry = new Triangle(gl); const rotationRad = (config.rotation * Math.PI) / 180;
+    program = new Program(gl, { vertex: vertexShader, fragment: fragmentShader, uniforms: { uTime: { value: 0 }, uResolution: { value: [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height] }, uSpeed: { value: config.speed }, uInnerLines: { value: config.innerLineCount }, uOuterLines: { value: config.outerLineCount }, uWarpIntensity: { value: config.warpIntensity }, uRotation: { value: rotationRad }, uEdgeFadeWidth: { value: config.edgeFadeWidth }, uColorCycleSpeed: { value: config.colorCycleSpeed }, uBrightness: { value: config.brightness }, uColor1: { value: hexToVec3(config.color1) }, uColor2: { value: hexToVec3(config.color2) }, uColor3: { value: hexToVec3(config.color3) }, uMouse: { value: new Float32Array([0.5, 0.5]) }, uMouseInfluence: { value: config.mouseInfluence }, uEnableMouse: { value: config.enableMouseInteraction } } });
+    const mesh = new Mesh(gl, { geometry, program }); resize();
+    if (config.enableMouseInteraction) { window.addEventListener("mousemove", handleMouseMove); window.addEventListener("mouseleave", handleMouseLeave); }
+    function update(time) { requestAnimationFrame(update); if (!isPageVisible) return; program.uniforms.uTime.value = time * 0.001; if (config.enableMouseInteraction) { currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]); currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]); program.uniforms.uMouse.value[0] = currentMouse[0]; program.uniforms.uMouse.value[1] = currentMouse[1]; } renderer.render({ scene: mesh }); }
+    requestAnimationFrame(update);
+
+    // DEINE ORIGINAL STORY LOGIC
     function initScrollStory() {
       const cardStage = document.querySelector(".mpu-license-stage");
       const cardObject = document.querySelector(".mpu-card-object");
@@ -671,6 +716,11 @@
         const stepProgress = Math.min(progress, 0.58) / 0.58;
         const nextStep = Math.min(3, Math.max(0, Math.floor(stepProgress * 4)));
         setActiveStep(nextStep);
+
+        if (program && program.uniforms && program.uniforms.uBrightness) {
+          const targetBrightness = progress < 0.62 ? 0.155 : 0.215;
+          program.uniforms.uBrightness.value += (targetBrightness - program.uniforms.uBrightness.value) * 0.08;
+        }
       }
 
       const mm = gsap.matchMedia();
@@ -773,7 +823,7 @@
       ScrollTrigger.refresh();
     }
 
-    // --- INITIAL LOAD & INTRO ---
+    // --- DEIN ORIGINAL INITIAL LOAD ---
     window.addEventListener("load", () => {
       const tl = gsap.timeline();
 
@@ -804,7 +854,7 @@
         duration: 1.2,
         ease: "power2.in"
       })
-      .to(".app-frame", {
+      .to(["#line-waves-bg", "#page-content"], {
         opacity: 1,
         duration: 1.45,
         ease: "power2.out"
