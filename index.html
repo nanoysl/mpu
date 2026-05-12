@@ -1,348 +1,358 @@
 <!DOCTYPE html>
-<html lang="de" class="antialiased">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MPU Kompetenz | Premium Ersteinschätzung</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPU Vorbereitung | Klarheit statt Chaos</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;600;800&family=Playfair+Display:ital,wght@0,400;1,500&display=swap" rel="stylesheet">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        void: '#030508',
-                        obsidian: '#0A0E17',
-                        stark: '#F4F4F5',
-                        accent: '#00E5FF', // Cyan / Neon Blau
-                        accentGlow: 'rgba(0, 229, 255, 0.4)',
-                    },
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
     <style>
+        /* === CSS VARIABLES & RESET === */
+        :root {
+            --col-bg: #090a0f;
+            --col-text: #f0f0f2;
+            --col-accent: #c4a77d; /* Ein beruhigendes, gedämpftes Gold/Bronze */
+            --col-glass: rgba(9, 10, 15, 0.4);
+            
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Manrope', sans-serif;
+            
+            --cursor-x: 50vw;
+            --cursor-y: 50vh;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Wir nutzen einen Custom Cursor */
+        }
+
         body, html {
-            background-color: #030508;
-            color: #F4F4F5;
-            margin: 0; padding: 0;
-            width: 100%; height: 100%;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            width: 100%;
+            height: 100%;
+            background-color: var(--col-bg);
+            color: var(--col-text);
+            font-family: var(--font-sans);
+            overflow: hidden; /* Nur Hero Section */
         }
 
-        /* 3D Environment Setup */
-        .scene-container {
-            perspective: 1500px;
-            transform-style: preserve-3d;
+        /* === BACKGROUND & NOISE (Die "Wahrheit" im Hintergrund) === */
+        .bg-sharp {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            /* Ein extrem hochwertiger, ruhiger Gradient, der einen Raum simuliert */
+            background: radial-gradient(circle at 50% 30%, #1a1d2b 0%, #090a0f 70%);
         }
 
-        .threed-wrapper {
-            transform-style: preserve-3d;
+        /* Hochwertiges Film-Grain/Rauschen für Premium-Look */
+        .noise {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            opacity: 0.04;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* === THE CLARITY SHADER (Die Milchglas-Schicht) === */
+        .glass-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            background: var(--col-glass);
+            backdrop-filter: blur(40px) brightness(0.8);
+            -webkit-backdrop-filter: blur(40px) brightness(0.8);
+            
+            /* Der Magic Trick: Eine Maske, die an der Mausposition transparent ist */
+            -webkit-mask-image: radial-gradient(circle 350px at var(--cursor-x) var(--cursor-y), transparent 0%, black 100%);
+            mask-image: radial-gradient(circle 350px at var(--cursor-x) var(--cursor-y), transparent 0%, black 100%);
+            pointer-events: none;
+            transition: opacity 2s ease;
+        }
+
+        /* === CONTENT LAYOUT === */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            padding: 0 2rem;
+            pointer-events: none; /* Damit Maus-Events auf den Button durchgehen */
+        }
+
+        /* Animations-Klassen für den Load-State */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            filter: blur(10px);
+            animation: revealAnim 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+        }
+
+        .reveal:nth-child(1) { animation-delay: 0.2s; }
+        .reveal:nth-child(2) { animation-delay: 0.4s; }
+        .reveal:nth-child(3) { animation-delay: 0.6s; }
+        .reveal:nth-child(4) { animation-delay: 0.8s; pointer-events: auto; }
+
+        @keyframes revealAnim {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        /* === TYPOGRAPHY === */
+        .subhead {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--col-accent);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .headline {
+            font-family: var(--font-serif);
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .headline i {
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .paragraph {
+            font-size: clamp(1rem, 1.5vw, 1.25rem);
+            line-height: 1.6;
+            max-width: 600px;
+            color: rgba(240, 240, 242, 0.7);
+            margin-bottom: 4rem;
+            font-weight: 300;
+        }
+
+        /* === MAGNETIC BUTTON === */
+        .magnetic-wrap {
+            display: inline-block;
+            padding: 2rem; /* Hover-Area vergrößern */
+            margin: -2rem;
+            pointer-events: auto;
+        }
+
+        .btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--col-text);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            overflow: hidden;
+            background: transparent;
+            transition: border-color 0.4s ease, color 0.4s ease;
             will-change: transform;
         }
 
-        /* Premium Frosted Glass Panel */
-        .glass-panel {
-            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1);
-            transform-style: preserve-3d;
+        .btn-text {
+            position: relative;
+            z-index: 2;
+            transition: color 0.4s ease;
         }
 
-        /* Subtle Noise Overlay for Texture */
-        .noise-bg {
-            position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        /* Liquid Hover Fill */
+        .btn-fill {
+            position: absolute;
+            bottom: -50%;
+            left: -10%;
+            width: 120%;
+            height: 200%;
+            background: var(--col-text);
+            border-radius: 50%;
+            z-index: 1;
+            transform: translateY(100%) scale(0.8);
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        /* Reactive Glowing Orb */
-        .cursor-orb {
-            position: fixed; top: 0; left: 0;
-            width: 40vw; height: 40vw;
-            background: radial-gradient(circle, var(--tw-colors-accentGlow) 0%, transparent 60%);
+        .btn:hover {
+            border-color: var(--col-text);
+        }
+
+        .btn:hover .btn-text {
+            color: var(--col-bg); /* Text wird dunkel */
+        }
+
+        .btn:hover .btn-fill {
+            transform: translateY(0) scale(1);
+        }
+
+        /* === CUSTOM CURSOR === */
+        .cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background-color: var(--col-accent);
             border-radius: 50%;
             pointer-events: none;
-            z-index: 0;
+            z-index: 9999;
             transform: translate(-50%, -50%);
-            filter: blur(60px);
+            transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+        }
+
+        .cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(196, 167, 125, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
             will-change: transform;
         }
 
-        /* Clip Path for cinematic text reveal */
-        .clip-text { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%); }
+        /* Cursor Hover State */
+        body.hovering .cursor-dot {
+            width: 0;
+            height: 0;
+        }
+        body.hovering .cursor-ring {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: transparent;
+        }
     </style>
 </head>
 <body>
 
-    <div class="noise-bg"></div>
-    <div id="root" class="w-full min-h-[100dvh]"></div>
+    <div class="bg-sharp"></div>
+    <div class="noise"></div>
+    <div class="glass-layer" id="glass"></div>
 
-    <script type="text/babel">
-        const { useEffect, useRef, useState, useLayoutEffect } = React;
+    <div class="hero-content">
+        <div class="subhead reveal">Diskrete MPU Vorbereitung in Berlin</div>
+        <h1 class="headline reveal">Klarheit <i>statt</i> Chaos.</h1>
+        <p class="paragraph reveal">Ein realistischer Fahrplan für Ihre MPU. Ohne leere Versprechen, mit ehrlicher Aufarbeitung und persönlicher Begleitung auf Augenhöhe.</p>
+        
+        <div class="magnetic-wrap reveal" id="magnet-wrap">
+            <a href="#" class="btn" id="magnet-btn">
+                <span class="btn-text">Erstgespräch diskret anfragen</span>
+                <div class="btn-fill"></div>
+            </a>
+        </div>
+    </div>
 
-        // --- COMPONENTS ---
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
 
-        // 1. Magnetic CTA Component
-        const MagneticCTA = ({ text, primary = true }) => {
-            const btnRef = useRef(null);
+    <script>
+        /**
+         * LERP (Linear Interpolation) 
+         * Sorgt für die extrem hochwertigen, butterweichen Verzögerungen (Spring Physics)
+         */
+        const lerp = (a, b, n) => (1 - n) * a + n * b;
+
+        // Globale Maus-Koordinaten
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+
+        // Koordinaten für den Shader (Glas-Maske)
+        let glassX = window.innerWidth / 2;
+        let glassY = window.innerHeight / 2;
+
+        // Koordinaten für den Cursor Ring
+        let ringX = window.innerWidth / 2;
+        let ringY = window.innerHeight / 2;
+
+        const glassLayer = document.getElementById('glass');
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorRing = document.getElementById('cursor-ring');
+
+        // Event Listener für Mausbewegung
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
             
-            useEffect(() => {
-                const btn = btnRef.current;
-                if (!btn) return;
+            // Der Dot folgt instant
+            cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+        });
 
-                const moveMouse = (e) => {
-                    const rect = btn.getBoundingClientRect();
-                    const x = (e.clientX - rect.left - rect.width / 2) * 0.2;
-                    const y = (e.clientY - rect.top - rect.height / 2) * 0.2;
-                    gsap.to(btn, { x, y, duration: 0.6, ease: "power3.out" });
-                };
+        // Main Render Loop (RequestAnimationFrame)
+        const render = () => {
+            // Lerp für die Glas-Maske (etwas träger für den Liquid/Nebel-Effekt)
+            glassX = lerp(glassX, mouseX, 0.05);
+            glassY = lerp(glassY, mouseY, 0.05);
+            glassLayer.style.setProperty('--cursor-x', `${glassX}px`);
+            glassLayer.style.setProperty('--cursor-y', `${glassY}px`);
 
-                const leaveMouse = () => {
-                    gsap.to(btn, { x: 0, y: 0, duration: 1, ease: "elastic.out(1, 0.3)" });
-                };
+            // Lerp für den Cursor Ring (schneller, smooth)
+            ringX = lerp(ringX, mouseX, 0.15);
+            ringY = lerp(ringY, mouseY, 0.15);
+            cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
 
-                btn.addEventListener('mousemove', moveMouse);
-                btn.addEventListener('mouseleave', leaveMouse);
-                return () => {
-                    btn.removeEventListener('mousemove', moveMouse);
-                    btn.removeEventListener('mouseleave', leaveMouse);
-                };
-            }, []);
-
-            return (
-                <button ref={btnRef} className={`relative group px-8 py-4 rounded-full font-sans font-semibold tracking-wide text-sm uppercase overflow-hidden transition-all duration-300 w-full sm:w-auto
-                    ${primary ? 'bg-stark text-void shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(0,229,255,0.3)]' : 'bg-transparent border border-white/20 text-stark hover:border-white/50'}
-                `}>
-                    {primary && <div className="absolute inset-0 bg-accent translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></div>}
-                    <span className="relative z-10 flex items-center justify-center gap-3">
-                        {text}
-                        {primary && <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>}
-                    </span>
-                </button>
-            );
+            requestAnimationFrame(render);
         };
+        render();
 
-        // 2. Glass Blueprint Card (Fahrplan Schritt)
-        const GlassCard = ({ num, title, desc, delayClass }) => {
-            return (
-                <div className={`glass-panel p-6 rounded-2xl flex flex-col justify-between min-h-[220px] ${delayClass} relative overflow-hidden group hover:border-accent/50 transition-colors duration-500`}>
-                    {/* Inner Glow on hover */}
-                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    
-                    <div className="relative z-10">
-                        <div className="text-4xl font-serif italic text-white/20 group-hover:text-accent transition-colors duration-500 mb-4">{num}</div>
-                        <h3 className="text-xl font-bold font-sans text-stark mb-2">{title}</h3>
-                        <p className="text-sm font-light text-stark/60 leading-relaxed">{desc}</p>
-                    </div>
-                    
-                    <div className="relative z-10 w-8 h-8 rounded-full border border-white/10 flex items-center justify-center mt-4 group-hover:bg-accent/20 transition-colors">
-                        <div className="w-1.5 h-1.5 rounded-full bg-white/30 group-hover:bg-accent transition-colors"></div>
-                    </div>
-                </div>
-            );
-        };
+        /**
+         * MAGNETIC BUTTON LOGIC
+         * Berechnet die Distanz der Maus zur Mitte des Buttons und verschiebt ihn sanft.
+         */
+        const magnetWrap = document.getElementById('magnet-wrap');
+        const magnetBtn = document.getElementById('magnet-btn');
+        let magnetActive = false;
 
-        // 3. Main Hero Application
-        const MpuHero = () => {
-            const heroRef = useRef(null);
-            const wrapperRef = useRef(null);
-            const orbRef = useRef(null);
+        magnetWrap.addEventListener('mousemove', (e) => {
+            magnetActive = true;
+            document.body.classList.add('hovering');
 
-            const steps = [
-                { num: "01", title: "Akte sezieren", desc: "Tiefenanalyse der Vorwürfe. Wir klären die Fakten, keine Vermutungen." },
-                { num: "02", title: "Fristen klären", desc: "Strategische Entscheidung: Sind Abstinenznachweise zwingend nötig?" },
-                { num: "03", title: "Aufarbeitung", desc: "Fundierte, psychologische Reflexion in streng diskreten Einzelgesprächen." },
-                { num: "04", title: "Simulation", desc: "Wir simulieren das Gutachten unter Realbedingungen. Bis Sie sicher sind." }
-            ];
+            const rect = magnetWrap.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // Stärke des Magnet-Effekts
+            const distanceX = (e.clientX - centerX) * 0.3;
+            const distanceY = (e.clientY - centerY) * 0.3;
 
-            // Master Animation Timeline
-            useLayoutEffect(() => {
-                const ctx = gsap.context(() => {
-                    const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+            magnetBtn.style.transform = `translate(${distanceX}px, ${distanceY}px)`;
+        });
 
-                    // Set initial states
-                    gsap.set(".header-item", { y: -20, opacity: 0 });
-                    gsap.set(".headline-part", { y: "100%" });
-                    gsap.set(".subhead", { y: 30, opacity: 0 });
-                    gsap.set(".action-item", { y: 20, opacity: 0 });
-                    gsap.set(".card-reveal", { z: -500, y: 100, rotationX: 45, opacity: 0 });
-                    gsap.set(orbRef.current, { scale: 0, opacity: 0 });
+        magnetWrap.addEventListener('mouseleave', () => {
+            magnetActive = false;
+            document.body.classList.remove('hovering');
+            // Reset Button to center
+            magnetBtn.style.transform = `translate(0px, 0px)`;
+        });
 
-                    // 1. Orb expands
-                    tl.to(orbRef.current, { scale: 1, opacity: 0.5, duration: 2, ease: "power2.out" }, 0.2);
-
-                    // 2. Header drops in
-                    tl.to(".header-item", { y: 0, opacity: 1, duration: 1, stagger: 0.1 }, 0.5);
-
-                    // 3. Cinematic Typography slice-in
-                    tl.to(".headline-part", { y: "0%", duration: 1.5, stagger: 0.15 }, 0.8);
-
-                    // 4. Subhead & Actions
-                    tl.to(".subhead", { y: 0, opacity: 1, duration: 1.2 }, 1.2);
-                    tl.to(".action-item", { y: 0, opacity: 1, duration: 1, stagger: 0.1 }, 1.4);
-
-                    // 5. 3D Cards fly in from the void
-                    tl.to(".card-reveal", {
-                        z: 0,
-                        y: 0,
-                        rotationX: 0,
-                        opacity: 1,
-                        duration: 1.8,
-                        stagger: 0.1,
-                        ease: "power3.out"
-                    }, 1.2);
-
-                }, heroRef);
-
-                return () => ctx.revert();
-            }, []);
-
-            // 3D Parallax & Orb Follow Logic
-            useEffect(() => {
-                const wrapper = wrapperRef.current;
-                const orb = orbRef.current;
-                if (!wrapper || !orb) return;
-
-                const isMobile = window.innerWidth < 768;
-                if (isMobile) return; // Disable heavy parallax on mobile
-
-                const handleMouseMove = (e) => {
-                    const { clientX: x, clientY: y } = e;
-                    const centerX = window.innerWidth / 2;
-                    const centerY = window.innerHeight / 2;
-                    
-                    // Tilt calculation (-5 to 5 degrees)
-                    const rotateX = ((y - centerY) / centerY) * -5;
-                    const rotateY = ((x - centerX) / centerX) * 5;
-
-                    // Apply 3D rotation to the entire wrapper
-                    gsap.to(wrapper, {
-                        rotateX,
-                        rotateY,
-                        duration: 1,
-                        ease: "power2.out"
-                    });
-
-                    // Move the glowing orb
-                    gsap.to(orb, {
-                        x: x,
-                        y: y,
-                        duration: 0.8,
-                        ease: "power2.out"
-                    });
-                };
-
-                window.addEventListener('mousemove', handleMouseMove);
-                return () => window.removeEventListener('mousemove', handleMouseMove);
-            }, []);
-
-            return (
-                <div ref={heroRef} className="scene-container relative min-h-screen w-full flex flex-col justify-between overflow-hidden">
-                    
-                    {/* Reactive Background Orb */}
-                    <div ref={orbRef} className="cursor-orb hidden md:block"></div>
-
-                    {/* The 3D Wrapper that tilts with mouse movement */}
-                    <div ref={wrapperRef} className="threed-wrapper relative z-10 flex flex-col min-h-screen w-full px-6 lg:px-12 pt-8 pb-20">
-                        
-                        {/* Header */}
-                        <header className="flex justify-between items-start w-full max-w-[1600px] mx-auto">
-                            <div className="header-item flex flex-col">
-                                <span className="font-sans font-bold tracking-widest text-lg uppercase flex items-center gap-3 text-stark">
-                                    <span className="w-2 h-2 bg-accent rounded-full animate-pulse shadow-[0_0_10px_rgba(0,229,255,0.8)]"></span>
-                                    MPU Kompetenz
-                                </span>
-                                <span className="font-sans text-[10px] text-stark/50 uppercase tracking-[0.2em] mt-1 ml-5">
-                                    [Stadt] & Online Coaching
-                                </span>
-                            </div>
-                            <div className="hidden lg:flex gap-3">
-                                {["Diskrete Beratung", "Kein Auswendiglernen", "Fester Fahrplan"].map((tag, i) => (
-                                    <span key={i} className="header-item px-4 py-2 rounded-full border border-white/10 bg-white/5 text-[10px] uppercase tracking-widest text-stark/70 backdrop-blur-md">
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-                        </header>
-
-                        {/* Main Content Area */}
-                        <main className="flex-grow flex flex-col lg:flex-row items-center justify-between gap-16 w-full max-w-[1600px] mx-auto mt-16 lg:mt-0">
-                            
-                            {/* Left: Typography & Action */}
-                            <div className="w-full lg:w-[45%] flex flex-col relative z-20">
-                                
-                                <h1 className="text-[12vw] sm:text-[8vw] lg:text-[5.5vw] leading-[0.9] font-sans font-extrabold uppercase tracking-tight text-stark mb-8">
-                                    <div className="clip-text inline-block"><div className="headline-part">ZURÜCK</div></div><br/>
-                                    <div className="clip-text inline-block"><div className="headline-part text-transparent bg-clip-text bg-gradient-to-r from-stark to-stark/40">IN DIE</div></div><br/>
-                                    <div className="clip-text inline-block"><div className="headline-part font-serif italic text-accent font-light lowercase transform translate-x-2">Spur.</div></div>
-                                </h1>
-
-                                <p className="subhead text-lg lg:text-xl font-light text-stark/70 leading-relaxed max-w-lg mb-10 pl-0 lg:pl-4 border-l-0 lg:border-l-2 border-accent/50">
-                                    Wir durchbrechen das Chaos. Strukturierte, glasklare Vorbereitung in [Stadt]. <strong className="text-stark font-medium">Keine Garantieversprechen. Nur Diskretion, Fakten und ein wasserdichter Plan für das Gutachten.</strong>
-                                </p>
-
-                                <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-                                    <div className="action-item w-full sm:w-auto"><MagneticCTA text="Kostenlose Fallanalyse" primary={true} /></div>
-                                    <div className="action-item w-full sm:w-auto"><MagneticCTA text="0123 / 456 789 0" primary={false} /></div>
-                                </div>
-                            </div>
-
-                            {/* Right: The 3D Glass Matrix (Fahrplan) */}
-                            <div className="w-full lg:w-[55%] grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 relative z-10 perspective-1000 mt-8 lg:mt-0">
-                                {steps.map((step, i) => (
-                                    <GlassCard key={i} num={step.num} title={step.title} desc={step.desc} delayClass="card-reveal" />
-                                ))}
-                                
-                                {/* Decorative elements in the grid */}
-                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-accent/10 rounded-[100%] rounded-tr-none rotate-45 pointer-events-none -z-10"></div>
-                            </div>
-
-                        </main>
-
-                        {/* Footer Info */}
-                        <footer className="w-full max-w-[1600px] mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4">
-                            <p className="action-item text-[10px] uppercase font-sans tracking-widest text-stark/40">
-                                Alkohol, Drogen, Cannabis, Punkte.
-                            </p>
-                            <p className="action-item text-[10px] uppercase font-sans tracking-widest text-stark/40 flex items-center gap-2">
-                                <svg className="w-3 h-3 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                Seriöse Vorbereitung statt falscher Versprechen. Keine Bestehensgarantie.
-                            </p>
-                        </footer>
-
-                    </div>
-                    
-                    {/* Sticky Mobile CTA */}
-                    <div className="fixed bottom-0 left-0 w-full p-4 bg-void/80 backdrop-blur-xl border-t border-white/10 z-50 lg:hidden action-item">
-                        <button className="w-full bg-stark text-void py-4 rounded-lg text-sm font-bold uppercase tracking-widest hover:bg-accent transition-colors">
-                            Fallanalyse anfragen
-                        </button>
-                    </div>
-
-                </div>
-            );
-        };
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<MpuHero />);
+        // Mobile Fallback: Custom Cursor auf Touch-Geräten verstecken
+        if (window.matchMedia("(pointer: coarse)").matches) {
+            cursorDot.style.display = 'none';
+            cursorRing.style.display = 'none';
+            // Maske zentrieren
+            glassLayer.style.setProperty('--cursor-x', `50vw`);
+            glassLayer.style.setProperty('--cursor-y', `50vh`);
+        }
     </script>
 </body>
 </html>
