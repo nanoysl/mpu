@@ -107,9 +107,7 @@
     .intro-l-line { height: 8px; background: rgba(0,0,0,0.15); border-radius: 4px; }
     .intro-l-line:nth-child(1) { width: 100%; } .intro-l-line:nth-child(2) { width: 80%; } .intro-l-line:nth-child(3) { width: 60%; } .intro-l-line:nth-child(4) { width: 90%; } .intro-l-line:nth-child(5) { width: 40%; margin-top: 20px; }
 
-    /* =========================================
-       NAVBAR (Durchsichtig)
-       ========================================= */
+    /* NAVBAR */
     .navbar {
       position: absolute; 
       top: 0; left: 0; right: 0; z-index: 50;
@@ -133,9 +131,7 @@
     .nav-cta:hover { transform: translateY(-2px); background: var(--cyan-hover); }
     .nav-cta svg { width: 14px; height: 14px; }
 
-    /* =========================================
-       HERO BEREICH
-       ========================================= */
+    /* HERO BEREICH */
     .hero-section {
       position: relative;
       min-height: 100vh;
@@ -208,12 +204,46 @@
        ========================================= */
     .license-story {
       position: relative; z-index: 3; height: 540vh;
-      background:
-        radial-gradient(circle at 30% 38%, rgba(255,255,255,0.08), transparent 32%),
-        linear-gradient(to bottom, transparent, rgba(0,0,0,0.52) 8%, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.54));
+      background: #000; /* Fallback */
     }
+    
+    /* NEU: DIE HINTERGRUND-BILDER FÜR DIE 3D STORY */
+    .story-bg-wrapper {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0; /* Wird beim Scrollen eingeblendet */
+    }
+
+    .story-bg-desktop, .story-bg-mobile {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      filter: blur(5px); /* Dein gewünschter 5px Blur Effekt */
+    }
+
+    .story-bg-desktop {
+      /* HIER DEIN DESKTOP HINTERGRUNDBILD FÜR SEKTION 2 EINTRAGEN */
+      background-image: url('story-bg-desktop.jpg');
+    }
+
+    .story-bg-mobile {
+      display: none;
+      /* HIER DEIN HANDY HINTERGRUNDBILD FÜR SEKTION 2 EINTRAGEN */
+      background-image: url('story-bg-mobile.jpg'); 
+    }
+
+    .story-bg-overlay {
+      position: absolute;
+      inset: 0;
+      /* Dieser Verlauf sorgt dafür, dass die Seite nahtlos an den Hero anschließt 
+         und der weiße Text über dem hellen Bild gut lesbar bleibt */
+      background: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.5) 15%, rgba(0,0,0,0.6) 100%);
+    }
+
     .story-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; perspective: 1800px; }
-    .story-noise { position: absolute; inset: 0; pointer-events: none; opacity: 0.26; background-image: linear-gradient(rgba(255,255,255,0.026) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.026) 1px, transparent 1px); background-size: 70px 70px; mask-image: radial-gradient(circle at center, black, transparent 76%); }
+    .story-noise { position: absolute; inset: 0; pointer-events: none; opacity: 0.26; z-index: 1; background-image: linear-gradient(rgba(255,255,255,0.026) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.026) 1px, transparent 1px); background-size: 70px 70px; mask-image: radial-gradient(circle at center, black, transparent 76%); }
     
     .story-kicker { position: absolute; top: calc(var(--nav-height) + 2rem); left: var(--page-pad); z-index: 6; display: flex; align-items: center; gap: 0.75rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.62); pointer-events: none; }
     .story-kicker::before { content: ""; width: 34px; height: 1px; background: rgba(255,255,255,0.4); flex: 0 0 auto; }
@@ -236,7 +266,7 @@
     
     .final-card-copy { padding: clamp(1.35rem, 2vw, 2rem); border: 1px solid rgba(255,255,255,0.14); background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035)); border-radius: 28px; box-shadow: 0 24px 80px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.08); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); overflow: hidden; pointer-events: auto; }
     .final-cta { display: inline-flex; align-items: center; justify-content: center; margin-top: 0.5rem; padding: 0.98rem 1.45rem; border-radius: 999px; background: #fff; color: #000; font-weight: 900; pointer-events: auto; box-shadow: 0 18px 42px rgba(255,255,255,0.12); text-align: center; }
-    .story-final-glow { position: absolute; top: 50%; left: 50%; z-index: 4; width: 48vw; aspect-ratio: 1 / 1; border-radius: 999px; background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 68%); transform: translate(-50%, -50%) scale(0.7); opacity: 0; pointer-events: none; filter: blur(10px); }
+    .story-final-glow { position: absolute; top: 50%; left: 50%; z-index: 4; width: 48vw; aspect-ratio: 1 / 1; border-radius: 999px; background: radial-gradient(circle, rgba(92, 225, 230, 0.22), transparent 68%); transform: translate(-50%, -50%) scale(0.7); opacity: 0; pointer-events: none; filter: blur(10px); }
     .story-progress { position: absolute; left: var(--page-pad); right: var(--page-pad); bottom: clamp(1.25rem, 3vh, 2rem); z-index: 10; height: 1px; background: rgba(255,255,255,0.12); overflow: hidden; }
     .story-progress-fill { height: 100%; width: 100%; background: #fff; transform: scaleX(0); transform-origin: left center; will-change: transform; }
 
@@ -313,10 +343,7 @@
     @media (max-width: 1024px) {
       .hero-bg-image { width: 80%; right: 0; opacity: 0.6;}
     }
-    
-    /* =========================================
-       FIX: MOBILE STYLES (Kein Verlauf, Bild mittig)
-       ========================================= */
+
     @media (max-width: 768px) {
       .navbar { padding: 0 1.5rem; }
       .nav-links, .nav-cta { display: none; }
@@ -326,14 +353,14 @@
       .hero-bg-image { 
         width: 100%; 
         right: 0; 
-        opacity: 1; /* Bild voll sichtbar, nicht abgedunkelt */
-        background-image: url('mpumobile.png'); /* 9:16 Bild */
+        opacity: 1; 
+        background-image: url('mpumobile.png'); 
         background-position: center center;
         background-size: cover;
       }
       
       .hero-bg-fade {
-        display: none; /* Farbverlauf auf dem Handy komplett ausblenden */
+        display: none; 
       }
       
       .hero-actions { flex-direction: column; align-items: flex-start; }
@@ -341,6 +368,9 @@
       .hero-bottom { flex-direction: column; align-items: flex-start; gap: 2rem; }
 
       /* DEIN MOBILES STORY CSS */
+      .story-bg-mobile { display: block; }
+      .story-bg-desktop { display: none; }
+
       .license-story { height: 520vh; }
       .story-kicker { top: calc(var(--nav-height) + 0.95rem); left: 1.1rem; right: 1.1rem; font-size: 0.64rem; gap: 0.68rem; letter-spacing: 0.13em; white-space: nowrap; overflow: hidden; }
       .story-kicker::before { width: 36px; }
@@ -538,6 +568,13 @@
 
       <section id="license-story" class="license-story">
         <div class="story-sticky">
+          
+          <div class="story-bg-wrapper">
+            <div class="mpuhell.png"></div>
+            <div class="mpuhellmobile.png"></div>
+            <div class="story-bg-overlay"></div>
+          </div>
+
           <div class="story-noise"></div>
           <div class="story-final-glow"></div>
 
@@ -963,6 +1000,21 @@
         if (intro) intro.remove();
 
         initScrollStory();
+
+        // NEU: HINTERGRUND-FADE-IN BEIM SCROLLEN
+        gsap.fromTo(".story-bg-wrapper", 
+          { opacity: 0 },
+          {
+            opacity: 1,
+            scrollTrigger: {
+              trigger: "#license-story",
+              start: "top bottom", // Fade in startet, wenn die Story in Sichtweite kommt
+              end: "top top",      // Ist voll sichtbar, wenn die Story oben anschlägt
+              scrub: true
+            }
+          }
+        );
+
         ScrollTrigger.refresh();
       });
     });
