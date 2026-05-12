@@ -3,387 +3,400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MPU | Der Sturm legt sich</title>
+    <title>MPU | The Redacted Archive</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --font-serif: 'Cormorant Garamond', serif;
-            --font-sans: 'Inter', sans-serif;
-            --gold: #d4af37;
+            --bg-color: #050505;
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --text-main: #e0e0e0;
+            --text-muted: #555555;
+            --gold-reveal: #d4af37;
+            --redacted-black: #0a0a0a;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; /* Custom interaction cursor */
+            cursor: default;
         }
 
         body, html {
-            width: 100%;
-            height: 100%;
-            background-color: #030303;
-            overflow: hidden;
-            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            /* Verstecke den Standard-Scrollbar für den Cinematic Look */
+            scrollbar-width: none; 
         }
+        ::-webkit-scrollbar { display: none; }
 
-        /* Das WebGL Canvas - Der Ozean */
-        #webgl-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        /* UI Layer - Die Wahrheit bricht durch */
-        .ui-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            pointer-events: none; /* Events go through to WebGL */
-        }
-
-        .content-wrapper {
-            text-align: center;
-            padding: 0 2rem;
-            max-width: 800px;
-        }
-
-        .headline {
-            font-family: var(--font-serif);
-            font-size: clamp(3rem, 7vw, 6rem);
-            color: #ffffff;
-            font-weight: 500;
-            line-height: 1;
-            letter-spacing: -0.03em;
-            margin-bottom: 2rem;
-            /* Glassmorphism/Refraction Effect Text */
-            opacity: 0;
-            transform: translateY(100px) scale(0.9);
-            filter: blur(20px);
-            text-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        }
-
-        .subtext {
-            font-size: clamp(1rem, 1.2vw, 1.25rem);
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 300;
-            line-height: 1.6;
-            letter-spacing: 0.02em;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .highlight {
-            color: var(--gold);
-            font-style: italic;
-        }
-
-        /* Der interaktive Pulse / Cursor Tracker */
-        .cursor-light {
+        /* Das Partikel-Canvas für die brennende Asche */
+        #particle-canvas {
             position: fixed;
             top: 0;
             left: 0;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
-            mix-blend-mode: overlay;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
             z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: opacity 0.5s ease;
-            opacity: 0;
         }
 
-        .instruction {
+        /* Ambient Lighting im Hintergrund */
+        .ambient-light {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 80vw;
+            height: 80vh;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* * SPATIAL 3D SETUP 
+         * Die Scroll-Höhe bestimmt, wie weit wir "reinfahren"
+         */
+        .scroll-track {
+            height: 500vh; /* 5 Viewports zum Scrollen */
+            position: relative;
+        }
+
+        .viewport-3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            perspective: 1200px;
+            transform-style: preserve-3d;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .camera {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            /* GSAP wird den translateZ Wert dieser Kamera animieren */
+            transform: translateZ(0px); 
+        }
+
+        /* Die monolitischen Akten-Tafeln */
+        .glass-card {
             position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 90vw;
+            max-width: 800px;
+            padding: 4rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px) saturate(120%);
+            -webkit-backdrop-filter: blur(24px) saturate(120%);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            transform-style: preserve-3d;
+            /* Minimaler Schatten für räumliche Tiefe */
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.05);
+        }
+
+        /* Positionierung tief in den Raum hinein */
+        .card-1 { transform: translate(-50%, -50%) translateZ(0px); }
+        .card-2 { transform: translate(-50%, -50%) translateZ(-1500px); }
+        .card-3 { transform: translate(-50%, -50%) translateZ(-3000px); }
+
+        /* Typografie & Akten-Look */
+        .doc-header {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 3rem;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .headline {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 300;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+        }
+
+        /* THE REDACTED EFFECT */
+        .redacted-wrapper {
+            display: inline-block;
+            position: relative;
+        }
+
+        .redacted-text {
+            color: transparent;
+            background-color: var(--redacted-black);
+            padding: 0.1em 0.3em;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Der Text unter der Schwärzung */
+        .redacted-text::after {
+            content: attr(data-reveal);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-reveal);
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Der Hover-Reveal State (Wird per JS gesetzt) */
+        .redacted-text.revealed {
+            background-color: transparent;
+            color: transparent; /* Versteckt den Originaltext endgültig */
+        }
+        
+        .redacted-text.revealed::after {
+            opacity: 1;
+        }
+
+        /* Letzte Karte Call to Action */
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem 3rem;
+            background: #ffffff;
+            color: #000000;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 4px;
+            margin-top: 2rem;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            background: #e0e0e0;
+        }
+
+        .scroll-indicator {
+            position: fixed;
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255,255,255,0.3);
-            font-size: 0.8rem;
-            letter-spacing: 0.2em;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
             text-transform: uppercase;
+            letter-spacing: 0.2em;
             z-index: 10;
-            animation: pulse 2s infinite ease-in-out;
-            pointer-events: none;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.6; }
         }
     </style>
 </head>
 <body>
 
-    <div id="webgl-container"></div>
+    <div class="ambient-light"></div>
+    <canvas id="particle-canvas"></canvas>
 
-    <div class="cursor-light" id="cursor"></div>
-    <div class="instruction" id="instruction">Berühren, um den Sturm zu beruhigen</div>
+    <div class="scroll-indicator">Scroll to access archive</div>
 
-    <div class="ui-layer">
-        <div class="content-wrapper">
-            <h1 class="headline" id="headline">Der Sturm legt <span class="highlight">sich hier.</span></h1>
-            <p class="subtext" id="subtext">Keine Panikmache. Kein Behörden-Chaos. Nur eine präzise, diskrete Strategie für Ihre MPU.</p>
+    <div class="scroll-track"></div>
+
+    <div class="viewport-3d">
+        <div class="camera" id="camera">
+            
+            <div class="glass-card card-1">
+                <div class="doc-header">
+                    <span>Akte_Ref: 492-B // MPU_Verfahren</span>
+                    <span>Status: [Kritisch]</span>
+                </div>
+                <h1 class="headline">
+                    Entzug der Fahrerlaubnis aufgrund <span class="redacted-wrapper"><span class="redacted-text" data-reveal="systematischer Aufarbeitung">schwerwiegender Verfehlungen</span></span> im Straßenverkehr.
+                </h1>
+                <p style="color: var(--text-muted); line-height: 1.6;">
+                    Der Proband weist ein hohes Maß an Unsicherheit auf. Ein positives Gutachten ist ohne externe Intervention unwahrscheinlich. Fahren Sie mit der Maus über die geschwärzten Bereiche, um die Struktur freizulegen.
+                </p>
+            </div>
+
+            <div class="glass-card card-2">
+                <div class="doc-header">
+                    <span>Akte_Ref: 493-C // Prognose</span>
+                    <span>Status: [Ausstehend]</span>
+                </div>
+                <h2 class="headline">
+                    Ein <span class="redacted-wrapper"><span class="redacted-text" data-reveal="erfolgreicher Neustart">negatives Gutachten</span></span> ist unausweichlich, sofern keine <span class="redacted-wrapper"><span class="redacted-text" data-reveal="ehrliche Reflexion">Manipulationstaktik</span></span> angewendet wird.
+                </h2>
+                <p style="color: var(--text-muted); line-height: 1.6; max-width: 80%;">
+                    Wir arbeiten nicht mit Tricks oder leeren Versprechungen. Die Gutachter durchschauen Auswendiggelerntes sofort. Wir erarbeiten Ihre echte Geschichte.
+                </p>
+            </div>
+
+            <div class="glass-card card-3">
+                <div class="doc-header" style="border-bottom: none; margin-bottom: 1rem;">
+                    <span style="color: var(--gold-reveal)">Status: [Clearance Granted]</span>
+                </div>
+                <h2 class="headline" style="font-size: clamp(3rem, 6vw, 5rem);">
+                    Ihr Fahrplan.<br>Ihre Kontrolle.
+                </h2>
+                <p style="color: rgba(255,255,255,0.7); line-height: 1.6; max-width: 60%; margin-bottom: 2rem;">
+                    Keine Verurteilung. Absolute Diskretion. Lassen Sie uns Ihren Fall strukturiert analysieren und den Weg zurück zum Führerschein planen.
+                </p>
+                <a href="#" class="cta-btn">Diskretes Erstgespräch anfragen</a>
+            </div>
+
         </div>
     </div>
 
-    <script type="x-shader/x-vertex" id="vertexShader">
-        varying vec2 vUv;
-        void main() {
-            vUv = uv;
-            gl_Position = vec4(position, 1.0);
-        }
-    </script>
-
-    <script type="x-shader/x-fragment" id="fragmentShader">
-        uniform float u_time;
-        uniform vec2 u_resolution;
-        uniform vec2 u_mouse;
-        uniform float u_calm; // 0.0 = Sturm, 1.0 = Absolute Ruhe / Kymatik
-        
-        varying vec2 vUv;
-
-        // Pseudo-Random Generator
-        float random(vec2 st) {
-            return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
-        }
-
-        // Noise Function
-        float noise(vec2 st) {
-            vec2 i = floor(st);
-            vec2 f = fract(st);
-            float a = random(i);
-            float b = random(i + vec2(1.0, 0.0));
-            float c = random(i + vec2(0.0, 1.0));
-            float d = random(i + vec2(1.0, 1.0));
-            vec2 u = f * f * (3.0 - 2.0 * f);
-            return mix(a, b, u.x) + (c - a)* u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
-        }
-
-        // FBM (Fractional Brownian Motion) für den stürmischen Ozean
-        float fbm(vec2 st) {
-            float value = 0.0;
-            float amplitude = 0.5;
-            float frequency = 0.0;
-            for (int i = 0; i < 5; i++) {
-                value += amplitude * noise(st);
-                st *= 2.0;
-                amplitude *= 0.5;
-            }
-            return value;
-        }
-
-        // Berechnung des Fluids
-        float surfaceLogic(vec2 uv) {
-            // 1. STURM (Chaos)
-            vec2 p = uv * 3.0;
-            float storm = fbm(p + u_time * 0.4);
-            storm += fbm(p - u_time * 0.2) * 0.5;
-
-            // 2. KYMATIK (Die Strukturierte Ruhe / Harmonic Resonance)
-            vec2 center = vec2(0.5, 0.5);
-            vec2 toCenter = uv - center;
-            float dist = length(toCenter);
-            float angle = atan(toCenter.y, toCenter.x);
-            
-            // Ein wunderschönes, symmetrisches 6-faltiges Mandala aus Wasser
-            float harmony = sin(dist * 30.0 - u_time) * cos(angle * 6.0) * 0.1;
-            harmony += sin(dist * 15.0 - u_time * 0.5) * 0.05;
-            // Wenn völlig ruhig, wird die Oberfläche fast spiegelglatt
-            harmony *= (1.0 - u_calm * 0.8); 
-
-            // Blend zwischen Sturm und Harmonie basierend auf Nutzer-Interaktion (u_calm)
-            return mix(storm, harmony, smoothstep(0.0, 1.0, u_calm));
-        }
-
-        void main() {
-            vec2 uv = gl_FragCoord.xy / u_resolution.xy;
-            // Aspect Ratio Fix
-            uv.x *= u_resolution.x / u_resolution.y;
-            vec2 mouse_uv = u_mouse / u_resolution;
-            mouse_uv.x *= u_resolution.x / u_resolution.y;
-
-            // Berechne Normals für fotorealistisches Specular Lighting (Lichtbrechung)
-            vec2 eps = vec2(0.005, 0.0);
-            float h = surfaceLogic(uv);
-            float hX = surfaceLogic(uv + eps.xy);
-            float hY = surfaceLogic(uv + eps.yx);
-            
-            vec3 normal = normalize(vec3(h - hX, h - hY, 0.02)); // 0.02 = Tiefe/Glätte
-            
-            // Licht Setup (Klinisch, hochwertig, wie im Anwaltsbüro)
-            vec3 lightDir = normalize(vec3(0.5, 0.8, 1.0));
-            vec3 viewDir = vec3(0.0, 0.0, 1.0);
-            vec3 halfVector = normalize(lightDir + viewDir);
-
-            // Materialien (Tiefes Onyx/Obsidian)
-            vec3 baseColor = vec3(0.02, 0.02, 0.03); // Tiefschwarz mit einem Hauch Blau
-            
-            // Diffuse Lighting
-            float diff = max(dot(normal, lightDir), 0.0);
-            
-            // Specular Highlight (Der Glanz)
-            float spec = pow(max(dot(normal, halfVector), 0.0), 64.0); // Hoher exponent = nass/glänzend
-            
-            // Die Kymatik-Linien leuchten leicht golden/weiß, wenn es ruhig wird
-            vec3 specColor = mix(vec3(0.5, 0.6, 0.8), vec3(0.8, 0.7, 0.5), u_calm);
-
-            vec3 finalColor = baseColor + (diff * baseColor * 0.5) + (spec * specColor * 1.5);
-            
-            // Maus-Glow
-            float mouseDist = length(uv - mouse_uv);
-            float mouseGlow = exp(-mouseDist * 10.0) * 0.2 * u_calm;
-            finalColor += mouseGlow * vec3(1.0, 0.9, 0.7);
-
-            // Vignette für Dramatik
-            float vignette = uv.x * uv.y * (1.0 - uv.x) * (1.0 - uv.y);
-            finalColor *= pow(vignette, 0.1) * 2.5;
-
-            gl_FragColor = vec4(finalColor, 1.0);
-        }
-    </script>
-
     <script>
-        /**
-         * CORE LOGIC & WEBGL SETUP
-         */
-        const container = document.getElementById('webgl-container');
-        const instruction = document.getElementById('instruction');
-        const cursor = document.getElementById('cursor');
+        // 1. LENIS SMOOTH SCROLLING (Der Agentur-Standard für butterweiches Scrollen)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
 
-        // Scene, Camera, Renderer
-        const scene = new THREE.Scene();
-        const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Verbinde Lenis mit GSAP ScrollTrigger
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0, 0);
+
+        // 2. GSAP 3D SPATIAL CAMERA ANIMATION
+        gsap.registerPlugin(ScrollTrigger);
+
+        const camera = document.getElementById('camera');
         
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for perf
-        container.appendChild(renderer.domElement);
-
-        // Geometrie: Ein simples Plane, das den ganzen Screen füllt
-        const geometry = new THREE.PlaneGeometry(2, 2);
-
-        // Uniforms für den Shader
-        const uniforms = {
-            u_time: { value: 0.0 },
-            u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-            u_mouse: { value: new THREE.Vector2(window.innerWidth/2, window.innerHeight/2) },
-            u_calm: { value: 0.0 }
-        };
-
-        const material = new THREE.ShaderMaterial({
-            vertexShader: document.getElementById('vertexShader').textContent,
-            fragmentShader: document.getElementById('fragmentShader').textContent,
-            uniforms: uniforms
-        });
-
-        const mesh = new THREE.Mesh(geometry, material);
-        scene.add(mesh);
-
-        /**
-         * INTERACTION & BIO-FEEDBACK LOGIC
-         */
-        let targetCalm = 0.0;
-        let isInteracting = false;
-        let textRevealed = false;
-
-        const handleMove = (x, y) => {
-            isInteracting = true;
-            targetCalm = 1.0; // Initiiere die Beruhigung
-            
-            // Invertiere Y für WebGL Koordinatensystem
-            uniforms.u_mouse.value.x = x;
-            uniforms.u_mouse.value.y = window.innerHeight - y;
-
-            cursor.style.opacity = 1;
-            cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
-            
-            // Verstecke die Instruktion
-            gsap.to(instruction, { opacity: 0, duration: 1 });
-        };
-
-        window.addEventListener('mousemove', (e) => handleMove(e.clientX, e.clientY));
-        window.addEventListener('touchmove', (e) => handleMove(e.touches[0].clientX, e.touches[0].clientY));
-        window.addEventListener('touchstart', (e) => handleMove(e.touches[0].clientX, e.touches[0].clientY));
-
-        // Resize Handler
-        window.addEventListener('resize', () => {
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
-        });
-
-        /**
-         * CINEMATIC REVEAL (GSAP)
-         * Wird getriggert, sobald die Flüssigkeit sich beruhigt hat.
-         */
-        const revealContent = () => {
-            if (textRevealed) return;
-            textRevealed = true;
-
-            const tl = gsap.timeline();
-            
-            tl.to("#headline", {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                filter: "blur(0px)",
-                duration: 2.5,
-                ease: "expo.out"
-            })
-            .to("#subtext", {
-                opacity: 1,
-                y: 0,
-                duration: 2,
-                ease: "power3.out"
-            }, "-=1.5");
-        };
-
-        /**
-         * MAIN RENDER LOOP
-         */
-        const clock = new THREE.Clock();
-
-        const animate = () => {
-            requestAnimationFrame(animate);
-            
-            const delta = clock.getDelta();
-            uniforms.u_time.value += delta;
-
-            // LERP (Linear Interpolation) für den Calming-Effekt
-            // Wenn der Nutzer interagiert, steigt u_calm langsam auf 1.0
-            uniforms.u_calm.value += (targetCalm - uniforms.u_calm.value) * 0.02;
-
-            // Trigger Typography Reveal, wenn die Oberfläche fast glatt ist
-            if (uniforms.u_calm.value > 0.7 && !textRevealed) {
-                revealContent();
+        // Wir fahren von 0px Z bis +3200px Z tief in den Bildschirm hinein
+        gsap.to(camera, {
+            z: 3500, 
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".scroll-track",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1.5, // 1.5s Verzögerung für kinoreifes Gefühl
             }
+        });
 
-            // Wenn Maus stillsteht, ganz langsamer Rückfall ins Chaos (Optional, hier auskommentiert für dauerhafte Lösung)
-            // if(!isInteracting) targetCalm = 0.0;
+        // Die Scroll-Indikation ausblenden, sobald man scrollt
+        gsap.to(".scroll-indicator", {
+            opacity: 0,
+            scrollTrigger: {
+                trigger: ".scroll-track",
+                start: "1% top",
+                end: "5% top",
+                scrub: true
+            }
+        });
 
-            renderer.render(scene, camera);
-        };
+        // 3. CANVAS PARTICLE ENGINE (Golden Ash Effect)
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
 
-        animate();
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                // Explosion nach oben und leicht zur Seite
+                this.vx = (Math.random() - 0.5) * 4; 
+                this.vy = (Math.random() * -5) - 2; 
+                this.life = 1.0;
+                this.decay = Math.random() * 0.02 + 0.015;
+                this.size = Math.random() * 2 + 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= this.decay;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(212, 175, 55, ${this.life})`; // Gold
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i];
+                p.update();
+                p.draw();
+                if (p.life <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // 4. INTERACTION LOGIC (Burn the Redaction)
+        const redactedElements = document.querySelectorAll('.redacted-text');
+
+        redactedElements.forEach(el => {
+            el.addEventListener('mouseenter', (e) => {
+                if (el.classList.contains('revealed')) return; // Nur einmal brennen
+                
+                // Setze den Revealed State (CSS kümmert sich um die Text-Überblendung)
+                el.classList.add('revealed');
+
+                // Berechne die Position des Elements auf dem Bildschirm
+                const rect = el.getBoundingClientRect();
+                
+                // Spawne 150 Partikel aus der Box heraus
+                for(let i = 0; i < 150; i++) {
+                    const spawnX = rect.left + Math.random() * rect.width;
+                    const spawnY = rect.top + Math.random() * rect.height;
+                    particles.push(new Particle(spawnX, spawnY));
+                }
+            });
+        });
     </script>
 </body>
 </html>
