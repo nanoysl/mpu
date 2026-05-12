@@ -1,435 +1,1677 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MPU Experten | Der klare Fahrplan</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MPU Experten | Fahrplan zurück zum Führerschein</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-    <style>
-        :root {
-            --nav-height: 80px;
-            --dark-glass: rgba(20, 20, 20, 0.7);
-            --border-light: rgba(255, 255, 255, 0.15);
-            --text-muted: rgba(255, 255, 255, 0.5);
-            --accent: #ffffff;
-        }
+  <style>
+    :root {
+      --nav-height: 80px;
+      --page-pad: clamp(1.25rem, 4vw, 4.5rem);
+      --white-soft: rgba(255,255,255,0.74);
+      --white-muted: rgba(255,255,255,0.48);
+      --line: rgba(255,255,255,0.12);
+      --glass: rgba(255,255,255,0.07);
+      --glass-strong: rgba(255,255,255,0.12);
+      --black: #000;
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", sans-serif;
+    }
 
-        body, html {
-            width: 100%;
-            background-color: #000000;
-            color: #ffffff;
-            overflow-x: hidden; /* Scrollen nach unten ist jetzt erlaubt! */
-        }
+    html {
+      background: #000;
+      scroll-behavior: smooth;
+    }
 
-        /* Hintergrund-Wellen (Fixed) */
-        #line-waves-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    body {
+      width: 100%;
+      min-height: 100%;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
 
-        /* Navbar (Fixed) */
-        .navbar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 4vw; height: var(--nav-height);
-            border-bottom: 1px solid var(--border-light);
-            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-        }
-        .nav-logo { font-weight: 700; font-size: 1.2rem; letter-spacing: -0.02em; }
-        .nav-cta {
-            padding: 0.7rem 1.5rem; background: #ffffff; color: #000000;
-            text-decoration: none; border-radius: 100px; font-size: 0.85rem; font-weight: 600;
-            transition: transform 0.3s ease;
-        }
-        .nav-cta:hover { transform: scale(1.05); }
+    body.intro-lock {
+      height: 100vh;
+      overflow: hidden;
+    }
 
-        /* =========================================
-           1. INTRO (Der wilde Führerschein)
-           ========================================= */
-        #intro-container {
-            position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-            z-index: 9999; perspective: 1500px; pointer-events: none;
-        }
-        .intro-card {
-            width: 400px; height: 250px; background: linear-gradient(135deg, #e6c5d1 0%, #d8e0e8 100%);
-            border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.5);
-            padding: 20px; position: relative; opacity: 0;
-        }
-        .intro-photo { position: absolute; top: 40px; left: 20px; width: 80px; height: 100px; background: rgba(0,0,0,0.2); border-radius: 4px; }
-        .intro-lines { position: absolute; top: 40px; left: 120px; width: 240px; display: flex; flex-direction: column; gap: 12px; }
-        .i-line { height: 8px; background: rgba(0,0,0,0.15); border-radius: 4px; }
-        .i-line:nth-child(1) { width: 100%; } .i-line:nth-child(2) { width: 80%; } .i-line:nth-child(3) { width: 60%; } .i-line:nth-child(4) { width: 90%; }
-        .intro-eu { position: absolute; top: 15px; left: 15px; width: 40px; height: 25px; background: #003399; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #ffcc00; font-size: 10px; font-weight: bold; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-        /* =========================================
-           2. HERO SECTION
-           ========================================= */
-        .hero-section {
-            position: relative; z-index: 2; height: 100vh; display: flex;
-            align-items: center; justify-content: center; text-align: center;
-            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.6) 100%);
-        }
-        .hero-content { opacity: 0; padding: 0 2rem; }
-        .badge { display: inline-block; background: rgba(255,255,255,0.1); border: 1px solid var(--border-light); padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem; }
-        .headline { font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.5rem; max-width: 900px; margin-inline: auto; }
-        .subtext { font-size: clamp(1rem, 1.2vw, 1.2rem); color: var(--text-muted); max-width: 600px; line-height: 1.6; margin: 0 auto; }
+    /* =========================================
+       GLOBAL BACKGROUND
+       ========================================= */
 
-        /* =========================================
-           3. PREMIUM SCROLL STORY
-           ========================================= */
-        /* Der Wrapper sorgt für den Scroll-Raum (Pinned durch GSAP) */
-        .story-wrapper { position: relative; z-index: 2; width: 100%; }
-        
-        /* Das Container-Element, das "sticky" bleibt */
-        .story-pinned {
-            height: 100vh; width: 100%; position: relative;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
-            background: radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, #000000 100%);
-        }
+    #line-waves-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0;
+      pointer-events: none;
+      background: #000;
+    }
 
-        /* --- Die 3D Karte (Apple Keynote Style) --- */
-        .card-scene {
-            perspective: 2000px; position: absolute; z-index: 10;
-            width: 420px; height: 260px;
-        }
-        .story-card {
-            width: 100%; height: 100%; position: relative;
-            transform-style: preserve-3d;
-        }
-        .card-face {
-            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-            border-radius: 16px; border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(20px);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.1);
-            overflow: hidden; padding: 25px; display: flex; flex-direction: column;
-        }
-        .card-front { transform: rotateY(0deg); }
-        .card-back { transform: rotateY(180deg); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: rgba(25, 25, 25, 0.9); }
-        
-        /* Lichtreflex-Effekt beim Drehen */
-        .light-sweep {
-            position: absolute; top: -50%; bottom: -50%; width: 50px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: rotate(25deg); left: -100%; pointer-events: none; z-index: 5;
-        }
+    #line-waves-bg canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
 
-        /* Karten-UI Vorderseite */
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;}
-        .card-eu { display: flex; gap: 8px; align-items: center; font-size: 0.7rem; color: var(--text-muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
-        .card-eu span { background: #1a1a1a; padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
-        
-        .card-steps-list { display: flex; flex-direction: column; gap: 12px; flex-grow: 1; justify-content: center; }
-        .c-step { display: flex; align-items: center; gap: 12px; opacity: 0.2; transition: opacity 0.5s ease; }
-        .c-step.active { opacity: 1; }
-        .c-step-num { font-size: 0.7rem; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
-        .c-step-text { font-size: 0.9rem; font-weight: 500; }
+    .global-vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(0,0,0,0.1), rgba(0,0,0,0.72) 72%),
+        linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.82));
+    }
 
-        /* Karten-UI Rückseite */
-        .back-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; letter-spacing: 0.05em; color: var(--accent); }
-        .back-list { display: flex; flex-direction: column; gap: 15px; width: 100%; padding: 0 20px; }
-        .back-item { display: flex; justify-content: space-between; font-size: 0.85rem; color: rgba(255,255,255,0.8); border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
-        .back-status { color: #4ade80; font-weight: 600; }
+    #page-content {
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+    }
 
-        /* --- Text Container (Rechts & Links) --- */
-        .text-panel { position: absolute; width: 35vw; top: 50%; transform: translateY(-50%); z-index: 5; }
-        
-        .panel-right { right: 8vw; }
-        .panel-left { left: 8vw; opacity: 0; pointer-events: none; }
+    /* =========================================
+       1. INTRO: FÜHRERSCHEIN BLEIBT DRIN
+       ========================================= */
 
-        .text-block { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; opacity: 0; visibility: hidden; }
-        
-        .sup-title { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
-        .main-title { font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
-        .desc-text { font-size: 1.1rem; color: rgba(255,255,255,0.7); line-height: 1.6; }
+    #intro-container {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      perspective: 1500px;
+      pointer-events: none;
+      background: #000;
+    }
 
-        .final-cta { display: inline-block; margin-top: 2rem; padding: 1.2rem 2.5rem; background: #fff; color: #000; border-radius: 100px; font-weight: 600; text-decoration: none; transition: transform 0.3s; }
-        .final-cta:hover { transform: translateY(-3px); }
+    .intro-license-card {
+      width: min(400px, 82vw);
+      aspect-ratio: 1.6 / 1;
+      background: linear-gradient(135deg, #e6c5d1 0%, #d8e0e8 100%);
+      border-radius: 12px;
+      box-shadow:
+        0 30px 60px rgba(0,0,0,0.5),
+        inset 0 0 0 1px rgba(255,255,255,0.5);
+      padding: 20px;
+      position: relative;
+      transform-style: preserve-3d;
+      opacity: 0;
+      overflow: hidden;
+    }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .card-scene { width: 320px; height: 200px; }
-            .text-panel { width: 90vw; left: 5vw !important; right: auto; text-align: center; }
-            .panel-right { top: 75%; }
-            .panel-left { top: 75%; }
-            .main-title { font-size: 1.8rem; }
-            .c-step-text { font-size: 0.8rem; }
-        }
-    </style>
+    .intro-license-card::after {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: linear-gradient(
+        115deg,
+        transparent 0%,
+        transparent 36%,
+        rgba(255,255,255,0.55) 47%,
+        transparent 58%,
+        transparent 100%
+      );
+      transform: translateX(-40%) rotate(12deg);
+      opacity: 0.5;
+    }
+
+    .license-photo {
+      position: absolute;
+      top: 40px;
+      left: 20px;
+      width: 80px;
+      height: 100px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 4px;
+    }
+
+    .license-lines {
+      position: absolute;
+      top: 40px;
+      left: 120px;
+      width: 240px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .l-line {
+      height: 8px;
+      background: rgba(0,0,0,0.15);
+      border-radius: 4px;
+    }
+
+    .l-line:nth-child(1) { width: 100%; }
+    .l-line:nth-child(2) { width: 80%; }
+    .l-line:nth-child(3) { width: 60%; }
+    .l-line:nth-child(4) { width: 90%; }
+    .l-line:nth-child(5) { width: 40%; margin-top: 20px; }
+
+    .license-eu {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      width: 40px;
+      height: 25px;
+      background: #003399;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffcc00;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    /* =========================================
+       NAVBAR
+       ========================================= */
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      height: var(--nav-height);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 var(--page-pad);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(0,0,0,0.22);
+    }
+
+    .nav-logo {
+      font-weight: 800;
+      font-size: clamp(1rem, 1.5vw, 1.25rem);
+      letter-spacing: -0.04em;
+    }
+
+    .nav-cta {
+      padding: 0.82rem 1.9rem;
+      background: #fff;
+      color: #000;
+      border-radius: 100px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      transition: transform 0.3s ease, background 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px) scale(1.03);
+      background: #e9e9e9;
+    }
+
+    /* =========================================
+       2. HERO
+       ========================================= */
+
+    .hero-section {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: calc(var(--nav-height) + 2rem) var(--page-pad) 4rem;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      width: min(960px, 100%);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transform: translateY(2vh);
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+      padding: 0.48rem 1.1rem;
+      border-radius: 100px;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 2rem;
+      color: rgba(255,255,255,0.82);
+    }
+
+    .headline {
+      font-size: clamp(3.25rem, 7vw, 6.4rem);
+      font-weight: 900;
+      line-height: 1.02;
+      letter-spacing: -0.07em;
+      margin-bottom: 1.5rem;
+      max-width: 980px;
+      text-wrap: balance;
+      text-shadow: 0 16px 55px rgba(0,0,0,0.42);
+    }
+
+    .subtext {
+      font-size: clamp(1rem, 1.25vw, 1.22rem);
+      color: rgba(255,255,255,0.72);
+      max-width: 680px;
+      line-height: 1.65;
+      margin-bottom: 3rem;
+      text-wrap: balance;
+    }
+
+    .btn-primary {
+      padding: 1.18rem 3.4rem;
+      background: #fff;
+      color: #000;
+      font-weight: 800;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: background 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 22px 60px rgba(255,255,255,0.13);
+    }
+
+    .btn-primary:hover {
+      background: #e8e8e8;
+      transform: translateY(-3px);
+    }
+
+    /* =========================================
+       3. SCROLL STORY
+       ========================================= */
+
+    .license-story {
+      position: relative;
+      z-index: 3;
+      height: 520vh;
+      background:
+        radial-gradient(circle at 30% 38%, rgba(255,255,255,0.08), transparent 32%),
+        linear-gradient(to bottom, transparent, rgba(0,0,0,0.48) 8%, rgba(0,0,0,0.78) 45%, rgba(0,0,0,0.52));
+    }
+
+    .story-sticky {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      overflow: hidden;
+      perspective: 1600px;
+    }
+
+    .story-noise {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.34;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 70px 70px;
+      mask-image: radial-gradient(circle at center, black, transparent 76%);
+    }
+
+    .story-kicker {
+      position: absolute;
+      top: calc(var(--nav-height) + 2rem);
+      left: var(--page-pad);
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.62);
+    }
+
+    .story-kicker::before {
+      content: "";
+      width: 34px;
+      height: 1px;
+      background: rgba(255,255,255,0.4);
+    }
+
+    .story-copy {
+      position: absolute;
+      top: 50%;
+      z-index: 8;
+      width: min(430px, 34vw);
+      min-height: 380px;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .story-copy-right {
+      right: clamp(1.25rem, 7vw, 8rem);
+    }
+
+    .story-copy-left {
+      left: clamp(1.25rem, 7vw, 8rem);
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .step-copy {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+
+    .step-copy.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .step-eyebrow,
+    .final-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-bottom: 1rem;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: rgba(255,255,255,0.58);
+    }
+
+    .step-eyebrow::before,
+    .final-eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #fff;
+      box-shadow: 0 0 20px rgba(255,255,255,0.8);
+    }
+
+    .step-copy h2,
+    .story-copy-left h2 {
+      font-size: clamp(2rem, 3.4vw, 4.3rem);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+      margin-bottom: 1.1rem;
+      text-wrap: balance;
+    }
+
+    .step-copy p,
+    .story-copy-left p {
+      color: var(--white-soft);
+      line-height: 1.75;
+      font-size: clamp(0.98rem, 1.05vw, 1.12rem);
+      margin-bottom: 1.4rem;
+    }
+
+    .micro-list {
+      display: grid;
+      gap: 0.65rem;
+      color: rgba(255,255,255,0.68);
+      font-size: 0.94rem;
+      list-style: none;
+    }
+
+    .micro-list li {
+      display: flex;
+      gap: 0.65rem;
+      align-items: flex-start;
+    }
+
+    .micro-list li::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.85);
+      margin-top: 0.48rem;
+      flex: 0 0 auto;
+    }
+
+    .final-card-copy {
+      padding: clamp(1.35rem, 2vw, 2rem);
+      border: 1px solid rgba(255,255,255,0.14);
+      background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.035));
+      border-radius: 28px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.34);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+    }
+
+    .final-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.5rem;
+      padding: 0.98rem 1.45rem;
+      border-radius: 999px;
+      background: #fff;
+      color: #000;
+      font-weight: 800;
+      pointer-events: auto;
+    }
+
+    /* =========================================
+       SCROLL-LICENSE CARD
+       ========================================= */
+
+    .story-license-wrap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 7;
+      width: clamp(320px, 31vw, 500px);
+      aspect-ratio: 1.6 / 1;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .scroll-license-card {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+      border-radius: 26px;
+      will-change: transform;
+    }
+
+    .license-face {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      border-radius: 26px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      box-shadow:
+        0 36px 90px rgba(0,0,0,0.55),
+        inset 0 0 0 1px rgba(255,255,255,0.55);
+    }
+
+    .license-front {
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.8), transparent 18%),
+        linear-gradient(135deg, #f0c7d4 0%, #d8e3ef 46%, #c7d3e2 100%);
+      color: rgba(0,0,0,0.72);
+    }
+
+    .license-back {
+      transform: rotateY(180deg);
+      background:
+        radial-gradient(circle at 85% 12%, rgba(255,255,255,0.75), transparent 20%),
+        linear-gradient(135deg, #d6dce6 0%, #eed0dc 54%, #c9d9ef 100%);
+      color: rgba(0,0,0,0.76);
+    }
+
+    .license-shine {
+      position: absolute;
+      inset: -60%;
+      background: linear-gradient(
+        115deg,
+        transparent 0%,
+        transparent 38%,
+        rgba(255,255,255,0.72) 48%,
+        transparent 58%,
+        transparent 100%
+      );
+      transform: translateX(-34%) rotate(12deg);
+      opacity: 0.45;
+      mix-blend-mode: screen;
+      animation: licenseShine 5.8s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes licenseShine {
+      0% { transform: translateX(-36%) rotate(12deg); }
+      100% { transform: translateX(36%) rotate(12deg); }
+    }
+
+    .license-chip {
+      position: absolute;
+      top: 9.5%;
+      left: 7.5%;
+      width: 13%;
+      height: 10%;
+      border-radius: 7px;
+      background: #003399;
+      color: #ffcc00;
+      display: grid;
+      place-items: center;
+      font-size: clamp(0.55rem, 0.7vw, 0.72rem);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .license-title {
+      position: absolute;
+      top: 9%;
+      left: 25%;
+      right: 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-size: clamp(0.66rem, 0.78vw, 0.85rem);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .license-title span:last-child {
+      color: rgba(0,0,0,0.44);
+    }
+
+    .license-photo-real {
+      position: absolute;
+      left: 7.5%;
+      top: 28%;
+      width: 22%;
+      height: 43%;
+      border-radius: 12px;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.08)),
+        radial-gradient(circle at 50% 35%, rgba(0,0,0,0.24) 0 12%, transparent 13%),
+        radial-gradient(ellipse at 50% 75%, rgba(0,0,0,0.18) 0 28%, transparent 29%),
+        rgba(255,255,255,0.35);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+    }
+
+    .license-number {
+      position: absolute;
+      left: 7.5%;
+      bottom: 10%;
+      font-size: clamp(0.58rem, 0.68vw, 0.74rem);
+      letter-spacing: 0.12em;
+      color: rgba(0,0,0,0.44);
+      font-weight: 800;
+    }
+
+    .card-steps {
+      position: absolute;
+      top: 28%;
+      left: 35%;
+      right: 7%;
+      display: grid;
+      gap: clamp(0.45rem, 0.65vw, 0.7rem);
+    }
+
+    .card-step {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.65rem;
+      align-items: center;
+      padding: clamp(0.52rem, 0.75vw, 0.75rem);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.28);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+      opacity: 0.54;
+      transform: translateX(0);
+      transition: opacity 0.35s ease, transform 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .card-step.active {
+      opacity: 1;
+      transform: translateX(-8px);
+      background: rgba(255,255,255,0.58);
+      box-shadow:
+        inset 0 0 0 1px rgba(0,0,0,0.12),
+        0 12px 34px rgba(255,255,255,0.28);
+    }
+
+    .card-step b {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.78);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 0.72rem;
+      font-weight: 900;
+    }
+
+    .card-step span {
+      font-size: clamp(0.7rem, 0.86vw, 0.95rem);
+      line-height: 1.12;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .back-header {
+      position: absolute;
+      top: 10%;
+      left: 8%;
+      right: 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .back-header h3 {
+      font-size: clamp(1.1rem, 2vw, 2rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+    }
+
+    .back-header span {
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      opacity: 0.5;
+    }
+
+    .route-lines {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      top: 35%;
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .route-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: clamp(0.55rem, 0.78vw, 0.78rem) clamp(0.65rem, 0.9vw, 0.95rem);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.34);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+      font-weight: 900;
+      font-size: clamp(0.72rem, 0.86vw, 0.95rem);
+      letter-spacing: -0.03em;
+    }
+
+    .route-line small {
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      opacity: 0.48;
+      white-space: nowrap;
+    }
+
+    .barcode {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      bottom: 9%;
+      height: 11%;
+      border-radius: 8px;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(0,0,0,0.55) 0 3px,
+        transparent 3px 8px,
+        rgba(0,0,0,0.38) 8px 11px,
+        transparent 11px 16px
+      );
+      opacity: 0.42;
+    }
+
+    .story-final-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 4;
+      width: 42vw;
+      aspect-ratio: 1 / 1;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 66%);
+      transform: translate(-50%, -50%) scale(0.7);
+      opacity: 0;
+      pointer-events: none;
+      filter: blur(8px);
+    }
+
+    .story-progress {
+      position: absolute;
+      left: var(--page-pad);
+      right: var(--page-pad);
+      bottom: clamp(1.25rem, 3vh, 2rem);
+      z-index: 10;
+      height: 1px;
+      background: rgba(255,255,255,0.12);
+      overflow: hidden;
+    }
+
+    .story-progress-fill {
+      height: 100%;
+      width: 100%;
+      background: #fff;
+      transform: scaleX(0);
+      transform-origin: left center;
+      will-change: transform;
+    }
+
+    /* =========================================
+       FINAL SECTION
+       ========================================= */
+
+    .after-story {
+      position: relative;
+      z-index: 4;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: calc(var(--nav-height) + 4rem) var(--page-pad) 5rem;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(255,255,255,0.1), transparent 34%),
+        linear-gradient(to bottom, rgba(0,0,0,0.25), #000 75%);
+    }
+
+    .after-inner {
+      width: min(860px, 100%);
+      text-align: center;
+    }
+
+    .after-inner h2 {
+      font-size: clamp(2.5rem, 6vw, 6rem);
+      line-height: 0.98;
+      letter-spacing: -0.07em;
+      font-weight: 900;
+      margin-bottom: 1.2rem;
+      text-wrap: balance;
+    }
+
+    .after-inner p {
+      width: min(620px, 100%);
+      margin: 0 auto 2.2rem;
+      color: var(--white-soft);
+      line-height: 1.7;
+      font-size: clamp(1rem, 1.25vw, 1.18rem);
+    }
+
+    /* =========================================
+       RESPONSIVE
+       ========================================= */
+
+    @media (max-width: 768px) {
+      :root {
+        --nav-height: 72px;
+      }
+
+      .navbar {
+        padding: 0 1.1rem;
+      }
+
+      .nav-cta {
+        padding: 0.74rem 1rem;
+        font-size: 0.78rem;
+      }
+
+      .hero-section {
+        padding-left: 1.1rem;
+        padding-right: 1.1rem;
+      }
+
+      .headline {
+        font-size: clamp(3rem, 15vw, 4.8rem);
+      }
+
+      .subtext {
+        max-width: 94%;
+      }
+
+      .btn-primary {
+        width: min(320px, 100%);
+        padding: 1.1rem 1.5rem;
+      }
+
+      .license-story {
+        height: 500vh;
+      }
+
+      .story-kicker {
+        top: calc(var(--nav-height) + 1rem);
+        left: 1.1rem;
+        font-size: 0.64rem;
+      }
+
+      .story-license-wrap {
+        width: min(86vw, 370px);
+        top: 32%;
+      }
+
+      .story-copy {
+        top: auto;
+        left: 1.1rem;
+        right: 1.1rem;
+        bottom: 5rem;
+        width: auto;
+        min-height: 245px;
+        transform: none;
+      }
+
+      .story-copy-right,
+      .story-copy-left {
+        left: 1.1rem;
+        right: 1.1rem;
+      }
+
+      .step-copy h2,
+      .story-copy-left h2 {
+        font-size: clamp(2rem, 10vw, 3.15rem);
+      }
+
+      .step-copy p,
+      .story-copy-left p {
+        font-size: 0.96rem;
+        line-height: 1.62;
+      }
+
+      .micro-list {
+        display: none;
+      }
+
+      .final-card-copy {
+        border-radius: 22px;
+        padding: 1.2rem;
+      }
+
+      .story-progress {
+        left: 1.1rem;
+        right: 1.1rem;
+        bottom: 2rem;
+      }
+
+      .license-title {
+        font-size: 0.58rem;
+      }
+
+      .card-step {
+        gap: 0.45rem;
+        padding: 0.42rem;
+        border-radius: 11px;
+      }
+
+      .card-step b {
+        width: 1.45rem;
+        height: 1.45rem;
+        font-size: 0.6rem;
+      }
+
+      .card-step span {
+        font-size: 0.64rem;
+      }
+
+      .route-line {
+        font-size: 0.67rem;
+      }
+
+      .route-line small {
+        font-size: 0.55rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .license-shine {
+        animation: none;
+      }
+    }
+  </style>
 </head>
-<body>
 
-    <div id="line-waves-bg"></div>
+<body class="intro-lock">
 
+  <!-- INTRO -->
+  <div id="intro-container">
+    <div class="intro-license-card" id="intro-license">
+      <div class="license-eu">D</div>
+      <div class="license-photo"></div>
+      <div class="license-lines">
+        <div class="l-line"></div>
+        <div class="l-line"></div>
+        <div class="l-line"></div>
+        <div class="l-line"></div>
+        <div class="l-line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLOBAL BACKGROUND -->
+  <div id="line-waves-bg"></div>
+  <div class="global-vignette"></div>
+
+  <div id="page-content">
     <nav class="navbar">
-        <div class="nav-logo">MPU Experten</div>
-        <a href="#" class="nav-cta">Erstgespräch</a>
+      <div class="nav-logo">MPU Experten</div>
+      <a href="#kontakt" class="nav-cta">Erstgespräch anfragen</a>
     </nav>
 
-    <div id="intro-container">
-        <div class="intro-card" id="intro-license">
-            <div class="intro-eu">D</div>
-            <div class="intro-photo"></div>
-            <div class="intro-lines">
-                <div class="i-line"></div><div class="i-line"></div><div class="i-line"></div><div class="i-line"></div>
-            </div>
-        </div>
-    </div>
-
     <main>
-        
-        <section class="hero-section" id="hero">
-            <div class="hero-content" id="hero-content">
-                <div class="badge">Der Fahrplan zurück zur Mobilität</div>
-                <h1 class="headline">Reiten Sie die Welle<br>zurück zum Führerschein.</h1>
-                <p class="subtext">Keine unseriösen Versprechen, sondern klare Struktur. Wir begleiten Sie diskret und wissenschaftlich fundiert.</p>
+      <!-- HERO -->
+      <section id="hero-container" class="hero-section">
+        <div class="hero-content">
+          <div class="badge hero-reveal">Der Fahrplan zurück zur Mobilität</div>
+          <h1 class="headline hero-reveal">Reiten Sie die Welle<br />zurück zum Führerschein.</h1>
+          <p class="subtext hero-reveal">
+            Keine unseriösen Versprechen, sondern klare Struktur. Wir begleiten Sie diskret und wissenschaftlich fundiert durch den gesamten Prozess Ihrer MPU.
+          </p>
+          <a href="#license-story" class="btn-primary hero-reveal">Jetzt starten</a>
+        </div>
+      </section>
+
+      <!-- SCROLL STORY -->
+      <section id="license-story" class="license-story">
+        <div class="story-sticky">
+          <div class="story-noise"></div>
+          <div class="story-final-glow"></div>
+
+          <div class="story-kicker">Der Führerschein-Fahrplan</div>
+
+          <!-- RIGHT COPY: 4 Schritte -->
+          <div class="story-copy story-copy-right">
+            <article class="step-copy active">
+              <div class="step-eyebrow">01 / Analyse</div>
+              <h2>Erst verstehen, dann vorbereiten.</h2>
+              <p>
+                Wir starten nicht mit Standard-Antworten, sondern mit Ihrer echten Ausgangslage. Warum kam es zur MPU? Was erwartet die Begutachtung? Was muss sauber vorbereitet werden?
+              </p>
+              <ul class="micro-list">
+                <li>Alkohol, Punkte, Drogen oder andere Gründe sauber einordnen</li>
+                <li>Risiken erkennen, bevor sie im Gespräch problematisch werden</li>
+              </ul>
+            </article>
+
+            <article class="step-copy">
+              <div class="step-eyebrow">02 / Nachweise</div>
+              <h2>Fristen, Unterlagen und Nachweise im Blick.</h2>
+              <p>
+                Viele scheitern nicht am Willen, sondern an fehlender Struktur. Wir prüfen, welche Unterlagen, Abstinenznachweise und zeitlichen Schritte für Ihre Situation relevant sind.
+              </p>
+              <ul class="micro-list">
+                <li>Was muss vorliegen?</li>
+                <li>Was sollte frühzeitig geplant werden?</li>
+              </ul>
+            </article>
+
+            <article class="step-copy">
+              <div class="step-eyebrow">03 / Verhalten</div>
+              <h2>Keine auswendig gelernten Antworten.</h2>
+              <p>
+                Die MPU erkennt oberflächliche Erklärungen. Deshalb geht es um echtes Verständnis: Was hat sich verändert? Warum ist es glaubwürdig? Wie erklären Sie es klar und ruhig?
+              </p>
+              <ul class="micro-list">
+                <li>Reflexion statt Floskeln</li>
+                <li>Klare Sprache statt Panik im Gespräch</li>
+              </ul>
+            </article>
+
+            <article class="step-copy">
+              <div class="step-eyebrow">04 / Simulation</div>
+              <h2>Sicher ins Prüfungsgespräch gehen.</h2>
+              <p>
+                Zum Schluss wird aus Vorbereitung Sicherheit. Wir trainieren typische Gesprächssituationen, geben ehrliches Feedback und bringen Struktur in Ihre Antworten.
+              </p>
+              <ul class="micro-list">
+                <li>Realistische Gesprächssimulation</li>
+                <li>Feedback, Korrektur und finaler Fahrplan</li>
+              </ul>
+            </article>
+          </div>
+
+          <!-- LEFT COPY: Nach dem Flip -->
+          <div class="story-copy story-copy-left">
+            <div class="final-card-copy">
+              <div class="final-eyebrow">Rückseite / Ergebnis</div>
+              <h2>Wir drehen die MPU für Sie um.</h2>
+              <p>
+                Aus Unsicherheit wird ein klarer Plan. Aus Druck wird Vorbereitung. Aus einem unübersichtlichen Prozess wird ein strukturierter Weg zurück zur Mobilität.
+              </p>
+              <a href="#kontakt" class="final-cta">Kostenloses Erstgespräch anfragen</a>
             </div>
-        </section>
+          </div>
 
-        <section class="story-wrapper" id="story-trigger">
-            <div class="story-pinned">
-                
-                <div class="card-scene">
-                    <div class="story-card">
-                        <div class="light-sweep"></div>
-                        
-                        <div class="card-face card-front">
-                            <div class="card-header">
-                                <div class="card-eu"><span>EU</span> Fahrplan</div>
-                                <div style="color: rgba(255,255,255,0.3); font-size: 0.7rem;">ID: MPU-2026</div>
-                            </div>
-                            <div class="card-steps-list">
-                                <div class="c-step c-step-1"><div class="c-step-num">1</div><div class="c-step-text">Ausgangslage klären</div></div>
-                                <div class="c-step c-step-2"><div class="c-step-num">2</div><div class="c-step-text">Nachweise prüfen</div></div>
-                                <div class="c-step c-step-3"><div class="c-step-num">3</div><div class="c-step-text">Verhalten verstehen</div></div>
-                                <div class="c-step c-step-4"><div class="c-step-num">4</div><div class="c-step-text">Sicher ins Gespräch</div></div>
-                            </div>
-                        </div>
+          <!-- LICENSE CARD -->
+          <div class="story-license-wrap">
+            <div class="scroll-license-card">
+              <!-- FRONT -->
+              <div class="license-face license-front">
+                <div class="license-shine"></div>
+                <div class="license-chip">D</div>
 
-                        <div class="card-face card-back">
-                            <div class="back-title">Ihr MPU-Ergebnis</div>
-                            <div class="back-list">
-                                <div class="back-item"><span>Analyse</span> <span class="back-status">Abgeschlossen</span></div>
-                                <div class="back-item"><span>Strategie</span> <span class="back-status">Aktiv</span></div>
-                                <div class="back-item"><span>Nachweise</span> <span class="back-status">Geprüft</span></div>
-                                <div class="back-item"><span>Simulation</span> <span class="back-status">Bestanden</span></div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="license-title">
+                  <span>Führerschein</span>
+                  <span>MPU Fahrplan</span>
                 </div>
 
-                <div class="text-panel panel-right">
-                    <div class="text-block t-step-1">
-                        <div class="sup-title">Struktur statt Chaos</div>
-                        <h2 class="main-title">Ihr Weg beginnt nicht mit Glück.</h2>
-                        <p class="desc-text">Wir analysieren Ihre Akte präzise. Warum kam es zur MPU? Alkohol, Drogen oder Punkte? Wir schaffen sofortige Klarheit über Ihre Ausgangslage.</p>
-                    </div>
-                    <div class="text-block t-step-2">
-                        <div class="sup-title">Fristen & Dokumente</div>
-                        <h2 class="main-title">Wir ordnen das System für Sie.</h2>
-                        <p class="desc-text">Keine verpassten Deadlines. Wir klären exakt, welche Abstinenznachweise und Unterlagen Sie wirklich brauchen – und welche nicht.</p>
-                    </div>
-                    <div class="text-block t-step-3">
-                        <div class="sup-title">Wissenschaftliche Basis</div>
-                        <h2 class="main-title">Keine auswendig gelernten Sätze.</h2>
-                        <p class="desc-text">Der Gutachter durchschaut Phrasen. Wir arbeiten die echten Ursachen auf, damit Sie authentisch, stabil und überzeugend argumentieren.</p>
-                    </div>
-                    <div class="text-block t-step-4">
-                        <div class="sup-title">Die Prüfung</div>
-                        <h2 class="main-title">Sicher ins Gespräch gehen.</h2>
-                        <p class="desc-text">Wir simulieren das psychologische Gutachtergespräch unter Realbedingungen. Mit hartem Feedback, bis Sie zu 100% vorbereitet sind.</p>
-                    </div>
+                <div class="license-photo-real"></div>
+
+                <div class="card-steps">
+                  <div class="card-step active">
+                    <b>1</b>
+                    <span>Ausgangslage klären</span>
+                  </div>
+                  <div class="card-step">
+                    <b>2</b>
+                    <span>Nachweise & Fristen prüfen</span>
+                  </div>
+                  <div class="card-step">
+                    <b>3</b>
+                    <span>Verhalten verstehen</span>
+                  </div>
+                  <div class="card-step">
+                    <b>4</b>
+                    <span>Gespräch sicher trainieren</span>
+                  </div>
                 </div>
 
-                <div class="text-panel panel-left">
-                    <div class="sup-title">Der Perspektivwechsel</div>
-                    <h2 class="main-title">Wir drehen die MPU für Sie um.</h2>
-                    <p class="desc-text">Von quälender Unsicherheit zu einem klaren, abgehakten Plan. Begleitung auf Top-Niveau statt Alleingang.</p>
-                    <a href="#" class="final-cta">Kostenloses Erstgespräch</a>
+                <div class="license-number">MPU-2026 / STRUKTUR STATT PANIK</div>
+              </div>
+
+              <!-- BACK -->
+              <div class="license-face license-back">
+                <div class="license-shine"></div>
+
+                <div class="back-header">
+                  <h3>Ihr klarer<br />MPU-Plan</h3>
+                  <span>RÜCKSEITE</span>
                 </div>
 
+                <div class="route-lines">
+                  <div class="route-line">
+                    <span>Klarheit statt Unsicherheit</span>
+                    <small>OK</small>
+                  </div>
+                  <div class="route-line">
+                    <span>Vorbereitung statt Panik</span>
+                    <small>OK</small>
+                  </div>
+                  <div class="route-line">
+                    <span>Struktur statt Versprechen</span>
+                    <small>OK</small>
+                  </div>
+                  <div class="route-line">
+                    <span>Begleitung statt Alleingang</span>
+                    <small>OK</small>
+                  </div>
+                </div>
+
+                <div class="barcode"></div>
+              </div>
             </div>
-        </section>
+          </div>
 
-        <section style="height: 100vh; background: #000; display:flex; align-items:center; justify-content:center; border-top: 1px solid #333;">
-            <p style="color: #666;">Weitere Website Sections...</p>
-        </section>
+          <div class="story-progress">
+            <div class="story-progress-fill"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FINAL CTA -->
+      <section id="kontakt" class="after-story">
+        <div class="after-inner">
+          <h2>Bereit für den nächsten klaren Schritt?</h2>
+          <p>
+            Im Erstgespräch klären wir, wo Sie stehen, welche Vorbereitung sinnvoll ist und wie Ihr Weg zurück zum Führerschein strukturiert aussehen kann.
+          </p>
+          <a href="#" class="btn-primary">Erstgespräch anfragen</a>
+        </div>
+      </section>
     </main>
+  </div>
 
-    <script type="module">
-        import { Renderer, Program, Mesh, Triangle } from 'https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm';
+  <script type="module">
+    import { Renderer, Program, Mesh, Triangle } from "https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm";
 
-        // GSAP Plugins registrieren
-        gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger);
 
-        /* =========================================================
-           1. OGL SHADER SETUP (ReactBits)
-           ========================================================= */
-        const vertexShader = `attribute vec2 uv; attribute vec2 position; varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position, 0, 1); }`;
-        const fragmentShader = `
-            precision highp float;
-            uniform float uTime; uniform vec3 uResolution; uniform float uSpeed; uniform float uInnerLines; uniform float uOuterLines; uniform float uWarpIntensity; uniform float uRotation; uniform float uEdgeFadeWidth; uniform float uColorCycleSpeed; uniform float uBrightness; uniform vec3 uColor1; uniform vec3 uColor2; uniform vec3 uColor3; uniform vec2 uMouse; uniform float uMouseInfluence; uniform bool uEnableMouse;
-            #define HALF_PI 1.5707963
-            float hashF(float n) { return fract(sin(n * 127.1) * 43758.5453123); }
-            float smoothNoise(float x) { float i = floor(x); float f = fract(x); float u = f * f * (3.0 - 2.0 * f); return mix(hashF(i), hashF(i + 1.0), u); }
-            float displaceA(float coord, float t) { float result = sin(coord * 2.123) * 0.2; result += sin(coord * 3.234 + t * 4.345) * 0.1; result += sin(coord * 0.589 + t * 0.934) * 0.5; return result; }
-            float displaceB(float coord, float t) { float result = sin(coord * 1.345) * 0.3; result += sin(coord * 2.734 + t * 3.345) * 0.2; result += sin(coord * 0.189 + t * 0.934) * 0.3; return result; }
-            vec2 rotate2D(vec2 p, float angle) { float c = cos(angle); float s = sin(angle); return vec2(p.x * c - p.y * s, p.x * s + p.y * c); }
-            void main() {
-                vec2 coords = gl_FragCoord.xy / uResolution.xy; coords = coords * 2.0 - 1.0; coords = rotate2D(coords, uRotation);
-                float halfT = uTime * uSpeed * 0.5; float fullT = uTime * uSpeed; float mouseWarp = 0.0;
-                if (uEnableMouse) { vec2 mPos = rotate2D(uMouse * 2.0 - 1.0, uRotation); float mDist = length(coords - mPos); mouseWarp = uMouseInfluence * exp(-mDist * mDist * 4.0); }
-                float warpAx = coords.x + displaceA(coords.y, halfT) * uWarpIntensity + mouseWarp; float warpAy = coords.y - displaceA(coords.x * cos(fullT) * 1.235, halfT) * uWarpIntensity; float warpBx = coords.x + displaceB(coords.y, halfT) * uWarpIntensity + mouseWarp; float warpBy = coords.y - displaceB(coords.x * sin(fullT) * 1.235, halfT) * uWarpIntensity;
-                vec2 fieldA = vec2(warpAx, warpAy); vec2 fieldB = vec2(warpBx, warpBy); vec2 blended = mix(fieldA, fieldB, mix(fieldA, fieldB, 0.5));
-                float fadeTop = smoothstep(uEdgeFadeWidth, uEdgeFadeWidth + 0.4, blended.y); float fadeBottom = smoothstep(-uEdgeFadeWidth, -(uEdgeFadeWidth + 0.4), blended.y); float vMask = 1.0 - max(fadeTop, fadeBottom);
-                float tileCount = mix(uOuterLines, uInnerLines, vMask); float scaledY = blended.y * tileCount; float nY = smoothNoise(abs(scaledY));
-                float ridge = pow(step(abs(nY - blended.x) * 2.0, HALF_PI) * cos(2.0 * (nY - blended.x)), 5.0);
-                float lines = 0.0; for (float i = 1.0; i < 3.0; i += 1.0) { lines += pow(max(fract(scaledY), fract(-scaledY)), i * 2.0); }
-                float pattern = vMask * lines; float cycleT = fullT * uColorCycleSpeed;
-                float rChannel = (pattern + lines * ridge) * (cos(blended.y + cycleT * 0.234) * 0.5 + 1.0); float gChannel = (pattern + vMask * ridge) * (sin(blended.x + cycleT * 1.745) * 0.5 + 1.0); float bChannel = (pattern + lines * ridge) * (cos(blended.x + cycleT * 0.534) * 0.5 + 1.0);
-                vec3 col = (rChannel * uColor1 + gChannel * uColor2 + bChannel * uColor3) * uBrightness; float alpha = clamp(length(col), 0.0, 1.0);
-                gl_FragColor = vec4(col, alpha);
-            }
-        `;
+    /* =========================================================
+       LINE WAVES BACKGROUND
+       ========================================================= */
 
-        function hexToVec3(hex) { const h = hex.replace('#', ''); return [parseInt(h.slice(0, 2), 16) / 255, parseInt(h.slice(2, 4), 16) / 255, parseInt(h.slice(4, 6), 16) / 255]; }
-        const config = { speed: 0.3, innerLineCount: 32, outerLineCount: 36, warpIntensity: 1, rotation: -45, edgeFadeWidth: 0, colorCycleSpeed: 1, brightness: 0.2, color1: "#ffffff", color2: "#ffffff", color3: "#ffffff", enableMouseInteraction: true, mouseInfluence: 2 };
+    const vertexShader = `
+      attribute vec2 uv;
+      attribute vec2 position;
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = vec4(position, 0, 1);
+      }
+    `;
 
-        const container = document.getElementById('line-waves-bg');
-        const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
-        const gl = renderer.gl; gl.clearColor(0, 0, 0, 0); container.appendChild(gl.canvas);
+    const fragmentShader = `
+      precision highp float;
 
-        let currentMouse = [0.5, 0.5]; let targetMouse = [0.5, 0.5];
-        function resize() { renderer.setSize(container.offsetWidth, container.offsetHeight); if (window.oglProgram) window.oglProgram.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height]; }
-        window.addEventListener('resize', resize);
+      uniform float uTime;
+      uniform vec3 uResolution;
+      uniform float uSpeed;
+      uniform float uInnerLines;
+      uniform float uOuterLines;
+      uniform float uWarpIntensity;
+      uniform float uRotation;
+      uniform float uEdgeFadeWidth;
+      uniform float uColorCycleSpeed;
+      uniform float uBrightness;
+      uniform vec3 uColor1;
+      uniform vec3 uColor2;
+      uniform vec3 uColor3;
+      uniform vec2 uMouse;
+      uniform float uMouseInfluence;
+      uniform bool uEnableMouse;
 
-        const geometry = new Triangle(gl);
-        window.oglProgram = new Program(gl, { // Global gemacht für GSAP ScrollTrigger
-            vertex: vertexShader, fragment: fragmentShader,
-            uniforms: {
-                uTime: { value: 0 }, uResolution: { value: [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height] },
-                uSpeed: { value: config.speed }, uInnerLines: { value: config.innerLineCount }, uOuterLines: { value: config.outerLineCount },
-                uWarpIntensity: { value: config.warpIntensity }, uRotation: { value: (config.rotation * Math.PI) / 180 }, uEdgeFadeWidth: { value: config.edgeFadeWidth },
-                uColorCycleSpeed: { value: config.colorCycleSpeed }, uBrightness: { value: config.brightness }, uColor1: { value: hexToVec3(config.color1) },
-                uColor2: { value: hexToVec3(config.color2) }, uColor3: { value: hexToVec3(config.color3) }, uMouse: { value: new Float32Array([0.5, 0.5]) },
-                uMouseInfluence: { value: config.mouseInfluence }, uEnableMouse: { value: config.enableMouseInteraction }
-            }
-        });
-        const mesh = new Mesh(gl, { geometry, program: window.oglProgram }); resize();
+      #define HALF_PI 1.5707963
 
-        if (config.enableMouseInteraction) {
-            gl.canvas.addEventListener('mousemove', (e) => { const rect = gl.canvas.getBoundingClientRect(); targetMouse = [(e.clientX - rect.left) / rect.width, 1.0 - (e.clientY - rect.top) / rect.height]; });
-            gl.canvas.addEventListener('mouseleave', () => { targetMouse = [0.5, 0.5]; });
+      float hashF(float n) {
+        return fract(sin(n * 127.1) * 43758.5453123);
+      }
+
+      float smoothNoise(float x) {
+        float i = floor(x);
+        float f = fract(x);
+        float u = f * f * (3.0 - 2.0 * f);
+        return mix(hashF(i), hashF(i + 1.0), u);
+      }
+
+      float displaceA(float coord, float t) {
+        float result = sin(coord * 2.123) * 0.2;
+        result += sin(coord * 3.234 + t * 4.345) * 0.1;
+        result += sin(coord * 0.589 + t * 0.934) * 0.5;
+        return result;
+      }
+
+      float displaceB(float coord, float t) {
+        float result = sin(coord * 1.345) * 0.3;
+        result += sin(coord * 2.734 + t * 3.345) * 0.2;
+        result += sin(coord * 0.189 + t * 0.934) * 0.3;
+        return result;
+      }
+
+      vec2 rotate2D(vec2 p, float angle) {
+        float c = cos(angle);
+        float s = sin(angle);
+        return vec2(p.x * c - p.y * s, p.x * s + p.y * c);
+      }
+
+      void main() {
+        vec2 coords = gl_FragCoord.xy / uResolution.xy;
+        coords = coords * 2.0 - 1.0;
+        coords = rotate2D(coords, uRotation);
+
+        float halfT = uTime * uSpeed * 0.5;
+        float fullT = uTime * uSpeed;
+
+        float mouseWarp = 0.0;
+        if (uEnableMouse) {
+          vec2 mPos = rotate2D(uMouse * 2.0 - 1.0, uRotation);
+          float mDist = length(coords - mPos);
+          mouseWarp = uMouseInfluence * exp(-mDist * mDist * 4.0);
         }
-        function update(time) {
-            requestAnimationFrame(update); window.oglProgram.uniforms.uTime.value = time * 0.001;
-            if (config.enableMouseInteraction) { currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]); currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]); window.oglProgram.uniforms.uMouse.value[0] = currentMouse[0]; window.oglProgram.uniforms.uMouse.value[1] = currentMouse[1]; }
-            renderer.render({ scene: mesh });
+
+        float warpAx = coords.x + displaceA(coords.y, halfT) * uWarpIntensity + mouseWarp;
+        float warpAy = coords.y - displaceA(coords.x * cos(fullT) * 1.235, halfT) * uWarpIntensity;
+        float warpBx = coords.x + displaceB(coords.y, halfT) * uWarpIntensity + mouseWarp;
+        float warpBy = coords.y - displaceB(coords.x * sin(fullT) * 1.235, halfT) * uWarpIntensity;
+
+        vec2 fieldA = vec2(warpAx, warpAy);
+        vec2 fieldB = vec2(warpBx, warpBy);
+        vec2 blended = mix(fieldA, fieldB, mix(fieldA, fieldB, 0.5));
+
+        float fadeTop = smoothstep(uEdgeFadeWidth, uEdgeFadeWidth + 0.4, blended.y);
+        float fadeBottom = smoothstep(-uEdgeFadeWidth, -(uEdgeFadeWidth + 0.4), blended.y);
+        float vMask = 1.0 - max(fadeTop, fadeBottom);
+
+        float tileCount = mix(uOuterLines, uInnerLines, vMask);
+        float scaledY = blended.y * tileCount;
+        float nY = smoothNoise(abs(scaledY));
+
+        float ridge = pow(
+          step(abs(nY - blended.x) * 2.0, HALF_PI) * cos(2.0 * (nY - blended.x)),
+          5.0
+        );
+
+        float lines = 0.0;
+        for (float i = 1.0; i < 3.0; i += 1.0) {
+          lines += pow(max(fract(scaledY), fract(-scaledY)), i * 2.0);
         }
-        requestAnimationFrame(update);
 
-        /* =========================================================
-           2. GSAP ANIMATIONEN (Intro + Scroll Story)
-           ========================================================= */
-        window.addEventListener('load', () => {
-            
-            // --- A. INTRO ANIMATION ---
-            const introTl = gsap.timeline();
-            introTl.fromTo("#intro-license", 
-                { z: -2000, rotationY: 720, rotationZ: -45, opacity: 0 },
-                { z: 0, rotationY: 0, rotationZ: 0, opacity: 1, duration: 1.5, ease: "power3.out" }
-            )
-            .to("#intro-license", { duration: 0.5 }) 
-            .to("#intro-license", { scale: 4, rotationY: 360, filter: "blur(40px)", opacity: 0, duration: 1.2, ease: "power2.in" })
-            .to("#hero-content", { opacity: 1, y: -20, duration: 1.5, ease: "power2.out" }, "-=0.5")
-            .add(() => { document.getElementById('intro-container').remove(); }); // DOM aufräumen
+        float pattern = vMask * lines;
 
-            // --- B. SCROLL STORY ANIMATION ---
-            let mm = gsap.matchMedia();
+        float cycleT = fullT * uColorCycleSpeed;
+        float rChannel = (pattern + lines * ridge) * (cos(blended.y + cycleT * 0.234) * 0.5 + 1.0);
+        float gChannel = (pattern + vMask * ridge) * (sin(blended.x + cycleT * 1.745) * 0.5 + 1.0);
+        float bChannel = (pattern + lines * ridge) * (cos(blended.x + cycleT * 0.534) * 0.5 + 1.0);
 
-            // Desktop Logik (Horizontaler Wechsel)
-            mm.add("(min-width: 1025px)", () => {
-                const storyTl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: "#story-trigger",
-                        start: "top top",     // Startet wenn Section oben andockt
-                        end: "+=500%",        // Scroll-Länge: 5 Viewport-Höhen
-                        scrub: 1,             // Weiches Scrubbing
-                        pin: true             // Hält die Ansicht fest
-                    }
-                });
+        vec3 col = (rChannel * uColor1 + gChannel * uColor2 + bChannel * uColor3) * uBrightness;
+        float alpha = clamp(length(col), 0.0, 1.0);
 
-                // 1. Hero ausblenden, Wellen beruhigen, Karte aus der Tiefe holen
-                storyTl.to("#hero-content", { opacity: 0, y: -100, duration: 1 })
-                       .to(window.oglProgram.uniforms.uSpeed, { value: 0.05, duration: 1 }, "<") // Wellen langsam!
-                       .fromTo(".card-scene", { z: -1000, opacity: 0, x: "-25vw", rotationY: 15 }, { z: 0, opacity: 1, rotationY: 0, duration: 1.5, ease: "power1.out" }, "<0.5")
-                       .to(".t-step-1", { opacity: 1, autoAlpha: 1, duration: 0.5 }, "<0.5")
-                       .to(".c-step-1", { opacity: 1, duration: 0.2 }, "<");
+        gl_FragColor = vec4(col, alpha);
+      }
+    `;
 
-                // 2. Durch die Schritte iterieren
-                // Step 2
-                storyTl.to(".t-step-1", { opacity: 0, autoAlpha: 0, y: -30, duration: 0.5 }, "+=1")
-                       .to(".c-step-1", { opacity: 0.2, duration: 0.2 }, "<")
-                       .fromTo(".t-step-2", { opacity: 0, y: 30 }, { opacity: 1, autoAlpha: 1, y: 0, duration: 0.5 }, "<0.2")
-                       .to(".c-step-2", { opacity: 1, duration: 0.2 }, "<");
-                // Step 3
-                storyTl.to(".t-step-2", { opacity: 0, autoAlpha: 0, y: -30, duration: 0.5 }, "+=1")
-                       .to(".c-step-2", { opacity: 0.2, duration: 0.2 }, "<")
-                       .fromTo(".t-step-3", { opacity: 0, y: 30 }, { opacity: 1, autoAlpha: 1, y: 0, duration: 0.5 }, "<0.2")
-                       .to(".c-step-3", { opacity: 1, duration: 0.2 }, "<");
-                // Step 4
-                storyTl.to(".t-step-3", { opacity: 0, autoAlpha: 0, y: -30, duration: 0.5 }, "+=1")
-                       .to(".c-step-3", { opacity: 0.2, duration: 0.2 }, "<")
-                       .fromTo(".t-step-4", { opacity: 0, y: 30 }, { opacity: 1, autoAlpha: 1, y: 0, duration: 0.5 }, "<0.2")
-                       .to(".c-step-4", { opacity: 1, duration: 0.2 }, "<");
+    function hexToVec3(hex) {
+      const h = hex.replace("#", "");
+      return [
+        parseInt(h.slice(0, 2), 16) / 255,
+        parseInt(h.slice(2, 4), 16) / 255,
+        parseInt(h.slice(4, 6), 16) / 255
+      ];
+    }
 
-                // 3. WENDEPUNKT: In die Mitte fahren, Text rechts weg
-                storyTl.to(".t-step-4", { opacity: 0, autoAlpha: 0, x: 50, duration: 1 }, "+=1")
-                       .to(".card-scene", { x: "0vw", scale: 1.1, duration: 1.5, ease: "power2.inOut" }, "<");
+    const config = {
+      speed: 0.3,
+      innerLineCount: 32,
+      outerLineCount: 36,
+      warpIntensity: 1,
+      rotation: -45,
+      edgeFadeWidth: 0,
+      colorCycleSpeed: 1,
+      brightness: 0.2,
+      color1: "#ffffff",
+      color2: "#ffffff",
+      color3: "#ffffff",
+      enableMouseInteraction: true,
+      mouseInfluence: 2
+    };
 
-                // 4. FLIP & Lichteffekt
-                storyTl.to(".story-card", { rotationY: 180, duration: 1.5, ease: "power2.inOut" })
-                       .to(".light-sweep", { left: "200%", duration: 1 }, "<0.2");
+    const container = document.getElementById("line-waves-bg");
+    const renderer = new Renderer({
+      alpha: true,
+      premultipliedAlpha: false,
+      dpr: Math.min(2, window.devicePixelRatio || 1)
+    });
 
-                // 5. Auf die rechte Seite fahren, Finaler Text kommt von links
-                storyTl.to(".card-scene", { x: "20vw", scale: 1, duration: 1.5, ease: "power2.inOut" }, "+=0.2")
-                       .to(".panel-left", { opacity: 1, autoAlpha: 1, duration: 1 }, "<0.5")
-                       .to({}, { duration: 1 }); // Puffer am Ende
-            });
+    const gl = renderer.gl;
+    gl.clearColor(0, 0, 0, 0);
+    gl.canvas.setAttribute("aria-hidden", "true");
+    container.appendChild(gl.canvas);
 
-            // Mobile Logik (Alles bleibt vertikal zentriert, kein X-Shift)
-            mm.add("(max-width: 1024px)", () => {
-                const storyTl = gsap.timeline({
-                    scrollTrigger: { trigger: "#story-trigger", start: "top top", end: "+=400%", scrub: 1, pin: true }
-                });
+    let currentMouse = [0.5, 0.5];
+    let targetMouse = [0.5, 0.5];
+    let program;
 
-                storyTl.to("#hero-content", { opacity: 0, y: -50, duration: 1 })
-                       .to(window.oglProgram.uniforms.uSpeed, { value: 0.05, duration: 1 }, "<")
-                       .fromTo(".card-scene", { z: -500, opacity: 0, y: "-10vh" }, { z: 0, opacity: 1, y: "-20vh", duration: 1.5 }, "<0.5")
-                       .to(".t-step-1", { opacity: 1, autoAlpha: 1, duration: 0.5 }, "<0.5")
-                       .to(".c-step-1", { opacity: 1, duration: 0.2 }, "<");
+    function handleMouseMove(e) {
+      targetMouse = [
+        e.clientX / window.innerWidth,
+        1.0 - e.clientY / window.innerHeight
+      ];
+    }
 
-                // Kurz iterieren für Mobile
-                storyTl.to(".t-step-1", { opacity: 0, autoAlpha: 0, duration: 0.5 }, "+=1")
-                       .to(".c-step-1", { opacity: 0.2 }, "<").fromTo(".t-step-2", { opacity: 0 }, { opacity: 1, autoAlpha: 1, duration: 0.5 }, "<").to(".c-step-2", { opacity: 1 }, "<");
-                storyTl.to(".t-step-2", { opacity: 0, autoAlpha: 0, duration: 0.5 }, "+=1")
-                       .to(".c-step-2", { opacity: 0.2 }, "<").fromTo(".t-step-3", { opacity: 0 }, { opacity: 1, autoAlpha: 1, duration: 0.5 }, "<").to(".c-step-3", { opacity: 1 }, "<");
-                storyTl.to(".t-step-3", { opacity: 0, autoAlpha: 0, duration: 0.5 }, "+=1")
-                       .to(".c-step-3", { opacity: 0.2 }, "<").fromTo(".t-step-4", { opacity: 0 }, { opacity: 1, autoAlpha: 1, duration: 0.5 }, "<").to(".c-step-4", { opacity: 1 }, "<");
+    function handleMouseLeave() {
+      targetMouse = [0.5, 0.5];
+    }
 
-                // Flip auf der Stelle
-                storyTl.to(".t-step-4", { opacity: 0, autoAlpha: 0, duration: 1 }, "+=1")
-                       .to(".story-card", { rotationY: 180, duration: 1.5, ease: "power2.inOut" })
-                       .to(".light-sweep", { left: "200%", duration: 1 }, "<0.2")
-                       .to(".panel-left", { opacity: 1, autoAlpha: 1, duration: 1 }, "<0.5");
-            });
+    function resize() {
+      renderer.setSize(container.offsetWidth, container.offsetHeight);
+      if (program) {
+        program.uniforms.uResolution.value = [
+          gl.canvas.width,
+          gl.canvas.height,
+          gl.canvas.width / gl.canvas.height
+        ];
+      }
+    }
+
+    window.addEventListener("resize", resize);
+
+    const geometry = new Triangle(gl);
+    const rotationRad = (config.rotation * Math.PI) / 180;
+
+    program = new Program(gl, {
+      vertex: vertexShader,
+      fragment: fragmentShader,
+      uniforms: {
+        uTime: { value: 0 },
+        uResolution: { value: [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height] },
+        uSpeed: { value: config.speed },
+        uInnerLines: { value: config.innerLineCount },
+        uOuterLines: { value: config.outerLineCount },
+        uWarpIntensity: { value: config.warpIntensity },
+        uRotation: { value: rotationRad },
+        uEdgeFadeWidth: { value: config.edgeFadeWidth },
+        uColorCycleSpeed: { value: config.colorCycleSpeed },
+        uBrightness: { value: config.brightness },
+        uColor1: { value: hexToVec3(config.color1) },
+        uColor2: { value: hexToVec3(config.color2) },
+        uColor3: { value: hexToVec3(config.color3) },
+        uMouse: { value: new Float32Array([0.5, 0.5]) },
+        uMouseInfluence: { value: config.mouseInfluence },
+        uEnableMouse: { value: config.enableMouseInteraction }
+      }
+    });
+
+    const mesh = new Mesh(gl, { geometry, program });
+    resize();
+
+    if (config.enableMouseInteraction) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    function update(time) {
+      requestAnimationFrame(update);
+
+      program.uniforms.uTime.value = time * 0.001;
+
+      if (config.enableMouseInteraction) {
+        currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]);
+        currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]);
+
+        program.uniforms.uMouse.value[0] = currentMouse[0];
+        program.uniforms.uMouse.value[1] = currentMouse[1];
+      }
+
+      renderer.render({ scene: mesh });
+    }
+
+    requestAnimationFrame(update);
+
+    /* =========================================================
+       SCROLL STORY
+       ========================================================= */
+
+    function initScrollStory() {
+      const card = document.querySelector(".story-license-wrap");
+      const rightCopy = document.querySelector(".story-copy-right");
+      const leftCopy = document.querySelector(".story-copy-left");
+      const finalGlow = document.querySelector(".story-final-glow");
+      const progressFill = document.querySelector(".story-progress-fill");
+      const stepCopies = gsap.utils.toArray(".step-copy");
+      const cardSteps = gsap.utils.toArray(".card-step");
+
+      let activeStep = -1;
+      let finalMode = false;
+
+      function setActiveStep(index) {
+        if (index === activeStep) return;
+        activeStep = index;
+
+        stepCopies.forEach((el, i) => {
+          el.classList.toggle("active", i === index);
         });
-    </script>
+
+        cardSteps.forEach((el, i) => {
+          el.classList.toggle("active", i === index);
+        });
+      }
+
+      function updateStoryState(progress) {
+        if (progressFill) {
+          progressFill.style.transform = `scaleX(${progress})`;
+        }
+
+        const stepProgress = Math.min(progress, 0.58) / 0.58;
+        const nextStep = Math.min(3, Math.max(0, Math.floor(stepProgress * 4)));
+        setActiveStep(nextStep);
+
+        const nextFinalMode = progress > 0.64;
+        if (nextFinalMode !== finalMode) {
+          finalMode = nextFinalMode;
+          document.getElementById("license-story").classList.toggle("is-final", finalMode);
+        }
+      }
+
+      const mm = gsap.matchMedia();
+
+      mm.add("(min-width: 769px)", () => {
+        gsap.set(card, {
+          xPercent: -50,
+          yPercent: -50,
+          x: () => -window.innerWidth * 0.28,
+          y: 0,
+          rotationY: -8,
+          rotationZ: -2,
+          scale: 1
+        });
+
+        gsap.set(rightCopy, { autoAlpha: 1, x: 0 });
+        gsap.set(leftCopy, { autoAlpha: 0, x: -50 });
+        gsap.set(finalGlow, { autoAlpha: 0, scale: 0.72 });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: "#license-story",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.75,
+            invalidateOnRefresh: true,
+            onUpdate: self => updateStoryState(self.progress)
+          }
+        });
+
+        tl
+          .to(card, {
+            rotationY: -3,
+            rotationZ: 1.5,
+            y: -12,
+            duration: 0.18,
+            ease: "none"
+          }, 0)
+
+          .to(card, {
+            y: 12,
+            rotationZ: -1,
+            duration: 0.18,
+            ease: "none"
+          }, 0.18)
+
+          .to(card, {
+            y: -6,
+            rotationZ: 1,
+            duration: 0.18,
+            ease: "none"
+          }, 0.36)
+
+          .to(card, {
+            x: 0,
+            y: 0,
+            scale: 1.08,
+            rotationY: 0,
+            rotationZ: 0,
+            duration: 0.12,
+            ease: "power1.inOut"
+          }, 0.58)
+
+          .to(rightCopy, {
+            autoAlpha: 0,
+            x: 70,
+            duration: 0.1,
+            ease: "power1.out"
+          }, 0.6)
+
+          .to(finalGlow, {
+            autoAlpha: 1,
+            scale: 1,
+            duration: 0.18,
+            ease: "power1.out"
+          }, 0.62)
+
+          .to(card, {
+            rotationY: 180,
+            duration: 0.16,
+            ease: "none"
+          }, 0.66)
+
+          .to(card, {
+            x: () => window.innerWidth * 0.28,
+            scale: 1,
+            rotationZ: 2,
+            duration: 0.18,
+            ease: "power1.inOut"
+          }, 0.78)
+
+          .to(leftCopy, {
+            autoAlpha: 1,
+            x: 0,
+            duration: 0.14,
+            ease: "power1.out"
+          }, 0.82);
+
+        return () => {
+          tl.kill();
+        };
+      });
+
+      mm.add("(max-width: 768px)", () => {
+        gsap.set(card, {
+          xPercent: -50,
+          yPercent: -50,
+          x: 0,
+          y: 0,
+          rotationY: 0,
+          rotationZ: -1,
+          scale: 0.96
+        });
+
+        gsap.set(rightCopy, { autoAlpha: 1, y: 0 });
+        gsap.set(leftCopy, { autoAlpha: 0, y: 18 });
+        gsap.set(finalGlow, { autoAlpha: 0, scale: 0.78 });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: "#license-story",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.75,
+            invalidateOnRefresh: true,
+            onUpdate: self => updateStoryState(self.progress)
+          }
+        });
+
+        tl
+          .to(card, {
+            y: -10,
+            rotationZ: 1,
+            duration: 0.25,
+            ease: "none"
+          }, 0)
+
+          .to(card, {
+            y: 8,
+            rotationZ: -1,
+            duration: 0.28,
+            ease: "none"
+          }, 0.25)
+
+          .to(rightCopy, {
+            autoAlpha: 0,
+            y: -20,
+            duration: 0.12,
+            ease: "power1.out"
+          }, 0.6)
+
+          .to(finalGlow, {
+            autoAlpha: 1,
+            scale: 1,
+            duration: 0.15,
+            ease: "power1.out"
+          }, 0.62)
+
+          .to(card, {
+            rotationY: 180,
+            scale: 1,
+            y: -6,
+            duration: 0.2,
+            ease: "none"
+          }, 0.66)
+
+          .to(leftCopy, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.16,
+            ease: "power1.out"
+          }, 0.8);
+
+        return () => {
+          tl.kill();
+        };
+      });
+
+      setActiveStep(0);
+      ScrollTrigger.refresh();
+    }
+
+    /* =========================================================
+       INTRO SEQUENCE
+       ========================================================= */
+
+    window.addEventListener("load", () => {
+      const tl = gsap.timeline();
+
+      tl.fromTo("#intro-license",
+        {
+          z: -2000,
+          rotationY: 720,
+          rotationZ: -45,
+          opacity: 0
+        },
+        {
+          z: 0,
+          rotationY: 0,
+          rotationZ: 0,
+          opacity: 1,
+          duration: 1.5,
+          ease: "power3.out"
+        }
+      )
+
+      .to("#intro-license", {
+        duration: 0.5
+      })
+
+      .to("#intro-license", {
+        scale: 4,
+        rotationY: 360,
+        filter: "blur(40px)",
+        opacity: 0,
+        duration: 1.2,
+        ease: "power2.in"
+      })
+
+      .to(["#line-waves-bg", "#page-content"], {
+        opacity: 1,
+        duration: 1.45,
+        ease: "power2.out"
+      }, "-=0.55")
+
+      .from(".hero-reveal", {
+        autoAlpha: 0,
+        y: 34,
+        filter: "blur(10px)",
+        duration: 0.85,
+        stagger: 0.09,
+        ease: "power3.out"
+      }, "-=1.0")
+
+      .add(() => {
+        document.body.classList.remove("intro-lock");
+
+        const intro = document.getElementById("intro-container");
+        if (intro) intro.remove();
+
+        initScrollStory();
+        ScrollTrigger.refresh();
+      });
+    });
+  </script>
 </body>
 </html>
