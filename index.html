@@ -16,10 +16,6 @@
       --nav-height: 80px;
       --page-pad: clamp(1.25rem, 4vw, 4.5rem);
       --white-soft: rgba(255,255,255,0.74);
-      --white-muted: rgba(255,255,255,0.48);
-      --line: rgba(255,255,255,0.12);
-      --glass: rgba(255,255,255,0.07);
-      --glass-strong: rgba(255,255,255,0.12);
     }
 
     * {
@@ -316,10 +312,10 @@
       position: absolute;
       inset: 0;
       pointer-events: none;
-      opacity: 0.28;
+      opacity: 0.26;
       background-image:
-        linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+        linear-gradient(rgba(255,255,255,0.026) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.026) 1px, transparent 1px);
       background-size: 70px 70px;
       mask-image: radial-gradient(circle at center, black, transparent 76%);
     }
@@ -349,7 +345,7 @@
       position: absolute;
       top: 50%;
       z-index: 8;
-      width: min(430px, 34vw);
+      width: min(450px, 34vw);
       min-height: 390px;
       transform: translateY(-50%);
       pointer-events: none;
@@ -479,10 +475,10 @@
       top: 50%;
       left: 50%;
       z-index: 4;
-      width: 46vw;
+      width: 48vw;
       aspect-ratio: 1 / 1;
       border-radius: 999px;
-      background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 68%);
+      background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 68%);
       transform: translate(-50%, -50%) scale(0.7);
       opacity: 0;
       pointer-events: none;
@@ -509,236 +505,327 @@
       will-change: transform;
     }
 
-    /* REALISTIC LICENSE CARD */
+    /* =========================================================
+       FÜHRERSCHEIN V3 - KOMPLETT NEUE KLASSEN
+       ========================================================= */
 
-    .story-license-wrap {
+    .mpu-license-stage {
       position: absolute;
       top: 50%;
       left: 50%;
       z-index: 7;
-      width: clamp(350px, 31vw, 520px);
-      aspect-ratio: 1.6 / 1;
+      width: clamp(430px, 37vw, 660px);
+      aspect-ratio: 1.585 / 1;
       transform-style: preserve-3d;
+      -webkit-transform-style: preserve-3d;
       will-change: transform;
     }
 
-    .scroll-license-card {
+    .mpu-card-object {
       position: absolute;
       inset: 0;
+      border-radius: 28px;
       transform-style: preserve-3d;
-      border-radius: 24px;
+      -webkit-transform-style: preserve-3d;
       will-change: transform;
     }
 
-    .license-face {
+    .mpu-card-face {
       position: absolute;
       inset: 0;
-      border-radius: 24px;
+      border-radius: 28px;
       overflow: hidden;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
       box-shadow:
-        0 32px 80px rgba(0,0,0,0.5),
-        inset 0 0 0 1px rgba(255,255,255,0.5);
+        0 38px 90px rgba(0,0,0,0.52),
+        inset 0 0 0 1px rgba(255,255,255,0.62),
+        inset 0 -20px 60px rgba(0,0,0,0.06);
     }
 
-    .license-front {
+    .mpu-card-front {
       background:
-        radial-gradient(circle at 11% 12%, rgba(255,255,255,0.72), transparent 19%),
-        linear-gradient(135deg, #efd9e1 0%, #e2e7f0 50%, #d2dceb 100%);
-      color: rgba(0,0,0,0.76);
+        radial-gradient(circle at 9% 12%, rgba(255,255,255,0.9), transparent 18%),
+        radial-gradient(circle at 90% 85%, rgba(175,205,245,0.55), transparent 30%),
+        linear-gradient(135deg, #f3d8e3 0%, #e8edf5 48%, #d5e2f4 100%);
+      color: rgba(16,18,24,0.82);
     }
 
-    .license-back {
+    .mpu-card-back {
       transform: rotateY(180deg);
       background:
-        radial-gradient(circle at 84% 12%, rgba(255,255,255,0.68), transparent 18%),
-        linear-gradient(135deg, #e5dde6 0%, #efdde6 52%, #d6dfed 100%);
-      color: rgba(0,0,0,0.8);
+        radial-gradient(circle at 84% 10%, rgba(255,255,255,0.86), transparent 18%),
+        radial-gradient(circle at 12% 90%, rgba(192,214,250,0.48), transparent 30%),
+        linear-gradient(135deg, #e6dce7 0%, #f3dce8 52%, #dce8f8 100%);
+      color: rgba(16,18,24,0.84);
     }
 
-    .license-inner {
+    .mpu-card-pattern {
       position: absolute;
       inset: 0;
-      padding: 6.7% 7% 7.4% 7%;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .license-security-pattern {
-      position: absolute;
-      inset: 0;
-      opacity: 0.13;
+      opacity: 0.18;
       background:
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.9), transparent 20%),
         repeating-linear-gradient(
-          135deg,
-          rgba(255,255,255,0.35) 0 2px,
-          transparent 2px 10px
+          45deg,
+          rgba(255,255,255,0.5) 0 1px,
+          transparent 1px 9px
         ),
         repeating-radial-gradient(
-          circle at 30% 40%,
-          rgba(0,0,0,0.08) 0 1px,
-          transparent 1px 12px
+          circle at 28% 38%,
+          rgba(30,40,70,0.1) 0 1px,
+          transparent 1px 13px
         );
       pointer-events: none;
     }
 
-    .license-shine {
+    .mpu-card-watermark {
       position: absolute;
-      inset: -60%;
+      right: -3%;
+      bottom: -11%;
+      font-size: clamp(5rem, 8vw, 9rem);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.1em;
+      color: rgba(0,0,0,0.035);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .mpu-card-shine {
+      position: absolute;
+      inset: -70%;
       background: linear-gradient(
         115deg,
         transparent 0%,
-        transparent 40%,
-        rgba(255,255,255,0.65) 48%,
-        transparent 56%,
+        transparent 39%,
+        rgba(255,255,255,0.72) 48%,
+        transparent 57%,
         transparent 100%
       );
-      transform: translateX(-36%) rotate(10deg);
-      opacity: 0.34;
+      opacity: 0.36;
       mix-blend-mode: screen;
-      animation: licenseShine 6.5s linear infinite;
+      animation: mpuCardShine 7s linear infinite;
       pointer-events: none;
     }
 
-    @keyframes licenseShine {
-      0% { transform: translateX(-38%) rotate(10deg); }
-      100% { transform: translateX(38%) rotate(10deg); }
+    @keyframes mpuCardShine {
+      0% { transform: translateX(-42%) rotate(10deg); }
+      100% { transform: translateX(42%) rotate(10deg); }
     }
 
-    .license-topbar {
+    .mpu-card-safe {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      padding: 6.2% 6.4% 6.2% 6.4%;
       display: grid;
-      grid-template-columns: 58px 1fr auto;
-      align-items: center;
-      gap: 0.85rem;
-      margin-bottom: 0.72rem;
-      flex: 0 0 auto;
+      grid-template-rows: auto 1fr auto;
+      gap: clamp(0.72rem, 1vw, 1rem);
     }
 
-    .license-chip {
-      width: 58px;
-      height: 32px;
-      border-radius: 8px;
-      background: #1144be;
+    .mpu-doc-head {
+      display: grid;
+      grid-template-columns: 62px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: clamp(0.8rem, 1vw, 1.1rem);
+      min-height: 38px;
+    }
+
+    .mpu-eu {
+      width: 62px;
+      height: 34px;
+      border-radius: 9px;
+      background:
+        radial-gradient(circle, #ffdc43 0 1px, transparent 2px),
+        #1042b9;
+      background-size: 8px 8px;
       color: #ffdc43;
       display: grid;
       place-items: center;
-      font-size: 0.72rem;
+      font-size: 0.78rem;
       font-weight: 900;
-      letter-spacing: 0.02em;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.22),
+        0 5px 12px rgba(16,66,185,0.18);
     }
 
-    .license-doc-title {
-      font-size: clamp(0.78rem, 0.9vw, 0.96rem);
-      font-weight: 900;
-      letter-spacing: 0.04em;
-      color: rgba(0,0,0,0.72);
-    }
-
-    .license-doc-subtitle {
-      font-size: clamp(0.6rem, 0.74vw, 0.8rem);
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      color: rgba(0,0,0,0.42);
+    .mpu-doc-label {
+      font-size: clamp(0.47rem, 0.54vw, 0.62rem);
       text-transform: uppercase;
-      text-align: right;
+      letter-spacing: 0.14em;
+      color: rgba(0,0,0,0.36);
+      font-weight: 900;
+      margin-bottom: 0.1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mpu-doc-title {
+      font-size: clamp(0.92rem, 1.1vw, 1.15rem);
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      font-weight: 900;
+      color: rgba(0,0,0,0.75);
       white-space: nowrap;
     }
 
-    .license-front-grid {
+    .mpu-doc-code {
+      justify-self: end;
+      text-align: right;
+      font-size: clamp(0.58rem, 0.7vw, 0.82rem);
+      line-height: 1.05;
+      letter-spacing: 0.13em;
+      font-weight: 900;
+      color: rgba(0,0,0,0.42);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .mpu-front-body {
       display: grid;
-      grid-template-columns: 95px 1fr;
-      gap: 1rem;
-      flex: 1 1 auto;
+      grid-template-columns: minmax(95px, 28%) minmax(0, 1fr);
+      gap: clamp(0.95rem, 1.35vw, 1.35rem);
       min-height: 0;
       align-items: stretch;
     }
 
-    .license-photo-real {
+    .mpu-photo-panel {
+      display: grid;
+      grid-template-rows: 1fr auto auto;
+      gap: 0.58rem;
+      min-height: 0;
+    }
+
+    .mpu-photo-box {
       position: relative;
-      width: 100%;
-      height: min(100%, 146px);
-      border-radius: 14px;
+      min-height: 0;
+      border-radius: 17px;
       background:
-        linear-gradient(to bottom, rgba(0,0,0,0.12), rgba(0,0,0,0.06)),
-        rgba(255,255,255,0.36);
+        linear-gradient(to bottom, rgba(0,0,0,0.09), rgba(0,0,0,0.04)),
+        rgba(255,255,255,0.38);
       box-shadow:
         inset 0 0 0 1px rgba(0,0,0,0.08),
-        inset 0 18px 40px rgba(255,255,255,0.16);
+        inset 0 18px 40px rgba(255,255,255,0.17);
       overflow: hidden;
-      align-self: start;
     }
 
-    .photo-head {
+    .mpu-photo-box::before {
+      content: "";
       position: absolute;
-      top: 20%;
+      inset: 0;
+      opacity: 0.25;
+      background:
+        linear-gradient(135deg, transparent 0 47%, rgba(255,255,255,0.5) 48%, transparent 58%);
+    }
+
+    .mpu-photo-head {
+      position: absolute;
+      top: 22%;
       left: 50%;
-      width: 28%;
+      width: 27%;
       aspect-ratio: 1;
       border-radius: 999px;
-      background: rgba(0,0,0,0.18);
-      transform: translateX(-50%);
-    }
-
-    .photo-body {
-      position: absolute;
-      bottom: 8%;
-      left: 50%;
-      width: 42%;
-      height: 54%;
-      border-radius: 40px 40px 18px 18px;
       background: rgba(0,0,0,0.16);
       transform: translateX(-50%);
     }
 
-    .license-data-area {
-      display: flex;
-      flex-direction: column;
+    .mpu-photo-body {
+      position: absolute;
+      bottom: 9%;
+      left: 50%;
+      width: 41%;
+      height: 52%;
+      border-radius: 999px 999px 18px 18px;
+      background: rgba(0,0,0,0.145);
+      transform: translateX(-50%);
+    }
+
+    .mpu-signature-line {
+      height: 1px;
+      background: rgba(0,0,0,0.18);
+      position: relative;
+      margin: 0 0.15rem;
+    }
+
+    .mpu-signature-line::after {
+      content: "Signatur";
+      position: absolute;
+      top: 5px;
+      left: 0;
+      font-size: 0.5rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.33);
+    }
+
+    .mpu-id-line {
+      font-size: clamp(0.48rem, 0.6vw, 0.7rem);
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      color: rgba(0,0,0,0.43);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+    }
+
+    .mpu-step-panel {
       min-width: 0;
       min-height: 0;
-      height: 100%;
-    }
-
-    .license-mini-lines {
-      display: flex;
-      flex-direction: column;
-      gap: 0.24rem;
-      margin-bottom: 0.45rem;
-      flex: 0 0 auto;
-    }
-
-    .license-mini-lines span {
-      display: block;
-      height: 4px;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.08);
-    }
-
-    .license-mini-lines span:nth-child(1) { width: 88%; }
-    .license-mini-lines span:nth-child(2) { width: 64%; }
-    .license-mini-lines span:nth-child(3) { width: 75%; }
-
-    .card-steps {
       display: grid;
-      gap: clamp(0.28rem, 0.42vw, 0.46rem);
+      grid-template-rows: auto 1fr;
+      gap: 0.55rem;
+    }
+
+    .mpu-panel-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.7rem;
+      padding-bottom: 0.42rem;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .mpu-panel-meta span {
+      font-size: clamp(0.56rem, 0.68vw, 0.78rem);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 900;
+      color: rgba(0,0,0,0.42);
+      white-space: nowrap;
+    }
+
+    .mpu-panel-meta b {
+      font-size: clamp(0.58rem, 0.72vw, 0.82rem);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 900;
+      color: rgba(0,0,0,0.64);
+      white-space: nowrap;
+    }
+
+    .mpu-step-list {
+      display: grid;
+      grid-template-rows: repeat(4, 1fr);
+      gap: clamp(0.38rem, 0.55vw, 0.58rem);
       min-height: 0;
     }
 
-    .card-step {
-      position: relative;
+    .mpu-step-row {
       display: grid;
-      grid-template-columns: 1.58rem 1fr;
+      grid-template-columns: 2.15rem minmax(0, 1fr);
       align-items: center;
-      gap: 0.58rem;
-      min-height: clamp(32px, 2.35vw, 38px);
-      padding: 0.46rem 0.64rem;
-      border-radius: 13px;
-      background: rgba(255,255,255,0.26);
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
-      opacity: 0.55;
+      gap: 0.72rem;
+      min-height: 0;
+      padding: 0.58rem 0.78rem;
+      border-radius: 15px;
+      background: rgba(255,255,255,0.34);
+      box-shadow:
+        inset 0 0 0 1px rgba(0,0,0,0.055);
+      opacity: 0.52;
       transition:
         opacity 0.35s ease,
         transform 0.35s ease,
@@ -746,143 +833,199 @@
         box-shadow 0.35s ease;
     }
 
-    .card-step.active {
+    .mpu-step-row.is-active {
       opacity: 1;
-      transform: translateX(-4px);
-      background: rgba(255,255,255,0.6);
+      transform: translateX(-5px);
+      background: rgba(255,255,255,0.74);
       box-shadow:
         inset 0 0 0 1px rgba(0,0,0,0.08),
-        0 8px 24px rgba(255,255,255,0.18);
+        0 10px 24px rgba(255,255,255,0.22);
     }
 
-    .card-step b {
-      width: 1.58rem;
-      height: 1.58rem;
+    .mpu-step-index {
+      width: 2.15rem;
+      height: 2.15rem;
       border-radius: 999px;
-      background: rgba(0,0,0,0.74);
+      background: rgba(0,0,0,0.72);
       color: #fff;
       display: grid;
       place-items: center;
-      font-size: 0.64rem;
+      font-size: 0.72rem;
       font-weight: 900;
-      line-height: 1;
-    }
-
-    .card-step span {
-      display: block;
-      min-width: 0;
-      font-size: clamp(0.62rem, 0.78vw, 0.86rem);
-      line-height: 1.08;
-      font-weight: 850;
       letter-spacing: -0.02em;
-      color: rgba(0,0,0,0.72);
     }
 
-    .license-bottom-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 0.7rem;
-      align-items: center;
-      margin-top: 0.62rem;
-      padding-top: 0.48rem;
-      border-top: 1px solid rgba(0,0,0,0.08);
-      flex: 0 0 auto;
-    }
-
-    .license-number,
-    .license-validity {
-      font-size: clamp(0.48rem, 0.62vw, 0.68rem);
-      font-weight: 900;
-      letter-spacing: 0.11em;
-      color: rgba(0,0,0,0.42);
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .license-validity {
-      text-align: right;
-    }
-
-    .back-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 1rem;
-      margin-bottom: 0.82rem;
-      flex: 0 0 auto;
-    }
-
-    .back-header h3 {
-      font-size: clamp(1.18rem, 1.9vw, 1.9rem);
-      line-height: 0.92;
-      letter-spacing: -0.06em;
-      font-weight: 900;
-      color: rgba(0,0,0,0.78);
-    }
-
-    .back-header span {
-      font-size: clamp(0.56rem, 0.7vw, 0.74rem);
-      font-weight: 900;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.38);
-      white-space: nowrap;
-      padding-top: 0.2rem;
-    }
-
-    .route-lines {
+    .mpu-step-text {
+      min-width: 0;
       display: grid;
-      gap: 0.44rem;
-      flex: 1 1 auto;
-      min-height: 0;
-      align-content: start;
+      gap: 0.08rem;
     }
 
-    .route-line {
+    .mpu-step-text strong {
+      display: block;
+      font-size: clamp(0.76rem, 0.9vw, 1rem);
+      line-height: 1;
+      letter-spacing: -0.035em;
+      color: rgba(0,0,0,0.78);
+      font-weight: 900;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mpu-step-text small {
+      display: block;
+      font-size: clamp(0.52rem, 0.62vw, 0.7rem);
+      line-height: 1.05;
+      color: rgba(0,0,0,0.46);
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mpu-front-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 0.8rem;
-      min-height: clamp(31px, 2.3vw, 37px);
-      padding: 0.48rem 0.72rem;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.34);
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
-      font-weight: 850;
-      font-size: clamp(0.62rem, 0.78vw, 0.86rem);
-      line-height: 1.08;
-      letter-spacing: -0.02em;
-      color: rgba(0,0,0,0.75);
+      border-top: 1px solid rgba(0,0,0,0.08);
+      padding-top: 0.62rem;
+      min-height: 20px;
     }
 
-    .route-line small {
-      font-size: clamp(0.5rem, 0.6vw, 0.66rem);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: rgba(0,0,0,0.42);
+    .mpu-front-footer span {
+      font-size: clamp(0.48rem, 0.62vw, 0.72rem);
       font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.42);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mpu-front-footer span:last-child {
+      text-align: right;
+    }
+
+    .mpu-back-safe {
+      gap: clamp(0.82rem, 1vw, 1.08rem);
+    }
+
+    .mpu-back-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .mpu-back-head h3 {
+      font-size: clamp(1.75rem, 2.6vw, 3.05rem);
+      line-height: 0.9;
+      letter-spacing: -0.075em;
+      font-weight: 900;
+      color: rgba(0,0,0,0.78);
+    }
+
+    .mpu-back-head span {
+      font-size: clamp(0.58rem, 0.72vw, 0.82rem);
+      font-weight: 900;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.39);
+      padding-top: 0.32rem;
       white-space: nowrap;
     }
 
-    .barcode-wrap {
-      margin-top: 0.62rem;
-      padding-top: 0.42rem;
-      border-top: 1px solid rgba(0,0,0,0.08);
-      flex: 0 0 auto;
+    .mpu-result-list {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: repeat(4, 1fr);
+      gap: clamp(0.42rem, 0.58vw, 0.64rem);
     }
 
-    .barcode {
+    .mpu-result-row {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.66rem 0.86rem;
+      border-radius: 15px;
+      background: rgba(255,255,255,0.48);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.055);
+    }
+
+    .mpu-result-copy {
+      min-width: 0;
+      display: flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .mpu-result-copy strong {
+      font-size: clamp(0.74rem, 0.92vw, 1.02rem);
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      color: rgba(0,0,0,0.78);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mpu-result-copy small {
+      font-size: clamp(0.58rem, 0.7vw, 0.78rem);
+      font-weight: 850;
+      color: rgba(0,0,0,0.46);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mpu-result-ok {
+      font-size: clamp(0.62rem, 0.72vw, 0.82rem);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: rgba(0,0,0,0.44);
+      white-space: nowrap;
+    }
+
+    .mpu-back-footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 1rem;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      padding-top: 0.62rem;
+      min-height: 34px;
+    }
+
+    .mpu-barcode {
       width: 100%;
-      height: 23px;
-      border-radius: 6px;
-      opacity: 0.4;
+      height: 28px;
+      border-radius: 7px;
+      opacity: 0.38;
       background: repeating-linear-gradient(
         90deg,
         rgba(0,0,0,0.58) 0 2px,
         transparent 2px 6px,
         rgba(0,0,0,0.42) 6px 8px,
-        transparent 8px 11px
+        transparent 8px 11px,
+        rgba(0,0,0,0.5) 11px 12px,
+        transparent 12px 17px
       );
+    }
+
+    .mpu-machine-code {
+      font-size: clamp(0.48rem, 0.62vw, 0.72rem);
+      line-height: 1.15;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.42);
+      white-space: nowrap;
+      text-align: right;
     }
 
     /* FINAL SECTION */
@@ -956,18 +1099,13 @@
       }
 
       .license-story {
-        height: 500vh;
+        height: 520vh;
       }
 
       .story-kicker {
         top: calc(var(--nav-height) + 1rem);
         left: 1.1rem;
         font-size: 0.64rem;
-      }
-
-      .story-license-wrap {
-        width: min(86vw, 380px);
-        top: 32%;
       }
 
       .story-copy {
@@ -1012,115 +1150,155 @@
         bottom: 2rem;
       }
 
-      .license-inner {
-        padding: 7.2% 6.5% 7.8% 6.5%;
+      .mpu-license-stage {
+        width: min(92vw, 430px);
+        top: 31%;
       }
 
-      .license-topbar {
-        grid-template-columns: 50px 1fr auto;
-        gap: 0.55rem;
-        margin-bottom: 0.55rem;
+      .mpu-card-object,
+      .mpu-card-face {
+        border-radius: 22px;
       }
 
-      .license-chip {
-        width: 50px;
-        height: 28px;
-        font-size: 0.64rem;
+      .mpu-card-safe {
+        padding: 6.4% 6.2%;
+        gap: 0.48rem;
       }
 
-      .license-doc-title {
-        font-size: 0.68rem;
+      .mpu-doc-head {
+        grid-template-columns: 45px minmax(0, 1fr) auto;
+        gap: 0.5rem;
+        min-height: 28px;
       }
 
-      .license-doc-subtitle {
-        font-size: 0.54rem;
+      .mpu-eu {
+        width: 45px;
+        height: 26px;
+        border-radius: 7px;
+        font-size: 0.58rem;
       }
 
-      .license-front-grid {
-        grid-template-columns: 78px 1fr;
-        gap: 0.72rem;
-      }
-
-      .license-photo-real {
-        height: 104px;
-        border-radius: 12px;
-      }
-
-      .license-mini-lines {
+      .mpu-doc-label {
         display: none;
       }
 
-      .card-steps {
-        gap: 0.34rem;
+      .mpu-doc-title {
+        font-size: 0.66rem;
       }
 
-      .card-step {
-        min-height: 30px;
-        padding: 0.38rem 0.48rem;
-        border-radius: 10px;
-        grid-template-columns: 1.26rem 1fr;
-        gap: 0.44rem;
-      }
-
-      .card-step b {
-        width: 1.26rem;
-        height: 1.26rem;
-        font-size: 0.54rem;
-      }
-
-      .card-step span {
-        font-size: 0.56rem;
-      }
-
-      .license-bottom-row {
-        gap: 0.32rem;
-        flex-direction: column;
-        align-items: flex-start;
-        margin-top: 0.46rem;
-        padding-top: 0.36rem;
-      }
-
-      .license-number,
-      .license-validity {
-        font-size: 0.48rem;
-        white-space: normal;
-        text-align: left;
-      }
-
-      .back-header {
-        margin-bottom: 0.6rem;
-      }
-
-      .back-header h3 {
-        font-size: 1.18rem;
-      }
-
-      .back-header span {
+      .mpu-doc-code {
         font-size: 0.5rem;
       }
 
-      .route-lines {
-        gap: 0.34rem;
+      .mpu-front-body {
+        grid-template-columns: 70px minmax(0, 1fr);
+        gap: 0.58rem;
       }
 
-      .route-line {
-        min-height: 30px;
-        padding: 0.4rem 0.52rem;
+      .mpu-photo-panel {
+        gap: 0.36rem;
+      }
+
+      .mpu-signature-line {
+        display: none;
+      }
+
+      .mpu-id-line {
+        font-size: 0.42rem;
+      }
+
+      .mpu-panel-meta {
+        display: none;
+      }
+
+      .mpu-step-panel {
+        grid-template-rows: 1fr;
+      }
+
+      .mpu-step-list {
+        gap: 0.3rem;
+      }
+
+      .mpu-step-row {
+        grid-template-columns: 1.38rem minmax(0, 1fr);
+        gap: 0.42rem;
+        padding: 0.34rem 0.46rem;
         border-radius: 10px;
-        font-size: 0.56rem;
       }
 
-      .route-line small {
+      .mpu-step-index {
+        width: 1.38rem;
+        height: 1.38rem;
+        font-size: 0.5rem;
+      }
+
+      .mpu-step-text strong {
+        font-size: 0.55rem;
+      }
+
+      .mpu-step-text small {
+        display: none;
+      }
+
+      .mpu-front-footer {
+        padding-top: 0.36rem;
+      }
+
+      .mpu-front-footer span {
+        font-size: 0.42rem;
+      }
+
+      .mpu-front-footer span:last-child {
+        display: none;
+      }
+
+      .mpu-back-head h3 {
+        font-size: 1.25rem;
+      }
+
+      .mpu-back-head span {
         font-size: 0.48rem;
       }
 
-      .barcode-wrap {
-        margin-top: 0.44rem;
+      .mpu-result-list {
+        gap: 0.3rem;
+      }
+
+      .mpu-result-row {
+        padding: 0.38rem 0.5rem;
+        border-radius: 10px;
+        gap: 0.45rem;
+      }
+
+      .mpu-result-copy {
+        display: block;
+      }
+
+      .mpu-result-copy strong {
+        font-size: 0.56rem;
+      }
+
+      .mpu-result-copy small {
+        display: none;
+      }
+
+      .mpu-result-ok {
+        font-size: 0.48rem;
+      }
+
+      .mpu-back-footer {
+        grid-template-columns: 1fr;
+        gap: 0.32rem;
+        min-height: 22px;
         padding-top: 0.34rem;
       }
 
-      .barcode {
+      .mpu-barcode {
         height: 18px;
+      }
+
+      .mpu-machine-code {
+        display: none;
       }
     }
 
@@ -1129,7 +1307,7 @@
         scroll-behavior: auto;
       }
 
-      .license-shine {
+      .mpu-card-shine {
         animation: none;
       }
     }
@@ -1240,91 +1418,132 @@
             </div>
           </div>
 
-          <div class="story-license-wrap">
-            <div class="scroll-license-card">
-              <div class="license-face license-front">
-                <div class="license-security-pattern"></div>
-                <div class="license-shine"></div>
+          <div class="mpu-license-stage">
+            <div class="mpu-card-object">
+              <div class="mpu-card-face mpu-card-front">
+                <div class="mpu-card-pattern"></div>
+                <div class="mpu-card-watermark">MPU</div>
+                <div class="mpu-card-shine"></div>
 
-                <div class="license-inner">
-                  <div class="license-topbar">
-                    <div class="license-chip">D</div>
-                    <div class="license-doc-title">FÜHRERSCHEIN</div>
-                    <div class="license-doc-subtitle">MPU FAHRPLAN</div>
-                  </div>
+                <div class="mpu-card-safe">
+                  <div class="mpu-doc-head">
+                    <div class="mpu-eu">D</div>
 
-                  <div class="license-front-grid">
-                    <div class="license-photo-real">
-                      <div class="photo-head"></div>
-                      <div class="photo-body"></div>
+                    <div>
+                      <p class="mpu-doc-label">Bundesrepublik Deutschland</p>
+                      <div class="mpu-doc-title">Führerschein</div>
                     </div>
 
-                    <div class="license-data-area">
-                      <div class="license-mini-lines">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                    <div class="mpu-doc-code">MPU<br />Plan</div>
+                  </div>
+
+                  <div class="mpu-front-body">
+                    <div class="mpu-photo-panel">
+                      <div class="mpu-photo-box">
+                        <div class="mpu-photo-head"></div>
+                        <div class="mpu-photo-body"></div>
+                      </div>
+                      <div class="mpu-signature-line"></div>
+                      <div class="mpu-id-line">MPU-2026</div>
+                    </div>
+
+                    <div class="mpu-step-panel">
+                      <div class="mpu-panel-meta">
+                        <span>Fahrplan</span>
+                        <b>4 Schritte</b>
                       </div>
 
-                      <div class="card-steps">
-                        <div class="card-step active">
-                          <b>1</b>
-                          <span>Ausgangslage klären</span>
+                      <div class="mpu-step-list">
+                        <div class="mpu-step-row is-active">
+                          <div class="mpu-step-index">01</div>
+                          <div class="mpu-step-text">
+                            <strong>Analyse</strong>
+                            <small>Ausgangslage klären</small>
+                          </div>
                         </div>
-                        <div class="card-step">
-                          <b>2</b>
-                          <span>Nachweise &amp; Fristen prüfen</span>
+
+                        <div class="mpu-step-row">
+                          <div class="mpu-step-index">02</div>
+                          <div class="mpu-step-text">
+                            <strong>Nachweise</strong>
+                            <small>Fristen &amp; Unterlagen prüfen</small>
+                          </div>
                         </div>
-                        <div class="card-step">
-                          <b>3</b>
-                          <span>Verhalten verstehen</span>
+
+                        <div class="mpu-step-row">
+                          <div class="mpu-step-index">03</div>
+                          <div class="mpu-step-text">
+                            <strong>Verhalten</strong>
+                            <small>Veränderung glaubwürdig machen</small>
+                          </div>
                         </div>
-                        <div class="card-step">
-                          <b>4</b>
-                          <span>Gespräch sicher trainieren</span>
+
+                        <div class="mpu-step-row">
+                          <div class="mpu-step-index">04</div>
+                          <div class="mpu-step-text">
+                            <strong>Simulation</strong>
+                            <small>Gespräch sicher trainieren</small>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div class="license-bottom-row">
-                    <div class="license-number">MPU-2026 / STRUKTUR STATT PANIK</div>
-                    <div class="license-validity">KLAR • DISKRET • STRUKTURIERT</div>
+                  <div class="mpu-front-footer">
+                    <span>Struktur statt Panik</span>
+                    <span>Diskret begleitet</span>
                   </div>
                 </div>
               </div>
 
-              <div class="license-face license-back">
-                <div class="license-security-pattern"></div>
-                <div class="license-shine"></div>
+              <div class="mpu-card-face mpu-card-back">
+                <div class="mpu-card-pattern"></div>
+                <div class="mpu-card-watermark">OK</div>
+                <div class="mpu-card-shine"></div>
 
-                <div class="license-inner">
-                  <div class="back-header">
+                <div class="mpu-card-safe mpu-back-safe">
+                  <div class="mpu-back-head">
                     <h3>Ihr klarer<br />MPU-Plan</h3>
-                    <span>RÜCKSEITE</span>
+                    <span>Rückseite</span>
                   </div>
 
-                  <div class="route-lines">
-                    <div class="route-line">
-                      <span>Klarheit statt Unsicherheit</span>
-                      <small>OK</small>
+                  <div class="mpu-result-list">
+                    <div class="mpu-result-row">
+                      <div class="mpu-result-copy">
+                        <strong>Klarheit</strong>
+                        <small>statt Unsicherheit</small>
+                      </div>
+                      <div class="mpu-result-ok">OK</div>
                     </div>
-                    <div class="route-line">
-                      <span>Vorbereitung statt Panik</span>
-                      <small>OK</small>
+
+                    <div class="mpu-result-row">
+                      <div class="mpu-result-copy">
+                        <strong>Vorbereitung</strong>
+                        <small>statt Panik</small>
+                      </div>
+                      <div class="mpu-result-ok">OK</div>
                     </div>
-                    <div class="route-line">
-                      <span>Struktur statt Versprechen</span>
-                      <small>OK</small>
+
+                    <div class="mpu-result-row">
+                      <div class="mpu-result-copy">
+                        <strong>Struktur</strong>
+                        <small>statt Versprechen</small>
+                      </div>
+                      <div class="mpu-result-ok">OK</div>
                     </div>
-                    <div class="route-line">
-                      <span>Begleitung statt Alleingang</span>
-                      <small>OK</small>
+
+                    <div class="mpu-result-row">
+                      <div class="mpu-result-copy">
+                        <strong>Begleitung</strong>
+                        <small>statt Alleingang</small>
+                      </div>
+                      <div class="mpu-result-ok">OK</div>
                     </div>
                   </div>
 
-                  <div class="barcode-wrap">
-                    <div class="barcode"></div>
+                  <div class="mpu-back-footer">
+                    <div class="mpu-barcode"></div>
+                    <div class="mpu-machine-code">DE-MPU<br />READY</div>
                   </div>
                 </div>
               </div>
@@ -1352,6 +1571,8 @@
   <script type="module">
     import { Renderer, Program, Mesh, Triangle } from "https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm";
 
+    const { gsap } = window;
+    const { ScrollTrigger } = window;
     gsap.registerPlugin(ScrollTrigger);
 
     const vertexShader = `
@@ -1502,7 +1723,7 @@
     const renderer = new Renderer({
       alpha: true,
       premultipliedAlpha: false,
-      dpr: Math.min(2, window.devicePixelRatio || 1)
+      dpr: Math.min(1.6, window.devicePixelRatio || 1)
     });
 
     const gl = renderer.gl;
@@ -1591,13 +1812,13 @@
     requestAnimationFrame(update);
 
     function initScrollStory() {
-      const card = document.querySelector(".story-license-wrap");
+      const card = document.querySelector(".mpu-license-stage");
       const rightCopy = document.querySelector(".story-copy-right");
       const leftCopy = document.querySelector(".story-copy-left");
       const finalGlow = document.querySelector(".story-final-glow");
       const progressFill = document.querySelector(".story-progress-fill");
       const stepCopies = gsap.utils.toArray(".step-copy");
-      const cardSteps = gsap.utils.toArray(".card-step");
+      const cardSteps = gsap.utils.toArray(".mpu-step-row");
 
       let activeStep = -1;
 
@@ -1610,7 +1831,7 @@
         });
 
         cardSteps.forEach((el, i) => {
-          el.classList.toggle("active", i === index);
+          el.classList.toggle("is-active", i === index);
         });
       }
 
@@ -1624,8 +1845,8 @@
         setActiveStep(nextStep);
 
         if (program && program.uniforms && program.uniforms.uBrightness) {
-          const calm = progress < 0.62 ? 0.16 : 0.22;
-          program.uniforms.uBrightness.value += (calm - program.uniforms.uBrightness.value) * 0.08;
+          const targetBrightness = progress < 0.62 ? 0.155 : 0.215;
+          program.uniforms.uBrightness.value += (targetBrightness - program.uniforms.uBrightness.value) * 0.08;
         }
       }
 
@@ -1637,7 +1858,7 @@
           yPercent: -50,
           x: () => -window.innerWidth * 0.28,
           y: 0,
-          rotationY: -8,
+          rotationY: -7,
           rotationZ: -2,
           scale: 1
         });
@@ -1660,22 +1881,22 @@
         tl
           .to(card, {
             rotationY: -3,
-            rotationZ: 1.5,
-            y: -12,
+            rotationZ: 1.2,
+            y: -10,
             duration: 0.18,
             ease: "none"
           }, 0)
 
           .to(card, {
-            y: 12,
-            rotationZ: -1,
+            y: 10,
+            rotationZ: -0.8,
             duration: 0.18,
             ease: "none"
           }, 0.18)
 
           .to(card, {
-            y: -6,
-            rotationZ: 1,
+            y: -4,
+            rotationZ: 0.8,
             duration: 0.18,
             ease: "none"
           }, 0.36)
@@ -1683,10 +1904,10 @@
           .to(card, {
             x: 0,
             y: 0,
-            scale: 1.13,
+            scale: 1.07,
             rotationY: 0,
             rotationZ: 0,
-            duration: 0.13,
+            duration: 0.14,
             ease: "power1.inOut"
           }, 0.58)
 
@@ -1700,22 +1921,22 @@
 
           .to(finalGlow, {
             autoAlpha: 1,
-            scale: 1.12,
+            scale: 1.08,
             duration: 0.16,
             ease: "power1.out"
           }, 0.62)
 
           .to(card, {
             rotationY: 180,
-            duration: 0.18,
+            duration: 0.2,
             ease: "none"
           }, 0.66)
 
           .to(card, {
             x: () => window.innerWidth * 0.28,
-            scale: 1.02,
+            scale: 1,
             rotationZ: 2,
-            duration: 0.18,
+            duration: 0.2,
             ease: "power1.inOut"
           }, 0.8)
 
