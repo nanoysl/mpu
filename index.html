@@ -3,27 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MPU Beratung | Struktur statt Spekulation</title>
+    <title>MPU | LineWaves Hero</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* === COLOR PALETTE & RESET === */
         :root {
-            --col-bg: #EAE6DF; /* Warmes Büttenpapier / Sand */
-            --col-text: #121212; /* Tiefes Onyx */
-            --col-accent: #A68A61; /* Gedämpftes Gold */
-            --col-border: rgba(18, 18, 18, 0.1);
-            
-            --font-serif: 'Playfair Display', serif;
-            --font-sans: 'Manrope', sans-serif;
-            
             --nav-height: 80px;
         }
 
@@ -31,651 +19,372 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            user-select: none; /* Premium Interaction */
+            font-family: 'Inter', sans-serif;
         }
 
         body, html {
             width: 100%;
             height: 100vh;
-            background-color: #030303; /* Start: Black */
-            color: var(--col-text);
-            font-family: var(--font-sans);
-            overflow: hidden; /* Nur Hero-Section */
+            background-color: #000000;
+            color: #ffffff;
+            overflow: hidden;
         }
 
-        /*Subtiles SVG Film Grain für Textur */
-        .film-grain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 100;
-            opacity: 0.3;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.3'/%3E%3C/svg%3E");
-            mix-blend-mode: multiply;
-        }
-
-        /* === INTRO STAGE (Das Chaos) === */
-        #intro-stage {
+        /* =========================================
+           1. INTRO: DER FÜHRERSCHEIN
+           ========================================= */
+        #intro-container {
             position: fixed;
             inset: 0;
-            background: #030303;
-            z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
+            z-index: 9999;
+            perspective: 1500px;
+            pointer-events: none;
         }
 
-        .chaos-object {
-            width: 300px;
-            height: 180px;
-            background: #ffffff; /* Führerschein-Form */
-            border-radius: 8px;
-            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.8);
-            opacity: 0;
-            transform: translateZ(-2000px) rotateX(120deg);
+        /* Ein nachgebauter EU-Führerschein mit CSS */
+        .license-card {
+            width: 400px;
+            height: 250px;
+            background: linear-gradient(135deg, #e6c5d1 0%, #d8e0e8 100%);
+            border-radius: 12px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.5);
+            padding: 20px;
+            position: relative;
+            transform-style: preserve-3d;
+            opacity: 0; /* Wird von GSAP gesteuert */
         }
 
-        /* Sync-Layer (Unschärfe nach dem Chaos) */
-        #sync-layer {
+        .license-photo {
+            position: absolute;
+            top: 40px;
+            left: 20px;
+            width: 80px;
+            height: 100px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 4px;
+        }
+
+        .license-lines {
+            position: absolute;
+            top: 40px;
+            left: 120px;
+            width: 240px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .l-line {
+            height: 8px;
+            background: rgba(0,0,0,0.15);
+            border-radius: 4px;
+        }
+        .l-line:nth-child(1) { width: 100%; }
+        .l-line:nth-child(2) { width: 80%; }
+        .l-line:nth-child(3) { width: 60%; }
+        .l-line:nth-child(4) { width: 90%; }
+        .l-line:nth-child(5) { width: 40%; margin-top: 20px;}
+
+        .license-eu {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 40px;
+            height: 25px;
+            background: #003399;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffcc00;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        /* =========================================
+           2. HERO SECTION (LineWaves + UI)
+           ========================================= */
+        #hero-container {
             position: fixed;
             inset: 0;
-            background: rgba(3, 3, 3, 0.9);
-            backdrop-filter: blur(50px) brightness(0.6);
-            -webkit-backdrop-filter: blur(50px) brightness(0.6);
-            z-index: 9998;
-            display: none;
+            z-index: 10;
+            opacity: 0; /* Wird nach Intro eingeblendet */
+            display: flex;
+            flex-direction: column;
         }
 
-        /* === NAVIGATION BAR === */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Der Container für den ReactBits OGL Code */
+        #line-waves-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        /* UI OVERLAY */
+        .ui-layer {
+            position: relative;
+            z-index: 2;
             width: 100%;
-            height: var(--nav-height);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.6) 100%);
+        }
+
+        /* Navbar */
+        .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 4vw;
-            z-index: 100;
-            background: rgba(234, 230, 223, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--col-border);
-            opacity: 0;
+            height: var(--nav-height);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .nav-logo {
-            font-family: var(--font-serif);
-            font-size: 1.3rem;
-            font-weight: 500;
+            font-weight: 700;
+            font-size: 1.2rem;
             letter-spacing: -0.02em;
-            text-decoration: none;
-            color: var(--col-text);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--col-text);
-            font-size: 0.85rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            opacity: 1;
         }
 
         .nav-cta {
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--col-bg);
-            background: var(--col-text);
+            padding: 0.8rem 1.8rem;
+            background: #ffffff;
+            color: #000000;
             text-decoration: none;
-            padding: 0.8rem 2rem;
-            border-radius: 4px;
-            transition: background 0.3s ease;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: transform 0.3s ease;
         }
 
-        .nav-cta:hover {
-            background: var(--col-accent);
-        }
+        .nav-cta:hover { transform: scale(1.05); }
 
-        /* === HERO GRID LAYOUT === */
-        .hero {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 2rem;
-            height: 100vh;
-            padding: calc(var(--nav-height) + 4vh) 4vw 4vh 4vw;
-            background-color: var(--col-bg);
-            opacity: 0;
-        }
-
-        /* Linke Seite: Content Grid */
+        /* Main Content */
         .hero-content {
-            grid-column: 1 / 7;
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
+            align-items: center;
             justify-content: center;
-            padding-right: 3vw;
+            text-align: center;
+            padding: 0 2rem;
         }
 
-        /* Rechte Seite: LineWaves WebGL Window */
-        .hero-visual {
-            grid-column: 8 / 13;
-            position: relative;
-            height: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #dcdcdc; /* Fallback */
-            border: 1px solid rgba(18, 18, 18, 0.05);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 50px 100px -30px rgba(0,0,0,0.1);
-        }
-
-        /* Die WebGL Szene für LineWaves */
-        #line-waves-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* === TYPOGRAPHY & REVEAL MASKS === */
-        .anim-wrap {
-            overflow: hidden;
-            line-height: 1.1;
-        }
-
-        .pre-head {
+        .badge {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--col-accent);
-            font-weight: 600;
+            letter-spacing: 0.1em;
             margin-bottom: 2rem;
-            display: block;
         }
 
         .headline {
-            font-family: var(--font-serif);
-            font-size: clamp(3rem, 5.5vw, 6.5rem);
-            font-weight: 400;
-            color: var(--col-text);
-            margin-bottom: 2rem;
-            letter-spacing: -0.02em;
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            max-width: 900px;
         }
 
-        .headline i {
-            font-style: italic;
-            color: rgba(18, 18, 18, 0.6);
-        }
-
-        .paragraph {
-            font-size: clamp(1rem, 1.3vw, 1.25rem);
+        .subtext {
+            font-size: clamp(1rem, 1.2vw, 1.2rem);
+            color: rgba(255,255,255,0.7);
+            max-width: 600px;
             line-height: 1.6;
-            color: rgba(18, 18, 18, 0.75);
-            font-weight: 400;
-            max-width: 500px;
-            margin-bottom: 3.5rem;
-        }
-
-        /* === MAGNETIC PRIMARY CTA === */
-        .cta-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .magnet-container {
-            display: inline-block;
-            padding: 1rem; /* Hover-Area */
-            margin: -1rem;
+            margin-bottom: 3rem;
         }
 
         .btn-primary {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 1.2rem 3.5rem;
-            background: var(--col-text);
-            color: var(--col-bg);
+            background: #ffffff;
+            color: #000000;
             text-decoration: none;
-            border-radius: 100px;
             font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            overflow: hidden;
-            transition: color 0.4s ease, background 0.4s ease;
-        }
-
-        .btn-primary-text {
-            position: relative;
-            z-index: 2;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: background 0.3s ease, transform 0.3s ease;
         }
 
         .btn-primary:hover {
-            background: var(--col-accent);
-        }
-
-        /* === TRUST INDICATORS (Authority Layer) === */
-        .trust-layer {
-            display: flex;
-            gap: 2.5rem;
-            border-top: 1px solid var(--col-border);
-            padding-top: 1.5rem;
-        }
-
-        .trust-item {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .trust-icon {
-            width: 18px;
-            height: 18px;
-            color: var(--col-text);
-        }
-
-        .trust-text {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: rgba(18, 18, 18, 0.6);
-            font-weight: 600;
+            background: #e0e0e0;
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
 
-    <div class="film-grain"></div>
-
-    <div id="intro-stage">
-        <div class="chaos-object" id="anim-license"></div>
-        <div style="position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.3em; opacity: 0.3;">Klicken, um die MPU zu synchronisieren</div>
+    <div id="intro-container">
+        <div class="license-card" id="license">
+            <div class="license-eu">D</div>
+            <div class="license-photo"></div>
+            <div class="license-lines">
+                <div class="l-line"></div>
+                <div class="l-line"></div>
+                <div class="l-line"></div>
+                <div class="l-line"></div>
+                <div class="l-line"></div>
+            </div>
+        </div>
     </div>
 
-    <div id="sync-layer"></div>
-
-    <nav class="navbar" id="navbar">
-        <a href="#" class="nav-logo">MPU Strategie Berlin</a>
-        <ul class="nav-links">
-            <li><a href="#">Die Methode</a></li>
-            <li><a href="#">Gutachter-Logik</a></li>
-            <li><a href="#">Honorar</a></li>
-        </ul>
-        <a href="#" class="nav-cta">Rückruf anfordern</a>
-    </nav>
-
-    <main class="hero" id="hero-grid">
+    <div id="hero-container">
+        <div id="line-waves-bg"></div>
         
-        <div class="hero-content">
-            <div class="anim-wrap"><span class="pre-head gs-reveal">Zertifizierte MPU-Vorbereitung</span></div>
-            
-            <h1 class="headline">
-                <div class="anim-wrap"><span class="gs-reveal">Struktur statt</span></div>
-                <div class="anim-wrap"><span class="gs-reveal"><i>Spekulation.</i></span></div>
-            </h1>
-            
-            <div class="anim-wrap">
-                <p class="paragraph gs-reveal">
-                    Wir erarbeiten Ihre Geschichte so, dass sie dem Gutachter standhält. Kein Auswendiglernen, keine leeren Versprechen. Nur systematische Aufarbeitung auf Augenhöhe.
+        <div class="ui-layer">
+            <nav class="navbar">
+                <div class="nav-logo">MPU Experten</div>
+                <a href="#" class="nav-cta">Erstgespräch anfragen</a>
+            </nav>
+
+            <div class="hero-content">
+                <div class="badge">Der Fahrplan zurück zur Mobilität</div>
+                <h1 class="headline">Reiten Sie die Welle<br>zurück zum Führerschein.</h1>
+                <p class="subtext">
+                    Keine unseriösen Versprechen, sondern klare Struktur. Wir begleiten Sie diskret und wissenschaftlich fundiert durch den gesamten Prozess Ihrer MPU.
                 </p>
-            </div>
-
-            <div class="anim-wrap">
-                <div class="cta-wrapper gs-reveal">
-                    <div class="magnet-container" id="magnet-wrap">
-                        <a href="#" class="btn-primary" id="magnet-btn">
-                            <span class="btn-primary-text">Kostenfreies Erstgespräch</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="anim-wrap">
-                <div class="trust-layer gs-reveal">
-                    <div class="trust-item">
-                        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        <span class="trust-text">Systematische Methodik</span>
-                    </div>
-                    <div class="trust-item">
-                        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                        <span class="trust-text">Absolute Diskretion</span>
-                    </div>
-                    <div class="trust-item">
-                        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                        <span class="trust-text">Realistischer Fahrplan</span>
-                    </div>
-                </div>
+                <a href="#" class="btn-primary">Jetzt starten</a>
             </div>
         </div>
+    </div>
 
-        <div class="hero-visual gs-visual-reveal" id="line-waves-window">
-            <canvas id="line-waves-canvas"></canvas>
-            <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(18, 18, 18, 0.4) 0%, transparent 50%); pointer-events: none;"></div>
-        </div>
+    <script type="module">
+        import { Renderer, Program, Mesh, Triangle } from 'https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm';
 
-    </main>
+        /* =========================================================
+           1. EXACT SHADERS FROM REACTBITS
+           ========================================================= */
+        const vertexShader = `
+            attribute vec2 uv;
+            attribute vec2 position;
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                gl_Position = vec4(position, 0, 1);
+            }
+        `;
 
-    <script type="x-shader/x-vertex" id="vertexShader">
-        attribute vec2 uv;
-        attribute vec2 position;
-        varying vec2 vUv;
-        void main() {
-            vUv = uv;
-            gl_Position = vec4(position, 0, 1);
-        }
-    </script>
+        const fragmentShader = `
+            precision highp float;
 
-    <script type="x-shader/x-fragment" id="fragmentShader">
-        precision highp float;
+            uniform float uTime;
+            uniform vec3 uResolution;
+            uniform float uSpeed;
+            uniform float uInnerLines;
+            uniform float uOuterLines;
+            uniform float uWarpIntensity;
+            uniform float uRotation;
+            uniform float uEdgeFadeWidth;
+            uniform float uColorCycleSpeed;
+            uniform float uBrightness;
+            uniform vec3 uColor1;
+            uniform vec3 uColor2;
+            uniform vec3 uColor3;
+            uniform vec2 uMouse;
+            uniform float uMouseInfluence;
+            uniform bool uEnableMouse;
 
-        uniform float uTime;
-        uniform vec3 uResolution;
-        uniform float uSpeed;
-        uniform float uInnerLines;
-        uniform float uOuterLines;
-        uniform float uWarpIntensity;
-        uniform float uRotation;
-        uniform float uEdgeFadeWidth;
-        uniform float uColorCycleSpeed;
-        uniform float uBrightness;
-        uniform vec3 uColor1;
-        uniform vec3 uColor2;
-        uniform vec3 uColor3;
-        uniform vec2 uMouse;
-        uniform float uMouseInfluence;
-        uniform bool uEnableMouse;
+            #define HALF_PI 1.5707963
 
-        #define HALF_PI 1.5707963
-
-        float hashF(float n) {
-            return fract(sin(n * 127.1) * 43758.5453123);
-        }
-
-        float smoothNoise(float x) {
-            float i = floor(x);
-            float f = fract(x);
-            float u = f * f * (3.0 - 2.0 * f);
-            return mix(hashF(i), hashF(i + 1.0), u);
-        }
-
-        float displaceA(float coord, float t) {
-            float result = sin(coord * 2.123) * 0.2;
-            result += sin(coord * 3.234 + t * 4.345) * 0.1;
-            result += sin(coord * 0.589 + t * 0.934) * 0.5;
-            return result;
-        }
-
-        float displaceB(float coord, float t) {
-            float result = sin(coord * 1.345) * 0.3;
-            result += sin(coord * 2.734 + t * 3.345) * 0.2;
-            result += sin(coord * 0.189 + t * 0.934) * 0.3;
-            return result;
-        }
-
-        vec2 rotate2D(vec2 p, float angle) {
-            float c = cos(angle);
-            float s = sin(angle);
-            return vec2(p.x * c - p.y * s, p.x * s + p.y * c);
-        }
-
-        void main() {
-            vec2 coords = gl_FragCoord.xy / uResolution.xy;
-            coords = coords * 2.0 - 1.0;
-            coords = rotate2D(coords, uRotation);
-
-            float halfT = uTime * uSpeed * 0.5;
-            float fullT = uTime * uSpeed;
-
-            float mouseWarp = 0.0;
-            if (uEnableMouse) {
-                vec2 mPos = rotate2D(uMouse * 2.0 - 1.0, uRotation);
-                float mDist = length(coords - mPos);
-                mouseWarp = uMouseInfluence * exp(-mDist * mDist * 4.0);
+            float hashF(float n) {
+                return fract(sin(n * 127.1) * 43758.5453123);
             }
 
-            float warpAx = coords.x + displaceA(coords.y, halfT) * uWarpIntensity + mouseWarp;
-            float warpAy = coords.y - displaceA(coords.x * cos(fullT) * 1.235, halfT) * uWarpIntensity;
-            float warpBx = coords.x + displaceB(coords.y, halfT) * uWarpIntensity + mouseWarp;
-            float warpBy = coords.y - displaceB(coords.x * sin(fullT) * 1.235, halfT) * uWarpIntensity;
-
-            vec2 fieldA = vec2(warpAx, warpAy);
-            vec2 fieldB = vec2(warpBx, warpBy);
-            vec2 blended = mix(fieldA, fieldB, mix(fieldA, fieldB, 0.5));
-
-            float fadeTop = smoothstep(uEdgeFadeWidth, uEdgeFadeWidth + 0.4, blended.y);
-            float fadeBottom = smoothstep(-uEdgeFadeWidth, -(uEdgeFadeWidth + 0.4), blended.y);
-            float vMask = 1.0 - max(fadeTop, fadeBottom);
-
-            float tileCount = mix(uOuterLines, uInnerLines, vMask);
-            float scaledY = blended.y * tileCount;
-            float nY = smoothNoise(abs(scaledY));
-
-            float ridge = pow(
-                step(abs(nY - blended.x) * 2.0, HALF_PI) * cos(2.0 * (nY - blended.x)),
-                5.0
-            );
-
-            float lines = 0.0;
-            for (float i = 1.0; i < 3.0; i += i + 1.0) {
-                lines += pow(max(fract(scaledY), fract(-scaledY)), i * 2.0);
+            float smoothNoise(float x) {
+                float i = floor(x);
+                float f = fract(x);
+                float u = f * f * (3.0 - 2.0 * f);
+                return mix(hashF(i), hashF(i + 1.0), u);
             }
 
-            float pattern = vMask * lines;
-
-            float cycleT = fullT * uColorCycleSpeed;
-            float rChannel = (pattern + lines * ridge) * (cos(blended.y + cycleT * 0.234) * 0.5 + 1.0);
-            float gChannel = (pattern + vMask * ridge) * (sin(blended.x + cycleT * 1.745) * 0.5 + 1.0);
-            float bChannel = (pattern + lines * ridge) * (cos(blended.x + cycleT * 0.534) * 0.5 + 1.0);
-
-            vec3 col = (rChannel * uColor1 + gChannel * uColor2 + bChannel * uColor3) * uBrightness;
-            float alpha = clamp(length(col), 0.0, 1.0);
-
-            gl_FragColor = vec4(col, alpha);
-        }
-    </script>
-
-    <script>
-        /**
-         * 1. NEURO-RESPONSIVE INTRO (Multi-Sensory Sync)
-         */
-        let isAudioInitialized = false;
-        let audioCtx;
-        let mainPulse;
-
-        function initNeuroAudio() {
-            if (isAudioInitialized) return;
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-            oscillator.type = 'sine';
-            oscillator.frequency.value = 50; // Tiefe Frequenz
-            
-            gainNode.gain.value = 0; // Fade in
-
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            
-            oscillator.start();
-            
-            // Subtiler "Sync" Impuls
-            gsap.to(gainNode.gain, { value: 0.15, duration: 3, ease: "power2.inOut", delay: 1 });
-            isAudioInitialized = true;
-        }
-
-        /**
-         * 2. THE MULTI-PHASED TIMELINE (GSAP Intro -> Hero)
-         */
-        const introTimeline = gsap.timeline({ defaults: { ease: "power4.out" } });
-
-        // Startzustände (bevor der Nutzer klickt)
-        gsap.set("#intro-stage", { background: "#030303" });
-        gsap.set(".pre-head", { color: "#555" }); // Start: Grau (unruhig)
-        gsap.set(".pre-head span", { opacity: 0.3 }); // Start: Grau (unruhig)
-
-        document.getElementById('intro-stage').addEventListener('click', () => {
-            initNeuroAudio();
-
-            // PHASE 1: Das Chaos-Objekt fliegt direkt auf den Nutzer zu
-            introTimeline.to("#anim-license", {
-                opacity: 1,
-                z: 0,
-                rotateX: 0,
-                scale: 1,
-                duration: 2.5,
-                ease: "expo.out"
-            })
-            // Stroboskop Blitz
-            .to("#intro-stage", {
-                background: "#ffffff",
-                duration: 0.05,
-                repeat: 3,
-                yoyo: true,
-                ease: "power2.inOut"
-            })
-            // PHASE 2: Der Sync (Lade-Blur)
-            .to("#anim-license", { opacity: 0, scale: 2, duration: 0.8 }, "-=0.2")
-            .to("#sync-layer", { display: "block", duration: 0.01 }, "-=1.0")
-            .to("#intro-stage", { y: "-100%", duration: 1.5, ease: "expo.in" }, "-=0.5")
-
-            // PHASE 3: Der Reveal (MPU Hero)
-            .to(".gs-reveal", { y: "110%" }, 0) // Set initial state
-            .to(".hero", { opacity: 1, duration: 0.01 }, "-=1.0")
-            .to("#navbar", { opacity: 1, y: -20, duration: 1.5, delay: 0.2 }, "-=1.0")
-            
-            // Visual Reveal (LineWaves Fenster opens)
-            .from(".gs-visual-reveal", {
-                scale: 0.95,
-                opacity: 0,
-                borderRadius: "30px",
-                duration: 1.8
-            }, "-=1.2")
-
-            // Typography & Content Reveal (Staggered)
-            .to(".gs-reveal", {
-                y: "0%",
-                duration: 1.2,
-                stagger: 0.1,
-            }, "-=2.2")
-            
-            // Unschärfe verschwindet (Sync complete)
-            .to("#sync-layer", { opacity: 0, backdropFilter: "blur(0px)", duration: 2, ease: "power2.inOut" }, "-=1.5");
-        });
-
-        /**
-         * 3. VANILLA WEBGL (Kopiert und angepasst aus Benutzer-Code)
-         */
-        const canvas = document.getElementById('line-waves-canvas');
-        const gl = canvas.getContext('webgl');
-
-        if (!gl) { console.error("WebGL not supported"); }
-
-        // Shader-Codes laden
-        const vsSource = document.getElementById('vertexShader').textContent;
-        const fsSource = document.getElementById('fragmentShader').textContent;
-
-        function createShader(gl, type, source) {
-            const shader = gl.createShader(type);
-            gl.shaderSource(shader, source);
-            gl.compileShader(shader);
-            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-                console.error("Error compiling shader:", gl.getShaderInfoLog(shader));
-                gl.deleteShader(shader);
-                return null;
+            float displaceA(float coord, float t) {
+                float result = sin(coord * 2.123) * 0.2;
+                result += sin(coord * 3.234 + t * 4.345) * 0.1;
+                result += sin(coord * 0.589 + t * 0.934) * 0.5;
+                return result;
             }
-            return shader;
-        }
 
-        const vertexShader = createShader(gl, gl.VERTEX_SHADER, vsSource);
-        const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
-
-        const program = gl.createProgram();
-        gl.attachShader(program, vertexShader);
-        gl.attachShader(program, fragmentShader);
-        gl.linkProgram(program);
-
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            console.error("Error linking program:", gl.getProgramInfoLog(program));
-        }
-
-        const positionAttributeLocation = gl.getAttribLocation(program, "position");
-        const positionBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-        
-        // Fullscreen Triangle
-        const positions = new Float32Array([
-            -1.0, -1.0,
-             3.0, -1.0,
-            -1.0,  3.0,
-        ]);
-        gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
-
-        const uniforms = {
-            uTime: gl.getUniformLocation(program, "uTime"),
-            uResolution: gl.getUniformLocation(program, "uResolution"),
-            uSpeed: gl.getUniformLocation(program, "uSpeed"),
-            uInnerLines: gl.getUniformLocation(program, "uInnerLines"),
-            uOuterLines: gl.getUniformLocation(program, "uOuterLines"),
-            uWarpIntensity: gl.getUniformLocation(program, "uWarpIntensity"),
-            uRotation: gl.getUniformLocation(program, "uRotation"),
-            uEdgeFadeWidth: gl.getUniformLocation(program, "uEdgeFadeWidth"),
-            uColorCycleSpeed: gl.getUniformLocation(program, "uColorCycleSpeed"),
-            uBrightness: gl.getUniformLocation(program, "uBrightness"),
-            uColor1: gl.getUniformLocation(program, "uColor1"),
-            uColor2: gl.getUniformLocation(program, "uColor2"),
-            uColor3: gl.getUniformLocation(program, "uColor3"),
-            uMouse: gl.getUniformLocation(program, "uMouse"),
-            uMouseInfluence: gl.getUniformLocation(program, "uMouseInfluence"),
-            uEnableMouse: gl.getUniformLocation(program, "uEnableMouse")
-        };
-
-        let mousePos = { x: 0.5, y: 0.5 };
-        let currentMouse = [0.5, 0.5];
-
-        canvas.addEventListener('mousemove', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            mousePos.x = (e.clientX - rect.left) / rect.width;
-            mousePos.y = 1.0 - (e.clientY - rect.top) / rect.height;
-        });
-
-        canvas.addEventListener('mouseleave', () => {
-            mousePos.x = 0.5;
-            mousePos.y = 0.5;
-        });
-
-        function resize() {
-            const width = canvas.parentElement.offsetWidth;
-            const height = canvas.parentElement.offsetHeight;
-            if (canvas.width !== width || canvas.height !== height) {
-                canvas.width = width;
-                canvas.height = height;
-                gl.viewport(0, 0, width, height);
+            float displaceB(float coord, float t) {
+                float result = sin(coord * 1.345) * 0.3;
+                result += sin(coord * 2.734 + t * 3.345) * 0.2;
+                result += sin(coord * 0.189 + t * 0.934) * 0.3;
+                return result;
             }
-        }
 
+            vec2 rotate2D(vec2 p, float angle) {
+                float c = cos(angle);
+                float s = sin(angle);
+                return vec2(p.x * c - p.y * s, p.x * s + p.y * c);
+            }
+
+            void main() {
+                vec2 coords = gl_FragCoord.xy / uResolution.xy;
+                coords = coords * 2.0 - 1.0;
+                coords = rotate2D(coords, uRotation);
+
+                float halfT = uTime * uSpeed * 0.5;
+                float fullT = uTime * uSpeed;
+
+                float mouseWarp = 0.0;
+                if (uEnableMouse) {
+                    vec2 mPos = rotate2D(uMouse * 2.0 - 1.0, uRotation);
+                    float mDist = length(coords - mPos);
+                    mouseWarp = uMouseInfluence * exp(-mDist * mDist * 4.0);
+                }
+
+                float warpAx = coords.x + displaceA(coords.y, halfT) * uWarpIntensity + mouseWarp;
+                float warpAy = coords.y - displaceA(coords.x * cos(fullT) * 1.235, halfT) * uWarpIntensity;
+                float warpBx = coords.x + displaceB(coords.y, halfT) * uWarpIntensity + mouseWarp;
+                float warpBy = coords.y - displaceB(coords.x * sin(fullT) * 1.235, halfT) * uWarpIntensity;
+
+                vec2 fieldA = vec2(warpAx, warpAy);
+                vec2 fieldB = vec2(warpBx, warpBy);
+                vec2 blended = mix(fieldA, fieldB, mix(fieldA, fieldB, 0.5));
+
+                float fadeTop = smoothstep(uEdgeFadeWidth, uEdgeFadeWidth + 0.4, blended.y);
+                float fadeBottom = smoothstep(-uEdgeFadeWidth, -(uEdgeFadeWidth + 0.4), blended.y);
+                float vMask = 1.0 - max(fadeTop, fadeBottom);
+
+                float tileCount = mix(uOuterLines, uInnerLines, vMask);
+                float scaledY = blended.y * tileCount;
+                float nY = smoothNoise(abs(scaledY));
+
+                float ridge = pow(
+                    step(abs(nY - blended.x) * 2.0, HALF_PI) * cos(2.0 * (nY - blended.x)),
+                    5.0
+                );
+
+                float lines = 0.0;
+                for (float i = 1.0; i < 3.0; i += 1.0) {
+                    lines += pow(max(fract(scaledY), fract(-scaledY)), i * 2.0);
+                }
+
+                float pattern = vMask * lines;
+
+                float cycleT = fullT * uColorCycleSpeed;
+                float rChannel = (pattern + lines * ridge) * (cos(blended.y + cycleT * 0.234) * 0.5 + 1.0);
+                float gChannel = (pattern + vMask * ridge) * (sin(blended.x + cycleT * 1.745) * 0.5 + 1.0);
+                float bChannel = (pattern + lines * ridge) * (cos(blended.x + cycleT * 0.534) * 0.5 + 1.0);
+
+                vec3 col = (rChannel * uColor1 + gChannel * uColor2 + bChannel * uColor3) * uBrightness;
+                float alpha = clamp(length(col), 0.0, 1.0);
+
+                gl_FragColor = vec4(col, alpha);
+            }
+        `;
+
+        /* =========================================================
+           2. VANILLA OGL SETUP (Exakte Portierung der ReactBits Props)
+           ========================================================= */
         function hexToVec3(hex) {
             const h = hex.replace('#', '');
             return [
@@ -685,72 +394,131 @@
             ];
         }
 
-        // Benutzer-Spezifische Werte
-        const rotationRad = (-45 * Math.PI) / 180;
-        const color1_vec3 = hexToVec3('#ffffff');
-        const color2_vec3 = hexToVec3('#ffffff');
-        const color3_vec3 = hexToVec3('#ffffff');
+        // Exakte Parameter aus deinem Prompt
+        const config = {
+            speed: 0.3,
+            innerLineCount: 32,
+            outerLineCount: 36,
+            warpIntensity: 1,
+            rotation: -45,
+            edgeFadeWidth: 0,
+            colorCycleSpeed: 1,
+            brightness: 0.2,
+            color1: "#ffffff",
+            color2: "#ffffff",
+            color3: "#ffffff",
+            enableMouseInteraction: true,
+            mouseInfluence: 2
+        };
 
-        let animationFrameId;
+        const container = document.getElementById('line-waves-bg');
+        const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
+        const gl = renderer.gl;
+        gl.clearColor(0, 0, 0, 0);
+        container.appendChild(gl.canvas);
 
-        function animate(time) {
-            animationFrameId = requestAnimationFrame(animate);
-            resize();
+        let currentMouse = [0.5, 0.5];
+        let targetMouse = [0.5, 0.5];
 
-            gl.clearColor(0, 0, 0, 1);
-            gl.clear(gl.COLOR_BUFFER_BIT);
-
-            gl.useProgram(program);
-
-            // Setzen der Uniforms (Benutzer-Spezifische Werte)
-            gl.uniform1f(uniforms.uTime, time * 0.001);
-            gl.uniform3f(uniforms.uResolution, canvas.width, canvas.height, canvas.width / canvas.height);
-            gl.uniform1f(uniforms.uSpeed, 0.3);
-            gl.uniform1f(uniforms.uInnerLines, 32.0);
-            gl.uniform1f(uniforms.uOuterLines, 36.0);
-            gl.uniform1f(uniforms.uWarpIntensity, 1.0);
-            gl.uniform1f(uniforms.uRotation, rotationRad);
-            gl.uniform1f(uniforms.uEdgeFadeWidth, 0.0);
-            gl.uniform1f(uniforms.uColorCycleSpeed, 1.0);
-            gl.uniform1f(uniforms.uBrightness, 0.2);
-            gl.uniform3fv(uniforms.uColor1, color1_vec3);
-            gl.uniform3fv(uniforms.uColor2, color2_vec3);
-            gl.uniform3fv(uniforms.uColor3, color3_vec3);
-            gl.uniform1f(uniforms.uMouseInfluence, 2.0);
-            gl.uniform1i(uniforms.uEnableMouse, 1); // True
-
-            // Maus Interpolation
-            currentMouse[0] += 0.05 * (mousePos.x - currentMouse[0]);
-            currentMouse[1] += 0.05 * (mousePos.y - currentMouse[1]);
-            gl.uniform2f(uniforms.uMouse, currentMouse[0], currentMouse[1]);
-
-            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-            gl.enableVertexAttribArray(positionAttributeLocation);
-            gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
-
-            gl.drawArrays(gl.TRIANGLES, 0, 3);
+        function handleMouseMove(e) {
+            const rect = gl.canvas.getBoundingClientRect();
+            targetMouse = [
+                (e.clientX - rect.left) / rect.width,
+                1.0 - (e.clientY - rect.top) / rect.height
+            ];
         }
 
-        animate();
+        function handleMouseLeave() {
+            targetMouse = [0.5, 0.5];
+        }
 
-        /**
-         * 4. HAPTIC DETAILS (Magnetic CTA & Audio Pulse)
-         */
-        const magnetWrap = document.getElementById('magnet-wrap');
-        const magnetBtn = document.getElementById('magnet-btn');
+        function resize() {
+            renderer.setSize(container.offsetWidth, container.offsetHeight);
+            if (program) {
+                program.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height];
+            }
+        }
+        window.addEventListener('resize', resize);
 
-        magnetWrap.addEventListener('mousemove', (e) => {
-            const rect = magnetWrap.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const distanceX = (e.clientX - centerX) * 0.3;
-            const distanceY = (e.clientY - centerY) * 0.3;
-
-            gsap.to(magnetBtn, { x: distanceX, y: distanceY, duration: 0.4, ease: "power2.out" });
+        const geometry = new Triangle(gl);
+        const rotationRad = (config.rotation * Math.PI) / 180;
+        
+        let program = new Program(gl, {
+            vertex: vertexShader,
+            fragment: fragmentShader,
+            uniforms: {
+                uTime: { value: 0 },
+                uResolution: { value: [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height] },
+                uSpeed: { value: config.speed },
+                uInnerLines: { value: config.innerLineCount },
+                uOuterLines: { value: config.outerLineCount },
+                uWarpIntensity: { value: config.warpIntensity },
+                uRotation: { value: rotationRad },
+                uEdgeFadeWidth: { value: config.edgeFadeWidth },
+                uColorCycleSpeed: { value: config.colorCycleSpeed },
+                uBrightness: { value: config.brightness },
+                uColor1: { value: hexToVec3(config.color1) },
+                uColor2: { value: hexToVec3(config.color2) },
+                uColor3: { value: hexToVec3(config.color3) },
+                uMouse: { value: new Float32Array([0.5, 0.5]) },
+                uMouseInfluence: { value: config.mouseInfluence },
+                uEnableMouse: { value: config.enableMouseInteraction }
+            }
         });
 
-        magnetWrap.addEventListener('mouseleave', () => {
-            gsap.to(magnetBtn, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1, 0.3)" });
+        const mesh = new Mesh(gl, { geometry, program });
+        resize();
+
+        if (config.enableMouseInteraction) {
+            gl.canvas.addEventListener('mousemove', handleMouseMove);
+            gl.canvas.addEventListener('mouseleave', handleMouseLeave);
+        }
+
+        function update(time) {
+            requestAnimationFrame(update);
+            program.uniforms.uTime.value = time * 0.001;
+
+            if (config.enableMouseInteraction) {
+                currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]);
+                currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]);
+                program.uniforms.uMouse.value[0] = currentMouse[0];
+                program.uniforms.uMouse.value[1] = currentMouse[1];
+            }
+
+            renderer.render({ scene: mesh });
+        }
+        requestAnimationFrame(update);
+
+        /* =========================================================
+           3. GSAP ANIMATION SEQUENCE (Führerschein -> Hero)
+           ========================================================= */
+        window.addEventListener('load', () => {
+            const tl = gsap.timeline();
+
+            // 1. Der Führerschein fliegt aus der Tiefe ins Bild
+            tl.fromTo("#license", 
+                { z: -2000, rotationY: 720, rotationZ: -45, opacity: 0 },
+                { z: 0, rotationY: 0, rotationZ: 0, opacity: 1, duration: 1.5, ease: "power3.out" }
+            )
+            
+            // 2. Er bleibt kurz stehen
+            .to("#license", { duration: 0.5 }) 
+
+            // 3. Er rotiert wild im Hintergrund, verschwimmt massiv und verschwindet
+            .to("#license", { 
+                scale: 4, 
+                rotationY: 360, 
+                filter: "blur(40px)", 
+                opacity: 0, 
+                duration: 1.2, 
+                ease: "power2.in" 
+            })
+
+            // 4. Nahtloser Übergang: Die Hero Section (LineWaves + UI) blendet sich ein
+            .to("#hero-container", { opacity: 1, duration: 1.5, ease: "power2.out" }, "-=0.5")
+            
+            // 5. Entferne das Intro-DOM nach der Animation
+            .add(() => { document.getElementById('intro-container').remove(); });
         });
     </script>
 </body>
