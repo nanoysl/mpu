@@ -871,6 +871,8 @@
       letter-spacing: 0;
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1;
+      /* Optischer Ausgleich für den Desktop */
+      transform: translateY(-1.5px); 
     }
 
     .mpu-step-text {
@@ -1310,6 +1312,11 @@
 
       .mpu-step-row.is-active {
         transform: none;
+      }
+
+      .mpu-step-index span {
+        /* Mobile perfekt belassen */
+        transform: none; 
       }
 
       .mpu-step-text {
