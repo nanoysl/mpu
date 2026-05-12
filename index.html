@@ -20,7 +20,6 @@
       --line: rgba(255,255,255,0.12);
       --glass: rgba(255,255,255,0.07);
       --glass-strong: rgba(255,255,255,0.12);
-      --black: #000;
     }
 
     * {
@@ -53,10 +52,6 @@
       text-decoration: none;
     }
 
-    /* =========================================
-       GLOBAL BACKGROUND
-       ========================================= */
-
     #line-waves-bg {
       position: fixed;
       inset: 0;
@@ -78,8 +73,8 @@
       z-index: 1;
       pointer-events: none;
       background:
-        radial-gradient(circle at 50% 45%, rgba(0,0,0,0.1), rgba(0,0,0,0.72) 72%),
-        linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.82));
+        radial-gradient(circle at 50% 45%, rgba(0,0,0,0.08), rgba(0,0,0,0.76) 74%),
+        linear-gradient(to bottom, rgba(0,0,0,0.12), rgba(0,0,0,0.86));
     }
 
     #page-content {
@@ -88,9 +83,7 @@
       opacity: 0;
     }
 
-    /* =========================================
-       1. INTRO: FÜHRERSCHEIN BLEIBT DRIN
-       ========================================= */
+    /* INTRO */
 
     #intro-container {
       position: fixed;
@@ -135,39 +128,7 @@
       opacity: 0.5;
     }
 
-    .license-photo {
-      position: absolute;
-      top: 40px;
-      left: 20px;
-      width: 80px;
-      height: 100px;
-      background: rgba(0,0,0,0.2);
-      border-radius: 4px;
-    }
-
-    .license-lines {
-      position: absolute;
-      top: 40px;
-      left: 120px;
-      width: 240px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .l-line {
-      height: 8px;
-      background: rgba(0,0,0,0.15);
-      border-radius: 4px;
-    }
-
-    .l-line:nth-child(1) { width: 100%; }
-    .l-line:nth-child(2) { width: 80%; }
-    .l-line:nth-child(3) { width: 60%; }
-    .l-line:nth-child(4) { width: 90%; }
-    .l-line:nth-child(5) { width: 40%; margin-top: 20px; }
-
-    .license-eu {
+    .intro-license-eu {
       position: absolute;
       top: 15px;
       left: 15px;
@@ -183,9 +144,39 @@
       font-weight: 800;
     }
 
-    /* =========================================
-       NAVBAR
-       ========================================= */
+    .intro-license-photo {
+      position: absolute;
+      top: 40px;
+      left: 20px;
+      width: 80px;
+      height: 100px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 4px;
+    }
+
+    .intro-license-lines {
+      position: absolute;
+      top: 40px;
+      left: 120px;
+      width: 240px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .intro-l-line {
+      height: 8px;
+      background: rgba(0,0,0,0.15);
+      border-radius: 4px;
+    }
+
+    .intro-l-line:nth-child(1) { width: 100%; }
+    .intro-l-line:nth-child(2) { width: 80%; }
+    .intro-l-line:nth-child(3) { width: 60%; }
+    .intro-l-line:nth-child(4) { width: 90%; }
+    .intro-l-line:nth-child(5) { width: 40%; margin-top: 20px; }
+
+    /* NAV */
 
     .navbar {
       position: fixed;
@@ -216,7 +207,7 @@
       color: #000;
       border-radius: 100px;
       font-size: 0.88rem;
-      font-weight: 700;
+      font-weight: 800;
       transition: transform 0.3s ease, background 0.3s ease;
       white-space: nowrap;
     }
@@ -226,9 +217,7 @@
       background: #e9e9e9;
     }
 
-    /* =========================================
-       2. HERO
-       ========================================= */
+    /* HERO */
 
     .hero-section {
       position: relative;
@@ -286,6 +275,9 @@
     }
 
     .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       padding: 1.18rem 3.4rem;
       background: #fff;
       color: #000;
@@ -301,17 +293,15 @@
       transform: translateY(-3px);
     }
 
-    /* =========================================
-       3. SCROLL STORY
-       ========================================= */
+    /* STORY */
 
     .license-story {
       position: relative;
       z-index: 3;
-      height: 520vh;
+      height: 540vh;
       background:
         radial-gradient(circle at 30% 38%, rgba(255,255,255,0.08), transparent 32%),
-        linear-gradient(to bottom, transparent, rgba(0,0,0,0.48) 8%, rgba(0,0,0,0.78) 45%, rgba(0,0,0,0.52));
+        linear-gradient(to bottom, transparent, rgba(0,0,0,0.52) 8%, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.54));
     }
 
     .story-sticky {
@@ -326,10 +316,10 @@
       position: absolute;
       inset: 0;
       pointer-events: none;
-      opacity: 0.34;
+      opacity: 0.28;
       background-image:
-        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+        linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
       background-size: 70px 70px;
       mask-image: radial-gradient(circle at center, black, transparent 76%);
     }
@@ -360,7 +350,7 @@
       top: 50%;
       z-index: 8;
       width: min(430px, 34vw);
-      min-height: 380px;
+      min-height: 390px;
       transform: translateY(-50%);
       pointer-events: none;
     }
@@ -379,13 +369,18 @@
       position: absolute;
       inset: 0;
       opacity: 0;
-      transform: translateY(26px);
-      transition: opacity 0.45s ease, transform 0.45s ease;
+      transform: translateY(28px);
+      filter: blur(8px);
+      transition:
+        opacity 0.48s ease,
+        transform 0.48s ease,
+        filter 0.48s ease;
     }
 
     .step-copy.active {
       opacity: 1;
       transform: translateY(0);
+      filter: blur(0);
     }
 
     .step-eyebrow,
@@ -455,9 +450,12 @@
     .final-card-copy {
       padding: clamp(1.35rem, 2vw, 2rem);
       border: 1px solid rgba(255,255,255,0.14);
-      background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.035));
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035));
       border-radius: 28px;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.34);
+      box-shadow:
+        0 24px 80px rgba(0,0,0,0.34),
+        inset 0 1px 0 rgba(255,255,255,0.08);
       backdrop-filter: blur(22px);
       -webkit-backdrop-filter: blur(22px);
     }
@@ -471,266 +469,9 @@
       border-radius: 999px;
       background: #fff;
       color: #000;
-      font-weight: 800;
+      font-weight: 900;
       pointer-events: auto;
-    }
-
-    /* =========================================
-       SCROLL-LICENSE CARD
-       ========================================= */
-
-    .story-license-wrap {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      z-index: 7;
-      width: clamp(320px, 31vw, 500px);
-      aspect-ratio: 1.6 / 1;
-      transform-style: preserve-3d;
-      will-change: transform;
-    }
-
-    .scroll-license-card {
-      position: absolute;
-      inset: 0;
-      transform-style: preserve-3d;
-      border-radius: 26px;
-      will-change: transform;
-    }
-
-    .license-face {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      border-radius: 26px;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      box-shadow:
-        0 36px 90px rgba(0,0,0,0.55),
-        inset 0 0 0 1px rgba(255,255,255,0.55);
-    }
-
-    .license-front {
-      background:
-        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.8), transparent 18%),
-        linear-gradient(135deg, #f0c7d4 0%, #d8e3ef 46%, #c7d3e2 100%);
-      color: rgba(0,0,0,0.72);
-    }
-
-    .license-back {
-      transform: rotateY(180deg);
-      background:
-        radial-gradient(circle at 85% 12%, rgba(255,255,255,0.75), transparent 20%),
-        linear-gradient(135deg, #d6dce6 0%, #eed0dc 54%, #c9d9ef 100%);
-      color: rgba(0,0,0,0.76);
-    }
-
-    .license-shine {
-      position: absolute;
-      inset: -60%;
-      background: linear-gradient(
-        115deg,
-        transparent 0%,
-        transparent 38%,
-        rgba(255,255,255,0.72) 48%,
-        transparent 58%,
-        transparent 100%
-      );
-      transform: translateX(-34%) rotate(12deg);
-      opacity: 0.45;
-      mix-blend-mode: screen;
-      animation: licenseShine 5.8s linear infinite;
-      pointer-events: none;
-    }
-
-    @keyframes licenseShine {
-      0% { transform: translateX(-36%) rotate(12deg); }
-      100% { transform: translateX(36%) rotate(12deg); }
-    }
-
-    .license-chip {
-      position: absolute;
-      top: 9.5%;
-      left: 7.5%;
-      width: 13%;
-      height: 10%;
-      border-radius: 7px;
-      background: #003399;
-      color: #ffcc00;
-      display: grid;
-      place-items: center;
-      font-size: clamp(0.55rem, 0.7vw, 0.72rem);
-      font-weight: 900;
-      letter-spacing: -0.02em;
-    }
-
-    .license-title {
-      position: absolute;
-      top: 9%;
-      left: 25%;
-      right: 7%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      font-size: clamp(0.66rem, 0.78vw, 0.85rem);
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .license-title span:last-child {
-      color: rgba(0,0,0,0.44);
-    }
-
-    .license-photo-real {
-      position: absolute;
-      left: 7.5%;
-      top: 28%;
-      width: 22%;
-      height: 43%;
-      border-radius: 12px;
-      background:
-        linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.08)),
-        radial-gradient(circle at 50% 35%, rgba(0,0,0,0.24) 0 12%, transparent 13%),
-        radial-gradient(ellipse at 50% 75%, rgba(0,0,0,0.18) 0 28%, transparent 29%),
-        rgba(255,255,255,0.35);
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
-    }
-
-    .license-number {
-      position: absolute;
-      left: 7.5%;
-      bottom: 10%;
-      font-size: clamp(0.58rem, 0.68vw, 0.74rem);
-      letter-spacing: 0.12em;
-      color: rgba(0,0,0,0.44);
-      font-weight: 800;
-    }
-
-    .card-steps {
-      position: absolute;
-      top: 28%;
-      left: 35%;
-      right: 7%;
-      display: grid;
-      gap: clamp(0.45rem, 0.65vw, 0.7rem);
-    }
-
-    .card-step {
-      position: relative;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 0.65rem;
-      align-items: center;
-      padding: clamp(0.52rem, 0.75vw, 0.75rem);
-      border-radius: 14px;
-      background: rgba(255,255,255,0.28);
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
-      opacity: 0.54;
-      transform: translateX(0);
-      transition: opacity 0.35s ease, transform 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
-    }
-
-    .card-step.active {
-      opacity: 1;
-      transform: translateX(-8px);
-      background: rgba(255,255,255,0.58);
-      box-shadow:
-        inset 0 0 0 1px rgba(0,0,0,0.12),
-        0 12px 34px rgba(255,255,255,0.28);
-    }
-
-    .card-step b {
-      width: 1.75rem;
-      height: 1.75rem;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.78);
-      color: #fff;
-      display: grid;
-      place-items: center;
-      font-size: 0.72rem;
-      font-weight: 900;
-    }
-
-    .card-step span {
-      font-size: clamp(0.7rem, 0.86vw, 0.95rem);
-      line-height: 1.12;
-      font-weight: 900;
-      letter-spacing: -0.03em;
-    }
-
-    .back-header {
-      position: absolute;
-      top: 10%;
-      left: 8%;
-      right: 8%;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-
-    .back-header h3 {
-      font-size: clamp(1.1rem, 2vw, 2rem);
-      line-height: 0.95;
-      letter-spacing: -0.06em;
-      font-weight: 900;
-    }
-
-    .back-header span {
-      font-size: 0.7rem;
-      font-weight: 900;
-      letter-spacing: 0.16em;
-      opacity: 0.5;
-    }
-
-    .route-lines {
-      position: absolute;
-      left: 8%;
-      right: 8%;
-      top: 35%;
-      display: grid;
-      gap: 0.65rem;
-    }
-
-    .route-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      padding: clamp(0.55rem, 0.78vw, 0.78rem) clamp(0.65rem, 0.9vw, 0.95rem);
-      border-radius: 14px;
-      background: rgba(255,255,255,0.34);
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
-      font-weight: 900;
-      font-size: clamp(0.72rem, 0.86vw, 0.95rem);
-      letter-spacing: -0.03em;
-    }
-
-    .route-line small {
-      font-size: 0.66rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      opacity: 0.48;
-      white-space: nowrap;
-    }
-
-    .barcode {
-      position: absolute;
-      left: 8%;
-      right: 8%;
-      bottom: 9%;
-      height: 11%;
-      border-radius: 8px;
-      background: repeating-linear-gradient(
-        90deg,
-        rgba(0,0,0,0.55) 0 3px,
-        transparent 3px 8px,
-        rgba(0,0,0,0.38) 8px 11px,
-        transparent 11px 16px
-      );
-      opacity: 0.42;
+      box-shadow: 0 18px 42px rgba(255,255,255,0.12);
     }
 
     .story-final-glow {
@@ -738,14 +479,14 @@
       top: 50%;
       left: 50%;
       z-index: 4;
-      width: 42vw;
+      width: 46vw;
       aspect-ratio: 1 / 1;
       border-radius: 999px;
-      background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 66%);
+      background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 68%);
       transform: translate(-50%, -50%) scale(0.7);
       opacity: 0;
       pointer-events: none;
-      filter: blur(8px);
+      filter: blur(10px);
     }
 
     .story-progress {
@@ -768,9 +509,383 @@
       will-change: transform;
     }
 
-    /* =========================================
-       FINAL SECTION
-       ========================================= */
+    /* REALISTIC LICENSE CARD */
+
+    .story-license-wrap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 7;
+      width: clamp(350px, 31vw, 520px);
+      aspect-ratio: 1.6 / 1;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .scroll-license-card {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+      border-radius: 24px;
+      will-change: transform;
+    }
+
+    .license-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      overflow: hidden;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      box-shadow:
+        0 32px 80px rgba(0,0,0,0.5),
+        inset 0 0 0 1px rgba(255,255,255,0.5);
+    }
+
+    .license-front {
+      background:
+        radial-gradient(circle at 11% 12%, rgba(255,255,255,0.72), transparent 19%),
+        linear-gradient(135deg, #efd9e1 0%, #e2e7f0 50%, #d2dceb 100%);
+      color: rgba(0,0,0,0.76);
+    }
+
+    .license-back {
+      transform: rotateY(180deg);
+      background:
+        radial-gradient(circle at 84% 12%, rgba(255,255,255,0.68), transparent 18%),
+        linear-gradient(135deg, #e5dde6 0%, #efdde6 52%, #d6dfed 100%);
+      color: rgba(0,0,0,0.8);
+    }
+
+    .license-inner {
+      position: absolute;
+      inset: 0;
+      padding: 6.7% 7% 7.4% 7%;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .license-security-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.13;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.9), transparent 20%),
+        repeating-linear-gradient(
+          135deg,
+          rgba(255,255,255,0.35) 0 2px,
+          transparent 2px 10px
+        ),
+        repeating-radial-gradient(
+          circle at 30% 40%,
+          rgba(0,0,0,0.08) 0 1px,
+          transparent 1px 12px
+        );
+      pointer-events: none;
+    }
+
+    .license-shine {
+      position: absolute;
+      inset: -60%;
+      background: linear-gradient(
+        115deg,
+        transparent 0%,
+        transparent 40%,
+        rgba(255,255,255,0.65) 48%,
+        transparent 56%,
+        transparent 100%
+      );
+      transform: translateX(-36%) rotate(10deg);
+      opacity: 0.34;
+      mix-blend-mode: screen;
+      animation: licenseShine 6.5s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes licenseShine {
+      0% { transform: translateX(-38%) rotate(10deg); }
+      100% { transform: translateX(38%) rotate(10deg); }
+    }
+
+    .license-topbar {
+      display: grid;
+      grid-template-columns: 58px 1fr auto;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 0.72rem;
+      flex: 0 0 auto;
+    }
+
+    .license-chip {
+      width: 58px;
+      height: 32px;
+      border-radius: 8px;
+      background: #1144be;
+      color: #ffdc43;
+      display: grid;
+      place-items: center;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18);
+    }
+
+    .license-doc-title {
+      font-size: clamp(0.78rem, 0.9vw, 0.96rem);
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      color: rgba(0,0,0,0.72);
+    }
+
+    .license-doc-subtitle {
+      font-size: clamp(0.6rem, 0.74vw, 0.8rem);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: rgba(0,0,0,0.42);
+      text-transform: uppercase;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .license-front-grid {
+      display: grid;
+      grid-template-columns: 95px 1fr;
+      gap: 1rem;
+      flex: 1 1 auto;
+      min-height: 0;
+      align-items: stretch;
+    }
+
+    .license-photo-real {
+      position: relative;
+      width: 100%;
+      height: min(100%, 146px);
+      border-radius: 14px;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.12), rgba(0,0,0,0.06)),
+        rgba(255,255,255,0.36);
+      box-shadow:
+        inset 0 0 0 1px rgba(0,0,0,0.08),
+        inset 0 18px 40px rgba(255,255,255,0.16);
+      overflow: hidden;
+      align-self: start;
+    }
+
+    .photo-head {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      width: 28%;
+      aspect-ratio: 1;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.18);
+      transform: translateX(-50%);
+    }
+
+    .photo-body {
+      position: absolute;
+      bottom: 8%;
+      left: 50%;
+      width: 42%;
+      height: 54%;
+      border-radius: 40px 40px 18px 18px;
+      background: rgba(0,0,0,0.16);
+      transform: translateX(-50%);
+    }
+
+    .license-data-area {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+    }
+
+    .license-mini-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 0.24rem;
+      margin-bottom: 0.45rem;
+      flex: 0 0 auto;
+    }
+
+    .license-mini-lines span {
+      display: block;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.08);
+    }
+
+    .license-mini-lines span:nth-child(1) { width: 88%; }
+    .license-mini-lines span:nth-child(2) { width: 64%; }
+    .license-mini-lines span:nth-child(3) { width: 75%; }
+
+    .card-steps {
+      display: grid;
+      gap: clamp(0.28rem, 0.42vw, 0.46rem);
+      min-height: 0;
+    }
+
+    .card-step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.58rem 1fr;
+      align-items: center;
+      gap: 0.58rem;
+      min-height: clamp(32px, 2.35vw, 38px);
+      padding: 0.46rem 0.64rem;
+      border-radius: 13px;
+      background: rgba(255,255,255,0.26);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+      opacity: 0.55;
+      transition:
+        opacity 0.35s ease,
+        transform 0.35s ease,
+        background 0.35s ease,
+        box-shadow 0.35s ease;
+    }
+
+    .card-step.active {
+      opacity: 1;
+      transform: translateX(-4px);
+      background: rgba(255,255,255,0.6);
+      box-shadow:
+        inset 0 0 0 1px rgba(0,0,0,0.08),
+        0 8px 24px rgba(255,255,255,0.18);
+    }
+
+    .card-step b {
+      width: 1.58rem;
+      height: 1.58rem;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.74);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 0.64rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .card-step span {
+      display: block;
+      min-width: 0;
+      font-size: clamp(0.62rem, 0.78vw, 0.86rem);
+      line-height: 1.08;
+      font-weight: 850;
+      letter-spacing: -0.02em;
+      color: rgba(0,0,0,0.72);
+    }
+
+    .license-bottom-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.7rem;
+      align-items: center;
+      margin-top: 0.62rem;
+      padding-top: 0.48rem;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      flex: 0 0 auto;
+    }
+
+    .license-number,
+    .license-validity {
+      font-size: clamp(0.48rem, 0.62vw, 0.68rem);
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      color: rgba(0,0,0,0.42);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .license-validity {
+      text-align: right;
+    }
+
+    .back-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 0.82rem;
+      flex: 0 0 auto;
+    }
+
+    .back-header h3 {
+      font-size: clamp(1.18rem, 1.9vw, 1.9rem);
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+      color: rgba(0,0,0,0.78);
+    }
+
+    .back-header span {
+      font-size: clamp(0.56rem, 0.7vw, 0.74rem);
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.38);
+      white-space: nowrap;
+      padding-top: 0.2rem;
+    }
+
+    .route-lines {
+      display: grid;
+      gap: 0.44rem;
+      flex: 1 1 auto;
+      min-height: 0;
+      align-content: start;
+    }
+
+    .route-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      min-height: clamp(31px, 2.3vw, 37px);
+      padding: 0.48rem 0.72rem;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.34);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+      font-weight: 850;
+      font-size: clamp(0.62rem, 0.78vw, 0.86rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: rgba(0,0,0,0.75);
+    }
+
+    .route-line small {
+      font-size: clamp(0.5rem, 0.6vw, 0.66rem);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(0,0,0,0.42);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .barcode-wrap {
+      margin-top: 0.62rem;
+      padding-top: 0.42rem;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      flex: 0 0 auto;
+    }
+
+    .barcode {
+      width: 100%;
+      height: 23px;
+      border-radius: 6px;
+      opacity: 0.4;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(0,0,0,0.58) 0 2px,
+        transparent 2px 6px,
+        rgba(0,0,0,0.42) 6px 8px,
+        transparent 8px 11px
+      );
+    }
+
+    /* FINAL SECTION */
 
     .after-story {
       position: relative;
@@ -806,9 +921,7 @@
       font-size: clamp(1rem, 1.25vw, 1.18rem);
     }
 
-    /* =========================================
-       RESPONSIVE
-       ========================================= */
+    /* MOBILE */
 
     @media (max-width: 768px) {
       :root {
@@ -853,7 +966,7 @@
       }
 
       .story-license-wrap {
-        width: min(86vw, 370px);
+        width: min(86vw, 380px);
         top: 32%;
       }
 
@@ -899,32 +1012,115 @@
         bottom: 2rem;
       }
 
-      .license-title {
-        font-size: 0.58rem;
+      .license-inner {
+        padding: 7.2% 6.5% 7.8% 6.5%;
       }
 
-      .card-step {
-        gap: 0.45rem;
-        padding: 0.42rem;
-        border-radius: 11px;
+      .license-topbar {
+        grid-template-columns: 50px 1fr auto;
+        gap: 0.55rem;
+        margin-bottom: 0.55rem;
       }
 
-      .card-step b {
-        width: 1.45rem;
-        height: 1.45rem;
-        font-size: 0.6rem;
-      }
-
-      .card-step span {
+      .license-chip {
+        width: 50px;
+        height: 28px;
         font-size: 0.64rem;
       }
 
+      .license-doc-title {
+        font-size: 0.68rem;
+      }
+
+      .license-doc-subtitle {
+        font-size: 0.54rem;
+      }
+
+      .license-front-grid {
+        grid-template-columns: 78px 1fr;
+        gap: 0.72rem;
+      }
+
+      .license-photo-real {
+        height: 104px;
+        border-radius: 12px;
+      }
+
+      .license-mini-lines {
+        display: none;
+      }
+
+      .card-steps {
+        gap: 0.34rem;
+      }
+
+      .card-step {
+        min-height: 30px;
+        padding: 0.38rem 0.48rem;
+        border-radius: 10px;
+        grid-template-columns: 1.26rem 1fr;
+        gap: 0.44rem;
+      }
+
+      .card-step b {
+        width: 1.26rem;
+        height: 1.26rem;
+        font-size: 0.54rem;
+      }
+
+      .card-step span {
+        font-size: 0.56rem;
+      }
+
+      .license-bottom-row {
+        gap: 0.32rem;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 0.46rem;
+        padding-top: 0.36rem;
+      }
+
+      .license-number,
+      .license-validity {
+        font-size: 0.48rem;
+        white-space: normal;
+        text-align: left;
+      }
+
+      .back-header {
+        margin-bottom: 0.6rem;
+      }
+
+      .back-header h3 {
+        font-size: 1.18rem;
+      }
+
+      .back-header span {
+        font-size: 0.5rem;
+      }
+
+      .route-lines {
+        gap: 0.34rem;
+      }
+
       .route-line {
-        font-size: 0.67rem;
+        min-height: 30px;
+        padding: 0.4rem 0.52rem;
+        border-radius: 10px;
+        font-size: 0.56rem;
       }
 
       .route-line small {
-        font-size: 0.55rem;
+        font-size: 0.48rem;
+      }
+
+      .barcode-wrap {
+        margin-top: 0.44rem;
+        padding-top: 0.34rem;
+      }
+
+      .barcode {
+        height: 18px;
       }
     }
 
@@ -941,23 +1137,20 @@
 </head>
 
 <body class="intro-lock">
-
-  <!-- INTRO -->
   <div id="intro-container">
     <div class="intro-license-card" id="intro-license">
-      <div class="license-eu">D</div>
-      <div class="license-photo"></div>
-      <div class="license-lines">
-        <div class="l-line"></div>
-        <div class="l-line"></div>
-        <div class="l-line"></div>
-        <div class="l-line"></div>
-        <div class="l-line"></div>
+      <div class="intro-license-eu">D</div>
+      <div class="intro-license-photo"></div>
+      <div class="intro-license-lines">
+        <div class="intro-l-line"></div>
+        <div class="intro-l-line"></div>
+        <div class="intro-l-line"></div>
+        <div class="intro-l-line"></div>
+        <div class="intro-l-line"></div>
       </div>
     </div>
   </div>
 
-  <!-- GLOBAL BACKGROUND -->
   <div id="line-waves-bg"></div>
   <div class="global-vignette"></div>
 
@@ -968,7 +1161,6 @@
     </nav>
 
     <main>
-      <!-- HERO -->
       <section id="hero-container" class="hero-section">
         <div class="hero-content">
           <div class="badge hero-reveal">Der Fahrplan zurück zur Mobilität</div>
@@ -980,7 +1172,6 @@
         </div>
       </section>
 
-      <!-- SCROLL STORY -->
       <section id="license-story" class="license-story">
         <div class="story-sticky">
           <div class="story-noise"></div>
@@ -988,7 +1179,6 @@
 
           <div class="story-kicker">Der Führerschein-Fahrplan</div>
 
-          <!-- RIGHT COPY: 4 Schritte -->
           <div class="story-copy story-copy-right">
             <article class="step-copy active">
               <div class="step-eyebrow">01 / Analyse</div>
@@ -1039,7 +1229,6 @@
             </article>
           </div>
 
-          <!-- LEFT COPY: Nach dem Flip -->
           <div class="story-copy story-copy-left">
             <div class="final-card-copy">
               <div class="final-eyebrow">Rückseite / Ergebnis</div>
@@ -1051,72 +1240,93 @@
             </div>
           </div>
 
-          <!-- LICENSE CARD -->
           <div class="story-license-wrap">
             <div class="scroll-license-card">
-              <!-- FRONT -->
               <div class="license-face license-front">
+                <div class="license-security-pattern"></div>
                 <div class="license-shine"></div>
-                <div class="license-chip">D</div>
 
-                <div class="license-title">
-                  <span>Führerschein</span>
-                  <span>MPU Fahrplan</span>
+                <div class="license-inner">
+                  <div class="license-topbar">
+                    <div class="license-chip">D</div>
+                    <div class="license-doc-title">FÜHRERSCHEIN</div>
+                    <div class="license-doc-subtitle">MPU FAHRPLAN</div>
+                  </div>
+
+                  <div class="license-front-grid">
+                    <div class="license-photo-real">
+                      <div class="photo-head"></div>
+                      <div class="photo-body"></div>
+                    </div>
+
+                    <div class="license-data-area">
+                      <div class="license-mini-lines">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+
+                      <div class="card-steps">
+                        <div class="card-step active">
+                          <b>1</b>
+                          <span>Ausgangslage klären</span>
+                        </div>
+                        <div class="card-step">
+                          <b>2</b>
+                          <span>Nachweise &amp; Fristen prüfen</span>
+                        </div>
+                        <div class="card-step">
+                          <b>3</b>
+                          <span>Verhalten verstehen</span>
+                        </div>
+                        <div class="card-step">
+                          <b>4</b>
+                          <span>Gespräch sicher trainieren</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="license-bottom-row">
+                    <div class="license-number">MPU-2026 / STRUKTUR STATT PANIK</div>
+                    <div class="license-validity">KLAR • DISKRET • STRUKTURIERT</div>
+                  </div>
                 </div>
-
-                <div class="license-photo-real"></div>
-
-                <div class="card-steps">
-                  <div class="card-step active">
-                    <b>1</b>
-                    <span>Ausgangslage klären</span>
-                  </div>
-                  <div class="card-step">
-                    <b>2</b>
-                    <span>Nachweise & Fristen prüfen</span>
-                  </div>
-                  <div class="card-step">
-                    <b>3</b>
-                    <span>Verhalten verstehen</span>
-                  </div>
-                  <div class="card-step">
-                    <b>4</b>
-                    <span>Gespräch sicher trainieren</span>
-                  </div>
-                </div>
-
-                <div class="license-number">MPU-2026 / STRUKTUR STATT PANIK</div>
               </div>
 
-              <!-- BACK -->
               <div class="license-face license-back">
+                <div class="license-security-pattern"></div>
                 <div class="license-shine"></div>
 
-                <div class="back-header">
-                  <h3>Ihr klarer<br />MPU-Plan</h3>
-                  <span>RÜCKSEITE</span>
-                </div>
+                <div class="license-inner">
+                  <div class="back-header">
+                    <h3>Ihr klarer<br />MPU-Plan</h3>
+                    <span>RÜCKSEITE</span>
+                  </div>
 
-                <div class="route-lines">
-                  <div class="route-line">
-                    <span>Klarheit statt Unsicherheit</span>
-                    <small>OK</small>
+                  <div class="route-lines">
+                    <div class="route-line">
+                      <span>Klarheit statt Unsicherheit</span>
+                      <small>OK</small>
+                    </div>
+                    <div class="route-line">
+                      <span>Vorbereitung statt Panik</span>
+                      <small>OK</small>
+                    </div>
+                    <div class="route-line">
+                      <span>Struktur statt Versprechen</span>
+                      <small>OK</small>
+                    </div>
+                    <div class="route-line">
+                      <span>Begleitung statt Alleingang</span>
+                      <small>OK</small>
+                    </div>
                   </div>
-                  <div class="route-line">
-                    <span>Vorbereitung statt Panik</span>
-                    <small>OK</small>
-                  </div>
-                  <div class="route-line">
-                    <span>Struktur statt Versprechen</span>
-                    <small>OK</small>
-                  </div>
-                  <div class="route-line">
-                    <span>Begleitung statt Alleingang</span>
-                    <small>OK</small>
+
+                  <div class="barcode-wrap">
+                    <div class="barcode"></div>
                   </div>
                 </div>
-
-                <div class="barcode"></div>
               </div>
             </div>
           </div>
@@ -1127,7 +1337,6 @@
         </div>
       </section>
 
-      <!-- FINAL CTA -->
       <section id="kontakt" class="after-story">
         <div class="after-inner">
           <h2>Bereit für den nächsten klaren Schritt?</h2>
@@ -1144,10 +1353,6 @@
     import { Renderer, Program, Mesh, Triangle } from "https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm";
 
     gsap.registerPlugin(ScrollTrigger);
-
-    /* =========================================================
-       LINE WAVES BACKGROUND
-       ========================================================= */
 
     const vertexShader = `
       attribute vec2 uv;
@@ -1385,10 +1590,6 @@
 
     requestAnimationFrame(update);
 
-    /* =========================================================
-       SCROLL STORY
-       ========================================================= */
-
     function initScrollStory() {
       const card = document.querySelector(".story-license-wrap");
       const rightCopy = document.querySelector(".story-copy-right");
@@ -1399,7 +1600,6 @@
       const cardSteps = gsap.utils.toArray(".card-step");
 
       let activeStep = -1;
-      let finalMode = false;
 
       function setActiveStep(index) {
         if (index === activeStep) return;
@@ -1423,10 +1623,9 @@
         const nextStep = Math.min(3, Math.max(0, Math.floor(stepProgress * 4)));
         setActiveStep(nextStep);
 
-        const nextFinalMode = progress > 0.64;
-        if (nextFinalMode !== finalMode) {
-          finalMode = nextFinalMode;
-          document.getElementById("license-story").classList.toggle("is-final", finalMode);
+        if (program && program.uniforms && program.uniforms.uBrightness) {
+          const calm = progress < 0.62 ? 0.16 : 0.22;
+          program.uniforms.uBrightness.value += (calm - program.uniforms.uBrightness.value) * 0.08;
         }
       }
 
@@ -1443,8 +1642,8 @@
           scale: 1
         });
 
-        gsap.set(rightCopy, { autoAlpha: 1, x: 0 });
-        gsap.set(leftCopy, { autoAlpha: 0, x: -50 });
+        gsap.set(rightCopy, { autoAlpha: 1, x: 0, filter: "blur(0px)" });
+        gsap.set(leftCopy, { autoAlpha: 0, x: -50, filter: "blur(10px)" });
         gsap.set(finalGlow, { autoAlpha: 0, scale: 0.72 });
 
         const tl = gsap.timeline({
@@ -1484,51 +1683,51 @@
           .to(card, {
             x: 0,
             y: 0,
-            scale: 1.08,
+            scale: 1.13,
             rotationY: 0,
             rotationZ: 0,
-            duration: 0.12,
+            duration: 0.13,
             ease: "power1.inOut"
           }, 0.58)
 
           .to(rightCopy, {
             autoAlpha: 0,
             x: 70,
-            duration: 0.1,
+            filter: "blur(10px)",
+            duration: 0.11,
             ease: "power1.out"
           }, 0.6)
 
           .to(finalGlow, {
             autoAlpha: 1,
-            scale: 1,
-            duration: 0.18,
+            scale: 1.12,
+            duration: 0.16,
             ease: "power1.out"
           }, 0.62)
 
           .to(card, {
             rotationY: 180,
-            duration: 0.16,
+            duration: 0.18,
             ease: "none"
           }, 0.66)
 
           .to(card, {
             x: () => window.innerWidth * 0.28,
-            scale: 1,
+            scale: 1.02,
             rotationZ: 2,
             duration: 0.18,
             ease: "power1.inOut"
-          }, 0.78)
+          }, 0.8)
 
           .to(leftCopy, {
             autoAlpha: 1,
             x: 0,
-            duration: 0.14,
+            filter: "blur(0px)",
+            duration: 0.15,
             ease: "power1.out"
-          }, 0.82);
+          }, 0.84);
 
-        return () => {
-          tl.kill();
-        };
+        return () => tl.kill();
       });
 
       mm.add("(max-width: 768px)", () => {
@@ -1542,8 +1741,8 @@
           scale: 0.96
         });
 
-        gsap.set(rightCopy, { autoAlpha: 1, y: 0 });
-        gsap.set(leftCopy, { autoAlpha: 0, y: 18 });
+        gsap.set(rightCopy, { autoAlpha: 1, y: 0, filter: "blur(0px)" });
+        gsap.set(leftCopy, { autoAlpha: 0, y: 18, filter: "blur(10px)" });
         gsap.set(finalGlow, { autoAlpha: 0, scale: 0.78 });
 
         const tl = gsap.timeline({
@@ -1575,6 +1774,7 @@
           .to(rightCopy, {
             autoAlpha: 0,
             y: -20,
+            filter: "blur(10px)",
             duration: 0.12,
             ease: "power1.out"
           }, 0.6)
@@ -1597,22 +1797,17 @@
           .to(leftCopy, {
             autoAlpha: 1,
             y: 0,
+            filter: "blur(0px)",
             duration: 0.16,
             ease: "power1.out"
           }, 0.8);
 
-        return () => {
-          tl.kill();
-        };
+        return () => tl.kill();
       });
 
       setActiveStep(0);
       ScrollTrigger.refresh();
     }
-
-    /* =========================================================
-       INTRO SEQUENCE
-       ========================================================= */
 
     window.addEventListener("load", () => {
       const tl = gsap.timeline();
