@@ -3,356 +3,387 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MPU Vorbereitung | Klarheit statt Chaos</title>
+    <title>MPU | Der Sturm legt sich</title>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
     <style>
-        /* === CSS VARIABLES & RESET === */
         :root {
-            --col-bg: #090a0f;
-            --col-text: #f0f0f2;
-            --col-accent: #c4a77d; /* Ein beruhigendes, gedämpftes Gold/Bronze */
-            --col-glass: rgba(9, 10, 15, 0.4);
-            
-            --font-serif: 'Playfair Display', serif;
-            --font-sans: 'Manrope', sans-serif;
-            
-            --cursor-x: 50vw;
-            --cursor-y: 50vh;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Inter', sans-serif;
+            --gold: #d4af37;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; /* Wir nutzen einen Custom Cursor */
+            cursor: none; /* Custom interaction cursor */
         }
 
         body, html {
             width: 100%;
             height: 100%;
-            background-color: var(--col-bg);
-            color: var(--col-text);
+            background-color: #030303;
+            overflow: hidden;
             font-family: var(--font-sans);
-            overflow: hidden; /* Nur Hero Section */
         }
 
-        /* === BACKGROUND & NOISE (Die "Wahrheit" im Hintergrund) === */
-        .bg-sharp {
+        /* Das WebGL Canvas - Der Ozean */
+        #webgl-container {
             position: absolute;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 1;
-            /* Ein extrem hochwertiger, ruhiger Gradient, der einen Raum simuliert */
-            background: radial-gradient(circle at 50% 30%, #1a1d2b 0%, #090a0f 70%);
         }
 
-        /* Hochwertiges Film-Grain/Rauschen für Premium-Look */
-        .noise {
+        /* UI Layer - Die Wahrheit bricht durch */
+        .ui-layer {
             position: absolute;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 2;
-            opacity: 0.04;
-            pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
-
-        /* === THE CLARITY SHADER (Die Milchglas-Schicht) === */
-        .glass-layer {
-            position: absolute;
-            inset: 0;
-            z-index: 3;
-            background: var(--col-glass);
-            backdrop-filter: blur(40px) brightness(0.8);
-            -webkit-backdrop-filter: blur(40px) brightness(0.8);
-            
-            /* Der Magic Trick: Eine Maske, die an der Mausposition transparent ist */
-            -webkit-mask-image: radial-gradient(circle 350px at var(--cursor-x) var(--cursor-y), transparent 0%, black 100%);
-            mask-image: radial-gradient(circle 350px at var(--cursor-x) var(--cursor-y), transparent 0%, black 100%);
-            pointer-events: none;
-            transition: opacity 2s ease;
-        }
-
-        /* === CONTENT LAYOUT === */
-        .hero-content {
-            position: relative;
-            z-index: 10;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            height: 100vh;
+            align-items: center;
+            pointer-events: none; /* Events go through to WebGL */
+        }
+
+        .content-wrapper {
             text-align: center;
             padding: 0 2rem;
-            pointer-events: none; /* Damit Maus-Events auf den Button durchgehen */
-        }
-
-        /* Animations-Klassen für den Load-State */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            filter: blur(10px);
-            animation: revealAnim 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-        }
-
-        .reveal:nth-child(1) { animation-delay: 0.2s; }
-        .reveal:nth-child(2) { animation-delay: 0.4s; }
-        .reveal:nth-child(3) { animation-delay: 0.6s; }
-        .reveal:nth-child(4) { animation-delay: 0.8s; pointer-events: auto; }
-
-        @keyframes revealAnim {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-                filter: blur(0);
-            }
-        }
-
-        /* === TYPOGRAPHY === */
-        .subhead {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--col-accent);
-            margin-bottom: 2rem;
-            font-weight: 500;
+            max-width: 800px;
         }
 
         .headline {
             font-family: var(--font-serif);
-            font-size: clamp(3rem, 8vw, 7rem);
-            font-weight: 400;
-            line-height: 1.1;
-            margin-bottom: 2rem;
-            letter-spacing: -0.02em;
-        }
-
-        .headline i {
-            font-style: italic;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .paragraph {
-            font-size: clamp(1rem, 1.5vw, 1.25rem);
-            line-height: 1.6;
-            max-width: 600px;
-            color: rgba(240, 240, 242, 0.7);
-            margin-bottom: 4rem;
-            font-weight: 300;
-        }
-
-        /* === MAGNETIC BUTTON === */
-        .magnetic-wrap {
-            display: inline-block;
-            padding: 2rem; /* Hover-Area vergrößern */
-            margin: -2rem;
-            pointer-events: auto;
-        }
-
-        .btn {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.2rem 3rem;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--col-text);
-            text-decoration: none;
-            font-size: 1rem;
+            font-size: clamp(3rem, 7vw, 6rem);
+            color: #ffffff;
             font-weight: 500;
-            letter-spacing: 0.05em;
-            overflow: hidden;
-            background: transparent;
-            transition: border-color 0.4s ease, color 0.4s ease;
-            will-change: transform;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            margin-bottom: 2rem;
+            /* Glassmorphism/Refraction Effect Text */
+            opacity: 0;
+            transform: translateY(100px) scale(0.9);
+            filter: blur(20px);
+            text-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
-        .btn-text {
-            position: relative;
-            z-index: 2;
-            transition: color 0.4s ease;
+        .subtext {
+            font-size: clamp(1rem, 1.2vw, 1.25rem);
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 300;
+            line-height: 1.6;
+            letter-spacing: 0.02em;
+            opacity: 0;
+            transform: translateY(30px);
         }
 
-        /* Liquid Hover Fill */
-        .btn-fill {
-            position: absolute;
-            bottom: -50%;
-            left: -10%;
-            width: 120%;
-            height: 200%;
-            background: var(--col-text);
-            border-radius: 50%;
-            z-index: 1;
-            transform: translateY(100%) scale(0.8);
-            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        .highlight {
+            color: var(--gold);
+            font-style: italic;
         }
 
-        .btn:hover {
-            border-color: var(--col-text);
-        }
-
-        .btn:hover .btn-text {
-            color: var(--col-bg); /* Text wird dunkel */
-        }
-
-        .btn:hover .btn-fill {
-            transform: translateY(0) scale(1);
-        }
-
-        /* === CUSTOM CURSOR === */
-        .cursor-dot {
+        /* Der interaktive Pulse / Cursor Tracker */
+        .cursor-light {
             position: fixed;
             top: 0;
             left: 0;
-            width: 8px;
-            height: 8px;
-            background-color: var(--col-accent);
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            mix-blend-mode: overlay;
             pointer-events: none;
             z-index: 9999;
             transform: translate(-50%, -50%);
-            transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+            transition: opacity 0.5s ease;
+            opacity: 0;
         }
 
-        .cursor-ring {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(196, 167, 125, 0.5);
-            border-radius: 50%;
+        .instruction {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.3);
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            z-index: 10;
+            animation: pulse 2s infinite ease-in-out;
             pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            will-change: transform;
         }
 
-        /* Cursor Hover State */
-        body.hovering .cursor-dot {
-            width: 0;
-            height: 0;
-        }
-        body.hovering .cursor-ring {
-            width: 80px;
-            height: 80px;
-            background-color: rgba(255, 255, 255, 0.05);
-            border-color: transparent;
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.6; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-sharp"></div>
-    <div class="noise"></div>
-    <div class="glass-layer" id="glass"></div>
+    <div id="webgl-container"></div>
 
-    <div class="hero-content">
-        <div class="subhead reveal">Diskrete MPU Vorbereitung in Berlin</div>
-        <h1 class="headline reveal">Klarheit <i>statt</i> Chaos.</h1>
-        <p class="paragraph reveal">Ein realistischer Fahrplan für Ihre MPU. Ohne leere Versprechen, mit ehrlicher Aufarbeitung und persönlicher Begleitung auf Augenhöhe.</p>
-        
-        <div class="magnetic-wrap reveal" id="magnet-wrap">
-            <a href="#" class="btn" id="magnet-btn">
-                <span class="btn-text">Erstgespräch diskret anfragen</span>
-                <div class="btn-fill"></div>
-            </a>
+    <div class="cursor-light" id="cursor"></div>
+    <div class="instruction" id="instruction">Berühren, um den Sturm zu beruhigen</div>
+
+    <div class="ui-layer">
+        <div class="content-wrapper">
+            <h1 class="headline" id="headline">Der Sturm legt <span class="highlight">sich hier.</span></h1>
+            <p class="subtext" id="subtext">Keine Panikmache. Kein Behörden-Chaos. Nur eine präzise, diskrete Strategie für Ihre MPU.</p>
         </div>
     </div>
 
-    <div class="cursor-dot" id="cursor-dot"></div>
-    <div class="cursor-ring" id="cursor-ring"></div>
+    <script type="x-shader/x-vertex" id="vertexShader">
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = vec4(position, 1.0);
+        }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragmentShader">
+        uniform float u_time;
+        uniform vec2 u_resolution;
+        uniform vec2 u_mouse;
+        uniform float u_calm; // 0.0 = Sturm, 1.0 = Absolute Ruhe / Kymatik
+        
+        varying vec2 vUv;
+
+        // Pseudo-Random Generator
+        float random(vec2 st) {
+            return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+        }
+
+        // Noise Function
+        float noise(vec2 st) {
+            vec2 i = floor(st);
+            vec2 f = fract(st);
+            float a = random(i);
+            float b = random(i + vec2(1.0, 0.0));
+            float c = random(i + vec2(0.0, 1.0));
+            float d = random(i + vec2(1.0, 1.0));
+            vec2 u = f * f * (3.0 - 2.0 * f);
+            return mix(a, b, u.x) + (c - a)* u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+        }
+
+        // FBM (Fractional Brownian Motion) für den stürmischen Ozean
+        float fbm(vec2 st) {
+            float value = 0.0;
+            float amplitude = 0.5;
+            float frequency = 0.0;
+            for (int i = 0; i < 5; i++) {
+                value += amplitude * noise(st);
+                st *= 2.0;
+                amplitude *= 0.5;
+            }
+            return value;
+        }
+
+        // Berechnung des Fluids
+        float surfaceLogic(vec2 uv) {
+            // 1. STURM (Chaos)
+            vec2 p = uv * 3.0;
+            float storm = fbm(p + u_time * 0.4);
+            storm += fbm(p - u_time * 0.2) * 0.5;
+
+            // 2. KYMATIK (Die Strukturierte Ruhe / Harmonic Resonance)
+            vec2 center = vec2(0.5, 0.5);
+            vec2 toCenter = uv - center;
+            float dist = length(toCenter);
+            float angle = atan(toCenter.y, toCenter.x);
+            
+            // Ein wunderschönes, symmetrisches 6-faltiges Mandala aus Wasser
+            float harmony = sin(dist * 30.0 - u_time) * cos(angle * 6.0) * 0.1;
+            harmony += sin(dist * 15.0 - u_time * 0.5) * 0.05;
+            // Wenn völlig ruhig, wird die Oberfläche fast spiegelglatt
+            harmony *= (1.0 - u_calm * 0.8); 
+
+            // Blend zwischen Sturm und Harmonie basierend auf Nutzer-Interaktion (u_calm)
+            return mix(storm, harmony, smoothstep(0.0, 1.0, u_calm));
+        }
+
+        void main() {
+            vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+            // Aspect Ratio Fix
+            uv.x *= u_resolution.x / u_resolution.y;
+            vec2 mouse_uv = u_mouse / u_resolution;
+            mouse_uv.x *= u_resolution.x / u_resolution.y;
+
+            // Berechne Normals für fotorealistisches Specular Lighting (Lichtbrechung)
+            vec2 eps = vec2(0.005, 0.0);
+            float h = surfaceLogic(uv);
+            float hX = surfaceLogic(uv + eps.xy);
+            float hY = surfaceLogic(uv + eps.yx);
+            
+            vec3 normal = normalize(vec3(h - hX, h - hY, 0.02)); // 0.02 = Tiefe/Glätte
+            
+            // Licht Setup (Klinisch, hochwertig, wie im Anwaltsbüro)
+            vec3 lightDir = normalize(vec3(0.5, 0.8, 1.0));
+            vec3 viewDir = vec3(0.0, 0.0, 1.0);
+            vec3 halfVector = normalize(lightDir + viewDir);
+
+            // Materialien (Tiefes Onyx/Obsidian)
+            vec3 baseColor = vec3(0.02, 0.02, 0.03); // Tiefschwarz mit einem Hauch Blau
+            
+            // Diffuse Lighting
+            float diff = max(dot(normal, lightDir), 0.0);
+            
+            // Specular Highlight (Der Glanz)
+            float spec = pow(max(dot(normal, halfVector), 0.0), 64.0); // Hoher exponent = nass/glänzend
+            
+            // Die Kymatik-Linien leuchten leicht golden/weiß, wenn es ruhig wird
+            vec3 specColor = mix(vec3(0.5, 0.6, 0.8), vec3(0.8, 0.7, 0.5), u_calm);
+
+            vec3 finalColor = baseColor + (diff * baseColor * 0.5) + (spec * specColor * 1.5);
+            
+            // Maus-Glow
+            float mouseDist = length(uv - mouse_uv);
+            float mouseGlow = exp(-mouseDist * 10.0) * 0.2 * u_calm;
+            finalColor += mouseGlow * vec3(1.0, 0.9, 0.7);
+
+            // Vignette für Dramatik
+            float vignette = uv.x * uv.y * (1.0 - uv.x) * (1.0 - uv.y);
+            finalColor *= pow(vignette, 0.1) * 2.5;
+
+            gl_FragColor = vec4(finalColor, 1.0);
+        }
+    </script>
 
     <script>
         /**
-         * LERP (Linear Interpolation) 
-         * Sorgt für die extrem hochwertigen, butterweichen Verzögerungen (Spring Physics)
+         * CORE LOGIC & WEBGL SETUP
          */
-        const lerp = (a, b, n) => (1 - n) * a + n * b;
+        const container = document.getElementById('webgl-container');
+        const instruction = document.getElementById('instruction');
+        const cursor = document.getElementById('cursor');
 
-        // Globale Maus-Koordinaten
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
+        // Scene, Camera, Renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for perf
+        container.appendChild(renderer.domElement);
 
-        // Koordinaten für den Shader (Glas-Maske)
-        let glassX = window.innerWidth / 2;
-        let glassY = window.innerHeight / 2;
+        // Geometrie: Ein simples Plane, das den ganzen Screen füllt
+        const geometry = new THREE.PlaneGeometry(2, 2);
 
-        // Koordinaten für den Cursor Ring
-        let ringX = window.innerWidth / 2;
-        let ringY = window.innerHeight / 2;
+        // Uniforms für den Shader
+        const uniforms = {
+            u_time: { value: 0.0 },
+            u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+            u_mouse: { value: new THREE.Vector2(window.innerWidth/2, window.innerHeight/2) },
+            u_calm: { value: 0.0 }
+        };
 
-        const glassLayer = document.getElementById('glass');
-        const cursorDot = document.getElementById('cursor-dot');
-        const cursorRing = document.getElementById('cursor-ring');
-
-        // Event Listener für Mausbewegung
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            
-            // Der Dot folgt instant
-            cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+        const material = new THREE.ShaderMaterial({
+            vertexShader: document.getElementById('vertexShader').textContent,
+            fragmentShader: document.getElementById('fragmentShader').textContent,
+            uniforms: uniforms
         });
 
-        // Main Render Loop (RequestAnimationFrame)
-        const render = () => {
-            // Lerp für die Glas-Maske (etwas träger für den Liquid/Nebel-Effekt)
-            glassX = lerp(glassX, mouseX, 0.05);
-            glassY = lerp(glassY, mouseY, 0.05);
-            glassLayer.style.setProperty('--cursor-x', `${glassX}px`);
-            glassLayer.style.setProperty('--cursor-y', `${glassY}px`);
-
-            // Lerp für den Cursor Ring (schneller, smooth)
-            ringX = lerp(ringX, mouseX, 0.15);
-            ringY = lerp(ringY, mouseY, 0.15);
-            cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
-
-            requestAnimationFrame(render);
-        };
-        render();
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
 
         /**
-         * MAGNETIC BUTTON LOGIC
-         * Berechnet die Distanz der Maus zur Mitte des Buttons und verschiebt ihn sanft.
+         * INTERACTION & BIO-FEEDBACK LOGIC
          */
-        const magnetWrap = document.getElementById('magnet-wrap');
-        const magnetBtn = document.getElementById('magnet-btn');
-        let magnetActive = false;
+        let targetCalm = 0.0;
+        let isInteracting = false;
+        let textRevealed = false;
 
-        magnetWrap.addEventListener('mousemove', (e) => {
-            magnetActive = true;
-            document.body.classList.add('hovering');
-
-            const rect = magnetWrap.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
+        const handleMove = (x, y) => {
+            isInteracting = true;
+            targetCalm = 1.0; // Initiiere die Beruhigung
             
-            // Stärke des Magnet-Effekts
-            const distanceX = (e.clientX - centerX) * 0.3;
-            const distanceY = (e.clientY - centerY) * 0.3;
+            // Invertiere Y für WebGL Koordinatensystem
+            uniforms.u_mouse.value.x = x;
+            uniforms.u_mouse.value.y = window.innerHeight - y;
 
-            magnetBtn.style.transform = `translate(${distanceX}px, ${distanceY}px)`;
+            cursor.style.opacity = 1;
+            cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+            
+            // Verstecke die Instruktion
+            gsap.to(instruction, { opacity: 0, duration: 1 });
+        };
+
+        window.addEventListener('mousemove', (e) => handleMove(e.clientX, e.clientY));
+        window.addEventListener('touchmove', (e) => handleMove(e.touches[0].clientX, e.touches[0].clientY));
+        window.addEventListener('touchstart', (e) => handleMove(e.touches[0].clientX, e.touches[0].clientY));
+
+        // Resize Handler
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
         });
 
-        magnetWrap.addEventListener('mouseleave', () => {
-            magnetActive = false;
-            document.body.classList.remove('hovering');
-            // Reset Button to center
-            magnetBtn.style.transform = `translate(0px, 0px)`;
-        });
+        /**
+         * CINEMATIC REVEAL (GSAP)
+         * Wird getriggert, sobald die Flüssigkeit sich beruhigt hat.
+         */
+        const revealContent = () => {
+            if (textRevealed) return;
+            textRevealed = true;
 
-        // Mobile Fallback: Custom Cursor auf Touch-Geräten verstecken
-        if (window.matchMedia("(pointer: coarse)").matches) {
-            cursorDot.style.display = 'none';
-            cursorRing.style.display = 'none';
-            // Maske zentrieren
-            glassLayer.style.setProperty('--cursor-x', `50vw`);
-            glassLayer.style.setProperty('--cursor-y', `50vh`);
-        }
+            const tl = gsap.timeline();
+            
+            tl.to("#headline", {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                filter: "blur(0px)",
+                duration: 2.5,
+                ease: "expo.out"
+            })
+            .to("#subtext", {
+                opacity: 1,
+                y: 0,
+                duration: 2,
+                ease: "power3.out"
+            }, "-=1.5");
+        };
+
+        /**
+         * MAIN RENDER LOOP
+         */
+        const clock = new THREE.Clock();
+
+        const animate = () => {
+            requestAnimationFrame(animate);
+            
+            const delta = clock.getDelta();
+            uniforms.u_time.value += delta;
+
+            // LERP (Linear Interpolation) für den Calming-Effekt
+            // Wenn der Nutzer interagiert, steigt u_calm langsam auf 1.0
+            uniforms.u_calm.value += (targetCalm - uniforms.u_calm.value) * 0.02;
+
+            // Trigger Typography Reveal, wenn die Oberfläche fast glatt ist
+            if (uniforms.u_calm.value > 0.7 && !textRevealed) {
+                revealContent();
+            }
+
+            // Wenn Maus stillsteht, ganz langsamer Rückfall ins Chaos (Optional, hier auskommentiert für dauerhafte Lösung)
+            // if(!isInteracting) targetCalm = 0.0;
+
+            renderer.render(scene, camera);
+        };
+
+        animate();
     </script>
 </body>
 </html>
