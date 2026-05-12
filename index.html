@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MPU Experten | Fahrplan zurück zum Führerschein</title>
+  <title>MPU Experten | Cinematic Experience</title>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -18,9 +18,7 @@
       --nav-height: 80px;
       --page-pad: clamp(1.25rem, 4vw, 4.5rem);
       --white-soft: rgba(255,255,255,0.74);
-      --bg-dark: #070a0f; 
-      --accent-glow: rgba(0, 210, 255, 0.1);
-      --holo-blue: #00e5ff;
+      --bg-dark: #030406; /* Extrem tiefes Cinematic Schwarz */
     }
 
     * {
@@ -76,7 +74,7 @@
       z-index: 1;
       pointer-events: none;
       background:
-        radial-gradient(circle at 50% 45%, rgba(7, 10, 15, 0.2), var(--bg-dark) 85%);
+        radial-gradient(circle at 50% 50%, transparent, var(--bg-dark) 90%);
     }
 
     #page-content {
@@ -112,12 +110,9 @@
     }
 
     .intro-license-card::after {
-      content: "";
-      position: absolute;
-      inset: -40%;
+      content: ""; position: absolute; inset: -40%;
       background: linear-gradient(115deg, transparent 0%, transparent 36%, rgba(255,255,255,0.55) 47%, transparent 58%, transparent 100%);
-      transform: translateX(-40%) rotate(12deg);
-      opacity: 0.5;
+      transform: translateX(-40%) rotate(12deg); opacity: 0.5;
     }
 
     .intro-license-eu {
@@ -150,188 +145,152 @@
       height: var(--nav-height);
       display: flex; justify-content: space-between; align-items: center;
       padding: 0 var(--page-pad);
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      background: rgba(7, 10, 15, 0.4);
+      background: linear-gradient(to bottom, rgba(3, 4, 6, 0.9) 0%, transparent 100%);
     }
 
     .nav-logo {
       font-weight: 900; font-size: clamp(1rem, 1.5vw, 1.25rem);
-      letter-spacing: -0.02em; white-space: nowrap; text-transform: uppercase;
+      letter-spacing: 0.05em; white-space: nowrap; text-transform: uppercase;
     }
 
     .nav-cta {
-      padding: 0.7rem 1.5rem; color: #fff;
-      border: 1px solid rgba(255,255,255,0.15); border-radius: 100px;
+      padding: 0.8rem 1.8rem; color: #fff;
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 2px;
       font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.15em; white-space: nowrap;
+      letter-spacing: 0.2em; white-space: nowrap;
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(10px);
     }
 
-    .nav-cta:hover { background: #fff; color: #000; box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); }
+    .nav-cta:hover { background: #fff; color: #000; }
 
-    /* NEUES HERO KONZEPT (MAKRO HOLOGRAMM) */
+    /* ==================================================
+       NEUES CINEMATIC FULLSCREEN HERO LAYOUT
+       ================================================== */
     .hero-section {
       position: relative;
-      min-height: 100svh;
+      height: 100svh;
+      width: 100%;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      padding: calc(var(--nav-height) + 2rem) var(--page-pad) 4rem;
+      justify-content: center;
       overflow: hidden;
     }
 
-    /* Der 3D Hintergrund liegt im Hero absolut, hinter dem Content */
-    #macro-canvas-wrapper {
+    /* Container für die Three.js Canvas */
+    #cinematic-canvas-wrapper {
       position: absolute;
       inset: 0;
-      z-index: 1;
-      opacity: 0; /* Wird per GSAP eingeblendet */
-      pointer-events: none;
+      z-index: 1; /* Unter dem Text */
+      pointer-events: none; /* Klicks ignorieren */
     }
 
-    #macro-canvas {
+    #cinematic-canvas {
       width: 100%;
       height: 100%;
       display: block;
     }
 
-    .hero-grid {
+    /* Das Fullscreen Text-Overlay */
+    .hero-content-fullscreen {
       position: relative;
-      z-index: 3;
+      z-index: 5;
       width: 100%;
-      max-width: 1600px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 2rem;
+      padding: 0 var(--page-pad);
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      min-height: 600px;
+      text-align: center;
+      pointer-events: none; /* Damit Maus-Events zum Canvas durchgehen, falls nötig */
     }
 
-    /* Links: Premium Typografie */
-    .hero-left {
-      display: flex; flex-direction: column; align-items: flex-start;
-      justify-content: center; padding-right: 2rem;
-    }
-
-    .hero-kicker {
-      font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.3em; color: var(--holo-blue);
-      display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;
-    }
-    .hero-kicker::before {
-      content: ""; width: 30px; height: 1px; background: var(--holo-blue);
-    }
-
-    .headline {
-      font-size: clamp(3.5rem, 7vw, 6.5rem);
-      font-weight: 900; line-height: 0.95; letter-spacing: -0.04em;
-      margin-bottom: 1.5rem; text-wrap: balance; text-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    .holo-text {
-      background: linear-gradient(135deg, #ffffff, #a0d8ef, #ffffff);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      display: inline-block; text-shadow: none;
-    }
-
-    .subtext {
-      font-size: clamp(1rem, 1vw, 1.15rem); color: rgba(255,255,255,0.6);
-      max-width: 500px; line-height: 1.7; margin-bottom: 2.5rem; font-weight: 300;
-    }
-
-    .reason-tags {
-      display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 3rem;
-    }
-
-    .reason-tag {
-      font-size: 0.65rem; padding: 0.4rem 1rem; border-radius: 4px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.02);
+    .hero-badge {
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
       color: rgba(255,255,255,0.7);
-      font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
-      backdrop-filter: blur(5px);
-    }
-
-    .cta-group { display: flex; align-items: center; gap: 2rem; }
-
-    .btn-primary {
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 1.2rem 2.5rem; background: #fff; color: #000;
-      font-weight: 800; border-radius: 4px; font-size: 0.85rem;
-      text-transform: uppercase; letter-spacing: 0.1em;
-      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-    }
-
-    .btn-primary:hover {
-      transform: scale(1.03); box-shadow: 0 15px 40px rgba(255, 255, 255, 0.2);
-    }
-
-    .btn-secondary {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      color: rgba(255,255,255,0.6); font-weight: 600; font-size: 0.8rem;
-      text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.3s ease;
-    }
-
-    .btn-secondary:hover { color: #fff; }
-
-    /* Rechts: Macro Fahrplan Engine */
-    .hero-right {
-      position: relative; display: flex; align-items: center; justify-content: flex-end;
-    }
-
-    .step-engine {
-      position: relative; z-index: 2; display: flex; flex-direction: column; gap: 2.5rem;
-      padding-right: 1.5rem; border-right: 1px solid rgba(255, 255, 255, 0.1);
-      background: linear-gradient(to left, rgba(0,0,0,0.4) 0%, transparent 100%);
-      padding: 2rem; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 0.5rem 1.5rem;
+      border-radius: 100px;
+      margin-bottom: 2rem;
       backdrop-filter: blur(10px);
     }
 
-    .engine-step {
-      display: flex; flex-direction: column; align-items: flex-end; text-align: right;
-      opacity: 0.35; cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
+    .hero-title {
+      font-size: clamp(3.5rem, 11vw, 10rem);
+      font-weight: 900;
+      line-height: 0.85;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+      color: #fff;
+      mix-blend-mode: overlay; /* Epischer Effekt: Karte scheint durch den Text */
+      text-shadow: 0 20px 50px rgba(0,0,0,0.5);
     }
 
-    .engine-step::after {
-      content: ''; position: absolute; right: -2rem; top: 50%; transform: translateY(-50%);
-      width: 2px; height: 0; background: #fff; transition: height 0.4s ease, box-shadow 0.4s ease;
+    .hero-subtitle {
+      font-size: clamp(1rem, 1.5vw, 1.25rem);
+      color: rgba(255,255,255,0.5);
+      margin-top: 1.5rem;
+      max-width: 600px;
+      line-height: 1.6;
+      font-weight: 300;
     }
 
-    .engine-step.active, .engine-step:hover { opacity: 1; transform: translateX(-10px); }
-    .engine-step.active::after, .engine-step:hover::after { height: 100%; box-shadow: 0 0 10px rgba(255,255,255,0.5); }
-
-    .step-num {
-      font-weight: 900; font-size: 0.75rem; color: var(--white-soft); letter-spacing: 0.1em;
+    .hero-actions {
+      pointer-events: auto; /* CTAs müssen klickbar sein */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3rem;
+      margin-top: 4rem;
     }
 
-    .step-label {
-      font-weight: 400; font-size: 0.95rem; text-transform: uppercase;
-      letter-spacing: 0.15em; margin-top: 0.4rem; color: #fff;
+    .btn-epic {
+      padding: 1.2rem 3.5rem;
+      background: #fff;
+      color: #000;
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      border-radius: 2px;
+      box-shadow: 0 10px 40px rgba(255,255,255,0.1);
+      transition: all 0.4s ease;
     }
 
-    /* Mobile Sticky CTA */
-    .mobile-sticky-cta {
-      display: none; position: fixed; bottom: 0; left: 0; right: 0;
-      background: rgba(7, 10, 15, 0.95); backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(255,255,255,0.05);
-      padding: 1rem var(--page-pad) calc(1rem + env(safe-area-inset-bottom));
-      z-index: 100; gap: 1rem;
+    .btn-epic:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 50px rgba(255,255,255,0.3);
     }
 
-    .mobile-btn {
-      flex: 1; text-align: center; padding: 1rem; border-radius: 4px;
-      font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;
+    .scroll-indicator {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: pulseIndicator 2s infinite;
     }
 
-    .m-btn-primary { background: #fff; color: #000; }
-    .m-btn-secondary { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.15); }
+    .scroll-indicator::after {
+      content: "";
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+    }
+
+    @keyframes pulseIndicator {
+      0% { opacity: 0.5; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(5px); }
+      100% { opacity: 0.5; transform: translateY(0); }
+    }
 
     /* STORY & CARD CSS (UNVERÄNDERT BEIBEHALTEN) */
-    .license-story { position: relative; z-index: 3; height: 540vh; background: radial-gradient(circle at 30% 38%, rgba(255,255,255,0.04), transparent 32%), linear-gradient(to bottom, transparent, rgba(7,10,15,0.52) 8%, rgba(7,10,15,0.8) 45%, rgba(7,10,15,0.54)); }
+    .license-story { position: relative; z-index: 3; height: 540vh; background: radial-gradient(circle at 30% 38%, rgba(255,255,255,0.04), transparent 32%), linear-gradient(to bottom, transparent, rgba(3,4,6,0.52) 8%, rgba(3,4,6,0.8) 45%, rgba(3,4,6,0.54)); }
     .story-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; perspective: 1800px; }
     .story-noise { position: absolute; inset: 0; pointer-events: none; opacity: 0.26; background-image: linear-gradient(rgba(255,255,255,0.026) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.026) 1px, transparent 1px); background-size: 70px 70px; mask-image: radial-gradient(circle at center, black, transparent 76%); }
     .story-kicker { position: absolute; top: calc(var(--nav-height) + 2rem); left: var(--page-pad); z-index: 6; display: flex; align-items: center; gap: 0.75rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.62); pointer-events: none; }
@@ -408,32 +367,20 @@
     .mpu-barcode { width: 100%; height: 24px; border-radius: 7px; opacity: 0.38; background: repeating-linear-gradient(90deg, rgba(0,0,0,0.58) 0 2px, transparent 2px 6px, rgba(0,0,0,0.42) 6px 8px, transparent 8px 11px, rgba(0,0,0,0.5) 11px 12px, transparent 12px 17px); }
     .mpu-machine-code { font-size: clamp(0.46rem, 0.58vw, 0.7rem); line-height: 1.15; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.42); white-space: nowrap; text-align: right; }
 
-    .after-story { position: relative; z-index: 4; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--nav-height) + 4rem) var(--page-pad) 5rem; background: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.05), transparent 34%), linear-gradient(to bottom, rgba(7,10,15,0.25), var(--bg-dark) 75%); }
+    .after-story { position: relative; z-index: 4; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--nav-height) + 4rem) var(--page-pad) 5rem; background: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.05), transparent 34%), linear-gradient(to bottom, rgba(3,4,6,0.25), var(--bg-dark) 75%); }
     .after-inner { width: min(860px, 100%); text-align: center; }
     .after-inner h2 { font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.98; letter-spacing: -0.07em; font-weight: 900; margin-bottom: 1.2rem; text-wrap: balance; }
     .after-inner p { width: min(620px, 100%); margin: 0 auto 2.2rem; color: var(--white-soft); line-height: 1.7; font-size: clamp(1rem, 1.25vw, 1.18rem); }
 
     /* RESPONSIVE */
-    @media (max-width: 992px) {
-      .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .hero-right { padding-left: 0; min-height: 350px; }
-      .step-engine { align-items: center; text-align: center; border-right: none; padding: 1rem; background: transparent; backdrop-filter: none; }
-      .engine-step { align-items: center; text-align: center; }
-      .engine-step::after { display: none; }
-      .engine-step.active, .engine-step:hover { transform: none; }
-    }
-
     @media (max-width: 768px) {
       :root { --nav-height: 72px; }
       .navbar { padding: 0 1.1rem; }
       .nav-logo { font-size: clamp(1rem, 4.2vw, 1.18rem); }
       .nav-cta { padding: 0.6rem 1rem; font-size: 0.78rem; }
       
-      .hero-section { padding-top: calc(var(--nav-height) + 2rem); padding-bottom: 8rem; padding-left: 1.1rem; padding-right: 1.1rem; }
-      .headline { font-size: clamp(3.2rem, 14vw, 4.8rem); }
-      .subtext { max-width: 94%; }
-      .cta-group { display: none; }
-      .mobile-sticky-cta { display: flex; }
+      .hero-title { mix-blend-mode: normal; text-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+      .hero-badge { margin-top: 4rem; }
 
       .license-story { height: 520vh; }
       .story-kicker { top: calc(var(--nav-height) + 0.95rem); left: 1.1rem; right: 1.1rem; font-size: 0.64rem; gap: 0.68rem; letter-spacing: 0.13em; white-space: nowrap; overflow: hidden; }
@@ -490,34 +437,6 @@
       .mpu-barcode { height: 16px; border-radius: 6px; }
       .mpu-machine-code { display: none; }
     }
-
-    @media (max-width: 390px) {
-      .nav-cta { padding: 0.6rem 0.8rem; font-size: 0.72rem; }
-      .mpu-license-stage { width: min(94vw, 470px); top: 31%; }
-      .mpu-front-body { grid-template-columns: 66px minmax(0, 1fr); gap: 0.42rem; }
-      .mpu-doc-head { grid-template-columns: 41px minmax(0, 1fr) auto; }
-      .mpu-eu { width: 41px; height: 24px; }
-      .mpu-step-row { --step-dot-size: 1.22rem; --step-dot-font: 0.43rem; gap: 0.32rem; padding: 0.26rem 0.34rem; }
-      .mpu-step-text strong { font-size: 0.49rem; }
-      .mpu-step-text small { font-size: 0.38rem; }
-      .story-copy-left h2 { font-size: clamp(2rem, 9.4vw, 2.5rem); }
-      .story-copy-left p { font-size: 0.9rem; }
-    }
-
-    @media (max-width: 768px) and (max-height: 760px) {
-      .mpu-license-stage { width: min(94vw, 470px); top: 31%; }
-      .story-copy, .story-copy-left { bottom: 2.25rem; min-height: 300px; }
-      .step-copy h2 { font-size: clamp(1.82rem, 9vw, 2.72rem); }
-      .story-copy-left h2 { font-size: clamp(1.9rem, 8.8vw, 2.55rem); }
-      .step-copy p, .story-copy-left p { font-size: 0.9rem; line-height: 1.5; }
-      .final-card-copy { padding: 0.95rem; }
-      .final-cta { padding: 0.9rem 0.95rem; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .mpu-card-shine { animation: none; }
-    }
   </style>
 </head>
 
@@ -542,71 +461,34 @@
   <div id="page-content">
     <nav class="navbar">
       <div class="nav-logo">MPU Experten</div>
-      <a href="#kontakt" class="nav-cta">Erstgespräch anfragen</a>
+      <a href="#kontakt" class="nav-cta">Kostenloses Erstgespräch</a>
     </nav>
 
     <main>
       <section id="hero-container" class="hero-section">
         
-        <div id="macro-canvas-wrapper">
-          <canvas id="macro-canvas"></canvas>
+        <div id="cinematic-canvas-wrapper">
+          <canvas id="cinematic-canvas"></canvas>
         </div>
 
-        <div class="hero-grid">
+        <div class="hero-content-fullscreen hero-reveal">
+          <div class="hero-badge">MPU-Vorbereitung in [Ort]</div>
           
-          <div class="hero-left">
-            <div class="hero-kicker hero-reveal">MPU-Vorbereitung in [Ort]</div>
-            <h1 class="headline hero-reveal">Zurück in<br><span class="holo-text">die Spur.</span></h1>
-            <p class="subtext hero-reveal">
-              Wir kennen jedes Detail. Keine unseriösen Versprechen, sondern behördliche Präzision. Wir begleiten Sie diskret und wissenschaftlich fundiert durch Ihre MPU.
-            </p>
-            
-            <div class="reason-tags hero-reveal">
-              <span class="reason-tag">Alkohol</span>
-              <span class="reason-tag">Drogen / Cannabis</span>
-              <span class="reason-tag">Punkte</span>
-              <span class="reason-tag">Straftaten</span>
-            </div>
+          <h1 class="hero-title">ZURÜCK IN<br>DIE SPUR.</h1>
+          
+          <p class="hero-subtitle">
+            Keine unseriösen Versprechen. Ein exakter, wissenschaftlich fundierter Fahrplan zur Wiedererlangung Ihrer Fahrerlaubnis.
+          </p>
 
-            <div class="cta-group hero-reveal">
-              <a href="#kontakt" class="btn-primary">Kostenloses Erstgespräch</a>
-              <a href="tel:+49123456789" class="btn-secondary">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                Anrufen / WhatsApp
-              </a>
+          <div class="hero-actions">
+            <a href="#kontakt" class="btn-epic">Jetzt Fahrplan starten</a>
+            <div class="scroll-indicator">
+              Scroll to Explore
             </div>
           </div>
-
-          <div class="hero-right hero-reveal">
-            
-            <div class="step-engine">
-              <div class="engine-step active" data-target-x="0" data-target-y="0" data-zoom="3">
-                <span class="step-num">01</span>
-                <span class="step-label">Die Ausgangslage</span>
-              </div>
-              <div class="engine-step" data-target-x="-1" data-target-y="1.5" data-zoom="4">
-                <span class="step-num">02</span>
-                <span class="step-label">Präzise Vorbereitung</span>
-              </div>
-              <div class="engine-step" data-target-x="1.5" data-target-y="-1" data-zoom="5">
-                <span class="step-num">03</span>
-                <span class="step-label">Verhaltens-Detail</span>
-              </div>
-              <div class="engine-step" data-target-x="0.5" data-target-y="0.5" data-zoom="2">
-                <span class="step-num">04</span>
-                <span class="step-label">Das finale Gutachten</span>
-              </div>
-            </div>
-
-          </div>
-
         </div>
-      </section>
 
-      <div class="mobile-sticky-cta">
-        <a href="tel:+49123456789" class="mobile-btn m-btn-secondary">Anrufen</a>
-        <a href="#kontakt" class="mobile-btn m-btn-primary">Erstgespräch</a>
-      </div>
+      </section>
 
       <section id="license-story" class="license-story">
         <div class="story-sticky">
@@ -619,9 +501,7 @@
             <article class="step-copy active">
               <div class="step-eyebrow">01 / Analyse</div>
               <h2>Erst verstehen, dann vorbereiten.</h2>
-              <p>
-                Wir starten nicht mit Standard-Antworten, sondern mit Ihrer echten Ausgangslage. Warum kam es zur MPU? Was erwartet die Begutachtung? Was muss sauber vorbereitet werden?
-              </p>
+              <p>Wir starten nicht mit Standard-Antworten, sondern mit Ihrer echten Ausgangslage. Warum kam es zur MPU? Was erwartet die Begutachtung? Was muss sauber vorbereitet werden?</p>
               <ul class="micro-list">
                 <li>Alkohol, Punkte, Drogen oder andere Gründe sauber einordnen</li>
                 <li>Risiken erkennen, bevor sie im Gespräch problematisch werden</li>
@@ -631,9 +511,7 @@
             <article class="step-copy">
               <div class="step-eyebrow">02 / Nachweise</div>
               <h2>Fristen, Unterlagen und Nachweise im Blick.</h2>
-              <p>
-                Viele scheitern nicht am Willen, sondern an fehlender Struktur. Wir prüfen, welche Unterlagen, Abstinenznachweise und zeitlichen Schritte für Ihre Situation relevant sind.
-              </p>
+              <p>Viele scheitern nicht am Willen, sondern an fehlender Struktur. Wir prüfen, welche Unterlagen, Abstinenznachweise und zeitlichen Schritte für Ihre Situation relevant sind.</p>
               <ul class="micro-list">
                 <li>Was muss vorliegen?</li>
                 <li>Was sollte frühzeitig geplant werden?</li>
@@ -643,9 +521,7 @@
             <article class="step-copy">
               <div class="step-eyebrow">03 / Verhalten</div>
               <h2>Keine auswendig gelernten Antworten.</h2>
-              <p>
-                Die MPU erkennt oberflächliche Erklärungen. Deshalb geht es um echtes Verständnis: Was hat sich verändert? Warum ist es glaubwürdig? Wie erklären Sie es klar und ruhig?
-              </p>
+              <p>Die MPU erkennt oberflächliche Erklärungen. Deshalb geht es um echtes Verständnis: Was hat sich verändert? Warum ist es glaubwürdig? Wie erklären Sie es klar und ruhig?</p>
               <ul class="micro-list">
                 <li>Reflexion statt Floskeln</li>
                 <li>Klare Sprache statt Panik im Gespräch</li>
@@ -655,9 +531,7 @@
             <article class="step-copy">
               <div class="step-eyebrow">04 / Simulation</div>
               <h2>Sicher ins Prüfungsgespräch gehen.</h2>
-              <p>
-                Zum Schluss wird aus Vorbereitung Sicherheit. Wir trainieren typische Gesprächssituationen, geben ehrliches Feedback und bringen Struktur in Ihre Antworten.
-              </p>
+              <p>Zum Schluss wird aus Vorbereitung Sicherheit. Wir trainieren typische Gesprächssituationen, geben ehrliches Feedback und bringen Struktur in Ihre Antworten.</p>
               <ul class="micro-list">
                 <li>Realistische Gesprächssimulation</li>
                 <li>Feedback, Korrektur und finaler Fahrplan</li>
@@ -669,9 +543,7 @@
             <div class="final-card-copy">
               <div class="final-eyebrow">Rückseite / Ergebnis</div>
               <h2>Wir drehen die MPU für Sie um.</h2>
-              <p>
-                Aus Unsicherheit wird ein klarer Plan. Aus Druck wird Vorbereitung. Aus einem unübersichtlichen Prozess wird ein strukturierter Weg zurück zur Mobilität.
-              </p>
+              <p>Aus Unsicherheit wird ein klarer Plan. Aus Druck wird Vorbereitung. Aus einem unübersichtlichen Prozess wird ein strukturierter Weg zurück zur Mobilität.</p>
               <a href="#kontakt" class="final-cta">Kostenloses Erstgespräch anfragen</a>
             </div>
           </div>
@@ -815,9 +687,7 @@
       <section id="kontakt" class="after-story">
         <div class="after-inner">
           <h2>Bereit für den nächsten klaren Schritt?</h2>
-          <p>
-            Im Erstgespräch klären wir, wo Sie stehen, welche Vorbereitung sinnvoll ist und wie Ihr Weg zurück zum Führerschein strukturiert aussehen kann.
-          </p>
+          <p>Im Erstgespräch klären wir, wo Sie stehen, welche Vorbereitung sinnvoll ist und wie Ihr Weg zurück zum Führerschein strukturiert aussehen kann.</p>
           <a href="#" class="btn-primary">Erstgespräch anfragen</a>
         </div>
       </section>
@@ -825,7 +695,7 @@
   </div>
 
   <script type="module">
-    import { Renderer, Program, Mesh, Triangle } from "https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm";
+    import { Renderer, Program, Mesh as OGLMesh, Triangle } from "https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm";
 
     const gsap = window.gsap;
     const ScrollTrigger = window.ScrollTrigger;
@@ -833,150 +703,74 @@
 
     const isTouchLike = window.matchMedia("(pointer: coarse)").matches;
 
-    // --- OGL BACKGROUND LOGIC (BEIBEHALTEN) ---
+    // --- OGL BACKGROUND LOGIC (BEIBEHALTEN FÜR DEN TIEFEN HINTERGRUND) ---
     const vertexShader = `
-      attribute vec2 uv;
-      attribute vec2 position;
-      varying vec2 vUv;
-      void main() {
-        vUv = uv;
-        gl_Position = vec4(position, 0, 1);
-      }
+      attribute vec2 uv; attribute vec2 position; varying vec2 vUv;
+      void main() { vUv = uv; gl_Position = vec4(position, 0, 1); }
     `;
 
     const fragmentShader = `
       precision highp float;
-
-      uniform float uTime;
-      uniform vec3 uResolution;
-      uniform float uSpeed;
-      uniform float uInnerLines;
-      uniform float uOuterLines;
-      uniform float uWarpIntensity;
-      uniform float uRotation;
-      uniform float uEdgeFadeWidth;
-      uniform float uColorCycleSpeed;
-      uniform float uBrightness;
-      uniform vec3 uColor1;
-      uniform vec3 uColor2;
-      uniform vec3 uColor3;
-      uniform vec2 uMouse;
-      uniform float uMouseInfluence;
-      uniform bool uEnableMouse;
-
+      uniform float uTime; uniform vec3 uResolution; uniform float uSpeed; uniform float uInnerLines; uniform float uOuterLines; uniform float uWarpIntensity; uniform float uRotation; uniform float uEdgeFadeWidth; uniform float uColorCycleSpeed; uniform float uBrightness; uniform vec3 uColor1; uniform vec3 uColor2; uniform vec3 uColor3; uniform vec2 uMouse; uniform float uMouseInfluence; uniform bool uEnableMouse;
       #define HALF_PI 1.5707963
-
       float hashF(float n) { return fract(sin(n * 127.1) * 43758.5453123); }
       float smoothNoise(float x) { float i = floor(x); float f = fract(x); float u = f * f * (3.0 - 2.0 * f); return mix(hashF(i), hashF(i + 1.0), u); }
       float displaceA(float coord, float t) { float result = sin(coord * 2.123) * 0.2; result += sin(coord * 3.234 + t * 4.345) * 0.1; result += sin(coord * 0.589 + t * 0.934) * 0.5; return result; }
       float displaceB(float coord, float t) { float result = sin(coord * 1.345) * 0.3; result += sin(coord * 2.734 + t * 3.345) * 0.2; result += sin(coord * 0.189 + t * 0.934) * 0.3; return result; }
       vec2 rotate2D(vec2 p, float angle) { float c = cos(angle); float s = sin(angle); return vec2(p.x * c - p.y * s, p.x * s + p.y * c); }
-
       void main() {
-        vec2 coords = gl_FragCoord.xy / uResolution.xy;
-        coords = coords * 2.0 - 1.0;
-        coords = rotate2D(coords, uRotation);
-
-        float halfT = uTime * uSpeed * 0.5;
-        float fullT = uTime * uSpeed;
-
+        vec2 coords = gl_FragCoord.xy / uResolution.xy; coords = coords * 2.0 - 1.0; coords = rotate2D(coords, uRotation);
+        float halfT = uTime * uSpeed * 0.5; float fullT = uTime * uSpeed;
         float mouseWarp = 0.0;
-        if (uEnableMouse) {
-          vec2 mPos = rotate2D(uMouse * 2.0 - 1.0, uRotation);
-          float mDist = length(coords - mPos);
-          mouseWarp = uMouseInfluence * exp(-mDist * mDist * 4.0);
-        }
-
+        if (uEnableMouse) { vec2 mPos = rotate2D(uMouse * 2.0 - 1.0, uRotation); float mDist = length(coords - mPos); mouseWarp = uMouseInfluence * exp(-mDist * mDist * 4.0); }
         float warpAx = coords.x + displaceA(coords.y, halfT) * uWarpIntensity + mouseWarp;
         float warpAy = coords.y - displaceA(coords.x * cos(fullT) * 1.235, halfT) * uWarpIntensity;
         float warpBx = coords.x + displaceB(coords.y, halfT) * uWarpIntensity + mouseWarp;
         float warpBy = coords.y - displaceB(coords.x * sin(fullT) * 1.235, halfT) * uWarpIntensity;
-
-        vec2 fieldA = vec2(warpAx, warpAy);
-        vec2 fieldB = vec2(warpBx, warpBy);
-        vec2 blended = mix(fieldA, fieldB, mix(fieldA, fieldB, 0.5));
-
-        float fadeTop = smoothstep(uEdgeFadeWidth, uEdgeFadeWidth + 0.4, blended.y);
-        float fadeBottom = smoothstep(-uEdgeFadeWidth, -(uEdgeFadeWidth + 0.4), blended.y);
-        float vMask = 1.0 - max(fadeTop, fadeBottom);
-
-        float tileCount = mix(uOuterLines, uInnerLines, vMask);
-        float scaledY = blended.y * tileCount;
-        float nY = smoothNoise(abs(scaledY));
-
+        vec2 fieldA = vec2(warpAx, warpAy); vec2 fieldB = vec2(warpBx, warpBy); vec2 blended = mix(fieldA, fieldB, mix(fieldA, fieldB, 0.5));
+        float fadeTop = smoothstep(uEdgeFadeWidth, uEdgeFadeWidth + 0.4, blended.y); float fadeBottom = smoothstep(-uEdgeFadeWidth, -(uEdgeFadeWidth + 0.4), blended.y); float vMask = 1.0 - max(fadeTop, fadeBottom);
+        float tileCount = mix(uOuterLines, uInnerLines, vMask); float scaledY = blended.y * tileCount; float nY = smoothNoise(abs(scaledY));
         float ridge = pow(step(abs(nY - blended.x) * 2.0, HALF_PI) * cos(2.0 * (nY - blended.x)), 5.0);
-
-        float lines = 0.0;
-        for (float i = 1.0; i < 3.0; i += 1.0) { lines += pow(max(fract(scaledY), fract(-scaledY)), i * 2.0); }
-
-        float pattern = vMask * lines;
-        float cycleT = fullT * uColorCycleSpeed;
+        float lines = 0.0; for (float i = 1.0; i < 3.0; i += 1.0) { lines += pow(max(fract(scaledY), fract(-scaledY)), i * 2.0); }
+        float pattern = vMask * lines; float cycleT = fullT * uColorCycleSpeed;
         float rChannel = (pattern + lines * ridge) * (cos(blended.y + cycleT * 0.234) * 0.5 + 1.0);
         float gChannel = (pattern + vMask * ridge) * (sin(blended.x + cycleT * 1.745) * 0.5 + 1.0);
         float bChannel = (pattern + lines * ridge) * (cos(blended.x + cycleT * 0.534) * 0.5 + 1.0);
-
         vec3 col = (rChannel * uColor1 + gChannel * uColor2 + bChannel * uColor3) * uBrightness;
-        float alpha = clamp(length(col), 0.0, 1.0);
-
-        gl_FragColor = vec4(col, alpha);
+        gl_FragColor = vec4(col, clamp(length(col), 0.0, 1.0));
       }
     `;
 
-    function hexToVec3(hex) {
-      const h = hex.replace("#", "");
-      return [ parseInt(h.slice(0, 2), 16) / 255, parseInt(h.slice(2, 4), 16) / 255, parseInt(h.slice(4, 6), 16) / 255 ];
-    }
+    function hexToVec3(hex) { const h = hex.replace("#", ""); return [ parseInt(h.slice(0, 2), 16) / 255, parseInt(h.slice(2, 4), 16) / 255, parseInt(h.slice(4, 6), 16) / 255 ]; }
 
-    const config = { speed: 0.3, innerLineCount: 32, outerLineCount: 36, warpIntensity: 1, rotation: -45, edgeFadeWidth: 0, colorCycleSpeed: 1, brightness: 0.2, color1: "#ffffff", color2: "#ffffff", color3: "#ffffff", enableMouseInteraction: !isTouchLike, mouseInfluence: isTouchLike ? 0 : 2 };
+    const config = { speed: 0.3, innerLineCount: 32, outerLineCount: 36, warpIntensity: 1, rotation: -45, edgeFadeWidth: 0, colorCycleSpeed: 1, brightness: 0.15, color1: "#ffffff", color2: "#ffffff", color3: "#ffffff", enableMouseInteraction: !isTouchLike, mouseInfluence: isTouchLike ? 0 : 2 };
 
     const container = document.getElementById("line-waves-bg");
     const rendererOGL = new Renderer({ alpha: true, premultipliedAlpha: false, dpr: Math.min(isTouchLike ? 1.15 : 1.6, window.devicePixelRatio || 1) });
-    const gl = rendererOGL.gl;
-    gl.clearColor(0, 0, 0, 0);
-    gl.canvas.setAttribute("aria-hidden", "true");
-    container.appendChild(gl.canvas);
+    const gl = rendererOGL.gl; gl.clearColor(0, 0, 0, 0); gl.canvas.setAttribute("aria-hidden", "true"); container.appendChild(gl.canvas);
 
     let currentMouse = [0.5, 0.5], targetMouse = [0.5, 0.5], program, isPageVisible = true;
     document.addEventListener("visibilitychange", () => isPageVisible = !document.hidden);
     function handleMouseMove(e) { targetMouse = [e.clientX / window.innerWidth, 1.0 - e.clientY / window.innerHeight]; }
     function handleMouseLeave() { targetMouse = [0.5, 0.5]; }
-    function resize() {
-      const width = Math.max(1, container.offsetWidth), height = Math.max(1, container.offsetHeight);
-      rendererOGL.setSize(width, height);
-      if (program) program.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height];
-    }
+    function resize() { rendererOGL.setSize(Math.max(1, container.offsetWidth), Math.max(1, container.offsetHeight)); if (program) program.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height]; }
     window.addEventListener("resize", resize);
 
     const geometry = new Triangle(gl);
-    program = new Program(gl, {
-      vertex: vertexShader, fragment: fragmentShader,
-      uniforms: {
-        uTime: { value: 0 }, uResolution: { value: [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height] },
-        uSpeed: { value: config.speed }, uInnerLines: { value: config.innerLineCount }, uOuterLines: { value: config.outerLineCount },
-        uWarpIntensity: { value: config.warpIntensity }, uRotation: { value: (config.rotation * Math.PI) / 180 }, uEdgeFadeWidth: { value: config.edgeFadeWidth },
-        uColorCycleSpeed: { value: config.colorCycleSpeed }, uBrightness: { value: config.brightness }, uColor1: { value: hexToVec3(config.color1) }, uColor2: { value: hexToVec3(config.color2) }, uColor3: { value: hexToVec3(config.color3) },
-        uMouse: { value: new Float32Array([0.5, 0.5]) }, uMouseInfluence: { value: config.mouseInfluence }, uEnableMouse: { value: config.enableMouseInteraction }
-      }
-    });
+    program = new Program(gl, { vertex: vertexShader, fragment: fragmentShader, uniforms: { uTime: { value: 0 }, uResolution: { value: [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height] }, uSpeed: { value: config.speed }, uInnerLines: { value: config.innerLineCount }, uOuterLines: { value: config.outerLineCount }, uWarpIntensity: { value: config.warpIntensity }, uRotation: { value: (config.rotation * Math.PI) / 180 }, uEdgeFadeWidth: { value: config.edgeFadeWidth }, uColorCycleSpeed: { value: config.colorCycleSpeed }, uBrightness: { value: config.brightness }, uColor1: { value: hexToVec3(config.color1) }, uColor2: { value: hexToVec3(config.color2) }, uColor3: { value: hexToVec3(config.color3) }, uMouse: { value: new Float32Array([0.5, 0.5]) }, uMouseInfluence: { value: config.mouseInfluence }, uEnableMouse: { value: config.enableMouseInteraction } } });
 
-    const mesh = new Mesh(gl, { geometry, program });
-    resize();
+    const mesh = new OGLMesh(gl, { geometry, program }); resize();
     if (config.enableMouseInteraction) { window.addEventListener("mousemove", handleMouseMove); window.addEventListener("mouseleave", handleMouseLeave); }
 
     function update(time) {
-      requestAnimationFrame(update);
-      if (!isPageVisible) return;
+      requestAnimationFrame(update); if (!isPageVisible) return;
       program.uniforms.uTime.value = time * 0.001;
-      if (config.enableMouseInteraction) {
-        currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]);
-        currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]);
-        program.uniforms.uMouse.value[0] = currentMouse[0];
-        program.uniforms.uMouse.value[1] = currentMouse[1];
-      }
+      if (config.enableMouseInteraction) { currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]); currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]); program.uniforms.uMouse.value[0] = currentMouse[0]; program.uniforms.uMouse.value[1] = currentMouse[1]; }
       rendererOGL.render({ scene: mesh });
     }
     requestAnimationFrame(update);
 
+    // --- STORY LOGIC (BEIBEHALTEN) ---
     function initScrollStory() {
       const cardStage = document.querySelector(".mpu-license-stage");
       const cardObject = document.querySelector(".mpu-card-object");
@@ -988,10 +782,8 @@
       const cardSteps = gsap.utils.toArray(".mpu-step-row");
 
       let activeStep = -1;
-
       function setActiveStep(index) {
-        if (index === activeStep) return;
-        activeStep = index;
+        if (index === activeStep) return; activeStep = index;
         stepCopies.forEach((el, i) => el.classList.toggle("active", i === index));
         cardSteps.forEach((el, i) => el.classList.toggle("is-active", i === index));
       }
@@ -1001,10 +793,6 @@
         const stepProgress = Math.min(progress, 0.58) / 0.58;
         const nextStep = Math.min(3, Math.max(0, Math.floor(stepProgress * 4)));
         setActiveStep(nextStep);
-        if (program && program.uniforms && program.uniforms.uBrightness) {
-          const targetBrightness = progress < 0.62 ? 0.155 : 0.215;
-          program.uniforms.uBrightness.value += (targetBrightness - program.uniforms.uBrightness.value) * 0.08;
-        }
       }
 
       const mm = gsap.matchMedia();
@@ -1015,20 +803,8 @@
         gsap.set(leftCopy, { autoAlpha: 0, x: -50, filter: "blur(10px)" });
         gsap.set(finalGlow, { autoAlpha: 0, scale: 0.72 });
 
-        const tl = gsap.timeline({ scrollTrigger: { trigger: "#license-story", start: "top top", end: "bottom bottom", scrub: 0.75, invalidateOnRefresh: true, onUpdate: self => updateStoryState(self.progress) } });
-        tl.to(cardStage, { rotationZ: 1.2, y: -10, duration: 0.18, ease: "none" }, 0)
-          .to(cardObject, { rotationY: -2, duration: 0.18, ease: "none" }, 0)
-          .to(cardStage, { y: 10, rotationZ: -0.8, duration: 0.18, ease: "none" }, 0.18)
-          .to(cardObject, { rotationY: -5, duration: 0.18, ease: "none" }, 0.18)
-          .to(cardStage, { y: -4, rotationZ: 0.8, duration: 0.18, ease: "none" }, 0.36)
-          .to(cardObject, { rotationY: -2, duration: 0.18, ease: "none" }, 0.36)
-          .to(cardStage, { x: 0, y: 0, scale: 1.055, rotationZ: 0, duration: 0.14, ease: "power1.inOut" }, 0.58)
-          .to(cardObject, { rotationY: 0, duration: 0.12, ease: "power1.inOut" }, 0.58)
-          .to(rightCopy, { autoAlpha: 0, x: 70, filter: "blur(10px)", duration: 0.11, ease: "power1.out" }, 0.6)
-          .to(finalGlow, { autoAlpha: 1, scale: 1.08, duration: 0.16, ease: "power1.out" }, 0.62)
-          .to(cardObject, { rotationY: 180, duration: 0.22, ease: "none" }, 0.66)
-          .to(cardStage, { x: () => window.innerWidth * 0.28, scale: 1, rotationZ: 2, duration: 0.2, ease: "power1.inOut" }, 0.8)
-          .to(leftCopy, { autoAlpha: 1, x: 0, filter: "blur(0px)", duration: 0.15, ease: "power1.out" }, 0.84);
+        const tl = gsap.timeline({ scrollTrigger: { trigger: "#license-story", start: "top top", end: "bottom bottom", scrub: 0.75, onUpdate: self => updateStoryState(self.progress) } });
+        tl.to(cardStage, { rotationZ: 1.2, y: -10, duration: 0.18, ease: "none" }, 0).to(cardObject, { rotationY: -2, duration: 0.18, ease: "none" }, 0).to(cardStage, { y: 10, rotationZ: -0.8, duration: 0.18, ease: "none" }, 0.18).to(cardObject, { rotationY: -5, duration: 0.18, ease: "none" }, 0.18).to(cardStage, { y: -4, rotationZ: 0.8, duration: 0.18, ease: "none" }, 0.36).to(cardObject, { rotationY: -2, duration: 0.18, ease: "none" }, 0.36).to(cardStage, { x: 0, y: 0, scale: 1.055, rotationZ: 0, duration: 0.14, ease: "power1.inOut" }, 0.58).to(cardObject, { rotationY: 0, duration: 0.12, ease: "power1.inOut" }, 0.58).to(rightCopy, { autoAlpha: 0, x: 70, filter: "blur(10px)", duration: 0.11, ease: "power1.out" }, 0.6).to(finalGlow, { autoAlpha: 1, scale: 1.08, duration: 0.16, ease: "power1.out" }, 0.62).to(cardObject, { rotationY: 180, duration: 0.22, ease: "none" }, 0.66).to(cardStage, { x: () => window.innerWidth * 0.28, scale: 1, rotationZ: 2, duration: 0.2, ease: "power1.inOut" }, 0.8).to(leftCopy, { autoAlpha: 1, x: 0, filter: "blur(0px)", duration: 0.15, ease: "power1.out" }, 0.84);
         return () => tl.kill();
       });
 
@@ -1039,172 +815,144 @@
         gsap.set(leftCopy, { autoAlpha: 0, y: 24, filter: "blur(10px)" });
         gsap.set(finalGlow, { autoAlpha: 0, scale: 0.78 });
 
-        const tl = gsap.timeline({ scrollTrigger: { trigger: "#license-story", start: "top top", end: "bottom bottom", scrub: 0.75, invalidateOnRefresh: true, onUpdate: self => updateStoryState(self.progress) } });
-        tl.to(cardStage, { y: -8, rotationZ: 1, duration: 0.25, ease: "none" }, 0)
-          .to(cardStage, { y: 7, rotationZ: -1, duration: 0.28, ease: "none" }, 0.25)
-          .to(rightCopy, { autoAlpha: 0, y: -20, filter: "blur(10px)", duration: 0.12, ease: "power1.out" }, 0.6)
-          .to(finalGlow, { autoAlpha: 1, scale: 1, duration: 0.15, ease: "power1.out" }, 0.62)
-          .to(cardObject, { rotationY: 180, duration: 0.22, ease: "none" }, 0.66)
-          .to(cardStage, { scale: 1, y: 0, rotationZ: 0.6, duration: 0.2, ease: "power1.out" }, 0.66)
-          .to(leftCopy, { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.16, ease: "power1.out" }, 0.82);
+        const tl = gsap.timeline({ scrollTrigger: { trigger: "#license-story", start: "top top", end: "bottom bottom", scrub: 0.75, onUpdate: self => updateStoryState(self.progress) } });
+        tl.to(cardStage, { y: -8, rotationZ: 1, duration: 0.25, ease: "none" }, 0).to(cardStage, { y: 7, rotationZ: -1, duration: 0.28, ease: "none" }, 0.25).to(rightCopy, { autoAlpha: 0, y: -20, filter: "blur(10px)", duration: 0.12, ease: "power1.out" }, 0.6).to(finalGlow, { autoAlpha: 1, scale: 1, duration: 0.15, ease: "power1.out" }, 0.62).to(cardObject, { rotationY: 180, duration: 0.22, ease: "none" }, 0.66).to(cardStage, { scale: 1, y: 0, rotationZ: 0.6, duration: 0.2, ease: "power1.out" }, 0.66).to(leftCopy, { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.16, ease: "power1.out" }, 0.82);
         return () => tl.kill();
       });
       setActiveStep(0); ScrollTrigger.refresh();
     }
 
-    // --- NEU: KONZEPT 1 (MAKRO HOLOGRAMM PBR) ---
-    function initMacroHologram() {
-      const canvas = document.getElementById('macro-canvas');
-      const wrapper = document.getElementById('macro-canvas-wrapper');
-      if (!canvas || !wrapper || typeof THREE === 'undefined') return;
-
-      // GSAP Einblendung
-      gsap.to(wrapper, { opacity: 1, duration: 2, ease: "power2.out", delay: 1 });
+    // ==========================================
+    // NEU: CINEMATIC FULLSCREEN HERO (THREE.JS)
+    // ==========================================
+    function initCinematicHero() {
+      const canvas = document.getElementById('cinematic-canvas');
+      const wrapper = document.getElementById('cinematic-canvas-wrapper');
+      if (!canvas || typeof THREE === 'undefined') return;
 
       const scene = new THREE.Scene();
-      // Kamera nah dran für den Makro-Look
-      const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 100);
-      camera.position.set(0, 0, 4);
+      const camera = new THREE.PerspectiveCamera(35, wrapper.clientWidth / wrapper.clientHeight, 0.1, 100);
+      // Start-Kamera ist weit weg
+      camera.position.set(0, 0, 15);
 
       const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(wrapper.clientWidth, wrapper.clientHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-      // 1. Fotorealistisches PBR Material (Polycarbonat Klarlack)
-      const cardMaterial = new THREE.MeshPhysicalMaterial({
-        color: 0x111115, // Dunkles, edles Grau/Schwarz
-        metalness: 0.8,
-        roughness: 0.3,
-        clearcoat: 1.0,
-        clearcoatRoughness: 0.1,
-      });
-
-      // Um Mikrolinien / Laser-Gravur (Guillochen) zu erzeugen, bauen wir eine Canvas-Textur
+      // 1. Textur-Erstellung für die "Laser-Gravuren" auf der dunklen Karte
       const texCanvas = document.createElement('canvas');
-      texCanvas.width = 1024;
+      texCanvas.width = 2048;
       texCanvas.height = 1024;
       const ctx = texCanvas.getContext('2d');
-      ctx.fillStyle = '#888'; // Basis Bump
-      ctx.fillRect(0, 0, 1024, 1024);
-      ctx.strokeStyle = '#fff';
-      ctx.lineWidth = 1;
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, 2048, 1024);
       
-      // Zeichne komplexe Wellenlinien (Guilloche-Sicherheitsmuster)
-      for(let i = 0; i < 50; i++) {
-        ctx.beginPath();
-        for(let x = 0; x < 1024; x+=5) {
-          const y = 512 + Math.sin(x * 0.02 + i) * 100 + Math.cos(x * 0.05) * 50;
-          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-      }
+      // Zeichne das "Fahrplan" Interface direkt auf die 3D Textur
+      ctx.fillStyle = '#ffffff';
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 4;
       
-      const bumpTexture = new THREE.CanvasTexture(texCanvas);
-      bumpTexture.wrapS = THREE.RepeatWrapping;
-      bumpTexture.wrapT = THREE.RepeatWrapping;
-      cardMaterial.bumpMap = bumpTexture;
-      cardMaterial.bumpScale = 0.005; // Sehr subtil, nur fürs Makro-Licht
+      // Rahmen und Deko
+      ctx.strokeRect(100, 100, 1848, 824);
+      ctx.font = '300 30px "Inter", sans-serif';
+      ctx.fillText('MPU-AKTE // DEUTSCHLAND', 140, 160);
+      
+      // Die 4 Schritte (werden leuchten)
+      ctx.font = '900 70px "Inter", sans-serif';
+      ctx.fillText('01 // FALL VERSTEHEN', 150, 350);
+      ctx.fillText('02 // VORBEREITUNG PLANEN', 150, 500);
+      ctx.fillText('03 // VERÄNDERUNG BELEGEN', 150, 650);
+      ctx.fillText('04 // SICHER INS GESPRÄCH', 150, 800);
 
-      // Die Karte selbst (leicht gebogen, unendlich wirkend)
-      const planeGeom = new THREE.PlaneGeometry(20, 20, 32, 32);
-      const cardMesh = new THREE.Mesh(planeGeom, cardMaterial);
-      cardMesh.rotation.x = -Math.PI / 4; // Schräg gekippt für Makro-Ansicht
-      cardMesh.rotation.z = Math.PI / 8;
+      const cardTexture = new THREE.CanvasTexture(texCanvas);
+
+      // 2. Das Monolith-Karten-Material (PBR)
+      const cardMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0x050505,       // Extrem dunkel
+        metalness: 0.9,        // Metallisch/Polycarbonat-Look
+        roughness: 0.2,        // Sehr glatt
+        clearcoat: 1.0,        // Glänzender Klarlack
+        clearcoatRoughness: 0.1,
+        emissiveMap: cardTexture,
+        emissive: new THREE.Color(0x00e5ff), // Das UI leuchtet eisblau
+        emissiveIntensity: 0.0 // Startet komplett dunkel!
+      });
+
+      const cardGeom = new THREE.BoxGeometry(8.5, 5.4, 0.1);
+      const cardMesh = new THREE.Mesh(cardGeom, cardMaterial);
       scene.add(cardMesh);
 
-      // 2. Das physikalische Hologramm-Lichtsetup (Der 100K Wow-Effekt)
-      // Wir nutzen RGB-Lichter nah an der Oberfläche, um die Interferenzschicht (Hologramm) zu simulieren
-      const lightGroup = new THREE.Group();
-      scene.add(lightGroup);
+      // Initiale Rotation der Karte
+      cardMesh.rotation.set(-0.2, 0.3, 0.1);
 
-      const lightR = new THREE.PointLight(0xff0044, 2, 10);
-      const lightG = new THREE.PointLight(0x00ff44, 2, 10);
-      const lightB = new THREE.PointLight(0x0044ff, 2, 10);
-      
-      // Eng beieinander positioniert
-      lightR.position.set(-0.2, 0, 1.5);
-      lightG.position.set(0, 0.2, 1.5);
-      lightB.position.set(0.2, -0.2, 1.5);
-      
-      lightGroup.add(lightR, lightG, lightB);
-      
-      // Allgemeines Umgebungslicht
+      // Licht-Setup
       scene.add(new THREE.AmbientLight(0xffffff, 0.2));
-      const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-      dirLight.position.set(5, 5, 2);
-      scene.add(dirLight);
+      const light1 = new THREE.PointLight(0xffffff, 1, 20);
+      light1.position.set(5, 5, 5);
+      scene.add(light1);
+      const light2 = new THREE.PointLight(0x00e5ff, 0.5, 20); // Blaues Licht von der Seite
+      light2.position.set(-5, -5, 5);
+      scene.add(light2);
 
-      // Maus-Tracking für Lichtbrechung
-      let targetX = 0;
-      let targetY = 0;
-      let currentX = 0;
-      let currentY = 0;
-
-      window.addEventListener('mousemove', (e) => {
-        targetX = (e.clientX / window.innerWidth) * 2 - 1;
-        targetY = -(e.clientY / window.innerHeight) * 2 + 1;
-      });
-
-      // Hover Logik für die Fahrplan-Steps (Kamera Makro-Fokus)
-      const steps = document.querySelectorAll('.engine-step');
-      let camTargetZ = 4;
-      let camTargetX = 0;
-      let camTargetY = 0;
-
-      steps.forEach((step) => {
-        step.addEventListener('mouseenter', () => {
-           steps.forEach(s => s.classList.remove('active'));
-           step.classList.add('active');
-           
-           // Lese die Target-Daten aus dem HTML
-           camTargetX = parseFloat(step.getAttribute('data-target-x'));
-           camTargetY = parseFloat(step.getAttribute('data-target-y'));
-           camTargetZ = parseFloat(step.getAttribute('data-zoom'));
-
-           gsap.to(camera.position, {
-             x: camTargetX,
-             y: camTargetY,
-             z: camTargetZ,
-             duration: 1.5,
-             ease: "power3.out"
-           });
-        });
-
-        step.addEventListener('mouseleave', () => {
-           // Reset auf Default-Position
-           gsap.to(camera.position, { x: 0, y: 0, z: 4, duration: 2, ease: "power2.out" });
-        });
-      });
-
-      // Render Loop
+      // Animierter Render-Loop
       const clock = new THREE.Clock();
-      function animateMacro() {
-        requestAnimationFrame(animateMacro);
-        const time = clock.getElapsedTime();
-
-        // Smooth Mouse Follow
-        currentX += (targetX - currentX) * 0.05;
-        currentY += (targetY - currentY) * 0.05;
-
-        // Das Hologramm-Licht reagiert auf die Maus
-        lightGroup.position.x = currentX * 2;
-        lightGroup.position.y = currentY * 2;
-        
-        // Sanftes, ständiges Wabern des Lichts (als würde man die Karte leicht in der Hand wiegen)
-        lightR.position.x = Math.sin(time * 2) * 0.3 - 0.2;
-        lightB.position.x = Math.cos(time * 2) * 0.3 + 0.2;
-
+      function animateHero() {
+        requestAnimationFrame(animateHero);
+        const t = clock.getElapsedTime();
+        // Die Karte schwebt majestätisch
+        cardMesh.position.y = Math.sin(t * 0.5) * 0.2;
         renderer.render(scene, camera);
       }
-      animateMacro();
+      animateHero();
 
       window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.aspect = wrapper.clientWidth / wrapper.clientHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(wrapper.clientWidth, wrapper.clientHeight);
       });
+
+      // --- DER WOW-EFFEKT: GSAP SCROLL-ZOOM IN DIE KARTE ---
+      // Wenn der Nutzer im Hero scrollt, zoomt die Kamera extrem nah an die Gravur,
+      // und die Gravur beginnt hell zu leuchten.
+      
+      const tlHero = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#hero-container",
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+          pin: true // Wir pinnen den Hero, bis der Zoom fertig ist!
+        }
+      });
+
+      // Sichtbar machen des Canvas Wrappers
+      gsap.to(wrapper, { opacity: 1, duration: 1.5, ease: "power2.out", delay: 0.5 });
+
+      tlHero
+        .to(camera.position, {
+          z: 3,         // Zoom nah heran
+          x: -1.5,      // Auf die Textgravur zentrieren
+          y: 0,
+          ease: "power1.inOut"
+        }, 0)
+        .to(cardMesh.rotation, {
+          x: 0,         // Karte gerade drehen
+          y: 0,
+          z: 0,
+          ease: "power1.inOut"
+        }, 0)
+        .to(cardMaterial, {
+          emissiveIntensity: 2.0, // Die Schritt-Gravur beginnt extrem hell zu leuchten
+          ease: "power2.in"
+        }, 0.2) // Startet etwas verzögert während des Zooms
+        .to('.hero-content-fullscreen', {
+          opacity: 0, // Der fette Text verschwindet beim Heranzoomen
+          y: -50,
+          ease: "power1.in"
+        }, 0);
     }
 
+    // INIT
     window.addEventListener("load", () => {
       const tl = gsap.timeline();
 
@@ -1222,7 +970,7 @@
         if (intro) intro.remove();
 
         initScrollStory();
-        initMacroHologram(); // Makro-Hologramm starten
+        initCinematicHero(); // Cinematic 3D Hero starten
         ScrollTrigger.refresh();
       });
     });
