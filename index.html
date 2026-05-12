@@ -79,8 +79,6 @@
       opacity: 0;
     }
 
-    /* INTRO */
-
     #intro-container {
       position: fixed;
       inset: 0;
@@ -112,14 +110,7 @@
       content: "";
       position: absolute;
       inset: -40%;
-      background: linear-gradient(
-        115deg,
-        transparent 0%,
-        transparent 36%,
-        rgba(255,255,255,0.55) 47%,
-        transparent 58%,
-        transparent 100%
-      );
+      background: linear-gradient(115deg, transparent 0%, transparent 36%, rgba(255,255,255,0.55) 47%, transparent 58%, transparent 100%);
       transform: translateX(-40%) rotate(12deg);
       opacity: 0.5;
     }
@@ -172,8 +163,6 @@
     .intro-l-line:nth-child(4) { width: 90%; }
     .intro-l-line:nth-child(5) { width: 40%; margin-top: 20px; }
 
-    /* NAV */
-
     .navbar {
       position: fixed;
       top: 0;
@@ -204,16 +193,14 @@
       border-radius: 100px;
       font-size: 0.88rem;
       font-weight: 800;
-      transition: transform 0.3s ease, background 0.3s ease;
       white-space: nowrap;
+      transition: transform 0.3s ease, background 0.3s ease;
     }
 
     .nav-cta:hover {
       transform: translateY(-2px) scale(1.03);
       background: #e9e9e9;
     }
-
-    /* HERO */
 
     .hero-section {
       position: relative;
@@ -280,16 +267,14 @@
       font-weight: 800;
       border-radius: 10px;
       font-size: 1rem;
-      transition: background 0.3s ease, transform 0.3s ease;
       box-shadow: 0 22px 60px rgba(255,255,255,0.13);
+      transition: background 0.3s ease, transform 0.3s ease;
     }
 
     .btn-primary:hover {
       background: #e8e8e8;
       transform: translateY(-3px);
     }
-
-    /* STORY */
 
     .license-story {
       position: relative;
@@ -305,7 +290,7 @@
       top: 0;
       height: 100svh;
       overflow: hidden;
-      perspective: 1600px;
+      perspective: 1800px;
     }
 
     .story-noise {
@@ -367,10 +352,7 @@
       opacity: 0;
       transform: translateY(28px);
       filter: blur(8px);
-      transition:
-        opacity 0.48s ease,
-        transform 0.48s ease,
-        filter 0.48s ease;
+      transition: opacity 0.48s ease, transform 0.48s ease, filter 0.48s ease;
     }
 
     .step-copy.active {
@@ -446,8 +428,7 @@
     .final-card-copy {
       padding: clamp(1.35rem, 2vw, 2rem);
       border: 1px solid rgba(255,255,255,0.14);
-      background:
-        linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035));
+      background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035));
       border-radius: 28px;
       box-shadow:
         0 24px 80px rgba(0,0,0,0.34),
@@ -505,16 +486,12 @@
       will-change: transform;
     }
 
-    /* =========================================================
-       FÜHRERSCHEIN V3 - KOMPLETT NEUE KLASSEN
-       ========================================================= */
-
     .mpu-license-stage {
       position: absolute;
       top: 50%;
       left: 50%;
       z-index: 7;
-      width: clamp(430px, 37vw, 660px);
+      width: clamp(470px, 39vw, 720px);
       aspect-ratio: 1.585 / 1;
       transform-style: preserve-3d;
       -webkit-transform-style: preserve-3d;
@@ -528,6 +505,7 @@
       transform-style: preserve-3d;
       -webkit-transform-style: preserve-3d;
       will-change: transform;
+      transform-origin: center center;
     }
 
     .mpu-card-face {
@@ -537,6 +515,8 @@
       overflow: hidden;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
+      transform-style: preserve-3d;
+      -webkit-transform-style: preserve-3d;
       box-shadow:
         0 38px 90px rgba(0,0,0,0.52),
         inset 0 0 0 1px rgba(255,255,255,0.62),
@@ -544,6 +524,8 @@
     }
 
     .mpu-card-front {
+      transform: rotateY(0deg) translateZ(1px);
+      -webkit-transform: rotateY(0deg) translateZ(1px);
       background:
         radial-gradient(circle at 9% 12%, rgba(255,255,255,0.9), transparent 18%),
         radial-gradient(circle at 90% 85%, rgba(175,205,245,0.55), transparent 30%),
@@ -552,7 +534,8 @@
     }
 
     .mpu-card-back {
-      transform: rotateY(180deg);
+      transform: rotateY(180deg) translateZ(1px);
+      -webkit-transform: rotateY(180deg) translateZ(1px);
       background:
         radial-gradient(circle at 84% 10%, rgba(255,255,255,0.86), transparent 18%),
         radial-gradient(circle at 12% 90%, rgba(192,214,250,0.48), transparent 30%),
@@ -563,25 +546,17 @@
     .mpu-card-pattern {
       position: absolute;
       inset: 0;
-      opacity: 0.18;
+      opacity: 0.16;
       background:
-        repeating-linear-gradient(
-          45deg,
-          rgba(255,255,255,0.5) 0 1px,
-          transparent 1px 9px
-        ),
-        repeating-radial-gradient(
-          circle at 28% 38%,
-          rgba(30,40,70,0.1) 0 1px,
-          transparent 1px 13px
-        );
+        repeating-linear-gradient(45deg, rgba(255,255,255,0.5) 0 1px, transparent 1px 9px),
+        repeating-radial-gradient(circle at 28% 38%, rgba(30,40,70,0.1) 0 1px, transparent 1px 13px);
       pointer-events: none;
     }
 
     .mpu-card-watermark {
       position: absolute;
-      right: -3%;
-      bottom: -11%;
+      right: -2.5%;
+      bottom: -9%;
       font-size: clamp(5rem, 8vw, 9rem);
       line-height: 1;
       font-weight: 900;
@@ -594,15 +569,8 @@
     .mpu-card-shine {
       position: absolute;
       inset: -70%;
-      background: linear-gradient(
-        115deg,
-        transparent 0%,
-        transparent 39%,
-        rgba(255,255,255,0.72) 48%,
-        transparent 57%,
-        transparent 100%
-      );
-      opacity: 0.36;
+      background: linear-gradient(115deg, transparent 0%, transparent 39%, rgba(255,255,255,0.72) 48%, transparent 57%, transparent 100%);
+      opacity: 0.32;
       mix-blend-mode: screen;
       animation: mpuCardShine 7s linear infinite;
       pointer-events: none;
@@ -618,17 +586,17 @@
       z-index: 2;
       width: 100%;
       height: 100%;
-      padding: 6.2% 6.4% 6.2% 6.4%;
+      padding: 5.25% 5.7% 5.25%;
       display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: clamp(0.72rem, 1vw, 1rem);
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: clamp(0.55rem, 0.82vw, 0.85rem);
     }
 
     .mpu-doc-head {
       display: grid;
       grid-template-columns: 62px minmax(0, 1fr) auto;
       align-items: center;
-      gap: clamp(0.8rem, 1vw, 1.1rem);
+      gap: clamp(0.75rem, 1vw, 1.05rem);
       min-height: 38px;
     }
 
@@ -685,22 +653,23 @@
 
     .mpu-front-body {
       display: grid;
-      grid-template-columns: minmax(95px, 28%) minmax(0, 1fr);
-      gap: clamp(0.95rem, 1.35vw, 1.35rem);
+      grid-template-columns: minmax(105px, 28%) minmax(0, 1fr);
+      gap: clamp(0.85rem, 1.25vw, 1.25rem);
       min-height: 0;
       align-items: stretch;
     }
 
     .mpu-photo-panel {
       display: grid;
-      grid-template-rows: 1fr auto auto;
-      gap: 0.58rem;
+      grid-template-rows: minmax(0, 1fr) auto auto;
+      gap: 0.42rem;
       min-height: 0;
+      overflow: hidden;
     }
 
     .mpu-photo-box {
       position: relative;
-      min-height: 0;
+      min-height: 126px;
       border-radius: 17px;
       background:
         linear-gradient(to bottom, rgba(0,0,0,0.09), rgba(0,0,0,0.04)),
@@ -716,8 +685,7 @@
       position: absolute;
       inset: 0;
       opacity: 0.25;
-      background:
-        linear-gradient(135deg, transparent 0 47%, rgba(255,255,255,0.5) 48%, transparent 58%);
+      background: linear-gradient(135deg, transparent 0 47%, rgba(255,255,255,0.5) 48%, transparent 58%);
     }
 
     .mpu-photo-head {
@@ -744,7 +712,7 @@
 
     .mpu-signature-line {
       height: 1px;
-      background: rgba(0,0,0,0.18);
+      background: rgba(0,0,0,0.16);
       position: relative;
       margin: 0 0.15rem;
     }
@@ -752,9 +720,9 @@
     .mpu-signature-line::after {
       content: "Signatur";
       position: absolute;
-      top: 5px;
+      top: 4px;
       left: 0;
-      font-size: 0.5rem;
+      font-size: clamp(0.36rem, 0.46vw, 0.52rem);
       font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -762,7 +730,7 @@
     }
 
     .mpu-id-line {
-      font-size: clamp(0.48rem, 0.6vw, 0.7rem);
+      font-size: clamp(0.46rem, 0.58vw, 0.68rem);
       font-weight: 900;
       letter-spacing: 0.11em;
       color: rgba(0,0,0,0.43);
@@ -776,8 +744,9 @@
       min-width: 0;
       min-height: 0;
       display: grid;
-      grid-template-rows: auto 1fr;
-      gap: 0.55rem;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 0.45rem;
+      overflow: hidden;
     }
 
     .mpu-panel-meta {
@@ -785,12 +754,13 @@
       align-items: center;
       justify-content: space-between;
       gap: 0.7rem;
-      padding-bottom: 0.42rem;
+      padding-bottom: 0.34rem;
       border-bottom: 1px solid rgba(0,0,0,0.08);
+      min-height: 24px;
     }
 
     .mpu-panel-meta span {
-      font-size: clamp(0.56rem, 0.68vw, 0.78rem);
+      font-size: clamp(0.54rem, 0.66vw, 0.76rem);
       text-transform: uppercase;
       letter-spacing: 0.14em;
       font-weight: 900;
@@ -799,7 +769,7 @@
     }
 
     .mpu-panel-meta b {
-      font-size: clamp(0.58rem, 0.72vw, 0.82rem);
+      font-size: clamp(0.56rem, 0.7vw, 0.8rem);
       text-transform: uppercase;
       letter-spacing: 0.04em;
       font-weight: 900;
@@ -809,64 +779,63 @@
 
     .mpu-step-list {
       display: grid;
-      grid-template-rows: repeat(4, 1fr);
-      gap: clamp(0.38rem, 0.55vw, 0.58rem);
+      grid-template-rows: repeat(4, minmax(0, 1fr));
+      gap: clamp(0.32rem, 0.48vw, 0.52rem);
       min-height: 0;
+      overflow: hidden;
     }
 
     .mpu-step-row {
-      display: grid;
-      grid-template-columns: 2.15rem minmax(0, 1fr);
-      align-items: center;
-      gap: 0.72rem;
       min-height: 0;
-      padding: 0.58rem 0.78rem;
+      display: grid;
+      grid-template-columns: 2.05rem minmax(0, 1fr);
+      align-items: center;
+      gap: 0.66rem;
+      padding: clamp(0.42rem, 0.62vw, 0.62rem) clamp(0.58rem, 0.78vw, 0.82rem);
       border-radius: 15px;
       background: rgba(255,255,255,0.34);
-      box-shadow:
-        inset 0 0 0 1px rgba(0,0,0,0.055);
-      opacity: 0.52;
-      transition:
-        opacity 0.35s ease,
-        transform 0.35s ease,
-        background 0.35s ease,
-        box-shadow 0.35s ease;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.055);
+      opacity: 0.54;
+      overflow: hidden;
+      transition: opacity 0.35s ease, transform 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
     }
 
     .mpu-step-row.is-active {
       opacity: 1;
       transform: translateX(-5px);
-      background: rgba(255,255,255,0.74);
+      background: rgba(255,255,255,0.78);
       box-shadow:
         inset 0 0 0 1px rgba(0,0,0,0.08),
         0 10px 24px rgba(255,255,255,0.22);
     }
 
     .mpu-step-index {
-      width: 2.15rem;
-      height: 2.15rem;
+      width: 2.05rem;
+      height: 2.05rem;
       border-radius: 999px;
       background: rgba(0,0,0,0.72);
       color: #fff;
       display: grid;
       place-items: center;
-      font-size: 0.72rem;
+      font-size: clamp(0.58rem, 0.66vw, 0.74rem);
       font-weight: 900;
       letter-spacing: -0.02em;
+      flex: 0 0 auto;
     }
 
     .mpu-step-text {
       min-width: 0;
       display: grid;
-      gap: 0.08rem;
+      gap: 0.1rem;
+      overflow: hidden;
     }
 
     .mpu-step-text strong {
       display: block;
-      font-size: clamp(0.76rem, 0.9vw, 1rem);
-      line-height: 1;
+      font-size: clamp(0.72rem, 0.84vw, 0.98rem);
+      line-height: 1.02;
       letter-spacing: -0.035em;
-      color: rgba(0,0,0,0.78);
+      color: rgba(0,0,0,0.8);
       font-weight: 900;
       white-space: nowrap;
       overflow: hidden;
@@ -875,7 +844,7 @@
 
     .mpu-step-text small {
       display: block;
-      font-size: clamp(0.52rem, 0.62vw, 0.7rem);
+      font-size: clamp(0.5rem, 0.58vw, 0.68rem);
       line-height: 1.05;
       color: rgba(0,0,0,0.46);
       font-weight: 800;
@@ -890,12 +859,13 @@
       align-items: center;
       gap: 0.8rem;
       border-top: 1px solid rgba(0,0,0,0.08);
-      padding-top: 0.62rem;
-      min-height: 20px;
+      padding-top: 0.44rem;
+      min-height: 18px;
+      overflow: hidden;
     }
 
     .mpu-front-footer span {
-      font-size: clamp(0.48rem, 0.62vw, 0.72rem);
+      font-size: clamp(0.46rem, 0.58vw, 0.7rem);
       font-weight: 900;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -910,7 +880,8 @@
     }
 
     .mpu-back-safe {
-      gap: clamp(0.82rem, 1vw, 1.08rem);
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: clamp(0.55rem, 0.82vw, 0.9rem);
     }
 
     .mpu-back-head {
@@ -918,10 +889,11 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 1rem;
+      min-height: 64px;
     }
 
     .mpu-back-head h3 {
-      font-size: clamp(1.75rem, 2.6vw, 3.05rem);
+      font-size: clamp(1.6rem, 2.35vw, 2.8rem);
       line-height: 0.9;
       letter-spacing: -0.075em;
       font-weight: 900;
@@ -929,7 +901,7 @@
     }
 
     .mpu-back-head span {
-      font-size: clamp(0.58rem, 0.72vw, 0.82rem);
+      font-size: clamp(0.56rem, 0.68vw, 0.78rem);
       font-weight: 900;
       letter-spacing: 0.17em;
       text-transform: uppercase;
@@ -941,8 +913,9 @@
     .mpu-result-list {
       min-height: 0;
       display: grid;
-      grid-template-rows: repeat(4, 1fr);
-      gap: clamp(0.42rem, 0.58vw, 0.64rem);
+      grid-template-rows: repeat(4, minmax(0, 1fr));
+      gap: clamp(0.32rem, 0.5vw, 0.58rem);
+      overflow: hidden;
     }
 
     .mpu-result-row {
@@ -950,11 +923,12 @@
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
-      gap: 0.9rem;
-      padding: 0.66rem 0.86rem;
+      gap: 0.75rem;
+      padding: clamp(0.46rem, 0.64vw, 0.68rem) clamp(0.62rem, 0.82vw, 0.9rem);
       border-radius: 15px;
-      background: rgba(255,255,255,0.48);
+      background: rgba(255,255,255,0.52);
       box-shadow: inset 0 0 0 1px rgba(0,0,0,0.055);
+      overflow: hidden;
     }
 
     .mpu-result-copy {
@@ -967,7 +941,7 @@
     }
 
     .mpu-result-copy strong {
-      font-size: clamp(0.74rem, 0.92vw, 1.02rem);
+      font-size: clamp(0.72rem, 0.86vw, 1rem);
       font-weight: 900;
       letter-spacing: -0.035em;
       color: rgba(0,0,0,0.78);
@@ -976,7 +950,7 @@
     }
 
     .mpu-result-copy small {
-      font-size: clamp(0.58rem, 0.7vw, 0.78rem);
+      font-size: clamp(0.54rem, 0.66vw, 0.76rem);
       font-weight: 850;
       color: rgba(0,0,0,0.46);
       overflow: hidden;
@@ -984,7 +958,7 @@
     }
 
     .mpu-result-ok {
-      font-size: clamp(0.62rem, 0.72vw, 0.82rem);
+      font-size: clamp(0.58rem, 0.68vw, 0.8rem);
       font-weight: 900;
       letter-spacing: 0.08em;
       color: rgba(0,0,0,0.44);
@@ -993,17 +967,18 @@
 
     .mpu-back-footer {
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: minmax(0, 1fr) auto;
       align-items: end;
       gap: 1rem;
       border-top: 1px solid rgba(0,0,0,0.08);
-      padding-top: 0.62rem;
-      min-height: 34px;
+      padding-top: 0.44rem;
+      min-height: 32px;
+      overflow: hidden;
     }
 
     .mpu-barcode {
       width: 100%;
-      height: 28px;
+      height: 24px;
       border-radius: 7px;
       opacity: 0.38;
       background: repeating-linear-gradient(
@@ -1018,7 +993,7 @@
     }
 
     .mpu-machine-code {
-      font-size: clamp(0.48rem, 0.62vw, 0.72rem);
+      font-size: clamp(0.46rem, 0.58vw, 0.7rem);
       line-height: 1.15;
       font-weight: 900;
       letter-spacing: 0.12em;
@@ -1027,8 +1002,6 @@
       white-space: nowrap;
       text-align: right;
     }
-
-    /* FINAL SECTION */
 
     .after-story {
       position: relative;
@@ -1063,8 +1036,6 @@
       line-height: 1.7;
       font-size: clamp(1rem, 1.25vw, 1.18rem);
     }
-
-    /* MOBILE */
 
     @media (max-width: 768px) {
       :root {
@@ -1151,7 +1122,7 @@
       }
 
       .mpu-license-stage {
-        width: min(92vw, 430px);
+        width: min(94vw, 450px);
         top: 31%;
       }
 
@@ -1161,8 +1132,8 @@
       }
 
       .mpu-card-safe {
-        padding: 6.4% 6.2%;
-        gap: 0.48rem;
+        padding: 5.5% 5.5%;
+        gap: 0.42rem;
       }
 
       .mpu-doc-head {
@@ -1191,12 +1162,17 @@
       }
 
       .mpu-front-body {
-        grid-template-columns: 70px minmax(0, 1fr);
-        gap: 0.58rem;
+        grid-template-columns: 72px minmax(0, 1fr);
+        gap: 0.52rem;
+      }
+
+      .mpu-photo-box {
+        min-height: 98px;
+        border-radius: 12px;
       }
 
       .mpu-photo-panel {
-        gap: 0.36rem;
+        gap: 0.3rem;
       }
 
       .mpu-signature-line {
@@ -1204,7 +1180,7 @@
       }
 
       .mpu-id-line {
-        font-size: 0.42rem;
+        font-size: 0.4rem;
       }
 
       .mpu-panel-meta {
@@ -1212,60 +1188,64 @@
       }
 
       .mpu-step-panel {
-        grid-template-rows: 1fr;
+        grid-template-rows: minmax(0, 1fr);
       }
 
       .mpu-step-list {
-        gap: 0.3rem;
+        gap: 0.26rem;
       }
 
       .mpu-step-row {
-        grid-template-columns: 1.38rem minmax(0, 1fr);
-        gap: 0.42rem;
-        padding: 0.34rem 0.46rem;
+        grid-template-columns: 1.32rem minmax(0, 1fr);
+        gap: 0.38rem;
+        padding: 0.3rem 0.42rem;
         border-radius: 10px;
       }
 
       .mpu-step-index {
-        width: 1.38rem;
-        height: 1.38rem;
-        font-size: 0.5rem;
+        width: 1.32rem;
+        height: 1.32rem;
+        font-size: 0.48rem;
       }
 
       .mpu-step-text strong {
-        font-size: 0.55rem;
+        font-size: 0.54rem;
       }
 
       .mpu-step-text small {
-        display: none;
+        font-size: 0.43rem;
       }
 
       .mpu-front-footer {
-        padding-top: 0.36rem;
+        padding-top: 0.3rem;
       }
 
       .mpu-front-footer span {
-        font-size: 0.42rem;
+        font-size: 0.4rem;
       }
 
       .mpu-front-footer span:last-child {
         display: none;
       }
 
+      .mpu-back-head {
+        min-height: 44px;
+      }
+
       .mpu-back-head h3 {
-        font-size: 1.25rem;
+        font-size: 1.18rem;
       }
 
       .mpu-back-head span {
-        font-size: 0.48rem;
+        font-size: 0.46rem;
       }
 
       .mpu-result-list {
-        gap: 0.3rem;
+        gap: 0.26rem;
       }
 
       .mpu-result-row {
-        padding: 0.38rem 0.5rem;
+        padding: 0.32rem 0.48rem;
         border-radius: 10px;
         gap: 0.45rem;
       }
@@ -1275,26 +1255,26 @@
       }
 
       .mpu-result-copy strong {
-        font-size: 0.56rem;
+        font-size: 0.54rem;
       }
 
       .mpu-result-copy small {
-        display: none;
+        font-size: 0.42rem;
       }
 
       .mpu-result-ok {
-        font-size: 0.48rem;
+        font-size: 0.46rem;
       }
 
       .mpu-back-footer {
         grid-template-columns: 1fr;
-        gap: 0.32rem;
-        min-height: 22px;
-        padding-top: 0.34rem;
+        gap: 0.25rem;
+        min-height: 20px;
+        padding-top: 0.3rem;
       }
 
       .mpu-barcode {
-        height: 18px;
+        height: 17px;
       }
 
       .mpu-machine-code {
@@ -1428,12 +1408,10 @@
                 <div class="mpu-card-safe">
                   <div class="mpu-doc-head">
                     <div class="mpu-eu">D</div>
-
                     <div>
                       <p class="mpu-doc-label">Bundesrepublik Deutschland</p>
                       <div class="mpu-doc-title">Führerschein</div>
                     </div>
-
                     <div class="mpu-doc-code">MPU<br />Plan</div>
                   </div>
 
@@ -1571,8 +1549,8 @@
   <script type="module">
     import { Renderer, Program, Mesh, Triangle } from "https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm";
 
-    const { gsap } = window;
-    const { ScrollTrigger } = window;
+    const gsap = window.gsap;
+    const ScrollTrigger = window.ScrollTrigger;
     gsap.registerPlugin(ScrollTrigger);
 
     const vertexShader = `
@@ -1812,7 +1790,8 @@
     requestAnimationFrame(update);
 
     function initScrollStory() {
-      const card = document.querySelector(".mpu-license-stage");
+      const cardStage = document.querySelector(".mpu-license-stage");
+      const cardObject = document.querySelector(".mpu-card-object");
       const rightCopy = document.querySelector(".story-copy-right");
       const leftCopy = document.querySelector(".story-copy-left");
       const finalGlow = document.querySelector(".story-final-glow");
@@ -1853,14 +1832,20 @@
       const mm = gsap.matchMedia();
 
       mm.add("(min-width: 769px)", () => {
-        gsap.set(card, {
+        gsap.set(cardStage, {
           xPercent: -50,
           yPercent: -50,
           x: () => -window.innerWidth * 0.28,
           y: 0,
-          rotationY: -7,
           rotationZ: -2,
-          scale: 1
+          scale: 1,
+          transformOrigin: "50% 50%"
+        });
+
+        gsap.set(cardObject, {
+          rotationY: -4,
+          transformOrigin: "50% 50%",
+          transformStyle: "preserve-3d"
         });
 
         gsap.set(rightCopy, { autoAlpha: 1, x: 0, filter: "blur(0px)" });
@@ -1879,35 +1864,57 @@
         });
 
         tl
-          .to(card, {
-            rotationY: -3,
+          .to(cardStage, {
             rotationZ: 1.2,
             y: -10,
             duration: 0.18,
             ease: "none"
           }, 0)
 
-          .to(card, {
+          .to(cardObject, {
+            rotationY: -2,
+            duration: 0.18,
+            ease: "none"
+          }, 0)
+
+          .to(cardStage, {
             y: 10,
             rotationZ: -0.8,
             duration: 0.18,
             ease: "none"
           }, 0.18)
 
-          .to(card, {
+          .to(cardObject, {
+            rotationY: -5,
+            duration: 0.18,
+            ease: "none"
+          }, 0.18)
+
+          .to(cardStage, {
             y: -4,
             rotationZ: 0.8,
             duration: 0.18,
             ease: "none"
           }, 0.36)
 
-          .to(card, {
+          .to(cardObject, {
+            rotationY: -2,
+            duration: 0.18,
+            ease: "none"
+          }, 0.36)
+
+          .to(cardStage, {
             x: 0,
             y: 0,
-            scale: 1.07,
-            rotationY: 0,
+            scale: 1.055,
             rotationZ: 0,
             duration: 0.14,
+            ease: "power1.inOut"
+          }, 0.58)
+
+          .to(cardObject, {
+            rotationY: 0,
+            duration: 0.12,
             ease: "power1.inOut"
           }, 0.58)
 
@@ -1926,13 +1933,13 @@
             ease: "power1.out"
           }, 0.62)
 
-          .to(card, {
+          .to(cardObject, {
             rotationY: 180,
-            duration: 0.2,
+            duration: 0.22,
             ease: "none"
           }, 0.66)
 
-          .to(card, {
+          .to(cardStage, {
             x: () => window.innerWidth * 0.28,
             scale: 1,
             rotationZ: 2,
@@ -1952,14 +1959,20 @@
       });
 
       mm.add("(max-width: 768px)", () => {
-        gsap.set(card, {
+        gsap.set(cardStage, {
           xPercent: -50,
           yPercent: -50,
           x: 0,
           y: 0,
-          rotationY: 0,
           rotationZ: -1,
-          scale: 0.96
+          scale: 0.96,
+          transformOrigin: "50% 50%"
+        });
+
+        gsap.set(cardObject, {
+          rotationY: 0,
+          transformOrigin: "50% 50%",
+          transformStyle: "preserve-3d"
         });
 
         gsap.set(rightCopy, { autoAlpha: 1, y: 0, filter: "blur(0px)" });
@@ -1978,14 +1991,14 @@
         });
 
         tl
-          .to(card, {
+          .to(cardStage, {
             y: -10,
             rotationZ: 1,
             duration: 0.25,
             ease: "none"
           }, 0)
 
-          .to(card, {
+          .to(cardStage, {
             y: 8,
             rotationZ: -1,
             duration: 0.28,
@@ -2007,8 +2020,13 @@
             ease: "power1.out"
           }, 0.62)
 
-          .to(card, {
+          .to(cardObject, {
             rotationY: 180,
+            duration: 0.22,
+            ease: "none"
+          }, 0.66)
+
+          .to(cardStage, {
             scale: 1,
             y: -6,
             duration: 0.2,
