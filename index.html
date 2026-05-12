@@ -3,40 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MPU | Radikale Ehrlichkeit</title>
+    <title>MPU Beratung | Synchronisation</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-color: #030303; /* Absolute Darkness */
-            --text-color: #f0f0f0;
+            --sand-bg: #EAE6DF;
+            --text-dark: #1A1A18;
+            --text-muted: rgba(26, 26, 24, 0.6);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: default;
+            user-select: none;
         }
 
         body, html {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            width: 100%;
+            height: 100%;
+            background-color: var(--sand-bg);
+            color: var(--text-dark);
             font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            scrollbar-width: none;
+            overflow: hidden;
         }
-        ::-webkit-scrollbar { display: none; }
 
-        /* Das 3D Canvas (Fixiert im Hintergrund) */
+        /* 200k Detail: Echtes SVG Film Grain auf dem Sand */
+        .film-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.25;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            mix-blend-mode: multiply;
+        }
+
+        /* Initiation Screen (Wegen Browser Audio Policies) */
+        #init-screen {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--sand-bg);
+            z-index: 9999;
+            cursor: pointer;
+            transition: opacity 1.5s ease;
+        }
+
+        .init-text {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--text-dark);
+            animation: pulseText 2s infinite;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* WebGL Canvas */
         #webgl-canvas {
             position: fixed;
             top: 0;
@@ -44,296 +83,251 @@
             width: 100vw;
             height: 100vh;
             z-index: 1;
-            pointer-events: none;
         }
 
-        /* Die Scroll-Distanz für die Kamerafahrt */
-        .scroll-track {
-            position: relative;
-            height: 400vh;
-            z-index: 2;
-        }
-
-        /* Das UI, das am Ende der Kamerafahrt auftaucht */
-        .ui-layer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh; /* Sitzt im letzten Viewport der Scroll-Track */
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            padding: 4vw;
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        .ui-content {
-            max-width: 500px;
-            opacity: 0; /* Wird von GSAP eingeblendet */
-            transform: translateY(30px);
-        }
-
-        .ui-subhead {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: rgba(255, 255, 255, 0.4);
-            margin-bottom: 1rem;
-        }
-
-        .ui-text {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            font-weight: 300;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 2.5rem;
-        }
-
-        .cta-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.2rem 3rem;
-            background-color: #ffffff;
-            color: #000000;
-            text-decoration: none;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.8rem;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
-            pointer-events: auto; /* Klickbar machen */
-        }
-
-        .cta-btn:hover {
-            transform: scale(1.05);
-            background-color: #cccccc;
-        }
-
-        /* Instruktion am Start */
-        .scroll-instruction {
+        /* Instruktion während der Sync */
+        #sync-instruction {
             position: fixed;
-            top: 50%;
+            bottom: 10vh;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.3em;
-            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 0.2em;
+            color: var(--text-muted);
+            z-index: 10;
+            opacity: 0; /* Wird per GSAP eingeblendet */
+            pointer-events: none;
+        }
+
+        /* Das finale UI (Die Lösung) */
+        .ui-layer {
+            position: absolute;
+            inset: 0;
             z-index: 20;
-            mix-blend-mode: difference;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            pointer-events: none;
+            padding: 2rem;
+        }
+
+        .headline {
+            font-family: 'Cormorant', serif;
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 300;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+            opacity: 0;
+            transform: translateY(40px);
+            filter: blur(10px);
+        }
+
+        .headline span {
+            font-style: italic;
+            color: #8c8c85;
+        }
+
+        .subtext {
+            font-size: clamp(1rem, 1.2vw, 1.25rem);
+            line-height: 1.6;
+            max-width: 550px;
+            color: var(--text-muted);
+            font-weight: 300;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .cta-wrap {
+            margin-top: 3rem;
+            opacity: 0;
+            pointer-events: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1.2rem 3.5rem;
+            border: 1px solid rgba(26, 26, 24, 0.2);
+            border-radius: 100px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn:hover {
+            background: var(--text-dark);
+            color: var(--sand-bg);
+            border-color: var(--text-dark);
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
 
+    <div class="film-grain"></div>
+
+    <div id="init-screen">
+        <div class="init-text">Klicken, um zu beginnen</div>
+    </div>
+
     <canvas id="webgl-canvas"></canvas>
 
-    <div class="scroll-instruction" id="instruction">Scroll to reveal truth</div>
+    <div id="sync-instruction">Bewege die Maus, um zu atmen</div>
 
-    <div class="scroll-track">
-        <div class="ui-layer">
-            <div class="ui-content" id="final-ui">
-                <div class="ui-subhead">MPU Strategie & Beratung</div>
-                <p class="ui-text">
-                    Wir arbeiten nicht mit Tricks. Wir arbeiten mit Struktur. Eine erfolgreiche MPU erfordert ehrliche Aufarbeitung und eine wissenschaftlich fundierte Vorbereitung. Wir machen es machbar.
-                </p>
-                <a href="#" class="cta-btn">Termin vereinbaren</a>
-            </div>
+    <div class="ui-layer">
+        <h1 class="headline" id="ui-h1">Atmen Sie durch.<br><span>Ab hier übernehmen wir.</span></h1>
+        <p class="subtext" id="ui-sub">
+            Der Weg durch die MPU ist schwer genug. Wir nehmen Ihnen die Last ab – mit Struktur, absoluter Diskretion und einer fundierten Strategie, die jedem Gutachter standhält.
+        </p>
+        <div class="cta-wrap" id="ui-cta">
+            <a href="#" class="btn">Diskret anfragen</a>
         </div>
     </div>
 
     <script>
         /**
-         * 1. LENIS SMOOTH SCROLL (Die physikalische Schwere der Kamera)
+         * 1. NEURO-AUDIO ENGINE (Generative Brownian Noise)
          */
-        const lenis = new Lenis({
-            duration: 2.0, // Extrem langsam und schwer für den Monolithen-Effekt
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'vertical',
-            smooth: true,
-        });
+        let audioCtx;
+        let brownNoise;
+        let filterNode;
+        let gainNode;
+        let isAudioInitialized = false;
 
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        gsap.registerPlugin(ScrollTrigger);
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time) => { lenis.raf(time * 1000) });
-        gsap.ticker.lagSmoothing(0, 0);
-
-        /**
-         * 2. GENERIERE DIE 4K TEXTUR ON THE FLY
-         * Wir zeichnen den Text auf ein Canvas, das als Roughness/Bump-Map für das Metall dient.
-         */
-        function createMonolithTexture() {
-            const canvas = document.createElement('canvas');
-            canvas.width = 4096;
-            canvas.height = 4096;
-            const ctx = canvas.getContext('2d');
-
-            // Hintergrund: Sehr helles Grau (In der Roughness-Map bedeutet Weiß = extrem rau/matt)
-            ctx.fillStyle = '#e0e0e0'; 
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Text: Absolutes Schwarz (In der Roughness-Map bedeutet Schwarz = Spiegelglatt/poliert)
-            ctx.fillStyle = '#000000';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
+        function initAudio() {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             
-            // Brutalistische Typografie
-            ctx.font = '900 320px Inter, sans-serif';
-            
-            // Textblöcke zeichnen
-            ctx.fillText('WIR VERSPRECHEN', 2048, 1400);
-            ctx.fillText('NICHT, DASS ES', 2048, 1800);
-            ctx.fillText('LEICHT WIRD.', 2048, 2200);
-            
-            ctx.font = '500 160px Inter, sans-serif';
-            ctx.fillText('WIR VERSPRECHEN, DASS ES MACHBAR IST.', 2048, 2800);
-
-            // Füge extrem feines Rauschen (Brushed Metal Grain) über das ganze Canvas hinzu
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const data = imageData.data;
-            for (let i = 0; i < data.length; i += 4) {
-                // Nur Rauschen auf dem grauen "Stein", nicht im polierten Text
-                if (data[i] > 50) { 
-                    const noise = (Math.random() - 0.5) * 30;
-                    data[i] += noise;     // R
-                    data[i+1] += noise;   // G
-                    data[i+2] += noise;   // B
-                }
+            // Generiere Brown Noise (Tiefes, beruhigendes Rauschen)
+            const bufferSize = audioCtx.sampleRate * 2; // 2 Sekunden Loop
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = buffer.getChannelData(0);
+            let lastOut = 0;
+            for (let i = 0; i < bufferSize; i++) {
+                const white = Math.random() * 2 - 1;
+                output[i] = (lastOut + (0.02 * white)) / 1.02;
+                lastOut = output[i];
+                output[i] *= 3.5; // Gain Compensation
             }
-            ctx.putImageData(imageData, 0, 0);
 
-            const texture = new THREE.CanvasTexture(canvas);
-            texture.anisotropy = 16; // Höchste Schärfe im Winkel
-            return texture;
+            brownNoise = audioCtx.createBufferSource();
+            brownNoise.buffer = buffer;
+            brownNoise.loop = true;
+
+            // Lowpass Filter: Hiermit simulieren wir das "Chaos" (offen) vs "Ruhe" (geschlossen)
+            filterNode = audioCtx.createBiquadFilter();
+            filterNode.type = 'lowpass';
+            filterNode.frequency.value = 2000; // Start: Unruhig (hell)
+
+            // Volume Control
+            gainNode = audioCtx.createGain();
+            gainNode.gain.value = 0; // Fade in
+
+            brownNoise.connect(filterNode);
+            filterNode.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            brownNoise.start();
+            isAudioInitialized = true;
+            
+            // Sanfter Fade In des Audios
+            gsap.to(gainNode.gain, { value: 0.8, duration: 3 });
         }
 
         /**
-         * 3. THREE.JS SCENE SETUP
+         * 2. THREE.JS SETUP (Der organische Kiesel / The Pebble)
          */
         const canvas = document.getElementById('webgl-canvas');
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.2;
 
         const scene = new THREE.Scene();
-        // Fog für absolute Tiefe in den Ecken
-        scene.fog = new THREE.FogExp2(0x030303, 0.02);
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.z = 5;
 
-        // Kamera
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        
-        /**
-         * 4. DER MONOLITH (Das 200k Element)
-         */
-        const monolithGeometry = new THREE.BoxGeometry(24, 24, 2);
-        const monolithTexture = createMonolithTexture();
-
-        const monolithMaterial = new THREE.MeshPhysicalMaterial({
-            color: 0x111111,          // Dunkles Titan/Obsidian
-            metalness: 1.0,           // 100% Metall
-            roughness: 0.8,           // Basis-Rauheit wird von der Map überschrieben
-            roughnessMap: monolithTexture, // Der Text ist glatt (schwarz), der Rest rau (weiß)
-            bumpMap: monolithTexture,      // Der Text ist physisch "eingraviert"
-            bumpScale: 0.05,
-            clearcoat: 0.1,
-            clearcoatRoughness: 0.4,
-        });
-
-        const monolith = new THREE.Mesh(monolithGeometry, monolithMaterial);
-        scene.add(monolith);
-
-        /**
-         * 5. HIGH-END BELEUCHTUNG (Cinematic Studio)
-         */
-        // Umgebungslicht (sehr schwach)
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        // Beleuchtung für die Refraktion des Glases
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambientLight);
 
-        // Dramatisches Spotlight von oben (Key Light)
-        const spotLight = new THREE.SpotLight(0xffffff, 500);
-        spotLight.position.set(0, 20, 10);
-        spotLight.angle = Math.PI / 4;
-        spotLight.penumbra = 0.8;
-        scene.add(spotLight);
+        // Warmes Licht von links
+        const dirLight1 = new THREE.DirectionalLight(0xffeacc, 2);
+        dirLight1.position.set(-2, 2, 2);
+        scene.add(dirLight1);
 
-        // Ein seitliches, kühles Kantenlicht (Rim Light) für das Metall
-        const rimLight = new THREE.PointLight(0x88bbff, 200);
-        rimLight.position.set(-15, 0, -5);
-        scene.add(rimLight);
+        // Kühleres Licht von rechts
+        const dirLight2 = new THREE.DirectionalLight(0xd9e5ff, 1.5);
+        dirLight2.position.set(2, -1, 1);
+        scene.add(dirLight2);
 
-        // Interaktives Licht, das der Maus folgt (simuliert eine Taschenlampe/Reflektion)
-        const mouseLight = new THREE.PointLight(0xffddaa, 100);
-        mouseLight.position.set(0, 0, 5);
-        scene.add(mouseLight);
+        // Das innere, pulsierende "Herz" (PointLight)
+        const heartLight = new THREE.PointLight(0xffb84d, 2, 10);
+        scene.add(heartLight);
 
-        /**
-         * 6. STARTPOSITIONEN (Makro-Aufnahme)
-         */
-        // Wir starten EXTREM nah am Monolithen, angewinkelt. Man sieht nur die Textur, keinen Text.
-        camera.position.set(-8, -5, 4);
-        monolith.rotation.x = -0.2;
-        monolith.rotation.y = 0.5;
-
-        /**
-         * 7. GSAP SCROLL ANIMATION (Die Kamerafahrt)
-         */
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: ".scroll-track",
-                start: "top top",
-                end: "bottom bottom",
-                scrub: 1.5, // Schwere, filmische Verzögerung
-            }
+        // Das Glas-Material (High-End Transmission)
+        const glassMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            transmission: 1.0, // Macht es zu Glas
+            opacity: 1.0,
+            metalness: 0.1,
+            roughness: 0.2, // Leicht mattiert
+            ior: 1.5,
+            thickness: 2.0, // Für realistische Lichtbrechung
+            specularIntensity: 1.0
         });
 
-        // Die Instruktion ausblenden
-        tl.to("#instruction", { opacity: 0, duration: 0.05 }, 0);
+        // Die Geometrie (Icosahedron, um es leicht organisch/amorph zu machen)
+        const geometry = new THREE.IcosahedronGeometry(1, 16);
+        
+        // Speichere die originalen Vertices für die organische Deformation
+        const originalVertices = [];
+        const positionAttribute = geometry.attributes.position;
+        for (let i = 0; i < positionAttribute.count; i++) {
+            originalVertices.push(
+                new THREE.Vector3().fromBufferAttribute(positionAttribute, i)
+            );
+        }
 
-        // Die monumentale Kamerafahrt und Monolith-Rotation
-        tl.to(camera.position, {
-            x: 0,
-            y: 0,
-            z: 28, // Wir ziehen massiv auf, um das ganze Objekt zu sehen
-            ease: "power2.inOut"
-        }, 0);
-
-        tl.to(monolith.rotation, {
-            x: 0,
-            y: 0, // Dreht sich frontal zum Nutzer
-            z: 0,
-            ease: "power2.inOut"
-        }, 0);
-
-        // Das finale UI einblenden, wenn die Kamera zum Stehen kommt
-        tl.to("#final-ui", {
-            opacity: 1,
-            y: 0,
-            duration: 0.2,
-            ease: "power1.out"
-        }, 0.8); // Startet bei 80% des Scrolls
-
+        const pebble = new THREE.Mesh(geometry, glassMaterial);
+        scene.add(pebble);
 
         /**
-         * 8. INTERAKTION & RENDER LOOP
+         * 3. BIO-FEEDBACK LOGIC (The Pacing)
          */
-        let mouseX = 0;
-        let mouseY = 0;
+        let currentBPM = 130; // Start: Extrem gestresst
+        let targetBPM = 130;
+        let isSyncing = false;
+        let isRevealed = false;
 
-        window.addEventListener('mousemove', (e) => {
-            // Normalisierte Mauskoordinaten (-1 bis +1)
-            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        // Init durch den Nutzer
+        document.getElementById('init-screen').addEventListener('click', () => {
+            initAudio();
+            
+            // Fade out Init Screen
+            gsap.to('#init-screen', { 
+                opacity: 0, 
+                duration: 1, 
+                onComplete: () => {
+                    document.getElementById('init-screen').style.display = 'none';
+                    isSyncing = true;
+                    // Instruktion einblenden
+                    gsap.to('#sync-instruction', { opacity: 0.6, duration: 2, delay: 1 });
+                }
+            });
+        });
+
+        // Mausbewegung fängt an, den Puls zu senken
+        window.addEventListener('mousemove', () => {
+            if (isSyncing && !isRevealed) {
+                targetBPM -= 0.5; // Jeder Move senkt den Stress
+                if (targetBPM < 40) targetBPM = 40; // Absoluter Ruhezustand (4-7-8)
+            }
         });
 
         window.addEventListener('resize', () => {
@@ -342,18 +336,94 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
+        /**
+         * 4. THE REVEAL (Wenn der Nutzer ruhig ist)
+         */
+        function triggerReveal() {
+            if (isRevealed) return;
+            isRevealed = true;
+            isSyncing = false;
+
+            // 1. Instruktion verschwindet
+            gsap.to('#sync-instruction', { opacity: 0, duration: 1 });
+
+            // 2. Audio sanft ausfaden
+            if (gainNode) gsap.to(gainNode.gain, { value: 0, duration: 4 });
+
+            // 3. Der Glaskörper expandiert, wird unsichtbar
+            gsap.to(pebble.scale, { x: 5, y: 5, z: 5, duration: 3, ease: "power2.inOut" });
+            gsap.to(glassMaterial, { roughness: 1.0, transmission: 0, opacity: 0, transparent: true, duration: 2.5, ease: "power2.inOut" });
+            gsap.to(heartLight, { intensity: 0, duration: 2 });
+
+            // 4. Typografie fließt majestätisch ein
+            const tl = gsap.timeline({ delay: 1 });
+            tl.to('#ui-h1', { opacity: 1, y: 0, filter: "blur(0px)", duration: 2, ease: "expo.out" })
+              .to('#ui-sub', { opacity: 1, y: 0, duration: 1.5, ease: "power2.out" }, "-=1.2")
+              .to('#ui-cta', { opacity: 1, y: 0, duration: 1.5, ease: "power2.out" }, "-=1");
+        }
+
+        /**
+         * 5. RENDER LOOP (Die Animation)
+         */
         const clock = new THREE.Clock();
 
         function animate() {
             requestAnimationFrame(animate);
-
-            // Das interaktive Licht folgt butterweich der Maus (LERP)
-            mouseLight.position.x += (mouseX * 15 - mouseLight.position.x) * 0.05;
-            mouseLight.position.y += (mouseY * 15 - mouseLight.position.y) * 0.05;
-
-            // Ein minimales, ständiges "Atmen" des Monolithen, damit er nicht tot wirkt
             const time = clock.getElapsedTime();
-            monolith.position.y = Math.sin(time * 0.5) * 0.2;
+
+            // LERP den aktuellen Puls zum Zielpuls
+            currentBPM += (targetBPM - currentBPM) * 0.02;
+
+            // Trigger den Reveal, wenn tiefste Entspannung erreicht ist
+            if (currentBPM <= 42 && !isRevealed) {
+                triggerReveal();
+            }
+
+            // Audio Filter koppeln (Gestresst = Hell/Offen, Ruhig = Dumpf/Tief)
+            if (isAudioInitialized && filterNode && !isRevealed) {
+                const mappedFreq = gsap.utils.mapRange(40, 130, 200, 2000, currentBPM);
+                filterNode.frequency.value += (mappedFreq - filterNode.frequency.value) * 0.1;
+            }
+
+            if (!isRevealed) {
+                // Dynamischer Rhythmus basierend auf BPM
+                const pulseRate = currentBPM / 60; // Konvertiere in Hz
+                const pulse = Math.sin(time * pulseRate * Math.PI); // -1 to 1
+
+                // 1. Skalierung: Der Körper "atmet" schwer und schnell, oder tief und langsam
+                const scaleBase = 1.0;
+                const scaleVariation = gsap.utils.mapRange(40, 130, 0.1, 0.03, currentBPM); 
+                const s = scaleBase + pulse * scaleVariation;
+                pebble.scale.set(s, s, s);
+
+                // 2. Licht-Intensität pulsiert mit
+                heartLight.intensity = gsap.utils.mapRange(-1, 1, 0.5, 3.0, pulse);
+
+                // 3. Organische Vertex-Deformation (Fluidität des Kieselsteins)
+                const positions = geometry.attributes.position;
+                for (let i = 0; i < positions.count; i++) {
+                    const orig = originalVertices[i];
+                    
+                    // Komplexe Noise-Simulation mit Math.sin
+                    const displacement = Math.sin(orig.x * 2 + time * 0.5) * Math.cos(orig.y * 2 + time * 0.5) * Math.sin(orig.z * 2 + time * 0.5);
+                    
+                    // Bei hohem Puls zittert die Form stärker
+                    const amplitude = gsap.utils.mapRange(40, 130, 0.02, 0.15, currentBPM);
+
+                    positions.setXYZ(
+                        i,
+                        orig.x + orig.normal.x * displacement * amplitude,
+                        orig.y + orig.normal.y * displacement * amplitude,
+                        orig.z + orig.normal.z * displacement * amplitude
+                    );
+                }
+                positions.needsUpdate = true;
+                geometry.computeVertexNormals();
+
+                // Sanfte Rotation
+                pebble.rotation.y += 0.005;
+                pebble.rotation.x += 0.002;
+            }
 
             renderer.render(scene, camera);
         }
