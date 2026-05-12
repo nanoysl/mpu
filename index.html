@@ -3,21 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MPU Experten | Silent Luxury</title>
+  <title>MPU Experten | Premium UI</title>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <style>
+    /* =========================================
+       MODERN UI DESIGN SYSTEM (Tailwind/shadcn Vibe)
+       ========================================= */
     :root {
+      /* Tailwind Zinc Colors */
+      --background: #09090b; /* zinc-950 */
+      --foreground: #fafafa; /* zinc-50 */
+      --muted: #27272a;      /* zinc-800 */
+      --muted-foreground: #a1a1aa; /* zinc-400 */
+      --border: #27272a;     /* zinc-800 */
+      --card: #09090b;
+      --card-hover: #18181b; /* zinc-900 */
+      --primary: #fafafa;
+      --primary-foreground: #09090b;
+      --secondary: #27272a;
+      --secondary-foreground: #fafafa;
+      
       --nav-height: 80px;
-      --page-pad: clamp(1.5rem, 5vw, 6rem);
-      --white-soft: rgba(255,255,255,0.74);
-      --bg-dark: #050608; /* Extrem edles, tiefes Schiefer-Schwarz */
-      --line-color: rgba(255,255,255,0.15);
+      --page-pad: clamp(1.25rem, 5vw, 6rem);
+      --radius: 0.75rem; /* 12px */
     }
 
     * {
@@ -27,66 +41,40 @@
       font-family: "Inter", sans-serif;
     }
 
-    html {
-      background: var(--bg-dark);
-      scroll-behavior: smooth;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: geometricPrecision;
-    }
-
     body {
-      width: 100%;
-      min-height: 100%;
-      background: var(--bg-dark);
-      color: #fff;
+      background-color: var(--background);
+      color: var(--foreground);
+      -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    body.intro-lock {
-      height: 100vh;
-      overflow: hidden;
-    }
-
     a {
-      color: inherit;
       text-decoration: none;
+      color: inherit;
     }
 
-    #line-waves-bg {
-      position: fixed;
-      inset: 0;
+    /* Weicher Background-Glow (typisch für Next.js/Vercel Sites) */
+    .bg-glow {
+      position: absolute;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80vw;
+      height: 60vh;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 60%);
+      pointer-events: none;
       z-index: 0;
-      opacity: 0;
-      pointer-events: none;
-      background: var(--bg-dark);
-    }
-
-    #line-waves-bg canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-      opacity: 0.6; /* Subtil gehalten für den Luxury Look */
-    }
-
-    .global-vignette {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 50% 50%, transparent 10%, var(--bg-dark) 90%);
     }
 
     #page-content {
       position: relative;
       z-index: 2;
-      opacity: 0;
     }
 
-    /* INTRO (Beibehalten) */
+    /* INTRO (Dein Original) */
     #intro-container {
       position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-      z-index: 9999; perspective: 1500px; pointer-events: none; background: var(--bg-dark);
+      z-index: 9999; perspective: 1500px; pointer-events: none; background: var(--background);
     }
     .intro-license-card {
       width: min(400px, 82vw); aspect-ratio: 1.6 / 1;
@@ -101,12 +89,10 @@
     }
     .intro-license-eu {
       position: absolute; top: 15px; left: 15px; width: 40px; height: 25px; background: #003399;
-      border-radius: 4px; display: flex; align-items: center; justify-content: center;
-      color: #ffcc00; font-size: 10px; font-weight: 800;
+      border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #ffcc00; font-size: 10px; font-weight: 800;
     }
     .intro-license-photo {
-      position: absolute; top: 40px; left: 20px; width: 80px; height: 100px;
-      background: rgba(0,0,0,0.2); border-radius: 4px;
+      position: absolute; top: 40px; left: 20px; width: 80px; height: 100px; background: rgba(0,0,0,0.2); border-radius: 4px;
     }
     .intro-license-lines {
       position: absolute; top: 40px; left: 120px; width: 240px; display: flex; flex-direction: column; gap: 12px;
@@ -120,240 +106,199 @@
 
     /* NAVBAR */
     .navbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-      height: var(--nav-height); display: flex; justify-content: space-between; align-items: center;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-height);
+      display: flex; justify-content: space-between; align-items: center;
       padding: 0 var(--page-pad);
-      background: transparent;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      background: rgba(9, 9, 11, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 50;
     }
 
     .nav-logo {
-      font-weight: 800; font-size: clamp(0.9rem, 1.2vw, 1rem);
-      letter-spacing: 0.1em; white-space: nowrap; text-transform: uppercase;
+      font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em;
     }
 
-    .nav-cta {
-      padding: 0.8rem 1.8rem; color: #fff;
-      border: 1px solid rgba(255,255,255,0.2); border-radius: 2px; /* Eckig = exklusiver/Architektonisch */
-      font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.15em; white-space: nowrap;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      background: transparent;
+    .btn-outline {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 2.25rem; padding: 0 1rem; font-size: 0.875rem; font-weight: 500;
+      border: 1px solid var(--border); border-radius: 0.375rem; /* 6px */
+      background: transparent; color: var(--foreground);
+      transition: background-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover {
+      background-color: var(--secondary);
+      color: var(--secondary-foreground);
     }
 
-    .nav-cta:hover { background: #fff; color: #000; }
-
-    /* ==================================================
-       NEUES HERO LAYOUT: SILENT LUXURY & CLARITY FILTER
-       ================================================== */
-    .hero-section {
+    /* =========================================
+       HERO SECTION (shadcn/ui Bento Style)
+       ========================================= */
+    .hero {
       position: relative;
-      min-height: 100svh;
+      min-height: 100vh;
       display: flex;
       align-items: center;
-      padding: calc(var(--nav-height) + 2rem) var(--page-pad) 4rem;
-      overflow: hidden;
-      cursor: crosshair; /* Fokussiertes Instrument */
-    }
-
-    /* Das "Nebel"-Overlay */
-    .clarity-fog {
-      position: absolute;
-      inset: 0;
+      padding: calc(var(--nav-height) + 4rem) var(--page-pad) 4rem;
       z-index: 10;
-      pointer-events: none;
-      backdrop-filter: blur(8px) brightness(0.6);
-      -webkit-backdrop-filter: blur(8px) brightness(0.6);
-      
-      /* Der psychologische Spotlight-Effekt: Transparent am Cursor, Schwarz (Nebel) außen */
-      mask-image: radial-gradient(circle 350px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, black 80%);
-      -webkit-mask-image: radial-gradient(circle 350px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, black 80%);
-      
-      will-change: mask-image, -webkit-mask-image;
     }
 
-    .hero-grid {
-      position: relative;
-      z-index: 5;
+    .hero-container {
       width: 100%;
-      max-width: 1400px;
+      max-width: 1280px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 6rem;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 4rem;
       align-items: center;
     }
 
-    /* Links: Elite Copy */
-    .hero-left {
+    /* Left Side: Tailwind Copy */
+    .hero-copy {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      justify-content: center;
     }
 
-    .lux-kicker {
-      font-size: 0.65rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.3em;
-      color: rgba(255,255,255,0.5);
-      margin-bottom: 2.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
+    .ui-badge {
+      display: inline-flex; align-items: center;
+      border-radius: 9999px; border: 1px solid var(--border);
+      padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: 600;
+      transition: colors 0.2s; margin-bottom: 1.5rem;
+      background: var(--card); color: var(--foreground);
     }
-    .lux-kicker::after {
-      content: ""; width: 60px; height: 1px; background: rgba(255,255,255,0.2);
-    }
+    .ui-badge:hover { background: var(--secondary); }
 
-    .lux-headline {
-      font-size: clamp(3.5rem, 6.5vw, 6.5rem);
-      font-weight: 300; /* Dünner wirkt teurer (Private Banking Look) */
-      line-height: 0.95;
-      letter-spacing: -0.04em;
-      margin-bottom: 2rem;
-    }
-    .lux-headline strong {
-      font-weight: 900;
-      display: block;
-    }
-
-    .lux-subtext {
-      font-size: clamp(1rem, 1.1vw, 1.15rem);
-      color: rgba(255,255,255,0.5);
-      max-width: 480px;
-      line-height: 1.8;
-      font-weight: 400;
-      margin-bottom: 3.5rem;
-    }
-
-    .lux-cta-group {
-      display: flex;
-      align-items: center;
-      gap: 2.5rem;
-    }
-
-    .btn-lux-primary {
-      padding: 1.2rem 3rem;
-      background: #fff;
-      color: #000;
+    .hero-title {
+      font-size: clamp(3rem, 5vw, 4.5rem);
       font-weight: 800;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      border: none;
-      border-radius: 2px;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+      line-height: 1.05;
+      letter-spacing: -0.04em; /* Typisches Tailwind Tight-Spacing */
+      margin-bottom: 1.25rem;
+      color: var(--foreground);
     }
-    .btn-lux-primary:hover {
-      background: #e0e0e0;
+
+    .hero-subtitle {
+      font-size: clamp(1.1rem, 1.2vw, 1.25rem);
+      line-height: 1.6;
+      color: var(--muted-foreground);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+    }
+
+    .ui-tag-group {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem;
+    }
+    .ui-tag {
+      display: inline-flex; align-items: center; border-radius: 0.375rem;
+      border: 1px solid var(--border); padding: 0.25rem 0.6rem;
+      font-size: 0.75rem; font-weight: 600; background: var(--secondary);
+      color: var(--secondary-foreground);
+    }
+
+    .hero-actions {
+      display: flex; align-items: center; gap: 1rem;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 2.75rem; padding: 0 1.5rem; border-radius: 0.375rem;
+      background: var(--primary); color: var(--primary-foreground);
+      font-size: 0.875rem; font-weight: 500;
+      transition: background-color 0.2s;
+    }
+    .btn-primary:hover { background-color: #e4e4e7; } /* zinc-200 */
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 2.75rem; padding: 0 1.5rem; border-radius: 0.375rem;
+      background: transparent; color: var(--foreground);
+      font-size: 0.875rem; font-weight: 500;
+      transition: background-color 0.2s;
+    }
+    .btn-ghost:hover { background-color: var(--secondary); }
+
+    /* Right Side: Bento Grid Elements */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem; /* Typisches gap-4 (16px) */
+    }
+
+    .ui-card {
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background-color: var(--card);
+      color: var(--foreground);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    
+    .ui-card:hover {
+      border-color: rgba(255,255,255,0.2);
       transform: translateY(-2px);
     }
 
-    .lux-tags {
-      display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 4rem;
-    }
-    .lux-tag {
-      font-size: 0.6rem; padding: 0.5rem 1.2rem; border: 1px solid var(--line-color);
-      color: rgba(255,255,255,0.5); font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.15em; border-radius: 2px;
+    .ui-card-header {
+      display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 0.5rem;
     }
 
-    /* Rechts: Der exakte Fahrplan (Editorial Style) */
-    .hero-right {
-      position: relative;
+    .ui-icon-box {
+      width: 2rem; height: 2rem;
+      border-radius: 0.375rem;
+      background: var(--secondary);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ui-icon-box svg { width: 1rem; height: 1rem; color: var(--foreground); }
+
+    .ui-card-title {
+      font-size: 1rem; font-weight: 600; line-height: 1; letter-spacing: -0.02em;
     }
 
-    .lux-roadmap {
-      display: flex;
-      flex-direction: column;
-      border-left: 1px solid var(--line-color);
-      padding-left: 3rem;
-    }
-
-    .lux-step {
-      position: relative;
-      padding: 2.5rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .lux-step:first-child { padding-top: 0; }
-    .lux-step:last-child { border-bottom: none; padding-bottom: 0; }
-
-    /* Punkt auf der Timeline */
-    .lux-step::before {
-      content: ""; position: absolute; left: -3.35rem; top: 2.8rem;
-      width: 8px; height: 8px; background: var(--bg-dark);
-      border: 1px solid rgba(255,255,255,0.5); border-radius: 50%;
-    }
-    .lux-step:first-child::before { top: 0.3rem; }
-    .lux-step:last-child::before { top: 2.8rem; background: #fff; } /* Letzter Schritt highlighted */
-
-    .lux-step-header {
-      display: flex;
-      align-items: baseline;
-      gap: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .ls-num {
-      font-size: 0.75rem;
-      font-weight: 800;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 0.1em;
-    }
-
-    .ls-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-    }
-
-    .ls-desc {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.4);
-      line-height: 1.6;
-      max-width: 320px;
+    .ui-card-content {
+      font-size: 0.875rem; color: var(--muted-foreground); line-height: 1.5;
     }
 
     /* Mobile Sticky CTA */
-    .mobile-sticky-cta {
+    .mobile-cta-bar {
       display: none; position: fixed; bottom: 0; left: 0; right: 0;
-      background: rgba(5, 6, 8, 0.95); backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(255,255,255,0.05);
+      background: rgba(9, 9, 11, 0.95); backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
       padding: 1rem var(--page-pad) calc(1rem + env(safe-area-inset-bottom));
-      z-index: 100; gap: 1rem;
+      z-index: 100; gap: 0.75rem;
     }
-    .mobile-btn {
-      flex: 1; text-align: center; padding: 1rem; border-radius: 2px;
-      font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
-    }
-    .m-btn-primary { background: #fff; color: #000; }
-    .m-btn-secondary { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+    .mobile-cta-bar .btn-primary, .mobile-cta-bar .btn-outline { flex: 1; height: 2.75rem; }
 
-    /* STORY & CARD CSS (UNVERÄNDERT BEIBEHALTEN) */
-    .license-story { position: relative; z-index: 3; height: 540vh; background: radial-gradient(circle at 30% 38%, rgba(255,255,255,0.02), transparent 32%), linear-gradient(to bottom, transparent, rgba(5,6,8,0.8) 8%, rgba(5,6,8,0.95) 45%, rgba(5,6,8,0.8)); }
+    /* =========================================
+       EXISTING STORY CSS (Unchanged)
+       ========================================= */
+    .license-story { position: relative; z-index: 3; height: 540vh; background: radial-gradient(circle at 30% 38%, rgba(255,255,255,0.02), transparent 32%), linear-gradient(to bottom, transparent, var(--background) 8%, var(--background) 45%, var(--background)); }
     .story-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; perspective: 1800px; }
-    .story-noise { position: absolute; inset: 0; pointer-events: none; opacity: 0.26; background-image: linear-gradient(rgba(255,255,255,0.026) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.026) 1px, transparent 1px); background-size: 70px 70px; mask-image: radial-gradient(circle at center, black, transparent 76%); }
-    .story-kicker { position: absolute; top: calc(var(--nav-height) + 2rem); left: var(--page-pad); z-index: 6; display: flex; align-items: center; gap: 0.75rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.62); pointer-events: none; }
-    .story-kicker::before { content: ""; width: 34px; height: 1px; background: rgba(255,255,255,0.4); flex: 0 0 auto; }
+    .story-kicker { position: absolute; top: calc(var(--nav-height) + 2rem); left: var(--page-pad); z-index: 6; display: flex; align-items: center; gap: 0.75rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted-foreground); pointer-events: none; }
+    .story-kicker::before { content: ""; width: 34px; height: 1px; background: var(--muted-foreground); flex: 0 0 auto; }
     .story-copy { position: absolute; top: 50%; z-index: 8; width: min(450px, 34vw); min-height: 390px; transform: translateY(-50%); pointer-events: none; }
     .story-copy-right { right: clamp(1.25rem, 7vw, 8rem); }
     .story-copy-left { left: clamp(1.25rem, 7vw, 8rem); opacity: 0; visibility: hidden; }
     .step-copy { position: absolute; inset: 0; opacity: 0; transform: translateY(28px); filter: blur(8px); transition: opacity 0.48s ease, transform 0.48s ease, filter 0.48s ease; }
     .step-copy.active { opacity: 1; transform: translateY(0); filter: blur(0); }
-    .step-eyebrow, .final-eyebrow { display: inline-flex; align-items: center; gap: 0.55rem; margin-bottom: 1rem; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.16em; color: rgba(255,255,255,0.58); }
+    .step-eyebrow, .final-eyebrow { display: inline-flex; align-items: center; gap: 0.55rem; margin-bottom: 1rem; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted-foreground); }
     .step-eyebrow::before, .final-eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: #fff; box-shadow: 0 0 20px rgba(255,255,255,0.8); flex: 0 0 auto; }
-    .step-copy h2, .story-copy-left h2 { font-size: clamp(2rem, 3.4vw, 4.3rem); line-height: 0.98; letter-spacing: -0.06em; font-weight: 900; margin-bottom: 1.1rem; text-wrap: balance; }
-    .step-copy p, .story-copy-left p { color: var(--white-soft); line-height: 1.75; font-size: clamp(0.98rem, 1.05vw, 1.12rem); margin-bottom: 1.4rem; }
-    .micro-list { display: grid; gap: 0.65rem; color: rgba(255,255,255,0.68); font-size: 0.94rem; list-style: none; }
+    .step-copy h2, .story-copy-left h2 { font-size: clamp(2rem, 3.4vw, 4.3rem); line-height: 0.98; letter-spacing: -0.06em; font-weight: 800; margin-bottom: 1.1rem; text-wrap: balance; }
+    .step-copy p, .story-copy-left p { color: var(--muted-foreground); line-height: 1.75; font-size: clamp(0.98rem, 1.05vw, 1.12rem); margin-bottom: 1.4rem; }
+    .micro-list { display: grid; gap: 0.65rem; color: var(--muted-foreground); font-size: 0.94rem; list-style: none; }
     .micro-list li { display: flex; gap: 0.65rem; align-items: flex-start; }
-    .micro-list li::before { content: ""; width: 5px; height: 5px; border-radius: 999px; background: rgba(255,255,255,0.85); margin-top: 0.48rem; flex: 0 0 auto; }
-    .final-card-copy { padding: clamp(1.35rem, 2vw, 2rem); border: 1px solid rgba(255,255,255,0.14); background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035)); border-radius: 28px; box-shadow: 0 24px 80px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.08); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); overflow: hidden; }
-    .final-cta { display: inline-flex; align-items: center; justify-content: center; margin-top: 0.5rem; padding: 0.98rem 1.45rem; border-radius: 999px; background: #fff; color: #000; font-weight: 900; pointer-events: auto; box-shadow: 0 18px 42px rgba(255,255,255,0.12); text-align: center; }
-    .story-final-glow { position: absolute; top: 50%; left: 50%; z-index: 4; width: 48vw; aspect-ratio: 1 / 1; border-radius: 999px; background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 68%); transform: translate(-50%, -50%) scale(0.7); opacity: 0; pointer-events: none; filter: blur(10px); }
-    .story-progress { position: absolute; left: var(--page-pad); right: var(--page-pad); bottom: clamp(1.25rem, 3vh, 2rem); z-index: 10; height: 1px; background: rgba(255,255,255,0.12); overflow: hidden; }
+    .micro-list li::before { content: ""; width: 5px; height: 5px; border-radius: 999px; background: var(--muted-foreground); margin-top: 0.48rem; flex: 0 0 auto; }
+    .final-card-copy { padding: clamp(1.35rem, 2vw, 2rem); border: 1px solid var(--border); background: var(--card); border-radius: var(--radius); box-shadow: 0 24px 80px rgba(0,0,0,0.34); pointer-events: auto; }
+    .final-cta { display: inline-flex; align-items: center; justify-content: center; margin-top: 0.5rem; padding: 0.75rem 1.5rem; border-radius: 0.375rem; background: #fff; color: #000; font-weight: 600; font-size: 0.875rem; pointer-events: auto; }
+    .story-progress { position: absolute; left: var(--page-pad); right: var(--page-pad); bottom: clamp(1.25rem, 3vh, 2rem); z-index: 10; height: 1px; background: var(--border); overflow: hidden; }
     .story-progress-fill { height: 100%; width: 100%; background: #fff; transform: scaleX(0); transform-origin: left center; will-change: transform; }
+    
+    /* MPU 3D CARD CSS */
     .mpu-license-stage { position: absolute; top: 50%; left: 50%; z-index: 7; width: clamp(470px, 39vw, 720px); aspect-ratio: 1.585 / 1; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; }
     .mpu-card-object { position: absolute; inset: 0; border-radius: 28px; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; transform-origin: center center; }
     .mpu-card-face { position: absolute; inset: 0; border-radius: 28px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; contain: layout paint; box-shadow: 0 38px 90px rgba(0,0,0,0.52), inset 0 0 0 1px rgba(255,255,255,0.62), inset 0 -20px 60px rgba(0,0,0,0.06); }
@@ -409,46 +354,29 @@
     .mpu-barcode { width: 100%; height: 24px; border-radius: 7px; opacity: 0.38; background: repeating-linear-gradient(90deg, rgba(0,0,0,0.58) 0 2px, transparent 2px 6px, rgba(0,0,0,0.42) 6px 8px, transparent 8px 11px, rgba(0,0,0,0.5) 11px 12px, transparent 12px 17px); }
     .mpu-machine-code { font-size: clamp(0.46rem, 0.58vw, 0.7rem); line-height: 1.15; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.42); white-space: nowrap; text-align: right; }
 
-    .after-story { position: relative; z-index: 4; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--nav-height) + 4rem) var(--page-pad) 5rem; background: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.05), transparent 34%), linear-gradient(to bottom, rgba(5,6,8,0.25), var(--bg-dark) 75%); }
-    .after-inner { width: min(860px, 100%); text-align: center; }
-    .after-inner h2 { font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.98; letter-spacing: -0.07em; font-weight: 900; margin-bottom: 1.2rem; text-wrap: balance; }
-    .after-inner p { width: min(620px, 100%); margin: 0 auto 2.2rem; color: var(--white-soft); line-height: 1.7; font-size: clamp(1rem, 1.25vw, 1.18rem); }
-
     /* RESPONSIVE */
     @media (max-width: 992px) {
-      .hero-grid { grid-template-columns: 1fr; gap: 4rem; }
-      .lux-roadmap { padding-left: 1.5rem; }
+      .hero-container { grid-template-columns: 1fr; gap: 4rem; }
+      .bento-grid { max-width: 600px; }
     }
 
     @media (max-width: 768px) {
       :root { --nav-height: 72px; }
       .navbar { padding: 0 1.1rem; }
       .nav-logo { font-size: clamp(1rem, 4.2vw, 1.18rem); }
-      .nav-cta { padding: 0.6rem 1rem; font-size: 0.78rem; display: none; } /* Hide on mobile */
+      .nav-cta { display: none; }
       
-      .hero-section { padding-top: calc(var(--nav-height) + 1rem); padding-bottom: 6rem; padding-left: 1.1rem; padding-right: 1.1rem; }
+      .hero { padding-top: calc(var(--nav-height) + 2rem); padding-bottom: 6rem; padding-left: 1.1rem; padding-right: 1.1rem; }
+      .hero-title { font-size: clamp(2.8rem, 12vw, 4rem); }
+      .hero-subtitle { font-size: 1rem; margin-bottom: 2rem; }
+      .hero-actions { display: none; }
       
-      .lux-headline { font-size: clamp(3rem, 13vw, 4.5rem); margin-bottom: 1rem; }
-      .lux-subtext { font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.6; }
-      .lux-cta-group { display: none; }
-      .lux-tags { margin-top: 2rem; }
-      .mobile-sticky-cta { display: flex; }
+      .bento-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .ui-card { padding: 1.2rem; flex-direction: row; align-items: center; gap: 1rem; }
+      .ui-icon-box { margin-bottom: 0; width: 40px; height: 40px; flex-shrink: 0; }
+      
+      .mobile-cta-bar { display: flex; }
 
-      .lux-step { padding: 1.5rem 0; }
-      .lux-step::before { left: -1.85rem; top: 1.8rem; width: 6px; height: 6px; }
-      .lux-step:first-child::before { top: 0.3rem; }
-      .lux-step:last-child::before { top: 1.8rem; }
-      .ls-title { font-size: 1.1rem; }
-
-      /* Mobile: Spotlight behavior simplified */
-      .clarity-fog {
-        backdrop-filter: blur(4px) brightness(0.8);
-        -webkit-backdrop-filter: blur(4px) brightness(0.8);
-        mask-image: radial-gradient(circle 200px at var(--mouse-x, 50%) var(--mouse-y, 30%), transparent 0%, black 100%);
-        -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x, 50%) var(--mouse-y, 30%), transparent 0%, black 100%);
-      }
-
-      /* Story fixes */
       .license-story { height: 520vh; }
       .story-kicker { top: calc(var(--nav-height) + 0.95rem); left: 1.1rem; right: 1.1rem; font-size: 0.64rem; gap: 0.68rem; letter-spacing: 0.13em; white-space: nowrap; overflow: hidden; }
       .story-kicker::before { width: 36px; }
@@ -507,6 +435,7 @@
 </head>
 
 <body class="intro-lock">
+  
   <div id="intro-container">
     <div class="intro-license-card" id="intro-license">
       <div class="intro-license-eu">D</div>
@@ -521,82 +450,86 @@
     </div>
   </div>
 
-  <div id="line-waves-bg"></div>
-  <div class="global-vignette"></div>
-
   <div id="page-content">
+    
     <nav class="navbar">
       <div class="nav-logo">MPU Experten</div>
-      <a href="#kontakt" class="nav-cta">Kostenloses Erstgespräch</a>
+      <a href="#kontakt" class="btn-outline">Kostenloses Erstgespräch</a>
     </nav>
 
     <main>
-      <section id="hero-clarity" class="hero-section">
-        
-        <div class="clarity-fog"></div>
-
-        <div class="hero-grid">
+      <section class="hero">
+        <div class="bg-glow"></div> <div class="hero-container">
           
-          <div class="hero-left hero-reveal">
-            <div class="lux-kicker">MPU in [Ort]</div>
+          <div class="hero-copy">
+            <div class="ui-badge hero-reveal">
+              MPU-Vorbereitung in [Ort]
+            </div>
             
-            <h1 class="lux-headline">
-              Zurück in<br>
-              <strong>die Spur.</strong>
+            <h1 class="hero-title hero-reveal">
+              Zurück in<br>die Spur.
             </h1>
             
-            <p class="lux-subtext">
-              Keine Standardkurse. Keine leeren Versprechen. Wir dekonstruieren Ihren Fall und strukturieren den Weg zurück zur Fahrerlaubnis mit absoluter, wissenschaftlicher Präzision.
+            <p class="hero-subtitle hero-reveal">
+              Keine unseriösen Versprechen. Persönliche Einschätzung statt Standardkurs. Wir begleiten Sie diskret und wissenschaftlich fundiert durch Ihre MPU.
             </p>
 
-            <div class="lux-cta-group">
-              <a href="#kontakt" class="btn-lux-primary">Erstgespräch anfragen</a>
+            <div class="ui-tag-group hero-reveal">
+              <span class="ui-tag">Alkohol</span>
+              <span class="ui-tag">Drogen / Cannabis</span>
+              <span class="ui-tag">Punkte</span>
+              <span class="ui-tag">Straftaten</span>
             </div>
 
-            <div class="lux-tags">
-              <span class="lux-tag">Alkohol</span>
-              <span class="lux-tag">Drogen / Cannabis</span>
-              <span class="lux-tag">Punkte</span>
-              <span class="lux-tag">Straftaten</span>
+            <div class="hero-actions hero-reveal">
+              <a href="#kontakt" class="btn-primary">Erstgespräch anfragen</a>
+              <a href="tel:+49123456789" class="btn-ghost">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                Anrufen
+              </a>
             </div>
           </div>
 
-          <div class="hero-right hero-reveal">
+          <div class="bento-grid hero-reveal">
             
-            <div class="lux-roadmap">
-              
-              <div class="lux-step">
-                <div class="lux-step-header">
-                  <span class="ls-num">01</span>
-                  <h3 class="ls-title">Fall verstehen</h3>
+            <div class="ui-card">
+              <div class="ui-card-header">
+                <div class="ui-icon-box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><circle cx="10" cy="13" r="2"/><path d="m11.5 14.5 2 2"/></svg>
                 </div>
-                <p class="ls-desc">Wissenschaftliche Analyse und Dekonstruktion Ihrer exakten Ausgangslage.</p>
+                <h3 class="ui-card-title">1. Fall verstehen</h3>
               </div>
+              <p class="ui-card-content">Exakte wissenschaftliche Analyse Ihrer Ausgangslage und der Begutachtungs-Anforderungen.</p>
+            </div>
 
-              <div class="lux-step">
-                <div class="lux-step-header">
-                  <span class="ls-num">02</span>
-                  <h3 class="ls-title">Vorbereitung planen</h3>
+            <div class="ui-card">
+              <div class="ui-card-header">
+                <div class="ui-icon-box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="m9 16 2 2 4-4"/></svg>
                 </div>
-                <p class="ls-desc">Strategische Anordnung von Abstinenznachweisen, Fristen und Unterlagen.</p>
+                <h3 class="ui-card-title">2. Vorbereitung</h3>
               </div>
+              <p class="ui-card-content">Strukturierte Planung aller Fristen und der zwingend nötigen Abstinenznachweise.</p>
+            </div>
 
-              <div class="lux-step">
-                <div class="lux-step-header">
-                  <span class="ls-num">03</span>
-                  <h3 class="ls-title">Veränderung belegen</h3>
+            <div class="ui-card">
+              <div class="ui-card-header">
+                <div class="ui-icon-box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.5a2.5 2.5 0 0 0-4.96-.46 2.5 2.5 0 0 0-1.98 3 2.5 2.5 0 0 0-1.32 4.24 3 3 0 0 0 .34 5.58 2.5 2.5 0 0 0 2.96 3.08 2.5 2.5 0 0 0 4.91.05L12 20V4.5Z"/><path d="M16 8V5c0-1.1.9-2 2-2"/><path d="M12 13h4"/><path d="M12 18h6a2 2 0 0 1 2 2v1"/><path d="M15 8a2 2 0 0 0-2 2v2"/><path d="M20 8a2 2 0 0 0-2 2v2"/></svg>
                 </div>
-                <p class="ls-desc">Psychologische Fundierung Ihres Verhaltens-Updates ohne Standard-Phrasen.</p>
+                <h3 class="ui-card-title">3. Veränderung</h3>
               </div>
+              <p class="ui-card-content">Psychologische Fundierung Ihres Verhaltens ohne auswendig gelernte Standard-Floskeln.</p>
+            </div>
 
-              <div class="lux-step">
-                <div class="lux-step-header">
-                  <span class="ls-num">04</span>
-                  <h3 class="ls-title">Sicher ins Gespräch</h3>
+            <div class="ui-card">
+              <div class="ui-card-header">
+                <div class="ui-icon-box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="m9 11 2 2 4-4"/></svg>
                 </div>
-                <p class="ls-desc">Methodisches Training und Simulation für absolute Sicherheit beim Gutachter.</p>
+                <h3 class="ui-card-title">4. Simulation</h3>
               </div>
-
+              <p class="ui-card-content">Trockenlauf und Gesprächssimulation für absolute Sicherheit am Tag der Prüfung.</p>
             </div>
 
           </div>
@@ -604,11 +537,13 @@
         </div>
       </section>
 
+      <div class="mobile-cta-bar">
+        <a href="tel:+49123456789" class="btn-outline">Anrufen</a>
+        <a href="#kontakt" class="btn-primary">Erstgespräch</a>
+      </div>
+
       <section id="license-story" class="license-story">
         <div class="story-sticky">
-          <div class="story-noise"></div>
-          <div class="story-final-glow"></div>
-
           <div class="story-kicker">Der Führerschein-Fahrplan</div>
 
           <div class="story-copy story-copy-right">
@@ -798,96 +733,13 @@
         </div>
       </section>
 
-      <section id="kontakt" class="after-story">
-        <div class="after-inner">
-          <h2>Bereit für den nächsten klaren Schritt?</h2>
-          <p>Im Erstgespräch klären wir, wo Sie stehen, welche Vorbereitung sinnvoll ist und wie Ihr Weg zurück zum Führerschein strukturiert aussehen kann.</p>
-          <a href="#" class="btn-primary">Erstgespräch anfragen</a>
-        </div>
-      </section>
     </main>
   </div>
 
-  <div class="mobile-sticky-cta">
-    <a href="tel:+49123456789" class="mobile-btn m-btn-secondary">Anrufen</a>
-    <a href="#kontakt" class="mobile-btn m-btn-primary">Erstgespräch</a>
-  </div>
-
-  <script type="module">
-    import { Renderer, Program, Mesh as OGLMesh, Triangle } from "https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm";
-
+  <script>
     const gsap = window.gsap;
     const ScrollTrigger = window.ScrollTrigger;
     gsap.registerPlugin(ScrollTrigger);
-
-    const isTouchLike = window.matchMedia("(pointer: coarse)").matches;
-
-    // --- OGL BACKGROUND LOGIC (BEIBEHALTEN FÜR DEN TIEFEN HINTERGRUND) ---
-    const vertexShader = `
-      attribute vec2 uv; attribute vec2 position; varying vec2 vUv;
-      void main() { vUv = uv; gl_Position = vec4(position, 0, 1); }
-    `;
-
-    const fragmentShader = `
-      precision highp float;
-      uniform float uTime; uniform vec3 uResolution; uniform float uSpeed; uniform float uInnerLines; uniform float uOuterLines; uniform float uWarpIntensity; uniform float uRotation; uniform float uEdgeFadeWidth; uniform float uColorCycleSpeed; uniform float uBrightness; uniform vec3 uColor1; uniform vec3 uColor2; uniform vec3 uColor3; uniform vec2 uMouse; uniform float uMouseInfluence; uniform bool uEnableMouse;
-      #define HALF_PI 1.5707963
-      float hashF(float n) { return fract(sin(n * 127.1) * 43758.5453123); }
-      float smoothNoise(float x) { float i = floor(x); float f = fract(x); float u = f * f * (3.0 - 2.0 * f); return mix(hashF(i), hashF(i + 1.0), u); }
-      float displaceA(float coord, float t) { float result = sin(coord * 2.123) * 0.2; result += sin(coord * 3.234 + t * 4.345) * 0.1; result += sin(coord * 0.589 + t * 0.934) * 0.5; return result; }
-      float displaceB(float coord, float t) { float result = sin(coord * 1.345) * 0.3; result += sin(coord * 2.734 + t * 3.345) * 0.2; result += sin(coord * 0.189 + t * 0.934) * 0.3; return result; }
-      vec2 rotate2D(vec2 p, float angle) { float c = cos(angle); float s = sin(angle); return vec2(p.x * c - p.y * s, p.x * s + p.y * c); }
-      void main() {
-        vec2 coords = gl_FragCoord.xy / uResolution.xy; coords = coords * 2.0 - 1.0; coords = rotate2D(coords, uRotation);
-        float halfT = uTime * uSpeed * 0.5; float fullT = uTime * uSpeed;
-        float mouseWarp = 0.0;
-        if (uEnableMouse) { vec2 mPos = rotate2D(uMouse * 2.0 - 1.0, uRotation); float mDist = length(coords - mPos); mouseWarp = uMouseInfluence * exp(-mDist * mDist * 4.0); }
-        float warpAx = coords.x + displaceA(coords.y, halfT) * uWarpIntensity + mouseWarp;
-        float warpAy = coords.y - displaceA(coords.x * cos(fullT) * 1.235, halfT) * uWarpIntensity;
-        float warpBx = coords.x + displaceB(coords.y, halfT) * uWarpIntensity + mouseWarp;
-        float warpBy = coords.y - displaceB(coords.x * sin(fullT) * 1.235, halfT) * uWarpIntensity;
-        vec2 fieldA = vec2(warpAx, warpAy); vec2 fieldB = vec2(warpBx, warpBy); vec2 blended = mix(fieldA, fieldB, mix(fieldA, fieldB, 0.5));
-        float fadeTop = smoothstep(uEdgeFadeWidth, uEdgeFadeWidth + 0.4, blended.y); float fadeBottom = smoothstep(-uEdgeFadeWidth, -(uEdgeFadeWidth + 0.4), blended.y); float vMask = 1.0 - max(fadeTop, fadeBottom);
-        float tileCount = mix(uOuterLines, uInnerLines, vMask); float scaledY = blended.y * tileCount; float nY = smoothNoise(abs(scaledY));
-        float ridge = pow(step(abs(nY - blended.x) * 2.0, HALF_PI) * cos(2.0 * (nY - blended.x)), 5.0);
-        float lines = 0.0; for (float i = 1.0; i < 3.0; i += 1.0) { lines += pow(max(fract(scaledY), fract(-scaledY)), i * 2.0); }
-        float pattern = vMask * lines; float cycleT = fullT * uColorCycleSpeed;
-        float rChannel = (pattern + lines * ridge) * (cos(blended.y + cycleT * 0.234) * 0.5 + 1.0);
-        float gChannel = (pattern + vMask * ridge) * (sin(blended.x + cycleT * 1.745) * 0.5 + 1.0);
-        float bChannel = (pattern + lines * ridge) * (cos(blended.x + cycleT * 0.534) * 0.5 + 1.0);
-        vec3 col = (rChannel * uColor1 + gChannel * uColor2 + bChannel * uColor3) * uBrightness;
-        gl_FragColor = vec4(col, clamp(length(col), 0.0, 1.0));
-      }
-    `;
-
-    function hexToVec3(hex) { const h = hex.replace("#", ""); return [ parseInt(h.slice(0, 2), 16) / 255, parseInt(h.slice(2, 4), 16) / 255, parseInt(h.slice(4, 6), 16) / 255 ]; }
-
-    const config = { speed: 0.3, innerLineCount: 32, outerLineCount: 36, warpIntensity: 1, rotation: -45, edgeFadeWidth: 0, colorCycleSpeed: 1, brightness: 0.15, color1: "#ffffff", color2: "#ffffff", color3: "#ffffff", enableMouseInteraction: !isTouchLike, mouseInfluence: isTouchLike ? 0 : 2 };
-
-    const container = document.getElementById("line-waves-bg");
-    const rendererOGL = new Renderer({ alpha: true, premultipliedAlpha: false, dpr: Math.min(isTouchLike ? 1.15 : 1.6, window.devicePixelRatio || 1) });
-    const gl = rendererOGL.gl; gl.clearColor(0, 0, 0, 0); gl.canvas.setAttribute("aria-hidden", "true"); container.appendChild(gl.canvas);
-
-    let currentMouse = [0.5, 0.5], targetMouse = [0.5, 0.5], program, isPageVisible = true;
-    document.addEventListener("visibilitychange", () => isPageVisible = !document.hidden);
-    function handleMouseMove(e) { targetMouse = [e.clientX / window.innerWidth, 1.0 - e.clientY / window.innerHeight]; }
-    function handleMouseLeave() { targetMouse = [0.5, 0.5]; }
-    function resize() { rendererOGL.setSize(Math.max(1, container.offsetWidth), Math.max(1, container.offsetHeight)); if (program) program.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height]; }
-    window.addEventListener("resize", resize);
-
-    const geometry = new Triangle(gl);
-    program = new Program(gl, { vertex: vertexShader, fragment: fragmentShader, uniforms: { uTime: { value: 0 }, uResolution: { value: [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height] }, uSpeed: { value: config.speed }, uInnerLines: { value: config.innerLineCount }, uOuterLines: { value: config.outerLineCount }, uWarpIntensity: { value: config.warpIntensity }, uRotation: { value: (config.rotation * Math.PI) / 180 }, uEdgeFadeWidth: { value: config.edgeFadeWidth }, uColorCycleSpeed: { value: config.colorCycleSpeed }, uBrightness: { value: config.brightness }, uColor1: { value: hexToVec3(config.color1) }, uColor2: { value: hexToVec3(config.color2) }, uColor3: { value: hexToVec3(config.color3) }, uMouse: { value: new Float32Array([0.5, 0.5]) }, uMouseInfluence: { value: config.mouseInfluence }, uEnableMouse: { value: config.enableMouseInteraction } } });
-
-    const mesh = new OGLMesh(gl, { geometry, program }); resize();
-    if (config.enableMouseInteraction) { window.addEventListener("mousemove", handleMouseMove); window.addEventListener("mouseleave", handleMouseLeave); }
-
-    function update(time) {
-      requestAnimationFrame(update); if (!isPageVisible) return;
-      program.uniforms.uTime.value = time * 0.001;
-      if (config.enableMouseInteraction) { currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]); currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]); program.uniforms.uMouse.value[0] = currentMouse[0]; program.uniforms.uMouse.value[1] = currentMouse[1]; }
-      rendererOGL.render({ scene: mesh });
-    }
-    requestAnimationFrame(update);
 
     // --- STORY LOGIC (BEIBEHALTEN) ---
     function initScrollStory() {
@@ -895,7 +747,6 @@
       const cardObject = document.querySelector(".mpu-card-object");
       const rightCopy = document.querySelector(".story-copy-right");
       const leftCopy = document.querySelector(".story-copy-left");
-      const finalGlow = document.querySelector(".story-final-glow");
       const progressFill = document.querySelector(".story-progress-fill");
       const stepCopies = gsap.utils.toArray(".step-copy");
       const cardSteps = gsap.utils.toArray(".mpu-step-row");
@@ -920,10 +771,9 @@
         gsap.set(cardObject, { rotationY: -4, transformOrigin: "50% 50%", transformStyle: "preserve-3d" });
         gsap.set(rightCopy, { autoAlpha: 1, x: 0, filter: "blur(0px)" });
         gsap.set(leftCopy, { autoAlpha: 0, x: -50, filter: "blur(10px)" });
-        gsap.set(finalGlow, { autoAlpha: 0, scale: 0.72 });
 
         const tl = gsap.timeline({ scrollTrigger: { trigger: "#license-story", start: "top top", end: "bottom bottom", scrub: 0.75, onUpdate: self => updateStoryState(self.progress) } });
-        tl.to(cardStage, { rotationZ: 1.2, y: -10, duration: 0.18, ease: "none" }, 0).to(cardObject, { rotationY: -2, duration: 0.18, ease: "none" }, 0).to(cardStage, { y: 10, rotationZ: -0.8, duration: 0.18, ease: "none" }, 0.18).to(cardObject, { rotationY: -5, duration: 0.18, ease: "none" }, 0.18).to(cardStage, { y: -4, rotationZ: 0.8, duration: 0.18, ease: "none" }, 0.36).to(cardObject, { rotationY: -2, duration: 0.18, ease: "none" }, 0.36).to(cardStage, { x: 0, y: 0, scale: 1.055, rotationZ: 0, duration: 0.14, ease: "power1.inOut" }, 0.58).to(cardObject, { rotationY: 0, duration: 0.12, ease: "power1.inOut" }, 0.58).to(rightCopy, { autoAlpha: 0, x: 70, filter: "blur(10px)", duration: 0.11, ease: "power1.out" }, 0.6).to(finalGlow, { autoAlpha: 1, scale: 1.08, duration: 0.16, ease: "power1.out" }, 0.62).to(cardObject, { rotationY: 180, duration: 0.22, ease: "none" }, 0.66).to(cardStage, { x: () => window.innerWidth * 0.28, scale: 1, rotationZ: 2, duration: 0.2, ease: "power1.inOut" }, 0.8).to(leftCopy, { autoAlpha: 1, x: 0, filter: "blur(0px)", duration: 0.15, ease: "power1.out" }, 0.84);
+        tl.to(cardStage, { rotationZ: 1.2, y: -10, duration: 0.18, ease: "none" }, 0).to(cardObject, { rotationY: -2, duration: 0.18, ease: "none" }, 0).to(cardStage, { y: 10, rotationZ: -0.8, duration: 0.18, ease: "none" }, 0.18).to(cardObject, { rotationY: -5, duration: 0.18, ease: "none" }, 0.18).to(cardStage, { y: -4, rotationZ: 0.8, duration: 0.18, ease: "none" }, 0.36).to(cardObject, { rotationY: -2, duration: 0.18, ease: "none" }, 0.36).to(cardStage, { x: 0, y: 0, scale: 1.055, rotationZ: 0, duration: 0.14, ease: "power1.inOut" }, 0.58).to(cardObject, { rotationY: 0, duration: 0.12, ease: "power1.inOut" }, 0.58).to(rightCopy, { autoAlpha: 0, x: 70, filter: "blur(10px)", duration: 0.11, ease: "power1.out" }, 0.6).to(cardObject, { rotationY: 180, duration: 0.22, ease: "none" }, 0.66).to(cardStage, { x: () => window.innerWidth * 0.28, scale: 1, rotationZ: 2, duration: 0.2, ease: "power1.inOut" }, 0.8).to(leftCopy, { autoAlpha: 1, x: 0, filter: "blur(0px)", duration: 0.15, ease: "power1.out" }, 0.84);
         return () => tl.kill();
       });
 
@@ -932,60 +782,14 @@
         gsap.set(cardObject, { rotationY: 0, transformOrigin: "50% 50%", transformStyle: "preserve-3d" });
         gsap.set(rightCopy, { autoAlpha: 1, y: 0, filter: "blur(0px)" });
         gsap.set(leftCopy, { autoAlpha: 0, y: 24, filter: "blur(10px)" });
-        gsap.set(finalGlow, { autoAlpha: 0, scale: 0.78 });
 
         const tl = gsap.timeline({ scrollTrigger: { trigger: "#license-story", start: "top top", end: "bottom bottom", scrub: 0.75, onUpdate: self => updateStoryState(self.progress) } });
-        tl.to(cardStage, { y: -8, rotationZ: 1, duration: 0.25, ease: "none" }, 0).to(cardStage, { y: 7, rotationZ: -1, duration: 0.28, ease: "none" }, 0.25).to(rightCopy, { autoAlpha: 0, y: -20, filter: "blur(10px)", duration: 0.12, ease: "power1.out" }, 0.6).to(finalGlow, { autoAlpha: 1, scale: 1, duration: 0.15, ease: "power1.out" }, 0.62).to(cardObject, { rotationY: 180, duration: 0.22, ease: "none" }, 0.66).to(cardStage, { scale: 1, y: 0, rotationZ: 0.6, duration: 0.2, ease: "power1.out" }, 0.66).to(leftCopy, { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.16, ease: "power1.out" }, 0.82);
+        tl.to(cardStage, { y: -8, rotationZ: 1, duration: 0.25, ease: "none" }, 0).to(cardStage, { y: 7, rotationZ: -1, duration: 0.28, ease: "none" }, 0.25).to(rightCopy, { autoAlpha: 0, y: -20, filter: "blur(10px)", duration: 0.12, ease: "power1.out" }, 0.6).to(cardObject, { rotationY: 180, duration: 0.22, ease: "none" }, 0.66).to(cardStage, { scale: 1, y: 0, rotationZ: 0.6, duration: 0.2, ease: "power1.out" }, 0.66).to(leftCopy, { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.16, ease: "power1.out" }, 0.82);
         return () => tl.kill();
       });
       setActiveStep(0); ScrollTrigger.refresh();
     }
 
-    // ==========================================
-    // NEU: CLARITY FILTER LOGIC (Der psychologische Spotlight)
-    // ==========================================
-    function initClarityFilter() {
-      const hero = document.getElementById('hero-clarity');
-      const fog = document.querySelector('.clarity-fog');
-      
-      if(!hero || !fog) return;
-
-      let mousePos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-      let isHovering = false;
-
-      // Start Position zentrieren
-      fog.style.setProperty('--mouse-x', `${mousePos.x}px`);
-      fog.style.setProperty('--mouse-y', `${mousePos.y}px`);
-
-      hero.addEventListener('mousemove', (e) => {
-        isHovering = true;
-        const rect = hero.getBoundingClientRect();
-        mousePos.x = e.clientX - rect.left;
-        mousePos.y = e.clientY - rect.top;
-        
-        fog.style.setProperty('--mouse-x', `${mousePos.x}px`);
-        fog.style.setProperty('--mouse-y', `${mousePos.y}px`);
-      });
-
-      // Mobile / Idle Animation
-      if (isTouchLike) {
-        gsap.to(mousePos, {
-          y: window.innerHeight * 0.8,
-          duration: 4,
-          yoyo: true,
-          repeat: -1,
-          ease: "sine.inOut",
-          onUpdate: () => {
-            if(!isHovering) {
-               fog.style.setProperty('--mouse-x', `50%`);
-               fog.style.setProperty('--mouse-y', `${mousePos.y}px`);
-            }
-          }
-        });
-      }
-    }
-
-    // INIT
     window.addEventListener("load", () => {
       const tl = gsap.timeline();
 
@@ -995,15 +799,23 @@
       )
       .to("#intro-license", { duration: 0.5 })
       .to("#intro-license", { scale: 4, rotationY: 360, filter: "blur(40px)", opacity: 0, duration: 1.2, ease: "power2.in" })
-      .to(["#line-waves-bg", "#page-content"], { opacity: 1, duration: 1.45, ease: "power2.out" }, "-=0.55")
-      .from(".hero-reveal", { autoAlpha: 0, y: 34, filter: "blur(10px)", duration: 0.85, stagger: 0.09, ease: "power3.out" }, "-=1.0")
+      .to("#page-content", { opacity: 1, duration: 1.45, ease: "power2.out" }, "-=0.55")
+      
+      // Weiches Einblenden der neuen shadcn/ui Elemente
+      .from(".hero-reveal", { 
+        autoAlpha: 0, 
+        y: 20, 
+        duration: 0.8, 
+        stagger: 0.1, 
+        ease: "power3.out" 
+      }, "-=1.0")
+
       .add(() => {
         document.body.classList.remove("intro-lock");
         const intro = document.getElementById("intro-container");
         if (intro) intro.remove();
 
         initScrollStory();
-        initClarityFilter(); // Clarity Filter starten
         ScrollTrigger.refresh();
       });
     });
