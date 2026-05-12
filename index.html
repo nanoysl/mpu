@@ -13,18 +13,19 @@
 
   <style>
     /* =========================================
-       1:1 BILD 2 DESIGN SYSTEM
+       1:1 BILD 2 DESIGN SYSTEM (Angepasstes Scaling)
        ========================================= */
     :root {
-      --bg-outer: #000000;         /* Der Rand außerhalb der App */
-      --bg-app: #080c11;           /* Das tiefe Blau/Schwarz der App */
-      --cyan: #5CE1E6;             /* Die exakte Mint/Cyan Akzentfarbe aus Bild 2 */
+      --bg-outer: #000000;         
+      --bg-app: #080c11;           
+      --cyan: #5CE1E6;             
       --cyan-hover: #4bc5ca;
       --text-main: #ffffff;
       --text-muted: #a1a1aa;
       --border-color: rgba(255, 255, 255, 0.08);
-      --nav-height: 90px;
+      --nav-height: 75px; /* Etwas kompakter */
       --white-soft: rgba(255,255,255,0.74);
+      --page-pad: clamp(1.5rem, 4vw, 4.5rem);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Inter", sans-serif; }
@@ -34,702 +35,195 @@
       color: var(--text-main);
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
-      padding: 1.5rem; /* Abstand für den "App Frame" Look */
+      padding: 1.5rem; 
     }
 
     a { text-decoration: none; color: inherit; }
     body.intro-lock { height: 100vh; overflow: hidden; padding: 0; }
 
     /* =========================================
-       DER APP-FRAME (Der Rahmen aus Bild 2)
+       DER APP-FRAME
        ========================================= */
     .app-frame {
       position: relative;
       width: 100%;
-      max-width: 1800px;
+      max-width: 1600px; /* Begrenzt die max. Breite für den kompakten Look */
       margin: 0 auto;
       background: var(--bg-app);
-      border-radius: 24px;
+      border-radius: 20px;
       border: 1px solid var(--border-color);
       overflow: hidden;
-      box-shadow: 0 0 100px rgba(92, 225, 230, 0.05); /* Subtiler Cyan Glow um die Seite */
+      box-shadow: 0 0 80px rgba(92, 225, 230, 0.05);
     }
 
     /* =========================================
-       NAVBAR (1:1 Nachbau)
+       NAVBAR (Kompakter)
        ========================================= */
     .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: var(--nav-height);
-      padding: 0 3rem;
-      position: relative;
-      z-index: 50;
-      background: transparent;
+      display: flex; justify-content: space-between; align-items: center;
+      height: var(--nav-height); padding: 0 2.5rem; position: relative; z-index: 50; background: transparent;
     }
+    .nav-logo { display: flex; flex-direction: column; line-height: 1; }
+    .nav-logo-top { font-size: 1.2rem; font-weight: 900; letter-spacing: 0.05em; color: #fff; }
+    .nav-logo-bottom { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.2em; color: var(--cyan); margin-top: 0.15rem; }
 
-    .nav-logo {
-      display: flex;
-      flex-direction: column;
-      line-height: 1;
-    }
-    .nav-logo-top { font-size: 1.5rem; font-weight: 900; letter-spacing: 0.05em; color: #fff; }
-    .nav-logo-bottom { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; color: var(--cyan); margin-top: 0.2rem; }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
-    .nav-links li a {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      transition: color 0.3s ease;
-    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links li a { font-size: 0.65rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.3rem; transition: color 0.3s ease; }
     .nav-links li a:hover { color: #fff; }
-    .nav-links svg { width: 12px; height: 12px; opacity: 0.7; }
+    .nav-links svg { width: 10px; height: 10px; opacity: 0.7; }
 
     .nav-cta {
-      background: var(--cyan);
-      color: #000;
-      font-size: 0.75rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      padding: 0.8rem 1.5rem;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: background 0.3s ease;
+      background: var(--cyan); color: #000; font-size: 0.65rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.1em; padding: 0.6rem 1.2rem; border-radius: 4px; display: flex; align-items: center; gap: 0.5rem; transition: background 0.3s ease;
     }
     .nav-cta:hover { background: var(--cyan-hover); }
-    .nav-cta svg { width: 14px; height: 14px; }
+    .nav-cta svg { width: 12px; height: 12px; }
 
     /* =========================================
-       INTRO (DEIN ORIGINAL)
-       ========================================= */
-    #intro-container {
-      position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-      z-index: 9999; perspective: 1500px; pointer-events: none; background: #000;
-    }
-    .intro-license-card {
-      width: min(400px, 82vw); aspect-ratio: 1.6 / 1;
-      background: linear-gradient(135deg, #e6c5d1 0%, #d8e0e8 100%);
-      border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.5);
-      padding: 20px; position: relative; transform-style: preserve-3d; opacity: 0; overflow: hidden;
-    }
-    .intro-license-card::after {
-      content: ""; position: absolute; inset: -40%;
-      background: linear-gradient(115deg, transparent 0%, transparent 36%, rgba(255,255,255,0.55) 47%, transparent 58%, transparent 100%);
-      transform: translateX(-40%) rotate(12deg); opacity: 0.5;
-    }
-    .intro-license-eu {
-      position: absolute; top: 15px; left: 15px; width: 40px; height: 25px; background: #003399;
-      border-radius: 4px; display: flex; align-items: center; justify-content: center;
-      color: #ffcc00; font-size: 10px; font-weight: 800;
-    }
-    .intro-license-photo {
-      position: absolute; top: 40px; left: 20px; width: 80px; height: 100px;
-      background: rgba(0,0,0,0.2); border-radius: 4px;
-    }
-    .intro-license-lines {
-      position: absolute; top: 40px; left: 120px; width: 240px; display: flex; flex-direction: column; gap: 12px;
-    }
-    .intro-l-line { height: 8px; background: rgba(0,0,0,0.15); border-radius: 4px; }
-    .intro-l-line:nth-child(1) { width: 100%; }
-    .intro-l-line:nth-child(2) { width: 80%; }
-    .intro-l-line:nth-child(3) { width: 60%; }
-    .intro-l-line:nth-child(4) { width: 90%; }
-    .intro-l-line:nth-child(5) { width: 40%; margin-top: 20px; }
-
-    /* =========================================
-       HERO BEREICH (1:1 Nachbau Bild 2)
+       HERO BEREICH (Runterskaliert für 100% Ansicht)
        ========================================= */
     .hero {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      padding: 2rem 3rem 4rem 3rem;
-      min-height: calc(100vh - var(--nav-height) - 3rem);
+      position: relative; display: flex; flex-direction: column; padding: 1rem 2.5rem 3rem 2.5rem;
+      min-height: calc(90vh - var(--nav-height)); /* Nimmt nicht mehr den ganzen Screen ein */
     }
 
-    /* Das mpu.png Bild rechts mit sanftem Verlauf nach links */
     .hero-bg-image {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 65%;
-      height: 100%;
+      position: absolute; top: 0; right: 0; bottom: 0; width: 60%; 
+      background-image: url('mpu.png'); background-size: cover; background-position: center right;
       z-index: 0;
-      background-image: url('mpu.png');
-      background-size: cover;
-      background-position: center right;
-      /* Der Masken-Trick, damit das Bild links im Schwarz verschwindet */
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,1) 30%);
-      mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,1) 30%);
+    }
+    .hero-bg-fade {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, var(--bg-app) 35%, transparent 65%);
+      z-index: 1;
     }
 
     .hero-content {
-      position: relative;
-      z-index: 10;
-      max-width: 600px;
-      margin-top: 4rem; /* Abstand nach oben */
+      position: relative; z-index: 10; max-width: 550px; margin-top: 3rem; 
     }
 
-    .kicker {
-      color: var(--cyan);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
+    .kicker { color: var(--cyan); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.2rem; }
 
     .headline {
-      font-size: clamp(3rem, 5vw, 4.5rem);
-      font-weight: 900;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.5rem;
+      font-size: clamp(2rem, 3.8vw, 3.6rem); /* Signifikant kleiner gemacht */
+      font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.2rem; text-transform: uppercase;
     }
-    .headline .highlight {
-      color: var(--cyan);
-    }
+    .headline .highlight { color: var(--cyan); }
 
     .subtext {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      color: var(--text-muted);
-      margin-bottom: 3rem;
-      max-width: 90%;
+      font-size: 0.95rem; /* Kleiner */
+      line-height: 1.6; color: rgba(255,255,255,0.7); margin-bottom: 2.5rem; max-width: 480px;
     }
 
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
+    .hero-actions { display: flex; align-items: center; gap: 1.5rem; }
+    .btn-main {
+      background: var(--cyan); color: #000; padding: 0.9rem 1.6rem; border-radius: 6px;
+      font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;
+      transition: transform 0.2s ease;
     }
+    .btn-main:hover { transform: translateY(-2px); }
+    .btn-play { display: flex; align-items: center; gap: 0.8rem; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; cursor: pointer; }
+    .play-circle { width: 36px; height: 36px; border: 2px solid var(--cyan); border-radius: 50%; display: grid; place-items: center; color: var(--cyan); }
+    .play-circle svg { width: 12px; height: 12px; fill: var(--cyan); margin-left: 2px; }
 
-    .btn-primary {
-      background: var(--cyan);
-      color: #000;
-      font-size: 0.85rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      padding: 1.1rem 2rem;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: transform 0.2s ease, background 0.2s ease;
-    }
-    .btn-primary:hover {
-      background: var(--cyan-hover);
-      transform: translateY(-2px);
-    }
-
-    .btn-play {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      color: #fff;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: opacity 0.3s ease;
-    }
-    .btn-play:hover { opacity: 0.7; }
-    .play-circle {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 2px solid var(--cyan);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .play-circle svg { width: 14px; height: 14px; fill: var(--cyan); margin-left: 2px; }
-
-    /* =========================================
-       TRUST BAR & ZITAT (Unten im Hero)
-       ========================================= */
+    /* TRUST BAR & ZITAT */
     .hero-bottom {
-      position: relative;
-      z-index: 10;
-      margin-top: auto; /* Drückt es nach unten */
-      padding-top: 4rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
+      position: relative; z-index: 10; margin-top: auto; padding-top: 3rem; display: flex; justify-content: space-between; align-items: flex-end;
     }
-
-    .trust-items {
-      display: flex;
-      gap: 3rem;
-    }
-
-    .trust-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .trust-icon {
-      color: var(--cyan);
-    }
-    .trust-icon svg { width: 28px; height: 28px; stroke-width: 1.5; }
-    
-    .trust-text h4 {
-      font-size: 0.75rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 0.2rem;
-    }
-    .trust-text p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
+    .trust-items { display: flex; gap: 2.5rem; }
+    .t-item { display: flex; align-items: center; gap: 0.8rem; }
+    .t-icon { color: var(--cyan); }
+    .t-icon svg { width: 22px; height: 22px; stroke-width: 1.5; }
+    .t-item h4 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; font-weight: 800;}
+    .t-item p { font-size: 0.75rem; color: rgba(255,255,255,0.5); line-height: 1.3; }
 
     .quote-card {
-      background: rgba(20, 24, 30, 0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 12px;
-      padding: 1.5rem;
-      max-width: 300px;
-      position: relative;
+      background: rgba(20, 24, 30, 0.7); border: 1px solid rgba(255,255,255,0.05);
+      padding: 1.2rem; border-radius: 12px; backdrop-filter: blur(10px); max-width: 260px; position: relative;
     }
-    .quote-icon {
-      position: absolute;
-      top: -10px;
-      left: -10px;
-      color: var(--cyan);
-    }
-    .quote-icon svg { width: 24px; height: 24px; fill: var(--cyan); }
-    .quote-card p {
-      font-size: 0.95rem;
-      line-height: 1.5;
-      font-weight: 400;
-    }
-    .quote-card p span {
-      color: var(--cyan);
-    }
-
-    /* Mobile Menu Burger (Hidden on Desktop) */
-    .mobile-menu-btn { display: none; color: #fff; background: none; border: none; cursor: pointer; }
+    .quote-icon { position: absolute; top: -8px; left: -8px; color: var(--cyan); }
+    .quote-icon svg { width: 18px; height: 18px; fill: var(--cyan); }
+    .quote-card p { font-size: 0.8rem; line-height: 1.5; color: rgba(255,255,255,0.9); }
+    .quote-card p span { color: var(--cyan); font-weight: 700; }
 
     /* =========================================
-       STORY & 3D CARD CSS (DEIN 100% ORIGINAL)
+       DEIN ORIGINAL STORY & 3D CSS
+       (Exakt kopiert aus deinem ersten funktionierenden Code)
        ========================================= */
-    .license-story {
-      position: relative;
-      z-index: 3;
-      height: 540vh;
-      background: 
-        radial-gradient(circle at 30% 38%, rgba(255,255,255,0.08), transparent 32%),
-        linear-gradient(to bottom, transparent, rgba(0,0,0,0.52) 8%, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.54));
-    }
+    #intro-container { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 9999; perspective: 1500px; pointer-events: none; background: #000; }
+    .intro-license-card { width: min(400px, 82vw); aspect-ratio: 1.6 / 1; background: linear-gradient(135deg, #e6c5d1 0%, #d8e0e8 100%); border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.5); padding: 20px; position: relative; transform-style: preserve-3d; opacity: 0; overflow: hidden; }
+    .intro-license-card::after { content: ""; position: absolute; inset: -40%; background: linear-gradient(115deg, transparent 0%, transparent 36%, rgba(255,255,255,0.55) 47%, transparent 58%, transparent 100%); transform: translateX(-40%) rotate(12deg); opacity: 0.5; }
+    .intro-license-eu { position: absolute; top: 15px; left: 15px; width: 40px; height: 25px; background: #003399; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #ffcc00; font-size: 10px; font-weight: 800; }
+    .intro-license-photo { position: absolute; top: 40px; left: 20px; width: 80px; height: 100px; background: rgba(0,0,0,0.2); border-radius: 4px; }
+    .intro-license-lines { position: absolute; top: 40px; left: 120px; width: 240px; display: flex; flex-direction: column; gap: 12px; }
+    .intro-l-line { height: 8px; background: rgba(0,0,0,0.15); border-radius: 4px; }
+    .intro-l-line:nth-child(1) { width: 100%; } .intro-l-line:nth-child(2) { width: 80%; } .intro-l-line:nth-child(3) { width: 60%; } .intro-l-line:nth-child(4) { width: 90%; } .intro-l-line:nth-child(5) { width: 40%; margin-top: 20px; }
 
-    .story-sticky {
-      position: sticky;
-      top: 0;
-      height: 100svh;
-      overflow: hidden;
-      perspective: 1800px;
-    }
+    .license-story { position: relative; z-index: 3; height: 540vh; background: radial-gradient(circle at 30% 38%, rgba(255,255,255,0.08), transparent 32%), linear-gradient(to bottom, transparent, rgba(0,0,0,0.52) 8%, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.54)); }
+    .story-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; perspective: 1800px; }
+    .story-noise { position: absolute; inset: 0; pointer-events: none; opacity: 0.26; background-image: linear-gradient(rgba(255,255,255,0.026) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.026) 1px, transparent 1px); background-size: 70px 70px; mask-image: radial-gradient(circle at center, black, transparent 76%); }
+    .story-kicker { position: absolute; top: calc(var(--nav-height) + 2rem); left: var(--page-pad); z-index: 6; display: flex; align-items: center; gap: 0.75rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.62); pointer-events: none; }
+    .story-kicker::before { content: ""; width: 34px; height: 1px; background: rgba(255,255,255,0.4); flex: 0 0 auto; }
+    .story-copy { position: absolute; top: 50%; z-index: 8; width: min(450px, 34vw); min-height: 390px; transform: translateY(-50%); pointer-events: none; }
+    .story-copy-right { right: clamp(1.25rem, 7vw, 8rem); }
+    .story-copy-left { left: clamp(1.25rem, 7vw, 8rem); opacity: 0; visibility: hidden; }
+    .step-copy { position: absolute; inset: 0; opacity: 0; transform: translateY(28px); filter: blur(8px); transition: opacity 0.48s ease, transform 0.48s ease, filter 0.48s ease; }
+    .step-copy.active { opacity: 1; transform: translateY(0); filter: blur(0); }
+    .step-eyebrow, .final-eyebrow { display: inline-flex; align-items: center; gap: 0.55rem; margin-bottom: 1rem; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--cyan); }
+    .step-eyebrow::before, .final-eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: var(--cyan); box-shadow: 0 0 20px rgba(92, 225, 230, 0.8); flex: 0 0 auto; }
+    .step-copy h2, .story-copy-left h2 { font-size: clamp(2rem, 3.4vw, 4.3rem); line-height: 0.98; letter-spacing: -0.06em; font-weight: 900; margin-bottom: 1.1rem; text-wrap: balance; }
+    .step-copy p, .story-copy-left p { color: var(--white-soft); line-height: 1.75; font-size: clamp(0.98rem, 1.05vw, 1.12rem); margin-bottom: 1.4rem; }
+    .micro-list { display: grid; gap: 0.65rem; color: rgba(255,255,255,0.68); font-size: 0.94rem; list-style: none; }
+    .micro-list li { display: flex; gap: 0.65rem; align-items: flex-start; }
+    .micro-list li::before { content: ""; width: 5px; height: 5px; border-radius: 999px; background: var(--cyan); margin-top: 0.48rem; flex: 0 0 auto; }
+    .final-card-copy { padding: clamp(1.35rem, 2vw, 2rem); border: 1px solid rgba(255,255,255,0.14); background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035)); border-radius: 28px; box-shadow: 0 24px 80px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.08); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); overflow: hidden; pointer-events: auto; }
+    .final-cta { display: inline-flex; align-items: center; justify-content: center; margin-top: 0.5rem; padding: 0.98rem 1.45rem; border-radius: 6px; background: var(--cyan); color: #000; font-weight: 900; pointer-events: auto; text-align: center; }
+    .story-final-glow { position: absolute; top: 50%; left: 50%; z-index: 4; width: 48vw; aspect-ratio: 1 / 1; border-radius: 999px; background: radial-gradient(circle, rgba(92, 225, 230, 0.22), transparent 68%); transform: translate(-50%, -50%) scale(0.7); opacity: 0; pointer-events: none; filter: blur(10px); }
+    .story-progress { position: absolute; left: var(--page-pad); right: var(--page-pad); bottom: clamp(1.25rem, 3vh, 2rem); z-index: 10; height: 1px; background: rgba(255,255,255,0.12); overflow: hidden; }
+    .story-progress-fill { height: 100%; width: 100%; background: var(--cyan); transform: scaleX(0); transform-origin: left center; will-change: transform; }
 
-    .story-noise {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.26;
-      background-image: 
-        linear-gradient(rgba(255,255,255,0.026) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.026) 1px, transparent 1px);
-      background-size: 70px 70px;
-      mask-image: radial-gradient(circle at center, black, transparent 76%);
-    }
-
-    .story-kicker {
-      position: absolute;
-      top: calc(var(--nav-height) + 2rem);
-      left: 3rem;
-      z-index: 6;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: rgba(255,255,255,0.62);
-      pointer-events: none;
-    }
-
-    .story-kicker::before {
-      content: "";
-      width: 34px;
-      height: 1px;
-      background: rgba(255,255,255,0.4);
-      flex: 0 0 auto;
-    }
-
-    .story-copy {
-      position: absolute;
-      top: 50%;
-      z-index: 8;
-      width: min(450px, 34vw);
-      min-height: 390px;
-      transform: translateY(-50%);
-      pointer-events: none;
-    }
-
-    .story-copy-right {
-      right: clamp(1.25rem, 7vw, 8rem);
-    }
-
-    .story-copy-left {
-      left: clamp(1.25rem, 7vw, 8rem);
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .step-copy {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transform: translateY(28px);
-      filter: blur(8px);
-      transition: opacity 0.48s ease, transform 0.48s ease, filter 0.48s ease;
-    }
-
-    .step-copy.active {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
-
-    .step-eyebrow,
-    .final-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.55rem;
-      margin-bottom: 1rem;
-      font-size: 0.76rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: rgba(255,255,255,0.58);
-    }
-
-    .step-eyebrow::before,
-    .final-eyebrow::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: #fff;
-      box-shadow: 0 0 20px rgba(255,255,255,0.8);
-      flex: 0 0 auto;
-    }
-
-    .step-copy h2,
-    .story-copy-left h2 {
-      font-size: clamp(2rem, 3.4vw, 4.3rem);
-      line-height: 0.98;
-      letter-spacing: -0.06em;
-      font-weight: 900;
-      margin-bottom: 1.1rem;
-      text-wrap: balance;
-    }
-
-    .step-copy p,
-    .story-copy-left p {
-      color: var(--white-soft);
-      line-height: 1.75;
-      font-size: clamp(0.98rem, 1.05vw, 1.12rem);
-      margin-bottom: 1.4rem;
-    }
-
-    .micro-list {
-      display: grid;
-      gap: 0.65rem;
-      color: rgba(255,255,255,0.68);
-      font-size: 0.94rem;
-      list-style: none;
-    }
-
-    .micro-list li {
-      display: flex;
-      gap: 0.65rem;
-      align-items: flex-start;
-    }
-
-    .micro-list li::before {
-      content: "";
-      width: 5px;
-      height: 5px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.85);
-      margin-top: 0.48rem;
-      flex: 0 0 auto;
-    }
-
-    .final-card-copy {
-      padding: clamp(1.35rem, 2vw, 2rem);
-      border: 1px solid rgba(255,255,255,0.14);
-      background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035));
-      border-radius: 28px;
-      box-shadow: 
-        0 24px 80px rgba(0,0,0,0.34),
-        inset 0 1px 0 rgba(255,255,255,0.08);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-      overflow: hidden;
-      pointer-events: auto;
-    }
-
-    .final-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 0.5rem;
-      padding: 0.98rem 1.45rem;
-      border-radius: 999px;
-      background: #fff;
-      color: #000;
-      font-weight: 900;
-      pointer-events: auto;
-      box-shadow: 0 18px 42px rgba(255,255,255,0.12);
-      text-align: center;
-    }
-
-    .story-final-glow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      z-index: 4;
-      width: 48vw;
-      aspect-ratio: 1 / 1;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 68%);
-      transform: translate(-50%, -50%) scale(0.7);
-      opacity: 0;
-      pointer-events: none;
-      filter: blur(10px);
-    }
-
-    .story-progress {
-      position: absolute;
-      left: 3rem;
-      right: 3rem;
-      bottom: 2rem;
-      z-index: 10;
-      height: 1px;
-      background: rgba(255,255,255,0.12);
-      overflow: hidden;
-    }
-
-    .story-progress-fill {
-      height: 100%;
-      width: 100%;
-      background: #fff;
-      transform: scaleX(0);
-      transform-origin: left center;
-      will-change: transform;
-    }
-
-    /* === 3D KARTE (ORIGINAL) === */
-    .mpu-license-stage {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      z-index: 7;
-      width: clamp(470px, 39vw, 720px);
-      aspect-ratio: 1.585 / 1;
-      transform-style: preserve-3d;
-      -webkit-transform-style: preserve-3d;
-      will-change: transform;
-    }
-
-    .mpu-card-object {
-      position: absolute;
-      inset: 0;
-      border-radius: 28px;
-      transform-style: preserve-3d;
-      -webkit-transform-style: preserve-3d;
-      will-change: transform;
-      transform-origin: center center;
-    }
-
-    .mpu-card-face {
-      position: absolute;
-      inset: 0;
-      border-radius: 28px;
-      overflow: hidden;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      transform-style: preserve-3d;
-      -webkit-transform-style: preserve-3d;
-      contain: layout paint;
-      box-shadow: 
-        0 38px 90px rgba(0,0,0,0.52),
-        inset 0 0 0 1px rgba(255,255,255,0.62),
-        inset 0 -20px 60px rgba(0,0,0,0.06);
-    }
-
-    .mpu-card-front {
-      transform: rotateY(0deg) translateZ(1px);
-      -webkit-transform: rotateY(0deg) translateZ(1px);
-      background: 
-        radial-gradient(circle at 9% 12%, rgba(255,255,255,0.9), transparent 18%),
-        radial-gradient(circle at 90% 85%, rgba(175,205,245,0.55), transparent 30%),
-        linear-gradient(135deg, #f3d8e3 0%, #e8edf5 48%, #d5e2f4 100%);
-      color: rgba(16,18,24,0.82);
-    }
-
-    .mpu-card-back {
-      transform: rotateY(180deg) translateZ(1px);
-      -webkit-transform: rotateY(180deg) translateZ(1px);
-      background: 
-        radial-gradient(circle at 84% 10%, rgba(255,255,255,0.86), transparent 18%),
-        radial-gradient(circle at 12% 90%, rgba(192,214,250,0.48), transparent 30%),
-        linear-gradient(135deg, #e6dce7 0%, #f3dce8 52%, #dce8f8 100%);
-      color: rgba(16,18,24,0.84);
-    }
-
-    .mpu-card-pattern {
-      position: absolute;
-      inset: 0;
-      opacity: 0.16;
-      background: 
-        repeating-linear-gradient(45deg, rgba(255,255,255,0.5) 0 1px, transparent 1px 9px),
-        repeating-radial-gradient(circle at 28% 38%, rgba(30,40,70,0.1) 0 1px, transparent 1px 13px);
-      pointer-events: none;
-    }
-
-    .mpu-card-watermark {
-      position: absolute;
-      right: -2.5%;
-      bottom: -9%;
-      font-size: clamp(5rem, 8vw, 9rem);
-      line-height: 1;
-      font-weight: 900;
-      letter-spacing: -0.1em;
-      color: rgba(0,0,0,0.035);
-      pointer-events: none;
-      user-select: none;
-    }
-
-    .mpu-card-shine {
-      position: absolute;
-      inset: -70%;
-      background: linear-gradient(115deg, transparent 0%, transparent 39%, rgba(255,255,255,0.72) 48%, transparent 57%, transparent 100%);
-      opacity: 0.32;
-      mix-blend-mode: screen;
-      animation: mpuCardShine 7s linear infinite;
-      pointer-events: none;
-    }
-
-    @keyframes mpuCardShine {
-      0% { transform: translateX(-42%) rotate(10deg); }
-      100% { transform: translateX(42%) rotate(10deg); }
-    }
-
-    .mpu-card-safe {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      height: 100%;
-      padding: 5.25% 5.7% 5.25%;
-      display: grid;
-      grid-template-rows: auto minmax(0, 1fr) auto;
-      gap: clamp(0.48rem, 0.74vw, 0.8rem);
-      overflow: hidden;
-    }
-
-    .mpu-doc-head {
-      display: grid;
-      grid-template-columns: 62px minmax(0, 1fr) auto;
-      align-items: center;
-      gap: clamp(0.75rem, 1vw, 1.05rem);
-      min-height: 38px;
-    }
-
-    .mpu-doc-head > div:nth-child(2) {
-      min-width: 0;
-      overflow: hidden;
-    }
-
-    .mpu-eu {
-      width: 62px;
-      height: 34px;
-      border-radius: 9px;
-      background: 
-        radial-gradient(circle, #ffdc43 0 1px, transparent 2px),
-        #1042b9;
-      background-size: 8px 8px;
-      color: #ffdc43;
-      display: grid;
-      place-items: center;
-      font-size: 0.78rem;
-      font-weight: 900;
-      box-shadow: 
-        inset 0 0 0 1px rgba(255,255,255,0.22),
-        0 5px 12px rgba(16,66,185,0.18);
-    }
-
+    /* DEINE EXAKTE 3D KARTE */
+    .mpu-license-stage { position: absolute; top: 50%; left: 50%; z-index: 7; width: clamp(470px, 39vw, 720px); aspect-ratio: 1.585 / 1; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; }
+    .mpu-card-object { position: absolute; inset: 0; border-radius: 28px; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; transform-origin: center center; }
+    .mpu-card-face { position: absolute; inset: 0; border-radius: 28px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; contain: layout paint; box-shadow: 0 38px 90px rgba(0,0,0,0.52), inset 0 0 0 1px rgba(255,255,255,0.62), inset 0 -20px 60px rgba(0,0,0,0.06); }
+    .mpu-card-front { transform: rotateY(0deg) translateZ(1px); -webkit-transform: rotateY(0deg) translateZ(1px); background: radial-gradient(circle at 9% 12%, rgba(255,255,255,0.9), transparent 18%), radial-gradient(circle at 90% 85%, rgba(175,205,245,0.55), transparent 30%), linear-gradient(135deg, #f3d8e3 0%, #e8edf5 48%, #d5e2f4 100%); color: rgba(16,18,24,0.82); }
+    .mpu-card-back { transform: rotateY(180deg) translateZ(1px); -webkit-transform: rotateY(180deg) translateZ(1px); background: radial-gradient(circle at 84% 10%, rgba(255,255,255,0.86), transparent 18%), radial-gradient(circle at 12% 90%, rgba(192,214,250,0.48), transparent 30%), linear-gradient(135deg, #e6dce7 0%, #f3dce8 52%, #dce8f8 100%); color: rgba(16,18,24,0.84); }
+    .mpu-card-pattern { position: absolute; inset: 0; opacity: 0.16; background: repeating-linear-gradient(45deg, rgba(255,255,255,0.5) 0 1px, transparent 1px 9px), repeating-radial-gradient(circle at 28% 38%, rgba(30,40,70,0.1) 0 1px, transparent 1px 13px); pointer-events: none; }
+    .mpu-card-watermark { position: absolute; right: -2.5%; bottom: -9%; font-size: clamp(5rem, 8vw, 9rem); line-height: 1; font-weight: 900; letter-spacing: -0.1em; color: rgba(0,0,0,0.035); pointer-events: none; user-select: none; }
+    .mpu-card-shine { position: absolute; inset: -70%; background: linear-gradient(115deg, transparent 0%, transparent 39%, rgba(255,255,255,0.72) 48%, transparent 57%, transparent 100%); opacity: 0.32; mix-blend-mode: screen; animation: mpuCardShine 7s linear infinite; pointer-events: none; }
+    @keyframes mpuCardShine { 0% { transform: translateX(-42%) rotate(10deg); } 100% { transform: translateX(42%) rotate(10deg); } }
+    .mpu-card-safe { position: relative; z-index: 2; width: 100%; height: 100%; padding: 5.25% 5.7% 5.25%; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: clamp(0.48rem, 0.74vw, 0.8rem); overflow: hidden; }
+    .mpu-doc-head { display: grid; grid-template-columns: 62px minmax(0, 1fr) auto; align-items: center; gap: clamp(0.75rem, 1vw, 1.05rem); min-height: 38px; }
+    .mpu-doc-head > div:nth-child(2) { min-width: 0; overflow: hidden; }
+    .mpu-eu { width: 62px; height: 34px; border-radius: 9px; background: radial-gradient(circle, #ffdc43 0 1px, transparent 2px), #1042b9; background-size: 8px 8px; color: #ffdc43; display: grid; place-items: center; font-size: 0.78rem; font-weight: 900; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.22), 0 5px 12px rgba(16,66,185,0.18); }
     .mpu-doc-label { font-size: clamp(0.47rem, 0.54vw, 0.62rem); text-transform: uppercase; letter-spacing: 0.14em; color: rgba(0,0,0,0.36); font-weight: 900; margin-bottom: 0.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .mpu-doc-title { font-size: clamp(0.92rem, 1.1vw, 1.15rem); text-transform: uppercase; letter-spacing: -0.02em; font-weight: 900; color: rgba(0,0,0,0.75); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .mpu-doc-code { justify-self: end; text-align: right; font-size: clamp(0.58rem, 0.7vw, 0.82rem); line-height: 1.05; letter-spacing: 0.13em; font-weight: 900; color: rgba(0,0,0,0.42); text-transform: uppercase; white-space: nowrap; }
-
     .mpu-front-body { display: grid; grid-template-columns: minmax(112px, 27.5%) minmax(0, 1fr); gap: clamp(0.85rem, 1.25vw, 1.25rem); min-height: 0; align-items: stretch; overflow: hidden; }
     .mpu-photo-panel { display: grid; grid-template-rows: minmax(0, 1fr) 0.9rem 0.78rem; gap: 0.18rem; min-height: 0; overflow: hidden; }
-    
-    .mpu-photo-box {
-      position: relative; min-height: 0; height: 100%; border-radius: 17px;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.09), rgba(0,0,0,0.04)), rgba(255,255,255,0.38);
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08), inset 0 18px 40px rgba(255,255,255,0.17); overflow: hidden;
-    }
+    .mpu-photo-box { position: relative; min-height: 0; height: 100%; border-radius: 17px; background: linear-gradient(to bottom, rgba(0,0,0,0.09), rgba(0,0,0,0.04)), rgba(255,255,255,0.38); box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08), inset 0 18px 40px rgba(255,255,255,0.17); overflow: hidden; }
     .mpu-photo-box::before { content: ""; position: absolute; inset: 0; opacity: 0.25; background: linear-gradient(135deg, transparent 0 47%, rgba(255,255,255,0.5) 48%, transparent 58%); }
-    .mpu-photo-head { position: absolute; top: 22%; left: 50%; width: 27%; aspect-ratio: 1; border-radius: 999px; background: rgba(0,0,0,0.166); transform: translateX(-50%); }
+    .mpu-photo-head { position: absolute; top: 22%; left: 50%; width: 27%; aspect-ratio: 1; border-radius: 999px; background: rgba(0,0,0,0.16); transform: translateX(-50%); }
     .mpu-photo-body { position: absolute; bottom: 9%; left: 50%; width: 41%; height: 52%; border-radius: 999px 999px 18px 18px; background: rgba(0,0,0,0.145); transform: translateX(-50%); }
-
     .mpu-signature-line { height: 0.9rem; background: transparent; position: relative; margin: 0 0.15rem; overflow: visible; }
     .mpu-signature-line::before { content: ""; position: absolute; top: 0.08rem; left: 0; right: 0; height: 1px; background: rgba(0,0,0,0.16); }
     .mpu-signature-line::after { content: "Signatur"; position: absolute; top: 0.3rem; left: 0; font-size: clamp(0.34rem, 0.43vw, 0.48rem); line-height: 1; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(0,0,0,0.33); white-space: nowrap; }
     .mpu-id-line { font-size: clamp(0.45rem, 0.56vw, 0.66rem); line-height: 1; font-weight: 900; letter-spacing: 0.11em; color: rgba(0,0,0,0.43); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase; align-self: end; }
-
     .mpu-step-panel { min-width: 0; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 0.45rem; overflow: hidden; }
     .mpu-panel-meta { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; padding-bottom: 0.34rem; border-bottom: 1px solid rgba(0,0,0,0.08); min-height: 24px; overflow: hidden; }
     .mpu-panel-meta span { font-size: clamp(0.54rem, 0.66vw, 0.76rem); text-transform: uppercase; letter-spacing: 0.14em; font-weight: 900; color: rgba(0,0,0,0.42); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .mpu-panel-meta b { font-size: clamp(0.56rem, 0.7vw, 0.8rem); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 900; color: rgba(0,0,0,0.64); white-space: nowrap; flex: 0 0 auto; }
-    
     .mpu-step-list { display: grid; grid-template-rows: repeat(4, minmax(0, 1fr)); gap: clamp(0.32rem, 0.48vw, 0.52rem); min-height: 0; overflow: hidden; }
     .mpu-step-row { --step-dot-size: clamp(1.4rem, 2vw, 1.85rem); --step-dot-font: clamp(0.58rem, 0.66vw, 0.74rem); min-height: 0; display: flex; align-items: center; gap: 0.66rem; padding: clamp(0.2rem, 0.4vw, 0.4rem) clamp(0.58rem, 0.78vw, 0.82rem); border-radius: 15px; background: rgba(255,255,255,0.34); box-shadow: inset 0 0 0 1px rgba(0,0,0,0.055); opacity: 0.54; overflow: hidden; transition: opacity 0.35s ease, background 0.35s ease, box-shadow 0.35s ease; }
     .mpu-step-row.is-active { opacity: 1; transform: none; background: rgba(255,255,255,0.78); box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08), 0 10px 24px rgba(255,255,255,0.22); }
-    
     .mpu-step-index { width: var(--step-dot-size); height: var(--step-dot-size); border-radius: 50%; background: rgba(0,0,0,0.72); color: #fff; display: flex; align-items: center; justify-content: center; flex: 0 0 var(--step-dot-size); overflow: hidden; }
     .mpu-step-index span { font-size: var(--step-dot-font); line-height: 1; font-weight: 900; letter-spacing: 0; font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; transform: translateY(-1.5px); }
     .mpu-step-text { min-width: 0; display: flex; flex-direction: column; justify-content: center; flex: 1 1 0; gap: 0.1rem; overflow: hidden; }
     .mpu-step-text strong { display: block; font-size: clamp(0.72rem, 0.84vw, 0.98rem); line-height: 1.02; letter-spacing: -0.035em; color: rgba(0,0,0,0.8); font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .mpu-step-text small { display: block; font-size: clamp(0.5rem, 0.58vw, 0.68rem); line-height: 1.05; color: rgba(0,0,0,0.46); font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    
     .mpu-front-footer { display: flex; justify-content: space-between; align-items: center; gap: 0.8rem; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 0.44rem; min-height: 18px; overflow: hidden; }
     .mpu-front-footer span { min-width: 0; font-size: clamp(0.46rem, 0.58vw, 0.7rem); line-height: 1; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.42); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .mpu-front-footer span:last-child { text-align: right; flex: 0 1 auto; }
-
-    /* RÜCKSEITE 3D KARTE */
     .mpu-back-safe { grid-template-rows: auto minmax(0, 1fr) auto; gap: clamp(0.55rem, 0.82vw, 0.9rem); }
     .mpu-back-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; min-height: 64px; overflow: hidden; }
     .mpu-back-head h3 { font-size: clamp(1.6rem, 2.35vw, 2.8rem); line-height: 0.9; letter-spacing: -0.075em; font-weight: 900; color: rgba(0,0,0,0.78); min-width: 0; }
@@ -744,59 +238,113 @@
     .mpu-barcode { width: 100%; height: 24px; border-radius: 7px; opacity: 0.38; background: repeating-linear-gradient(90deg, rgba(0,0,0,0.58) 0 2px, transparent 2px 6px, rgba(0,0,0,0.42) 6px 8px, transparent 8px 11px, rgba(0,0,0,0.5) 11px 12px, transparent 12px 17px); }
     .mpu-machine-code { font-size: clamp(0.46rem, 0.58vw, 0.7rem); line-height: 1.15; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.42); white-space: nowrap; text-align: right; }
 
-    /* KONTAKT SECTION (DEIN ORIGINAL) */
-    .after-story { position: relative; z-index: 4; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--nav-height) + 4rem) var(--page-pad) 5rem; background: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.02), transparent 34%), linear-gradient(to bottom, transparent, #000 75%); }
+    /* KONTAKT SECTION */
+    .after-story { position: relative; z-index: 4; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--nav-height) + 4rem) var(--page-pad) 5rem; background: var(--bg-outer); }
     .after-inner { width: min(860px, 100%); text-align: center; }
     .after-inner h2 { font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.98; letter-spacing: -0.07em; font-weight: 900; margin-bottom: 1.2rem; text-wrap: balance; }
     .after-inner p { width: min(620px, 100%); margin: 0 auto 2.2rem; color: rgba(255,255,255,0.7); line-height: 1.7; font-size: clamp(1rem, 1.25vw, 1.18rem); }
-    .btn-bottom-primary { display: inline-flex; align-items: center; justify-content: center; padding: 1.18rem 3.4rem; background: #fff; color: #000; font-weight: 800; border-radius: 10px; font-size: 1rem; box-shadow: 0 22px 60px rgba(255,255,255,0.13); transition: background 0.3s ease, transform 0.3s ease; }
-    .btn-bottom-primary:hover { background: #e8e8e8; transform: translateY(-3px); }
+    .btn-bottom-primary { display: inline-flex; align-items: center; justify-content: center; padding: 1.18rem 3.4rem; background: var(--cyan); color: #000; font-weight: 800; border-radius: 6px; font-size: 1rem; text-transform: uppercase; transition: transform 0.3s ease; }
+    .btn-bottom-primary:hover { transform: translateY(-3px); }
 
     /* RESPONSIVE */
     @media (max-width: 1024px) {
-        .hero-bg-image { width: 100%; -webkit-mask-image: linear-gradient(to top, transparent 0%, rgba(0,0,0,1) 50%); mask-image: linear-gradient(to top, transparent 0%, rgba(0,0,0,1) 50%); }
-        .hero-content { margin-top: 2rem; max-width: 100%; }
-        .hero-bottom { padding-top: 2rem; flex-direction: column; align-items: flex-start; gap: 2rem; }
-        .trust-items { flex-wrap: wrap; gap: 1.5rem; }
-        .quote-card { max-width: 100%; }
+        .hero-bg-image { width: 100%; }
+        .hero-bg-fade { background: linear-gradient(to top, var(--bg-app) 0%, transparent 60%); }
+        .nav-links { display: none; }
+        .hero-actions { flex-direction: column; align-items: flex-start; }
     }
 
     @media (max-width: 768px) {
       body { padding: 0; } 
       .app-frame { border-radius: 0; border: none; }
-      
       .navbar { padding: 0 1.5rem; height: 70px; }
-      .nav-links, .nav-cta { display: none; }
-      .mobile-menu-btn { display: block; }
-      
+      .nav-cta { display: none; }
       .hero { padding: 2rem 1.5rem; }
-      .headline { font-size: 2.8rem; }
+      .headline { font-size: 2.5rem; }
       .hero-actions { flex-direction: column; align-items: stretch; gap: 1rem; }
       .btn-play { justify-content: center; }
 
       .license-story { height: 520vh; }
-      .story-kicker { left: 1.5rem; }
-      .story-copy { left: 1.5rem; right: 1.5rem; bottom: 2.5rem; top: auto; width: auto; min-height: 300px; transform: none; }
+      .story-kicker { left: 1.5rem; top: calc(var(--nav-height) + 0.95rem); font-size: 0.64rem; gap: 0.68rem; letter-spacing: 0.13em; white-space: nowrap; overflow: hidden; }
+      .story-kicker::before { width: 36px; }
+      .story-copy { left: 1.5rem; right: 1.5rem; bottom: 2.5rem; top: auto; width: auto; min-height: 328px; transform: none; }
       .story-copy-right, .story-copy-left { left: 1.5rem; right: 1.5rem; }
-      .story-progress { left: 1.5rem; right: 1.5rem; }
-      .mpu-license-stage { width: min(90vw, 400px); top: 35%; }
+      .story-copy-left { bottom: 2.55rem; min-height: 328px; z-index: 11; }
+      .step-copy h2 { font-size: clamp(2rem, 10vw, 3.15rem); }
+      .story-copy-left h2 { font-size: clamp(2.12rem, 9.8vw, 2.95rem); line-height: 0.95; margin-bottom: 0.85rem; }
+      .final-card-copy { border-radius: 22px; padding: 1.05rem; }
+      .final-cta { width: 100%; padding: 1rem 1.05rem; font-size: 0.92rem; line-height: 1.15; }
+      .story-progress { left: 1.5rem; right: 1.5rem; bottom: 1.85rem; }
+      .mpu-license-stage { width: min(94vw, 470px); top: 31%; }
+      .mpu-card-object, .mpu-card-face { border-radius: 22px; }
+      .mpu-card-safe { padding: 5.1% 5.3%; gap: 0.34rem; }
+      .mpu-doc-head { grid-template-columns: 45px minmax(0, 1fr) auto; gap: 0.5rem; min-height: 28px; }
+      .mpu-eu { width: 45px; height: 26px; border-radius: 7px; font-size: 0.58rem; background-size: 7px 7px; }
+      .mpu-doc-label { display: none; }
+      .mpu-doc-title { font-size: clamp(0.62rem, 2.25vw, 0.69rem); }
+      .mpu-doc-code { font-size: clamp(0.44rem, 1.75vw, 0.5rem); letter-spacing: 0.12em; }
+      .mpu-front-body { grid-template-columns: 72px minmax(0, 1fr); gap: 0.5rem; }
+      .mpu-photo-panel { grid-template-rows: minmax(0, 1fr) auto; gap: 0.22rem; }
+      .mpu-photo-box { min-height: 0; height: 100%; border-radius: 12px; }
+      .mpu-signature-line { display: none; }
+      .mpu-id-line { font-size: 0.39rem; }
+      .mpu-panel-meta { display: none; }
+      .mpu-step-panel { grid-template-rows: minmax(0, 1fr); }
+      .mpu-step-list { gap: 0.24rem; }
+      .mpu-step-row { --step-dot-size: 1.32rem; --step-dot-font: 0.47rem; gap: 0.36rem; padding: 0.29rem 0.4rem; border-radius: 10px; }
+      .mpu-step-row.is-active { transform: none; }
+      .mpu-step-index span { transform: none; }
+      .mpu-step-text { gap: 0.06rem; }
+      .mpu-step-text strong { font-size: clamp(0.5rem, 2.1vw, 0.56rem); line-height: 1; }
+      .mpu-step-text small { font-size: clamp(0.39rem, 1.72vw, 0.43rem); line-height: 1.03; }
+      .mpu-front-footer { padding-top: 0.28rem; min-height: 12px; }
+      .mpu-front-footer span { font-size: 0.38rem; }
+      .mpu-front-footer span:last-child { display: none; }
+      .mpu-back-safe { gap: 0.34rem; }
+      .mpu-back-head { min-height: 40px; gap: 0.5rem; }
+      .mpu-back-head h3 { font-size: clamp(1.08rem, 5.05vw, 1.28rem); line-height: 0.92; letter-spacing: -0.068em; }
+      .mpu-back-head span { font-size: 0.44rem; letter-spacing: 0.14em; }
+      .mpu-result-list { gap: 0.24rem; }
+      .mpu-result-row { padding: 0.3rem 0.46rem; border-radius: 10px; gap: 0.45rem; }
+      .mpu-result-copy { display: block; line-height: 1.03; }
+      .mpu-result-copy strong { display: block; font-size: clamp(0.5rem, 2.15vw, 0.56rem); line-height: 1.02; }
+      .mpu-result-copy small { display: block; font-size: clamp(0.38rem, 1.72vw, 0.43rem); line-height: 1.05; }
+      .mpu-result-ok { font-size: 0.44rem; }
+      .mpu-back-footer { grid-template-columns: 1fr; gap: 0.2rem; min-height: 18px; padding-top: 0.28rem; }
+      .mpu-barcode { height: 16px; border-radius: 6px; }
+      .mpu-machine-code { display: none; }
     }
   </style>
 </head>
 <body class="intro-lock">
   
-  <div class="app-frame">
+  <div id="intro-container">
+    <div class="intro-license-card" id="intro-license">
+      <div class="intro-license-eu">D</div>
+      <div class="intro-license-photo"></div>
+      <div class="intro-license-lines">
+        <div class="intro-l-line" style="width:100%"></div>
+        <div class="intro-l-line" style="width:80%"></div>
+        <div class="intro-l-line" style="width:60%"></div>
+        <div class="intro-l-line" style="width:90%"></div>
+        <div class="intro-l-line" style="width:40%; margin-top:20px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-frame" id="page-content">
+    
     <nav class="navbar">
       <div class="nav-logo">
         <div class="nav-logo-top">MPU</div>
-        <div class="nav-logo-bottom">EXPERTEN</div>
+        <div class="nav-logo-bottom">AKADEMIE</div>
       </div>
 
       <ul class="nav-links">
-        <li><a href="#">MPU VORBEREITUNG</a></li>
-        <li><a href="#">ABLAUF <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></a></li>
-        <li><a href="#">UNSERE METHODEN</a></li>
-        <li><a href="#">ÜBER UNS</a></li>
+        <li><a href="#">MPU Vorbereitung</a></li>
+        <li><a href="#">Ablauf <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></a></li>
+        <li><a href="#">Unsere Methoden</a></li>
+        <li><a href="#">Über uns</a></li>
         <li><a href="#">FAQ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></a></li>
       </ul>
 
@@ -804,298 +352,292 @@
         Kostenloses Erstgespräch
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
       </a>
-
-      <button class="mobile-menu-btn">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-      </button>
     </nav>
 
-    <section class="hero">
-      
-      <div class="hero-bg-image"></div>
-
-      <div class="hero-content hero-reveal">
-        <div class="kicker">DEIN NEUSTART. DEINE ZUKUNFT.</div>
+    <main>
+      <section class="hero">
         
-        <h1 class="headline">
-          WIR BRINGEN DICH<br>
-          ZURÜCK AUF DIE<br>
-          <span class="highlight">ÜBERHOLSPUR.</span>
-        </h1>
+        <div class="hero-bg-image"></div>
+        <div class="hero-bg-fade"></div>
         
-        <p class="subtext">
-          Professionelle MPU Vorbereitung, die dich wirklich weiterbringt.<br>
-          Individuell. Ehrlich. Erfolgreich.
-        </p>
+        <div class="hero-content">
+          <div class="kicker hero-reveal">Dein Neustart. Deine Zukunft.</div>
+          <h1 class="headline hero-reveal">
+            Wir bringen dich<br>zurück auf die<br><span class="highlight">Überholspur.</span>
+          </h1>
+          <p class="subtext hero-reveal">
+            Professionelle MPU Vorbereitung, die dich wirklich weiterbringt. Individuell. Ehrlich. Erfolgreich.
+          </p>
 
-        <div class="hero-actions">
-          <a href="#kontakt" class="btn-primary">
-            Kostenloses Erstgespräch
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
-          
-          <div class="btn-play">
-            <div class="play-circle">
-              <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            </div>
-            Mehr Erfahren
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-bottom hero-reveal">
-        
-        <div class="trust-items">
-          <div class="trust-item">
-            <div class="trust-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-            </div>
-            <div class="trust-text">
-              <h4>100% Individuell</h4>
-              <p>Maßgeschneiderte<br>Vorbereitung</p>
-            </div>
-          </div>
-          
-          <div class="trust-item">
-            <div class="trust-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </div>
-            <div class="trust-text">
-              <h4>Erfahrene Experten</h4>
-              <p>Psychologen &<br>MPU-Berater</p>
-            </div>
-          </div>
-
-          <div class="trust-item">
-            <div class="trust-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-            </div>
-            <div class="trust-text">
-              <h4>Hohe Erfolgsquote</h4>
-              <p>Durch bewährte<br>Methoden</p>
+          <div class="hero-actions hero-reveal">
+            <a href="#kontakt" class="btn-main">
+              Kostenloses Erstgespräch
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:14px; height:14px;"><path d="m9 18 6-6-6-6"/></svg>
+            </a>
+            
+            <div class="btn-play">
+              <div class="play-circle">
+                <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+              Mehr Erfahren
             </div>
           </div>
         </div>
 
-        <div class="quote-card">
-          <div class="quote-icon">
-            <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Zm15 0c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Z"/></svg>
-          </div>
-          <p>"Der schwierigste Teil ist der erste Schritt.<br>Den Rest gehen wir <span>gemeinsam.</span>"</p>
-        </div>
-
-      </div>
-
-    </section>
-
-    <section id="license-story" class="license-story">
-      <div class="story-sticky">
-        <div class="story-noise"></div>
-        <div class="story-final-glow"></div>
-        
-        <div class="story-kicker">Der Führerschein-Fahrplan</div>
-
-        <div class="story-copy story-copy-right">
-          <article class="step-copy active">
-            <div class="step-eyebrow">01 / Analyse</div>
-            <h2>Erst verstehen, dann vorbereiten.</h2>
-            <p>Wir starten nicht mit Standard-Antworten, sondern mit Ihrer echten Ausgangslage. Warum kam es zur MPU? Was erwartet die Begutachtung? Was muss sauber vorbereitet werden?</p>
-            <ul class="micro-list">
-              <li>Alkohol, Punkte, Drogen oder andere Gründe sauber einordnen</li>
-              <li>Risiken erkennen, bevor sie im Gespräch problematisch werden</li>
-            </ul>
-          </article>
-
-          <article class="step-copy">
-            <div class="step-eyebrow">02 / Nachweise</div>
-            <h2>Fristen, Unterlagen und Nachweise im Blick.</h2>
-            <p>Viele scheitern nicht am Willen, sondern an fehlender Struktur. Wir prüfen, welche Unterlagen, Abstinenznachweise und zeitlichen Schritte für Ihre Situation relevant sind.</p>
-            <ul class="micro-list">
-              <li>Was muss vorliegen?</li>
-              <li>Was sollte frühzeitig geplant werden?</li>
-            </ul>
-          </article>
-
-          <article class="step-copy">
-            <div class="step-eyebrow">03 / Verhalten</div>
-            <h2>Keine auswendig gelernten Antworten.</h2>
-            <p>Die MPU erkennt oberflächliche Erklärungen. Deshalb geht es um echtes Verständnis: Was hat sich verändert? Warum ist es glaubwürdig? Wie erklären Sie es klar und ruhig?</p>
-            <ul class="micro-list">
-              <li>Reflexion statt Floskeln</li>
-              <li>Klare Sprache statt Panik im Gespräch</li>
-            </ul>
-          </article>
-
-          <article class="step-copy">
-            <div class="step-eyebrow">04 / Simulation</div>
-            <h2>Sicher ins Prüfungsgespräch gehen.</h2>
-            <p>Zum Schluss wird aus Vorbereitung Sicherheit. Wir trainieren typische Gesprächssituationen, geben ehrliches Feedback und bringen Struktur in Ihre Antworten.</p>
-            <ul class="micro-list">
-              <li>Realistische Gesprächssimulation</li>
-              <li>Feedback, Korrektur und finaler Fahrplan</li>
-            </ul>
-          </article>
-        </div>
-
-        <div class="story-copy story-copy-left">
-          <div class="final-card-copy">
-            <div class="final-eyebrow">Rückseite / Ergebnis</div>
-            <h2>Wir drehen die MPU für Sie um.</h2>
-            <p>Aus Unsicherheit wird ein klarer Plan. Aus Druck wird Vorbereitung. Aus einem unübersichtlichen Prozess wird ein strukturierter Weg zurück zur Mobilität.</p>
-            <a href="#kontakt" class="final-cta">Kostenloses Erstgespräch anfragen</a>
-          </div>
-        </div>
-
-        <div class="mpu-license-stage">
-          <div class="mpu-card-object">
-            <div class="mpu-card-face mpu-card-front">
-              <div class="mpu-card-pattern"></div>
-              <div class="mpu-card-watermark">MPU</div>
-              <div class="mpu-card-shine"></div>
-
-              <div class="mpu-card-safe">
-                <div class="mpu-doc-head">
-                  <div class="mpu-eu">D</div>
-                  <div>
-                    <p class="mpu-doc-label">Bundesrepublik Deutschland</p>
-                    <div class="mpu-doc-title">Führerschein</div>
-                  </div>
-                  <div class="mpu-doc-code">MPU<br />Plan</div>
-                </div>
-
-                <div class="mpu-front-body">
-                  <div class="mpu-photo-panel">
-                    <div class="mpu-photo-box">
-                      <div class="mpu-photo-head"></div>
-                      <div class="mpu-photo-body"></div>
-                    </div>
-                    <div class="mpu-signature-line"></div>
-                    <div class="mpu-id-line">MPU-2026</div>
-                  </div>
-
-                  <div class="mpu-step-panel">
-                    <div class="mpu-panel-meta">
-                      <span>Fahrplan</span>
-                      <b>4 Schritte</b>
-                    </div>
-
-                    <div class="mpu-step-list">
-                      <div class="mpu-step-row is-active">
-                        <div class="mpu-step-index"><span>01</span></div>
-                        <div class="mpu-step-text">
-                          <strong>Analyse</strong>
-                          <small>Ausgangslage klären</small>
-                        </div>
-                      </div>
-
-                      <div class="mpu-step-row">
-                        <div class="mpu-step-index"><span>02</span></div>
-                        <div class="mpu-step-text">
-                          <strong>Nachweise</strong>
-                          <small>Fristen &amp; Unterlagen prüfen</small>
-                        </div>
-                      </div>
-
-                      <div class="mpu-step-row">
-                        <div class="mpu-step-index"><span>03</span></div>
-                        <div class="mpu-step-text">
-                          <strong>Verhalten</strong>
-                          <small>Veränderung glaubwürdig machen</small>
-                        </div>
-                      </div>
-
-                      <div class="mpu-step-row">
-                        <div class="mpu-step-index"><span>04</span></div>
-                        <div class="mpu-step-text">
-                          <strong>Simulation</strong>
-                          <small>Gespräch sicher trainieren</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="mpu-front-footer">
-                  <span>Struktur statt Panik</span>
-                  <span>Diskret begleitet</span>
-                </div>
+        <div class="hero-bottom hero-reveal">
+          <div class="trust-items">
+            <div class="t-item">
+              <div class="t-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              </div>
+              <div>
+                <h4>100% Individuell</h4>
+                <p>Maßgeschneiderte<br>Vorbereitung</p>
+              </div>
+            </div>
+            
+            <div class="t-item">
+              <div class="t-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div>
+                <h4>Erfahrene Experten</h4>
+                <p>Psychologen &<br>MPU-Berater</p>
               </div>
             </div>
 
-            <div class="mpu-card-face mpu-card-back">
-              <div class="mpu-card-pattern"></div>
-              <div class="mpu-card-watermark">OK</div>
-              <div class="mpu-card-shine"></div>
+            <div class="t-item">
+              <div class="t-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              </div>
+              <div>
+                <h4>Hohe Erfolgsquote</h4>
+                <p>Durch bewährte<br>Methoden</p>
+              </div>
+            </div>
+          </div>
 
-              <div class="mpu-card-safe mpu-back-safe">
-                <div class="mpu-back-head">
-                  <h3>Ihr klarer<br />MPU-Plan</h3>
-                  <span>Rückseite</span>
+          <div class="quote-card">
+            <div class="quote-icon">
+              <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Zm15 0c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Z"/></svg>
+            </div>
+            <p>"Der schwierigste Teil ist der erste Schritt. Den Rest gehen wir <span>gemeinsam.</span>"</p>
+          </div>
+        </div>
+
+      </section>
+
+      <section id="license-story" class="license-story">
+        <div class="story-sticky">
+          <div class="story-noise"></div>
+          <div class="story-final-glow"></div>
+
+          <div class="story-kicker">Der Führerschein-Fahrplan</div>
+
+          <div class="story-copy story-copy-right">
+            <article class="step-copy active">
+              <div class="step-eyebrow">01 / Analyse</div>
+              <h2>Erst verstehen, dann vorbereiten.</h2>
+              <p>Wir starten nicht mit Standard-Antworten, sondern mit Ihrer echten Ausgangslage. Warum kam es zur MPU? Was erwartet die Begutachtung? Was muss sauber vorbereitet werden?</p>
+              <ul class="micro-list">
+                <li>Alkohol, Punkte, Drogen oder andere Gründe sauber einordnen</li>
+                <li>Risiken erkennen, bevor sie im Gespräch problematisch werden</li>
+              </ul>
+            </article>
+
+            <article class="step-copy">
+              <div class="step-eyebrow">02 / Nachweise</div>
+              <h2>Fristen, Unterlagen und Nachweise im Blick.</h2>
+              <p>Viele scheitern nicht am Willen, sondern an fehlender Struktur. Wir prüfen, welche Unterlagen, Abstinenznachweise und zeitlichen Schritte für Ihre Situation relevant sind.</p>
+              <ul class="micro-list">
+                <li>Was muss vorliegen?</li>
+                <li>Was sollte frühzeitig geplant werden?</li>
+              </ul>
+            </article>
+
+            <article class="step-copy">
+              <div class="step-eyebrow">03 / Verhalten</div>
+              <h2>Keine auswendig gelernten Antworten.</h2>
+              <p>Die MPU erkennt oberflächliche Erklärungen. Deshalb geht es um echtes Verständnis: Was hat sich verändert? Warum ist es glaubwürdig? Wie erklären Sie es klar und ruhig?</p>
+              <ul class="micro-list">
+                <li>Reflexion statt Floskeln</li>
+                <li>Klare Sprache statt Panik im Gespräch</li>
+              </ul>
+            </article>
+
+            <article class="step-copy">
+              <div class="step-eyebrow">04 / Simulation</div>
+              <h2>Sicher ins Prüfungsgespräch gehen.</h2>
+              <p>Zum Schluss wird aus Vorbereitung Sicherheit. Wir trainieren typische Gesprächssituationen, geben ehrliches Feedback und bringen Struktur in Ihre Antworten.</p>
+              <ul class="micro-list">
+                <li>Realistische Gesprächssimulation</li>
+                <li>Feedback, Korrektur und finaler Fahrplan</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="story-copy story-copy-left">
+            <div class="final-card-copy">
+              <div class="final-eyebrow">Rückseite / Ergebnis</div>
+              <h2>Wir drehen die MPU für Sie um.</h2>
+              <p>Aus Unsicherheit wird ein klarer Plan. Aus Druck wird Vorbereitung. Aus einem unübersichtlichen Prozess wird ein strukturierter Weg zurück zur Mobilität.</p>
+              <a href="#kontakt" class="final-cta">Kostenloses Erstgespräch anfragen</a>
+            </div>
+          </div>
+
+          <div class="mpu-license-stage">
+            <div class="mpu-card-object">
+              <div class="mpu-card-face mpu-card-front">
+                <div class="mpu-card-pattern"></div>
+                <div class="mpu-card-watermark">MPU</div>
+                <div class="mpu-card-shine"></div>
+
+                <div class="mpu-card-safe">
+                  <div class="mpu-doc-head">
+                    <div class="mpu-eu">D</div>
+                    <div>
+                      <p class="mpu-doc-label">Bundesrepublik Deutschland</p>
+                      <div class="mpu-doc-title">Führerschein</div>
+                    </div>
+                    <div class="mpu-doc-code">MPU<br />Plan</div>
+                  </div>
+
+                  <div class="mpu-front-body">
+                    <div class="mpu-photo-panel">
+                      <div class="mpu-photo-box">
+                        <div class="mpu-photo-head"></div>
+                        <div class="mpu-photo-body"></div>
+                      </div>
+                      <div class="mpu-signature-line"></div>
+                      <div class="mpu-id-line">MPU-2026</div>
+                    </div>
+
+                    <div class="mpu-step-panel">
+                      <div class="mpu-panel-meta">
+                        <span>Fahrplan</span>
+                        <b>4 Schritte</b>
+                      </div>
+
+                      <div class="mpu-step-list">
+                        <div class="mpu-step-row is-active">
+                          <div class="mpu-step-index"><span>01</span></div>
+                          <div class="mpu-step-text">
+                            <strong>Analyse</strong>
+                            <small>Ausgangslage klären</small>
+                          </div>
+                        </div>
+
+                        <div class="mpu-step-row">
+                          <div class="mpu-step-index"><span>02</span></div>
+                          <div class="mpu-step-text">
+                            <strong>Nachweise</strong>
+                            <small>Fristen &amp; Unterlagen prüfen</small>
+                          </div>
+                        </div>
+
+                        <div class="mpu-step-row">
+                          <div class="mpu-step-index"><span>03</span></div>
+                          <div class="mpu-step-text">
+                            <strong>Verhalten</strong>
+                            <small>Veränderung glaubwürdig machen</small>
+                          </div>
+                        </div>
+
+                        <div class="mpu-step-row">
+                          <div class="mpu-step-index"><span>04</span></div>
+                          <div class="mpu-step-text">
+                            <strong>Simulation</strong>
+                            <small>Gespräch sicher trainieren</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mpu-front-footer">
+                    <span>Struktur statt Panik</span>
+                    <span>Diskret begleitet</span>
+                  </div>
                 </div>
+              </div>
 
-                <div class="mpu-result-list">
-                  <div class="mpu-result-row">
-                    <div class="mpu-result-copy">
-                      <strong>Klarheit</strong>
-                      <small>statt Unsicherheit</small>
-                    </div>
-                    <div class="mpu-result-ok">OK</div>
+              <div class="mpu-card-face mpu-card-back">
+                <div class="mpu-card-pattern"></div>
+                <div class="mpu-card-watermark">OK</div>
+                <div class="mpu-card-shine"></div>
+
+                <div class="mpu-card-safe mpu-back-safe">
+                  <div class="mpu-back-head">
+                    <h3>Ihr klarer<br />MPU-Plan</h3>
+                    <span>Rückseite</span>
                   </div>
 
-                  <div class="mpu-result-row">
-                    <div class="mpu-result-copy">
-                      <strong>Vorbereitung</strong>
-                      <small>statt Panik</small>
+                  <div class="mpu-result-list">
+                    <div class="mpu-result-row">
+                      <div class="mpu-result-copy">
+                        <strong>Klarheit</strong>
+                        <small>statt Unsicherheit</small>
+                      </div>
+                      <div class="mpu-result-ok">OK</div>
                     </div>
-                    <div class="mpu-result-ok">OK</div>
+
+                    <div class="mpu-result-row">
+                      <div class="mpu-result-copy">
+                        <strong>Vorbereitung</strong>
+                        <small>statt Panik</small>
+                      </div>
+                      <div class="mpu-result-ok">OK</div>
+                    </div>
+
+                    <div class="mpu-result-row">
+                      <div class="mpu-result-copy">
+                        <strong>Struktur</strong>
+                        <small>statt Versprechen</small>
+                      </div>
+                      <div class="mpu-result-ok">OK</div>
+                    </div>
+
+                    <div class="mpu-result-row">
+                      <div class="mpu-result-copy">
+                        <strong>Begleitung</strong>
+                        <small>statt Alleingang</small>
+                      </div>
+                      <div class="mpu-result-ok">OK</div>
+                    </div>
                   </div>
 
-                  <div class="mpu-result-row">
-                    <div class="mpu-result-copy">
-                      <strong>Struktur</strong>
-                      <small>statt Versprechen</small>
-                    </div>
-                    <div class="mpu-result-ok">OK</div>
+                  <div class="mpu-back-footer">
+                    <div class="mpu-barcode"></div>
+                    <div class="mpu-machine-code">DE-MPU<br />READY</div>
                   </div>
-
-                  <div class="mpu-result-row">
-                    <div class="mpu-result-copy">
-                      <strong>Begleitung</strong>
-                      <small>statt Alleingang</small>
-                    </div>
-                    <div class="mpu-result-ok">OK</div>
-                  </div>
-                </div>
-
-                <div class="mpu-back-footer">
-                  <div class="mpu-barcode"></div>
-                  <div class="mpu-machine-code">DE-MPU<br />READY</div>
                 </div>
               </div>
             </div>
           </div>
+
+          <div class="story-progress">
+            <div class="story-progress-fill"></div>
+          </div>
         </div>
+      </section>
 
-        <div class="story-progress">
-          <div class="story-progress-fill"></div>
+      <section id="kontakt" class="after-story" style="position: relative; z-index: 4; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--nav-height) + 4rem) var(--page-pad) 5rem; background: var(--bg-outer);">
+        <div class="after-inner" style="width: min(860px, 100%); text-align: center;">
+          <h2 style="font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.98; letter-spacing: -0.07em; font-weight: 900; margin-bottom: 1.2rem; text-wrap: balance;">Bereit für den nächsten klaren Schritt?</h2>
+          <p style="width: min(620px, 100%); margin: 0 auto 2.2rem; color: rgba(255,255,255,0.7); line-height: 1.7; font-size: clamp(1rem, 1.25vw, 1.18rem);">Im Erstgespräch klären wir, wo Sie stehen, welche Vorbereitung sinnvoll ist und wie Ihr Weg zurück zum Führerschein strukturiert aussehen kann.</p>
+          <a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 1.18rem 3.4rem; background: var(--cyan); color: #000; font-weight: 800; border-radius: 6px; font-size: 1rem; text-transform: uppercase; transition: transform 0.3s ease;">Erstgespräch anfragen</a>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="kontakt" class="after-story">
-      <div class="after-inner">
-        <h2>Bereit für den nächsten klaren Schritt?</h2>
-        <p>Im Erstgespräch klären wir, wo Sie stehen, welche Vorbereitung sinnvoll ist und wie Ihr Weg zurück zum Führerschein strukturiert aussehen kann.</p>
-        <a href="#" class="btn-bottom-primary">Erstgespräch anfragen</a>
-      </div>
-    </section>
+    </main>
+  </div>
 
-  </div> <script>
+  <script>
     const gsap = window.gsap;
     const ScrollTrigger = window.ScrollTrigger;
     gsap.registerPlugin(ScrollTrigger);
 
-    // --- STORY LOGIC (Dein Original) ---
+    // --- STORY LOGIC (DEIN ORIGINAL) ---
     function initScrollStory() {
       const cardStage = document.querySelector(".mpu-license-stage");
       const cardObject = document.querySelector(".mpu-card-object");
@@ -1231,26 +773,58 @@
       ScrollTrigger.refresh();
     }
 
-    // --- INITIAL LOAD & INTRO (Dein Original) ---
+    // --- INITIAL LOAD & INTRO ---
     window.addEventListener("load", () => {
-      // Intro ausblenden und Seite anzeigen
-      gsap.to(".hero-reveal", { 
-        autoAlpha: 1, 
-        y: 0, 
-        duration: 0.8, 
-        stagger: 0.1, 
-        ease: "power3.out",
-        delay: 0.2
+      const tl = gsap.timeline();
+
+      tl.fromTo("#intro-license",
+        {
+          z: -2000,
+          rotationY: 720,
+          rotationZ: -45,
+          opacity: 0
+        },
+        {
+          z: 0,
+          rotationY: 0,
+          rotationZ: 0,
+          opacity: 1,
+          duration: 1.5,
+          ease: "power3.out"
+        }
+      )
+      .to("#intro-license", {
+        duration: 0.5
+      })
+      .to("#intro-license", {
+        scale: 4,
+        rotationY: 360,
+        filter: "blur(40px)",
+        opacity: 0,
+        duration: 1.2,
+        ease: "power2.in"
+      })
+      .to(".app-frame", {
+        opacity: 1,
+        duration: 1.45,
+        ease: "power2.out"
+      }, "-=0.55")
+      .from(".hero-reveal", {
+        autoAlpha: 0,
+        y: 34,
+        filter: "blur(10px)",
+        duration: 0.85,
+        stagger: 0.09,
+        ease: "power3.out"
+      }, "-=1.0")
+      .add(() => {
+        document.body.classList.remove("intro-lock");
+        const intro = document.getElementById("intro-container");
+        if (intro) intro.remove();
+
+        initScrollStory();
+        ScrollTrigger.refresh();
       });
-
-      // Körper sperren während Intro entfernen
-      document.body.classList.remove("intro-lock");
-      const intro = document.getElementById("intro-container");
-      if (intro) intro.remove();
-
-      // Story initialisieren
-      initScrollStory();
-      ScrollTrigger.refresh();
     });
   </script>
 </body>
