@@ -124,14 +124,13 @@
     .nav-links { display: flex; gap: 2.5rem; list-style: none; }
     .nav-links li a { font-size: 0.7rem; font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.4rem; transition: color 0.3s ease; }
     .nav-links li a:hover { color: #fff; }
-    .nav-links svg { width: 10px; height: 10px; opacity: 0.7; transition: transform 0.3s ease; }
-    .nav-links li a:hover svg { transform: translateY(2px); } /* Subtiler Hover am Pfeil */
+    .nav-links svg { width: 10px; height: 10px; opacity: 0.7; }
 
     .nav-cta {
       background: var(--cyan); color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 0.1em; padding: 0.7rem 1.4rem; border-radius: 4px; display: flex; align-items: center; gap: 0.4rem; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      letter-spacing: 0.1em; padding: 0.7rem 1.4rem; border-radius: 4px; display: flex; align-items: center; gap: 0.4rem; transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .nav-cta:hover { transform: translateY(-2px); background: var(--cyan-hover); box-shadow: 0 10px 20px rgba(92, 225, 230, 0.2); }
+    .nav-cta:hover { transform: translateY(-2px); background: var(--cyan-hover); box-shadow: 0 4px 15px rgba(92, 225, 230, 0.2); }
     .nav-cta svg { width: 14px; height: 14px; }
 
     /* =========================================
@@ -147,11 +146,12 @@
       margin: 0 auto;
     }
 
-    /* Das Bild: Ohne Gradient, 5% nach innen gerückt, Background Contain */
+    /* Das Bild mit Parallax Variablen */
     .hero-bg-image {
+      --px: 0px;
+      --py: 0px;
       position: absolute;
       top: 50%;
-      transform: translateY(-50%);
       right: 5%; 
       width: 55%; 
       height: 80%;
@@ -160,7 +160,9 @@
       background-position: right center;
       background-repeat: no-repeat;
       z-index: 1; 
-      will-change: transform; /* Bessere Performance für Mouse-Parallax */
+      /* scale(1.02) verhindert, dass Kanten beim Parallaxen abgeschnitten werden */
+      transform: translate(var(--px), calc(-50% + var(--py))) scale(1.02);
+      will-change: transform;
     }
 
     .hero-content {
@@ -174,66 +176,45 @@
     
     .hero-headline { font-size: clamp(2.8rem, 4.5vw, 4.2rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; text-transform: uppercase; }
     
-    /* -----------------------------------------
-       NEU: PREMIUM SHIMMER EFFECT AUF DEM TEXT
-       ----------------------------------------- */
+    /* Der metallische Shine-Effekt für das Cyan Wort */
     .hero-headline .highlight { 
-      position: relative;
-      display: inline-block;
-      color: var(--cyan); 
-    }
-    /* Der Lichtreflex, der drüber huscht */
-    .hero-headline .highlight::after {
-      content: 'ÜBERHOLSPUR.';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(120deg, transparent 20%, rgba(255,255,255,0.7) 50%, transparent 80%);
-      background-size: 200% 100%;
+      background: linear-gradient(110deg, var(--cyan) 0%, var(--cyan) 40%, #ffffff 50%, var(--cyan) 60%, var(--cyan) 100%);
+      background-size: 200% auto;
+      color: transparent;
       -webkit-background-clip: text;
       background-clip: text;
-      color: transparent;
-      animation: shineSweep 6s infinite cubic-bezier(0.4, 0, 0.2, 1);
-      pointer-events: none; /* Blockiert keine Klicks */
+      animation: shine 6s linear infinite;
+      display: inline-block;
     }
-
-    @keyframes shineSweep {
-      0% { background-position: -150% 0; }
-      15% { background-position: 150% 0; }
-      100% { background-position: 150% 0; } /* Lange Pause zwischen den Sweeps */
+    @keyframes shine {
+      to { background-position: 200% center; }
     }
     
     .hero-subtext { font-size: 1rem; line-height: 1.6; color: var(--white-soft); margin-bottom: 3rem; max-width: 480px; }
 
     .hero-actions { display: flex; align-items: center; gap: 1.5rem; }
     
-    .btn-hero-primary { background: var(--cyan); color: #000; padding: 1rem 1.8rem; border-radius: 4px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 8px; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);}
-    .btn-hero-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(92, 225, 230, 0.25); }
-    .btn-hero-primary svg { width: 16px; height: 16px; transition: transform 0.3s ease; }
-    .btn-hero-primary:hover svg { transform: translateX(3px); }
+    .btn-hero-primary { background: var(--cyan); color: #000; padding: 1rem 1.8rem; border-radius: 4px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 8px; transition: transform 0.2s ease, box-shadow 0.2s ease;}
+    .btn-hero-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(92, 225, 230, 0.15); }
+    .btn-hero-primary svg { width: 16px; height: 16px; }
     
-    .btn-play { display: flex; align-items: center; gap: 0.8rem; color: #fff; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
-    .btn-play:hover { opacity: 0.8; transform: translateX(5px); }
-    .play-circle { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; display: grid; place-items: center; transition: border-color 0.3s ease; }
-    .btn-play:hover .play-circle { border-color: var(--cyan); }
-    .play-circle svg { width: 12px; height: 12px; fill: #fff; margin-left: 2px; transition: fill 0.3s ease; }
-    .btn-play:hover .play-circle svg { fill: var(--cyan); }
+    .btn-play { display: flex; align-items: center; gap: 0.8rem; color: #fff; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; transition: opacity 0.2s ease; }
+    .btn-play:hover { opacity: 0.8; }
+    .play-circle { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; display: grid; place-items: center; transition: background 0.3s, border-color 0.3s; }
+    .btn-play:hover .play-circle { background: rgba(255,255,255,0.05); border-color: #fff; }
+    .play-circle svg { width: 12px; height: 12px; fill: #fff; margin-left: 2px; }
 
     /* Trust Bar unten im Hero */
     .hero-bottom { position: relative; z-index: 10; margin-top: auto; padding-top: 4rem; display: flex; justify-content: space-between; align-items: flex-end; }
     .trust-items { display: flex; gap: 3rem; }
-    
-    /* NEU: Interaktiver Hover auf Trust Items */
-    .t-item { display: flex; align-items: center; gap: 1rem; transition: transform 0.3s ease, filter 0.3s ease; cursor: default; }
-    .t-item:hover { transform: translateY(-4px); filter: brightness(1.2); }
-    
+    .t-item { display: flex; align-items: center; gap: 1rem; }
     .t-icon { color: var(--cyan); display: flex; align-items: center; }
     .t-icon svg { width: 24px; height: 24px; stroke-width: 1.5; }
     .t-text h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; font-weight: 800; color: #fff;}
-    .t-text p { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.3; transition: color 0.3s ease; }
-    .t-item:hover .t-text p { color: rgba(255,255,255,0.8); }
+    .t-text p { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.3; }
 
-    .quote-card { background: rgba(15, 20, 25, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); padding: 1.2rem 1.5rem; border-radius: 8px; max-width: 300px; position: relative; transition: border-color 0.4s ease; }
-    .quote-card:hover { border-color: rgba(92, 225, 230, 0.3); }
+    .quote-card { background: rgba(15, 20, 25, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); padding: 1.2rem 1.5rem; border-radius: 8px; max-width: 300px; position: relative; transition: border-color 0.3s ease; }
+    .quote-card:hover { border-color: rgba(92, 225, 230, 0.2); }
     .quote-icon { position: absolute; top: -12px; left: -10px; color: var(--cyan); }
     .quote-icon svg { width: 24px; height: 24px; fill: var(--cyan); }
     .quote-card p { font-size: 0.85rem; line-height: 1.5; color: rgba(255,255,255,0.9); }
@@ -402,75 +383,75 @@
     </nav>
 
     <main>
-      <section class="hero-section" id="interactive-hero">
+      <section class="hero-section">
+        <div class="hero-bg-image"></div>
         
-        <div class="hero-bg-image" id="bg-parallax"></div>
-        <div class="hero-bg-fade"></div>
-        
-        <div class="hero-content hero-reveal">
-          <div class="kicker">Dein Neustart. Deine Zukunft.</div>
-          
-          <h1 class="hero-headline">
-            Wir bringen dich<br>zurück auf die<br>
-            <span class="highlight">Überholspur.</span>
-          </h1>
-          
-          <p class="hero-subtext">
-            Professionelle MPU Vorbereitung, die dich wirklich weiterbringt.<br>Individuell. Ehrlich. Erfolgreich.
-          </p>
-
-          <div class="hero-actions">
-            <a href="#kontakt" class="btn-hero-primary">
-              Kostenloses Erstgespräch
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-            </a>
-            <div class="btn-play">
-              <div class="play-circle">
-                <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </div>
-              Mehr Erfahren
-            </div>
-          </div>
-        </div>
-
-        <div class="hero-bottom hero-reveal">
-          <div class="trust-items">
-            <div class="t-item">
-              <div class="t-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-              </div>
-              <div class="t-text">
-                <h4>100% Individuell</h4>
-                <p>Maßgeschneiderte<br>Vorbereitung</p>
-              </div>
-            </div>
+        <div class="hero-content-wrapper">
+          <div class="hero-content hero-reveal">
+            <div class="kicker">Dein Neustart. Deine Zukunft.</div>
             
-            <div class="t-item">
-              <div class="t-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              </div>
-              <div class="t-text">
-                <h4>Erfahrene Experten</h4>
-                <p>Psychologen &<br>MPU-Berater</p>
-              </div>
-            </div>
+            <h1 class="hero-headline">
+              Wir bringen dich<br>zurück auf die<br>
+              <span class="highlight">Überholspur.</span>
+            </h1>
+            
+            <p class="hero-subtext">
+              Professionelle MPU Vorbereitung, die dich wirklich weiterbringt.<br>Individuell. Ehrlich. Erfolgreich.
+            </p>
 
-            <div class="t-item">
-              <div class="t-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-              </div>
-              <div class="t-text">
-                <h4>Hohe Erfolgsquote</h4>
-                <p>Durch bewährte<br>Methoden</p>
+            <div class="hero-actions">
+              <a href="#kontakt" class="btn-hero-primary">
+                Kostenloses Erstgespräch
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </a>
+              <div class="btn-play">
+                <div class="play-circle">
+                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </div>
+                Mehr Erfahren
               </div>
             </div>
           </div>
 
-          <div class="quote-card">
-            <div class="quote-icon">
-              <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Zm15 0c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Z"/></svg>
+          <div class="hero-bottom hero-reveal">
+            <div class="trust-items">
+              <div class="t-item">
+                <div class="t-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <div class="t-text">
+                  <h4>100% Individuell</h4>
+                  <p>Maßgeschneiderte<br>Vorbereitung</p>
+                </div>
+              </div>
+              
+              <div class="t-item">
+                <div class="t-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="t-text">
+                  <h4>Erfahrene Experten</h4>
+                  <p>Psychologen &<br>MPU-Berater</p>
+                </div>
+              </div>
+
+              <div class="t-item">
+                <div class="t-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                </div>
+                <div class="t-text">
+                  <h4>Hohe Erfolgsquote</h4>
+                  <p>Durch bewährte<br>Methoden</p>
+                </div>
+              </div>
             </div>
-            <p>"Der schwierigste Teil ist der erste Schritt.<br>Den Rest gehen wir <span>gemeinsam.</span>"</p>
+
+            <div class="quote-card">
+              <div class="quote-icon">
+                <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Zm15 0c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Z"/></svg>
+              </div>
+              <p>"Der schwierigste Teil ist der erste Schritt.<br>Den Rest gehen wir <span>gemeinsam.</span>"</p>
+            </div>
           </div>
         </div>
       </section>
@@ -710,33 +691,6 @@
     function update(time) { requestAnimationFrame(update); if (!isPageVisible) return; program.uniforms.uTime.value = time * 0.001; if (config.enableMouseInteraction) { currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]); currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]); program.uniforms.uMouse.value[0] = currentMouse[0]; program.uniforms.uMouse.value[1] = currentMouse[1]; } renderer.render({ scene: mesh }); }
     requestAnimationFrame(update);
 
-    // NEU: MOUSE PARALLAX FÜR DAS BILD
-    const heroInteractive = document.getElementById("interactive-hero");
-    const bgParallax = document.getElementById("bg-parallax");
-    
-    if (heroInteractive && bgParallax && !isTouchLike) {
-      heroInteractive.addEventListener("mousemove", (e) => {
-        const xPos = (e.clientX / window.innerWidth - 0.5) * 20; // max 20px verschieben
-        const yPos = (e.clientY / window.innerHeight - 0.5) * 20;
-        
-        gsap.to(bgParallax, {
-          x: xPos,
-          y: yPos,
-          duration: 1.5,
-          ease: "power2.out"
-        });
-      });
-      
-      heroInteractive.addEventListener("mouseleave", () => {
-        gsap.to(bgParallax, {
-          x: 0,
-          y: 0,
-          duration: 1.5,
-          ease: "power2.out"
-        });
-      });
-    }
-
     // DEINE ORIGINAL STORY LOGIC
     function initScrollStory() {
       const cardStage = document.querySelector(".mpu-license-stage");
@@ -878,7 +832,37 @@
       ScrollTrigger.refresh();
     }
 
-    // --- DEIN ORIGINAL INITIAL LOAD ---
+    // --- MOUSE PARALLAX FÜR DAS HERO BILD ---
+    function initHeroParallax() {
+      const heroSection = document.querySelector('.hero-section');
+      const heroImage = document.querySelector('.hero-bg-image');
+
+      if (heroSection && heroImage && !isTouchLike) {
+        heroSection.addEventListener('mousemove', (e) => {
+          // Ganz dezente Verschiebung (max ~15px)
+          const x = (e.clientX / window.innerWidth - 0.5) * 30; 
+          const y = (e.clientY / window.innerHeight - 0.5) * 30;
+
+          gsap.to(heroImage, {
+            '--px': `${x}px`,
+            '--py': `${y}px`,
+            duration: 1.2,
+            ease: "power2.out"
+          });
+        });
+        
+        heroSection.addEventListener('mouseleave', () => {
+          gsap.to(heroImage, {
+            '--px': '0px',
+            '--py': '0px',
+            duration: 1.5,
+            ease: "power2.out"
+          });
+        });
+      }
+    }
+
+    // --- DEIN ORIGINAL INITIAL LOAD (mit angepasstem Easing) ---
     window.addEventListener("load", () => {
       const tl = gsap.timeline();
 
@@ -914,22 +898,21 @@
         duration: 1.45,
         ease: "power2.out"
       }, "-=0.55")
-      
-      // Weicheres Text-Reveal (Expo.out)
       .from(".hero-reveal", {
         autoAlpha: 0,
-        y: 40,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: "expo.out"
+        y: 34,
+        filter: "blur(10px)",
+        duration: 1.2, // Minimal weicher & länger
+        stagger: 0.09,
+        ease: "power4.out" // Elegantes, weiches Easing
       }, "-=1.0")
-      
       .add(() => {
         document.body.classList.remove("intro-lock");
         const intro = document.getElementById("intro-container");
         if (intro) intro.remove();
 
         initScrollStory();
+        initHeroParallax(); // Parallax initialisieren
         ScrollTrigger.refresh();
       });
     });
