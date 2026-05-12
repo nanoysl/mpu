@@ -3,306 +3,317 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MPU Experten | Silent Authority</title>
+  <title>MPU Experten | Zurück auf die Überholspur</title>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <style>
+    /* =========================================
+       1:1 BILD 2 DESIGN SYSTEM
+       ========================================= */
     :root {
-      --nav-height: 80px;
-      --page-pad: clamp(1.5rem, 5vw, 6rem);
-      --bg-dark: #07080a; /* Sehr tiefes, kühles Kanzlei-Grau/Schwarz */
-      --line-color: rgba(255,255,255,0.15);
-      --text-muted: rgba(255,255,255,0.6);
+      --bg-outer: #000000;         /* Der Rand außerhalb der App */
+      --bg-app: #080c11;           /* Das tiefe Blau/Schwarz der App */
+      --cyan: #5CE1E6;             /* Die exakte Mint/Cyan Akzentfarbe aus Bild 2 */
+      --cyan-hover: #4bc5ca;
+      --text-main: #ffffff;
+      --text-muted: #a1a1aa;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --nav-height: 90px;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Inter", sans-serif;
-    }
-
-    html {
-      background: var(--bg-dark);
-      scroll-behavior: smooth;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: geometricPrecision;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Inter", sans-serif; }
 
     body {
-      width: 100%;
-      min-height: 100%;
-      background: var(--bg-dark);
-      color: #fff;
+      background-color: var(--bg-outer);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+      padding: 1.5rem; /* Abstand für den "App Frame" Look */
     }
 
-    body.intro-lock {
-      height: 100vh;
-      overflow: hidden;
-    }
+    a { text-decoration: none; color: inherit; }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    /* EDLER CSS HINTERGRUND FÜR DEN LUXURY LOOK */
-    .bg-glow-wrapper {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .bg-gradient {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 50%, #11141a 0%, var(--bg-dark) 70%);
-      opacity: 0.6; /* Subtil gehalten für den Luxury Look */
-    }
-
-    /* CSS Noise für Papier/Karton Haptik (Luxus) */
-    .bg-noise {
-      position: absolute;
-      inset: 0;
-      opacity: 0.26; /* Subtil gehalten */
-      mix-blend-mode: overlay;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    }
-
-    #page-content {
+    /* =========================================
+       DER APP-FRAME (Der Rahmen aus Bild 2)
+       ========================================= */
+    .app-frame {
       position: relative;
-      z-index: 2;
-      opacity: 0;
+      width: 100%;
+      max-width: 1800px;
+      margin: 0 auto;
+      background: var(--bg-app);
+      border-radius: 24px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      box-shadow: 0 0 100px rgba(92, 225, 230, 0.05); /* Subtiler Cyan Glow um die Seite */
     }
 
-    /* INTRO (Beibehalten) */
-    #intro-container {
-      position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-      z-index: 9999; perspective: 1500px; pointer-events: none; background: var(--bg-dark);
-    }
-    .intro-license-card {
-      width: min(400px, 82vw); aspect-ratio: 1.6 / 1;
-      background: linear-gradient(135deg, #e6c5d1 0%, #d8e0e8 100%);
-      border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.5);
-      padding: 20px; position: relative; transform-style: preserve-3d; opacity: 0; overflow: hidden;
-    }
-    .intro-license-card::after {
-      content: ""; position: absolute; inset: -40%;
-      background: linear-gradient(115deg, transparent 0%, transparent 36%, rgba(255,255,255,0.55) 47%, transparent 58%, transparent 100%);
-      transform: translateX(-40%) rotate(12deg); opacity: 0.5;
-    }
-    .intro-license-eu {
-      position: absolute; top: 15px; left: 15px; width: 40px; height: 25px; background: #003399;
-      border-radius: 4px; display: flex; align-items: center; justify-content: center;
-      color: #ffcc00; font-size: 10px; font-weight: 800;
-    }
-    .intro-license-photo {
-      position: absolute; top: 40px; left: 20px; width: 80px; height: 100px;
-      background: rgba(0,0,0,0.2); border-radius: 4px;
-    }
-    .intro-license-lines {
-      position: absolute; top: 40px; left: 120px; width: 240px; display: flex; flex-direction: column; gap: 12px;
-    }
-    .intro-l-line { height: 8px; background: rgba(0,0,0,0.15); border-radius: 4px; }
-    .intro-l-line:nth-child(1) { width: 100%; }
-    .intro-l-line:nth-child(2) { width: 80%; }
-    .intro-l-line:nth-child(3) { width: 60%; }
-    .intro-l-line:nth-child(4) { width: 90%; }
-    .intro-l-line:nth-child(5) { width: 40%; margin-top: 20px; }
-
-    /* NAVBAR */
+    /* =========================================
+       NAVBAR (1:1 Nachbau)
+       ========================================= */
     .navbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-      height: var(--nav-height); display: flex; justify-content: space-between; align-items: center;
-      padding: 0 var(--page-pad);
-      background: rgba(7, 8, 10, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: var(--nav-height);
+      padding: 0 3rem;
+      position: relative;
+      z-index: 50;
+      background: transparent;
     }
 
     .nav-logo {
-      font-weight: 800; font-size: clamp(0.9rem, 1.2vw, 1rem);
-      letter-spacing: 0.1em; white-space: nowrap; text-transform: uppercase;
-    }
-
-    .nav-cta {
-      padding: 0.8rem 1.8rem; color: #fff;
-      border: 1px solid rgba(255,255,255,0.2); border-radius: 2px;
-      font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.15em; white-space: nowrap;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      background: transparent;
-    }
-    .nav-cta:hover { background: #fff; color: #000; }
-
-    /* =========================================
-       HERO: SILENT AUTHORITY & THE BANNER
-       ========================================= */
-    .hero-as-banner {
-      position: relative;
-      min-height: 100svh;
-      padding: calc(var(--nav-height) + 4rem) var(--page-pad) 4rem;
-      display: flex;
-      align-items: center;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-      background-size: cover;
-      background-position: center;
-    }
-
-    /* Das holografische Führerschein-Bild übernehmen */
-    .hero-as-banner::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      background-image: url("mpu.png");
-      background-size: cover;
-      background-position: center;
-      opacity: 1;
-      will-change: opacity;
-    }
-
-    /* Noise-Filter direkt über dem Banner für Haptik */
-    .hero-as-banner .bg-noise {
-      z-index: 2;
-    }
-
-    .hero-grid {
-      position: relative;
-      z-index: 5;
-      width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 6rem;
-      align-items: stretch;
-    }
-
-    /* Links: Elite Copy */
-    .hero-left {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
+      line-height: 1;
     }
+    .nav-logo-top { font-size: 1.5rem; font-weight: 900; letter-spacing: 0.05em; color: #fff; }
+    .nav-logo-bottom { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; color: var(--cyan); margin-top: 0.2rem; }
 
-    .elite-kicker {
-      font-size: 0.65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.3em;
-      color: var(--text-muted);
-      margin-bottom: 2.5rem;
+    .nav-links {
       display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-    .elite-kicker::after {
-      content: ""; width: 60px; height: 1px; background: rgba(255,255,255,0.2);
-    }
-
-    .elite-headline {
-      font-size: clamp(3.5rem, 6.5vw, 6.5rem);
-      font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: -0.04em;
-      margin-bottom: 2rem;
-    }
-    .elite-headline strong {
-      font-weight: 900;
-      display: block;
-    }
-
-    .elite-subtext {
-      font-size: clamp(1rem, 1.2vw, 1.15rem);
-      color: var(--text-muted);
-      max-width: 480px;
-      line-height: 1.8;
-      font-weight: 400;
-      margin-bottom: 3.5rem;
-    }
-
-    .cta-group {
-      display: flex;
-      align-items: center;
       gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links li a {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: color 0.3s ease;
+    }
+    .nav-links li a:hover { color: #fff; }
+    .nav-links svg { width: 12px; height: 12px; opacity: 0.7; }
+
+    .nav-cta {
+      background: var(--cyan);
+      color: #000;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.8rem 1.5rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background 0.3s ease;
+    }
+    .nav-cta:hover { background: var(--cyan-hover); }
+    .nav-cta svg { width: 14px; height: 14px; }
+
+    /* =========================================
+       HERO BEREICH (1:1 Nachbau Bild 2)
+       ========================================= */
+    .hero {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 3rem 4rem 3rem;
+      min-height: calc(100vh - var(--nav-height) - 3rem);
     }
 
-    .btn-lux-primary {
-      padding: 1.2rem 3rem;
-      background: #fff;
-      color: #000;
-      font-weight: 800;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      border: none;
-      border-radius: 2px;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+    /* Das mpu.png Bild rechts mit sanftem Verlauf nach links */
+    .hero-bg-image {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 65%;
+      height: 100%;
+      z-index: 0;
+      background-image: url('mpu.png');
+      background-size: cover;
+      background-position: center right;
+      /* Der Masken-Trick, damit das Bild links im Schwarz verschwindet */
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,1) 30%);
+      mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,1) 30%);
     }
-    .btn-lux-primary:hover {
-      background: #e0e0e0;
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 600px;
+      margin-top: 4rem; /* Abstand nach oben */
+    }
+
+    .kicker {
+      color: var(--cyan);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .headline {
+      font-size: clamp(3rem, 5vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    .headline .highlight {
+      color: var(--cyan);
+    }
+
+    .subtext {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 3rem;
+      max-width: 90%;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .btn-primary {
+      background: var(--cyan);
+      color: #000;
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 1.1rem 2rem;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .btn-primary:hover {
+      background: var(--cyan-hover);
       transform: translateY(-2px);
     }
 
-    .btn-lux-outline {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #fff;
+    .btn-play {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 1rem;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
+      cursor: pointer;
       transition: opacity 0.3s ease;
     }
-    .btn-lux-outline:hover { opacity: 0.7; }
-
-    /* Mobile Sticky CTA */
-    .mobile-sticky-cta {
-      display: none; position: fixed; bottom: 0; left: 0; right: 0;
-      background: rgba(5, 6, 8, 0.95); backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(255,255,255,0.05);
-      padding: 1rem var(--page-pad) calc(1rem + env(safe-area-inset-bottom));
-      z-index: 100; gap: 1rem;
+    .btn-play:hover { opacity: 0.7; }
+    .play-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid var(--cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .mobile-btn {
-      flex: 1; text-align: center; padding: 1rem; border-radius: 2px;
-      font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
-    }
-    .m-btn-primary { background: #fff; color: #000; }
-    .m-btn-secondary { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+    .play-circle svg { width: 14px; height: 14px; fill: var(--cyan); margin-left: 2px; }
 
-    /* STORY & CARD CSS (UNVERÄNDERT BEIBEHALTEN) */
-    .license-story { position: relative; z-index: 3; height: 540vh; background: radial-gradient(circle at 30% 38%, rgba(255,255,255,0.02), transparent 32%), linear-gradient(to bottom, transparent, rgba(5,6,8,0.8) 8%, rgba(5,6,8,0.95) 45%, rgba(5,6,8,0.8)); }
+    /* =========================================
+       TRUST BAR & ZITAT (Unten im Hero)
+       ========================================= */
+    .hero-bottom {
+      position: relative;
+      z-index: 10;
+      margin-top: auto; /* Drückt es nach unten */
+      padding-top: 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .trust-items {
+      display: flex;
+      gap: 3rem;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .trust-icon {
+      color: var(--cyan);
+    }
+    .trust-icon svg { width: 28px; height: 28px; stroke-width: 1.5; }
+    
+    .trust-text h4 {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.2rem;
+    }
+    .trust-text p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .quote-card {
+      background: rgba(20, 24, 30, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 1.5rem;
+      max-width: 300px;
+      position: relative;
+    }
+    .quote-icon {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      color: var(--cyan);
+    }
+    .quote-icon svg { width: 24px; height: 24px; fill: var(--cyan); }
+    .quote-card p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+    .quote-card p span {
+      color: var(--cyan);
+    }
+
+    /* Mobile Menu Burger (Hidden on Desktop) */
+    .mobile-menu-btn { display: none; color: #fff; background: none; border: none; cursor: pointer; }
+
+    /* =========================================
+       EXISTING STORY CSS (Dein Original für unten)
+       ========================================= */
+    .license-story { position: relative; z-index: 3; height: 540vh; background: radial-gradient(circle at 30% 38%, rgba(255,255,255,0.02), transparent 32%), linear-gradient(to bottom, transparent, var(--bg-app) 8%, var(--bg-app) 45%, var(--bg-app)); }
     .story-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; perspective: 1800px; }
-    .story-noise { position: absolute; inset: 0; pointer-events: none; opacity: 0.26; background-image: linear-gradient(rgba(255,255,255,0.026) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.026) 1px, transparent 1px); background-size: 70px 70px; mask-image: radial-gradient(circle at center, black, transparent 76%); }
-    .story-kicker { position: absolute; top: calc(var(--nav-height) + 2rem); left: var(--page-pad); z-index: 6; display: flex; align-items: center; gap: 0.75rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-muted); pointer-events: none; }
+    .story-kicker { position: absolute; top: calc(var(--nav-height) + 2rem); left: 3rem; z-index: 6; display: flex; align-items: center; gap: 0.75rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-muted); pointer-events: none; }
     .story-kicker::before { content: ""; width: 34px; height: 1px; background: var(--text-muted); flex: 0 0 auto; }
     .story-copy { position: absolute; top: 50%; z-index: 8; width: min(450px, 34vw); min-height: 390px; transform: translateY(-50%); pointer-events: none; }
     .story-copy-right { right: clamp(1.25rem, 7vw, 8rem); }
     .story-copy-left { left: clamp(1.25rem, 7vw, 8rem); opacity: 0; visibility: hidden; }
     .step-copy { position: absolute; inset: 0; opacity: 0; transform: translateY(28px); filter: blur(8px); transition: opacity 0.48s ease, transform 0.48s ease, filter 0.48s ease; }
     .step-copy.active { opacity: 1; transform: translateY(0); filter: blur(0); }
-    .step-eyebrow, .final-eyebrow { display: inline-flex; align-items: center; gap: 0.55rem; margin-bottom: 1rem; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-muted); }
-    .step-eyebrow::before, .final-eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: #fff; box-shadow: 0 0 20px rgba(255,255,255,0.8); flex: 0 0 auto; }
-    .step-copy h2, .story-copy-left h2 { font-size: clamp(2rem, 3.4vw, 4.3rem); line-height: 0.98; letter-spacing: -0.06em; font-weight: 800; margin-bottom: 1.1rem; text-wrap: balance; }
+    .step-eyebrow, .final-eyebrow { display: inline-flex; align-items: center; gap: 0.55rem; margin-bottom: 1rem; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--cyan); }
+    .step-eyebrow::before, .final-eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: var(--cyan); box-shadow: 0 0 10px rgba(92, 225, 230, 0.5); flex: 0 0 auto; }
+    .step-copy h2, .story-copy-left h2 { font-size: clamp(2rem, 3.4vw, 4.3rem); line-height: 0.98; letter-spacing: -0.02em; font-weight: 800; margin-bottom: 1.1rem; text-wrap: balance; }
     .step-copy p, .story-copy-left p { color: var(--text-muted); line-height: 1.75; font-size: clamp(0.98rem, 1.05vw, 1.12rem); margin-bottom: 1.4rem; }
     .micro-list { display: grid; gap: 0.65rem; color: var(--text-muted); font-size: 0.94rem; list-style: none; }
     .micro-list li { display: flex; gap: 0.65rem; align-items: flex-start; }
-    .micro-list li::before { content: ""; width: 5px; height: 5px; border-radius: 999px; background: var(--text-muted); margin-top: 0.48rem; flex: 0 0 auto; }
-    .final-card-copy { padding: clamp(1.35rem, 2vw, 2rem); border: 1px solid rgba(255,255,255,0.14); background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035)); border-radius: 28px; box-shadow: 0 24px 80px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.08); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); overflow: hidden; }
-    .final-cta { display: inline-flex; align-items: center; justify-content: center; margin-top: 0.5rem; padding: 0.98rem 1.45rem; border-radius: 999px; background: #fff; color: #000; font-weight: 800; pointer-events: auto; box-shadow: 0 18px 42px rgba(255,255,255,0.12); text-align: center; }
-    .story-final-glow { position: absolute; top: 50%; left: 50%; z-index: 4; width: 48vw; aspect-ratio: 1 / 1; border-radius: 999px; background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 68%); transform: translate(-50%, -50%) scale(0.7); opacity: 0; pointer-events: none; filter: blur(10px); }
-    .story-progress { position: absolute; left: var(--page-pad); right: var(--page-pad); bottom: clamp(1.25rem, 3vh, 2rem); z-index: 10; height: 1px; background: rgba(255,255,255,0.12); overflow: hidden; }
-    .story-progress-fill { height: 100%; width: 100%; background: #fff; transform: scaleX(0); transform-origin: left center; will-change: transform; }
+    .micro-list li::before { content: ""; width: 5px; height: 5px; border-radius: 999px; background: var(--cyan); margin-top: 0.48rem; flex: 0 0 auto; }
+    .final-card-copy { padding: clamp(1.35rem, 2vw, 2rem); border: 1px solid var(--border-color); background: rgba(255,255,255,0.03); border-radius: 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.34); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); overflow: hidden; pointer-events: auto; }
+    .final-cta { display: inline-flex; align-items: center; justify-content: center; margin-top: 0.5rem; padding: 0.98rem 1.45rem; border-radius: 6px; background: var(--cyan); color: #000; font-weight: 700; text-transform: uppercase; pointer-events: auto; }
+    .story-progress { position: absolute; left: 3rem; right: 3rem; bottom: 2rem; z-index: 10; height: 2px; background: var(--border-color); overflow: hidden; }
+    .story-progress-fill { height: 100%; width: 100%; background: var(--cyan); transform: scaleX(0); transform-origin: left center; will-change: transform; }
     .mpu-license-stage { position: absolute; top: 50%; left: 50%; z-index: 7; width: clamp(470px, 39vw, 720px); aspect-ratio: 1.585 / 1; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; }
     .mpu-card-object { position: absolute; inset: 0; border-radius: 28px; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; transform-origin: center center; }
     .mpu-card-face { position: absolute; inset: 0; border-radius: 28px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; contain: layout paint; box-shadow: 0 38px 90px rgba(0,0,0,0.52), inset 0 0 0 1px rgba(255,255,255,0.62), inset 0 -20px 60px rgba(0,0,0,0.06); }
@@ -358,344 +369,334 @@
     .mpu-barcode { width: 100%; height: 24px; border-radius: 7px; opacity: 0.38; background: repeating-linear-gradient(90deg, rgba(0,0,0,0.58) 0 2px, transparent 2px 6px, rgba(0,0,0,0.42) 6px 8px, transparent 8px 11px, rgba(0,0,0,0.5) 11px 12px, transparent 12px 17px); }
     .mpu-machine-code { font-size: clamp(0.46rem, 0.58vw, 0.7rem); line-height: 1.15; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.42); white-space: nowrap; text-align: right; }
 
-    .after-story { position: relative; z-index: 4; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--nav-height) + 4rem) var(--page-pad) 5rem; background: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.05), transparent 34%), linear-gradient(to bottom, rgba(5,6,8,0.25), var(--bg-dark) 75%); }
-    .after-inner { width: min(860px, 100%); text-align: center; }
-    .after-inner h2 { font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.98; letter-spacing: -0.07em; font-weight: 900; margin-bottom: 1.2rem; text-wrap: balance; }
-    .after-inner p { width: min(620px, 100%); margin: 0 auto 2.2rem; color: var(--text-muted); line-height: 1.7; font-size: clamp(1rem, 1.25vw, 1.18rem); }
-
     /* RESPONSIVE */
-    @media (max-width: 992px) {
-      .hero-grid { grid-template-columns: 1fr; gap: 4rem; }
+    @media (max-width: 1024px) {
+      .hero-bg-image { width: 100%; -webkit-mask-image: linear-gradient(to top, transparent 0%, rgba(0,0,0,1) 50%); mask-image: linear-gradient(to top, transparent 0%, rgba(0,0,0,1) 50%); }
+      .hero-content { margin-top: 2rem; max-width: 100%; }
+      .hero-bottom { padding-top: 2rem; flex-direction: column; align-items: flex-start; gap: 2rem; }
+      .trust-items { flex-wrap: wrap; gap: 1.5rem; }
+      .quote-card { max-width: 100%; }
     }
 
     @media (max-width: 768px) {
-      :root { --nav-height: 72px; }
-      .navbar { padding: 0 1.1rem; }
-      .nav-logo { font-size: clamp(1rem, 4.2vw, 1.18rem); }
-      .nav-cta { padding: 0.6rem 1rem; font-size: 0.78rem; display: none; } /* Hide on mobile to save space */
+      body { padding: 0; } /* Remove outer border for mobile */
+      .app-frame { border-radius: 0; border: none; }
       
-      .hero-as-banner { padding-top: calc(var(--nav-height) + 1rem); padding-bottom: 6rem; padding-left: 1.1rem; padding-right: 1.1rem; min-height: auto; }
+      .navbar { padding: 0 1.5rem; height: 70px; }
+      .nav-links, .nav-cta { display: none; }
+      .mobile-menu-btn { display: block; }
       
-      .elite-headline { font-size: clamp(3rem, 13vw, 4.5rem); margin-bottom: 1rem; }
-      .elite-subtext { font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.6; }
-      .cta-group { display: none; }
-      
-      .mobile-sticky-cta { display: flex; }
+      .hero { padding: 2rem 1.5rem; }
+      .headline { font-size: 2.8rem; }
+      .hero-actions { flex-direction: column; align-items: stretch; gap: 1rem; }
+      .btn-play { justify-content: center; }
 
-      /* Story fixes */
       .license-story { height: 520vh; }
-      .story-kicker { top: calc(var(--nav-height) + 0.95rem); left: 1.1rem; right: 1.1rem; font-size: 0.64rem; gap: 0.68rem; letter-spacing: 0.13em; white-space: nowrap; overflow: hidden; }
-      .story-kicker::before { width: 36px; }
-      .story-copy { top: auto; left: 1.1rem; right: 1.1rem; bottom: 2.55rem; width: auto; min-height: 328px; transform: none; }
-      .story-copy-right, .story-copy-left { left: 1.1rem; right: 1.1rem; }
-      .story-copy-left { bottom: 2.55rem; min-height: 328px; z-index: 11; }
-      .step-copy h2 { font-size: clamp(2rem, 10vw, 3.15rem); }
-      .story-copy-left h2 { font-size: clamp(2.12rem, 9.8vw, 2.95rem); line-height: 0.95; margin-bottom: 0.85rem; }
-      .step-copy p { font-size: 0.96rem; line-height: 1.62; }
-      .story-copy-left p { font-size: 0.95rem; line-height: 1.55; margin-bottom: 1rem; }
-      .step-eyebrow, .final-eyebrow { font-size: 0.62rem; margin-bottom: 0.72rem; }
-      .micro-list { display: none; }
-      .final-card-copy { border-radius: 22px; padding: 1.05rem; }
-      .final-cta { width: 100%; padding: 1rem 1.05rem; font-size: 0.92rem; line-height: 1.15; }
-      .story-progress { left: 1.1rem; right: 1.1rem; bottom: 1.85rem; }
-      .mpu-license-stage { width: min(94vw, 470px); top: 31%; }
-      .mpu-card-object, .mpu-card-face { border-radius: 22px; }
-      .mpu-card-safe { padding: 5.1% 5.3%; gap: 0.34rem; }
-      .mpu-doc-head { grid-template-columns: 45px minmax(0, 1fr) auto; gap: 0.5rem; min-height: 28px; }
-      .mpu-eu { width: 45px; height: 26px; border-radius: 7px; font-size: 0.58rem; background-size: 7px 7px; }
-      .mpu-doc-label { display: none; }
-      .mpu-doc-title { font-size: clamp(0.62rem, 2.25vw, 0.69rem); }
-      .mpu-doc-code { font-size: clamp(0.44rem, 1.75vw, 0.5rem); letter-spacing: 0.12em; }
-      .mpu-front-body { grid-template-columns: 72px minmax(0, 1fr); gap: 0.5rem; }
-      .mpu-photo-panel { grid-template-rows: minmax(0, 1fr) auto; gap: 0.22rem; }
-      .mpu-photo-box { min-height: 0; height: 100%; border-radius: 12px; }
-      .mpu-signature-line { display: none; }
-      .mpu-id-line { font-size: 0.39rem; }
-      .mpu-panel-meta { display: none; }
-      .mpu-step-panel { grid-template-rows: minmax(0, 1fr); }
-      .mpu-step-list { gap: 0.24rem; }
-      .mpu-step-row { --step-dot-size: 1.32rem; --step-dot-font: 0.47rem; gap: 0.36rem; padding: 0.29rem 0.4rem; border-radius: 10px; }
-      .mpu-step-row.is-active { transform: none; }
-      .mpu-step-index span { transform: none; }
-      .mpu-step-text { gap: 0.06rem; }
-      .mpu-step-text strong { font-size: clamp(0.5rem, 2.1vw, 0.56rem); line-height: 1; }
-      .mpu-step-text small { font-size: clamp(0.39rem, 1.72vw, 0.43rem); line-height: 1.03; }
-      .mpu-front-footer { padding-top: 0.28rem; min-height: 12px; }
-      .mpu-front-footer span { font-size: 0.38rem; }
-      .mpu-front-footer span:last-child { display: none; }
-      .mpu-back-safe { gap: 0.34rem; }
-      .mpu-back-head { min-height: 40px; gap: 0.5rem; }
-      .mpu-back-head h3 { font-size: clamp(1.08rem, 5.05vw, 1.28rem); line-height: 0.92; letter-spacing: -0.068em; }
-      .mpu-back-head span { font-size: 0.44rem; letter-spacing: 0.14em; }
-      .mpu-result-list { gap: 0.24rem; }
-      .mpu-result-row { padding: 0.3rem 0.46rem; border-radius: 10px; gap: 0.45rem; }
-      .mpu-result-copy { display: block; line-height: 1.03; }
-      .mpu-result-copy strong { display: block; font-size: clamp(0.5rem, 2.15vw, 0.56rem); line-height: 1.02; }
-      .mpu-result-copy small { display: block; font-size: clamp(0.38rem, 1.72vw, 0.43rem); line-height: 1.05; }
-      .mpu-result-ok { font-size: 0.44rem; }
-      .mpu-back-footer { grid-template-columns: 1fr; gap: 0.2rem; min-height: 18px; padding-top: 0.28rem; }
-      .mpu-barcode { height: 16px; border-radius: 6px; }
-      .mpu-machine-code { display: none; }
+      .story-kicker { left: 1.5rem; }
+      .story-copy { left: 1.5rem; right: 1.5rem; bottom: 2.5rem; top: auto; width: auto; min-height: 300px; transform: none; }
+      .story-copy-right, .story-copy-left { left: 1.5rem; right: 1.5rem; }
+      .story-progress { left: 1.5rem; right: 1.5rem; }
+      .mpu-license-stage { width: min(90vw, 400px); top: 35%; }
     }
   </style>
 </head>
 
 <body class="intro-lock">
   
-  <div id="intro-container">
-    <div class="intro-license-card" id="intro-license">
-      <div class="intro-license-eu">D</div>
-      <div class="intro-license-photo"></div>
-      <div class="intro-license-lines">
-        <div class="intro-l-line"></div>
-        <div class="intro-l-line"></div>
-        <div class="intro-l-line"></div>
-        <div class="intro-l-line"></div>
-        <div class="intro-l-line"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="bg-glow-wrapper">
-    <div class="bg-gradient"></div>
-    <div class="bg-noise"></div>
-  </div>
-
-  <div id="page-content">
-    
+  <div class="app-frame">
     <nav class="navbar">
-      <div class="nav-logo">MPU Experten</div>
-      <a href="#kontakt" class="nav-cta">Kostenloses Erstgespräch</a>
+      <div class="nav-logo">
+        <div class="nav-logo-top">MPU</div>
+        <div class="nav-logo-bottom">EXPERTEN</div>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#">MPU VORBEREITUNG</a></li>
+        <li><a href="#">ABLAUF <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></a></li>
+        <li><a href="#">UNSERE METHODEN</a></li>
+        <li><a href="#">ÜBER UNS</a></li>
+        <li><a href="#">FAQ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></a></li>
+      </ul>
+
+      <a href="#kontakt" class="nav-cta">
+        Kostenloses Erstgespräch
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+
+      <button class="mobile-menu-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </button>
     </nav>
 
-    <main>
-      <section class="hero-as-banner">
+    <section class="hero">
+      
+      <div class="hero-bg-image"></div>
+
+      <div class="hero-content hero-reveal">
+        <div class="kicker">DEIN NEUSTART. DEINE ZUKUNFT.</div>
         
-        <div class="hero-grid">
+        <h1 class="headline">
+          WIR BRINGEN DICH<br>
+          ZURÜCK AUF DIE<br>
+          <span class="highlight">ÜBERHOLSPUR.</span>
+        </h1>
+        
+        <p class="subtext">
+          Professionelle MPU Vorbereitung, die dich wirklich weiterbringt.<br>
+          Individuell. Ehrlich. Erfolgreich.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#kontakt" class="btn-primary">
+            Kostenloses Erstgespräch
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
           
-          <div class="hero-left hero-reveal">
-            <div class="elite-kicker">MPU-Vorbereitung in [Ort]</div>
-            
-            <p class="elite-subtext">
-              Keine unseriösen Versprechen. Persönliche Einschätzung statt Standardkurs. Wir begleiten Sie diskret und wissenschaftlich fundiert durch Ihre Mobilität.
-            </p>
-
-            <div class="cta-group">
-              <a href="#kontakt" class="btn-lux-primary">Erstgespräch anfragen</a>
-              <a href="tel:+49123456789" class="btn-lux-outline">
-                Rückruf anfordern
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-              </a>
+          <div class="btn-play">
+            <div class="play-circle">
+              <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             </div>
+            Mehr Erfahren
           </div>
-
-          <div class="hero-right hero-reveal"></div>
-
         </div>
-      </section>
-
-      <div class="mobile-sticky-cta">
-        <a href="tel:+49123456789" class="mobile-btn m-btn-secondary">Anrufen</a>
-        <a href="#kontakt" class="mobile-btn m-btn-primary">Erstgespräch</a>
       </div>
 
-      <section id="license-story" class="license-story">
-        <div class="story-sticky">
-          <div class="story-noise"></div>
+      <div class="hero-bottom hero-reveal">
+        
+        <div class="trust-items">
+          <div class="trust-item">
+            <div class="trust-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <div class="trust-text">
+              <h4>100% Individuell</h4>
+              <p>Maßgeschneiderte<br>Vorbereitung</p>
+            </div>
+          </div>
           
-          <div class="story-kicker">Der Führerschein-Fahrplan</div>
-
-          <div class="story-copy story-copy-right">
-            <article class="step-copy active">
-              <div class="step-eyebrow">01 / Analyse</div>
-              <h2>Erst verstehen, dann vorbereiten.</h2>
-              <p>Wir starten nicht mit Standard-Antworten, sondern mit Ihrer echten Ausgangslage. Warum kam es zur MPU? Was erwartet die Begutachtung? Was muss sauber vorbereitet werden?</p>
-              <ul class="micro-list">
-                <li>Alkohol, Punkte, Drogen oder andere Gründe sauber einordnen</li>
-                <li>Risiken erkennen, bevor sie im Gespräch problematisch werden</li>
-              </ul>
-            </article>
-
-            <article class="step-copy">
-              <div class="step-eyebrow">02 / Nachweise</div>
-              <h2>Fristen, Unterlagen und Nachweise im Blick.</h2>
-              <p>Viele scheitern nicht am Willen, sondern an fehlender Struktur. Wir prüfen, welche Unterlagen, Abstinenznachweise und zeitlichen Schritte für Ihre Situation relevant sind.</p>
-              <ul class="micro-list">
-                <li>Was muss vorliegen?</li>
-                <li>Was sollte frühzeitig geplant werden?</li>
-              </ul>
-            </article>
-
-            <article class="step-copy">
-              <div class="step-eyebrow">03 / Verhalten</div>
-              <h2>Keine auswendig gelernten Antworten.</h2>
-              <p>Die MPU erkennt oberflächliche Erklärungen. Deshalb geht es um echtes Verständnis: Was hat sich verändert? Warum ist es glaubwürdig? Wie erklären Sie es klar und ruhig?</p>
-              <ul class="micro-list">
-                <li>Reflexion statt Floskeln</li>
-                <li>Klare Sprache statt Panik im Gespräch</li>
-              </ul>
-            </article>
-
-            <article class="step-copy">
-              <div class="step-eyebrow">04 / Simulation</div>
-              <h2>Sicher ins Prüfungsgespräch gehen.</h2>
-              <p>Zum Schluss wird aus Vorbereitung Sicherheit. Wir trainieren typische Gesprächssituationen, geben ehrliches Feedback und bringen Struktur in Ihre Antworten.</p>
-              <ul class="micro-list">
-                <li>Realistische Gesprächssimulation</li>
-                <li>Feedback, Korrektur und finaler Fahrplan</li>
-              </ul>
-            </article>
-          </div>
-
-          <div class="story-copy story-copy-left">
-            <div class="final-card-copy">
-              <div class="final-eyebrow">Rückseite / Ergebnis</div>
-              <h2>Wir drehen die MPU für Sie um.</h2>
-              <p>Aus Unsicherheit wird ein klarer Plan. Aus Druck wird Vorbereitung. Aus einem unübersichtlichen Prozess wird ein strukturierter Weg zurück zur Mobilität.</p>
-              <a href="#kontakt" class="final-cta">Kostenloses Erstgespräch anfragen</a>
+          <div class="trust-item">
+            <div class="trust-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="trust-text">
+              <h4>Erfahrene Experten</h4>
+              <p>Psychologen &<br>MPU-Berater</p>
             </div>
           </div>
 
-          <div class="mpu-license-stage">
-            <div class="mpu-card-object">
-              <div class="mpu-card-face mpu-card-front">
-                <div class="mpu-card-pattern"></div>
-                <div class="mpu-card-watermark">MPU</div>
-                <div class="mpu-card-shine"></div>
-
-                <div class="mpu-card-safe">
-                  <div class="mpu-doc-head">
-                    <div class="mpu-eu">D</div>
-                    <div>
-                      <p class="mpu-doc-label">Bundesrepublik Deutschland</p>
-                      <div class="mpu-doc-title">Führerschein</div>
-                    </div>
-                    <div class="mpu-doc-code">MPU<br />Plan</div>
-                  </div>
-
-                  <div class="mpu-front-body">
-                    <div class="mpu-photo-panel">
-                      <div class="mpu-photo-box">
-                        <div class="mpu-photo-head"></div>
-                        <div class="mpu-photo-body"></div>
-                      </div>
-                      <div class="mpu-signature-line"></div>
-                      <div class="mpu-id-line">MPU-2026</div>
-                    </div>
-
-                    <div class="mpu-step-panel">
-                      <div class="mpu-panel-meta">
-                        <span>Fahrplan</span>
-                        <b>4 Schritte</b>
-                      </div>
-
-                      <div class="mpu-step-list">
-                        <div class="mpu-step-row is-active">
-                          <div class="mpu-step-index"><span>01</span></div>
-                          <div class="mpu-step-text">
-                            <strong>Analyse</strong>
-                            <small>Ausgangslage klären</small>
-                          </div>
-                        </div>
-
-                        <div class="mpu-step-row">
-                          <div class="mpu-step-index"><span>02</span></div>
-                          <div class="mpu-step-text">
-                            <strong>Nachweise</strong>
-                            <small>Fristen &amp; Unterlagen prüfen</small>
-                          </div>
-                        </div>
-
-                        <div class="mpu-step-row">
-                          <div class="mpu-step-index"><span>03</span></div>
-                          <div class="mpu-step-text">
-                            <strong>Verhalten</strong>
-                            <small>Veränderung glaubwürdig machen</small>
-                          </div>
-                        </div>
-
-                        <div class="mpu-step-row">
-                          <div class="mpu-step-index"><span>04</span></div>
-                          <div class="mpu-step-text">
-                            <strong>Simulation</strong>
-                            <small>Gespräch sicher trainieren</small>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="mpu-front-footer">
-                    <span>Struktur statt Panik</span>
-                    <span>Diskret begleitet</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="mpu-card-face mpu-card-back">
-                <div class="mpu-card-pattern"></div>
-                <div class="mpu-card-watermark">OK</div>
-                <div class="mpu-card-shine"></div>
-
-                <div class="mpu-card-safe mpu-back-safe">
-                  <div class="mpu-back-head">
-                    <h3>Ihr klarer<br />MPU-Plan</h3>
-                    <span>Rückseite</span>
-                  </div>
-
-                  <div class="mpu-result-list">
-                    <div class="mpu-result-row">
-                      <div class="mpu-result-copy">
-                        <strong>Klarheit</strong>
-                        <small>statt Unsicherheit</small>
-                      </div>
-                      <div class="mpu-result-ok">OK</div>
-                    </div>
-
-                    <div class="mpu-result-row">
-                      <div class="mpu-result-copy">
-                        <strong>Vorbereitung</strong>
-                        <small>statt Panik</small>
-                      </div>
-                      <div class="mpu-result-ok">OK</div>
-                    </div>
-
-                    <div class="mpu-result-row">
-                      <div class="mpu-result-copy">
-                        <strong>Struktur</strong>
-                        <small>statt Versprechen</small>
-                      </div>
-                      <div class="mpu-result-ok">OK</div>
-                    </div>
-
-                    <div class="mpu-result-row">
-                      <div class="mpu-result-copy">
-                        <strong>Begleitung</strong>
-                        <small>statt Alleingang</small>
-                      </div>
-                      <div class="mpu-result-ok">OK</div>
-                    </div>
-                  </div>
-
-                  <div class="mpu-back-footer">
-                    <div class="mpu-barcode"></div>
-                    <div class="mpu-machine-code">DE-MPU<br />READY</div>
-                  </div>
-                </div>
-              </div>
+          <div class="trust-item">
+            <div class="trust-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
             </div>
-          </div>
-
-          <div class="story-progress">
-            <div class="story-progress-fill"></div>
+            <div class="trust-text">
+              <h4>Hohe Erfolgsquote</h4>
+              <p>Durch bewährte<br>Methoden</p>
+            </div>
           </div>
         </div>
-      </section>
 
-    </main>
-  </div>
+        <div class="quote-card">
+          <div class="quote-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Zm15 0c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Z"/></svg>
+          </div>
+          <p>"Der schwierigste Teil ist der erste Schritt.<br>Den Rest gehen wir <span>gemeinsam.</span>"</p>
+        </div>
 
-  <script>
+      </div>
+
+    </section>
+
+    <section id="license-story" class="license-story">
+      <div class="story-sticky">
+        <div class="story-kicker">Der Führerschein-Fahrplan</div>
+
+        <div class="story-copy story-copy-right">
+          <article class="step-copy active">
+            <div class="step-eyebrow">01 / Analyse</div>
+            <h2>Erst verstehen, dann vorbereiten.</h2>
+            <p>Wir starten nicht mit Standard-Antworten, sondern mit Ihrer echten Ausgangslage. Warum kam es zur MPU? Was erwartet die Begutachtung? Was muss sauber vorbereitet werden?</p>
+            <ul class="micro-list">
+              <li>Alkohol, Punkte, Drogen oder andere Gründe sauber einordnen</li>
+              <li>Risiken erkennen, bevor sie im Gespräch problematisch werden</li>
+            </ul>
+          </article>
+
+          <article class="step-copy">
+            <div class="step-eyebrow">02 / Nachweise</div>
+            <h2>Fristen, Unterlagen und Nachweise im Blick.</h2>
+            <p>Viele scheitern nicht am Willen, sondern an fehlender Struktur. Wir prüfen, welche Unterlagen, Abstinenznachweise und zeitlichen Schritte für Ihre Situation relevant sind.</p>
+            <ul class="micro-list">
+              <li>Was muss vorliegen?</li>
+              <li>Was sollte frühzeitig geplant werden?</li>
+            </ul>
+          </article>
+
+          <article class="step-copy">
+            <div class="step-eyebrow">03 / Verhalten</div>
+            <h2>Keine auswendig gelernten Antworten.</h2>
+            <p>Die MPU erkennt oberflächliche Erklärungen. Deshalb geht es um echtes Verständnis: Was hat sich verändert? Warum ist es glaubwürdig? Wie erklären Sie es klar und ruhig?</p>
+            <ul class="micro-list">
+              <li>Reflexion statt Floskeln</li>
+              <li>Klare Sprache statt Panik im Gespräch</li>
+            </ul>
+          </article>
+
+          <article class="step-copy">
+            <div class="step-eyebrow">04 / Simulation</div>
+            <h2>Sicher ins Prüfungsgespräch gehen.</h2>
+            <p>Zum Schluss wird aus Vorbereitung Sicherheit. Wir trainieren typische Gesprächssituationen, geben ehrliches Feedback und bringen Struktur in Ihre Antworten.</p>
+            <ul class="micro-list">
+              <li>Realistische Gesprächssimulation</li>
+              <li>Feedback, Korrektur und finaler Fahrplan</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="story-copy story-copy-left">
+          <div class="final-card-copy">
+            <div class="final-eyebrow">Rückseite / Ergebnis</div>
+            <h2>Wir drehen die MPU für Sie um.</h2>
+            <p>Aus Unsicherheit wird ein klarer Plan. Aus Druck wird Vorbereitung. Aus einem unübersichtlichen Prozess wird ein strukturierter Weg zurück zur Mobilität.</p>
+            <a href="#kontakt" class="final-cta">Kostenloses Erstgespräch anfragen</a>
+          </div>
+        </div>
+
+        <div class="mpu-license-stage">
+          <div class="mpu-card-object">
+            <div class="mpu-card-face mpu-card-front">
+              <div class="mpu-card-pattern"></div>
+              <div class="mpu-card-watermark">MPU</div>
+              <div class="mpu-card-shine"></div>
+
+              <div class="mpu-card-safe">
+                <div class="mpu-doc-head">
+                  <div class="mpu-eu">D</div>
+                  <div>
+                    <p class="mpu-doc-label">Bundesrepublik Deutschland</p>
+                    <div class="mpu-doc-title">Führerschein</div>
+                  </div>
+                  <div class="mpu-doc-code">MPU<br />Plan</div>
+                </div>
+
+                <div class="mpu-front-body">
+                  <div class="mpu-photo-panel">
+                    <div class="mpu-photo-box">
+                      <div class="mpu-photo-head"></div>
+                      <div class="mpu-photo-body"></div>
+                    </div>
+                    <div class="mpu-signature-line"></div>
+                    <div class="mpu-id-line">MPU-2026</div>
+                  </div>
+
+                  <div class="mpu-step-panel">
+                    <div class="mpu-panel-meta">
+                      <span>Fahrplan</span>
+                      <b>4 Schritte</b>
+                    </div>
+
+                    <div class="mpu-step-list">
+                      <div class="mpu-step-row is-active">
+                        <div class="mpu-step-index"><span>01</span></div>
+                        <div class="mpu-step-text">
+                          <strong>Analyse</strong>
+                          <small>Ausgangslage klären</small>
+                        </div>
+                      </div>
+
+                      <div class="mpu-step-row">
+                        <div class="mpu-step-index"><span>02</span></div>
+                        <div class="mpu-step-text">
+                          <strong>Nachweise</strong>
+                          <small>Fristen &amp; Unterlagen prüfen</small>
+                        </div>
+                      </div>
+
+                      <div class="mpu-step-row">
+                        <div class="mpu-step-index"><span>03</span></div>
+                        <div class="mpu-step-text">
+                          <strong>Verhalten</strong>
+                          <small>Veränderung glaubwürdig machen</small>
+                        </div>
+                      </div>
+
+                      <div class="mpu-step-row">
+                        <div class="mpu-step-index"><span>04</span></div>
+                        <div class="mpu-step-text">
+                          <strong>Simulation</strong>
+                          <small>Gespräch sicher trainieren</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mpu-front-footer">
+                  <span>Struktur statt Panik</span>
+                  <span>Diskret begleitet</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mpu-card-face mpu-card-back">
+              <div class="mpu-card-pattern"></div>
+              <div class="mpu-card-watermark">OK</div>
+              <div class="mpu-card-shine"></div>
+
+              <div class="mpu-card-safe mpu-back-safe">
+                <div class="mpu-back-head">
+                  <h3>Ihr klarer<br />MPU-Plan</h3>
+                  <span>Rückseite</span>
+                </div>
+
+                <div class="mpu-result-list">
+                  <div class="mpu-result-row">
+                    <div class="mpu-result-copy">
+                      <strong>Klarheit</strong>
+                      <small>statt Unsicherheit</small>
+                    </div>
+                    <div class="mpu-result-ok">OK</div>
+                  </div>
+
+                  <div class="mpu-result-row">
+                    <div class="mpu-result-copy">
+                      <strong>Vorbereitung</strong>
+                      <small>statt Panik</small>
+                    </div>
+                    <div class="mpu-result-ok">OK</div>
+                  </div>
+
+                  <div class="mpu-result-row">
+                    <div class="mpu-result-copy">
+                      <strong>Struktur</strong>
+                      <small>statt Versprechen</small>
+                    </div>
+                    <div class="mpu-result-ok">OK</div>
+                  </div>
+
+                  <div class="mpu-result-row">
+                    <div class="mpu-result-copy">
+                      <strong>Begleitung</strong>
+                      <small>statt Alleingang</small>
+                    </div>
+                    <div class="mpu-result-ok">OK</div>
+                  </div>
+                </div>
+
+                <div class="mpu-back-footer">
+                  <div class="mpu-barcode"></div>
+                  <div class="mpu-machine-code">DE-MPU<br />READY</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="story-progress">
+          <div class="story-progress-fill"></div>
+        </div>
+      </div>
+    </section>
+  </div> <script>
     const gsap = window.gsap;
     const ScrollTrigger = window.ScrollTrigger;
     gsap.registerPlugin(ScrollTrigger);
@@ -750,33 +751,19 @@
     }
 
     window.addEventListener("load", () => {
-      const tl = gsap.timeline();
-
-      tl.fromTo("#intro-license",
-        { z: -2000, rotationY: 720, rotationZ: -45, opacity: 0 },
-        { z: 0, rotationY: 0, rotationZ: 0, opacity: 1, duration: 1.5, ease: "power3.out" }
-      )
-      .to("#intro-license", { duration: 0.5 })
-      .to("#intro-license", { scale: 4, rotationY: 360, filter: "blur(40px)", opacity: 0, duration: 1.2, ease: "power2.in" })
-      .to("#page-content", { opacity: 1, duration: 1.45, ease: "power2.out" }, "-=0.55")
-      
-      // Weiches Einblenden der neuen Elemente
-      .from(".hero-reveal", { 
-        autoAlpha: 0, 
-        y: 20, 
+      // Intro ausblenden und Seite anzeigen
+      gsap.to(".hero-reveal", { 
+        autoAlpha: 1, 
+        y: 0, 
         duration: 0.8, 
         stagger: 0.1, 
-        ease: "power3.out" 
-      }, "-=1.0")
-
-      .add(() => {
-        document.body.classList.remove("intro-lock");
-        const intro = document.getElementById("intro-container");
-        if (intro) intro.remove();
-
-        initScrollStory();
-        ScrollTrigger.refresh();
+        ease: "power3.out",
+        delay: 0.2
       });
+
+      document.body.classList.remove("intro-lock");
+      initScrollStory();
+      ScrollTrigger.refresh();
     });
   </script>
 </body>
