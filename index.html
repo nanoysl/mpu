@@ -2,298 +2,394 @@
 <html lang="de" class="antialiased">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium MPU Vorbereitung | Ersteinschätzung</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MPU Kompetenz | Premium Vorbereitung</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            dark: '#070A11',    // Tiefes Nachtblau
-                            card: '#111622',    // Leicht helleres Blau für Cards
-                            petrol: '#14746F',  // Vertrauensstiftendes Petrol
-                            petrolLight: '#21A09A',
-                            sand: '#EAE6DB',    // Warmer Textton statt hartem Weiß
+                            bg: '#05070a',       // Extrem tiefes Schwarzblau
+                            surface: '#0f141e',  // Leichte Erhebung
+                            border: '#1e293b',   // Dezente Kanten
+                            text: '#f1f5f9',     // Klarer Kontrast
+                            textMuted: '#94a3b8',// Sekundärtext
+                            accent: '#0d9488',   // Seriöses Teal/Petrol
+                            accentGlow: 'rgba(13, 148, 136, 0.4)'
                         }
                     },
                     fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
                         serif: ['Playfair Display', 'serif'],
-                    },
-                    backgroundImage: {
-                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
                     }
                 }
             }
         }
     </script>
 
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
     <style>
-        /* Custom Styles für Premium Look, die in Tailwind umständlich wären */
+        /* Base Resets & Premium Utilities */
         body {
-            background-color: #070A11;
-            color: #EAE6DB;
-            /* Vermeide horizontalen Scroll */
-            overflow-x: hidden; 
+            background-color: #05070a;
+            color: #f1f5f9;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Subtiles, edles Rauschen im Hintergrund (Performance-freundlich via SVG Filter) */
-        .noise-bg {
+        /* SVG Noise Filter für Textur */
+        .premium-noise {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            inset: 0;
+            z-index: 50;
             pointer-events: none;
-            z-index: 1;
-            opacity: 0.03; /* Sehr dezent! */
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Glassmorphism Effekt für die Fahrplan-Karten */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(15, 20, 30, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        /* Verstecke Elemente initial für GSAP, um FOUC (Flash of unstyled content) zu vermeiden */
-        .gsap-reveal { visibility: hidden; }
-
-        /* Magnetischer Button-Hover-Glow */
-        .btn-glow {
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-glow::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-        .btn-glow:hover::before {
-            left: 100%;
+        /* Clip-Path Utility für Text Reveals */
+        .clip-text-mask {
+            clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
         }
 
-        /* Respect User Preferences */
-        @media (prefers-reduced-motion: reduce) {
-            .gsap-reveal { visibility: visible !important; opacity: 1 !important; transform: none !important; }
-        }
+        /* Verstecken vor dem Load um Flackern zu vermeiden */
+        #root { opacity: 0; transition: opacity 0.3s ease; }
+        #root.ready { opacity: 1; }
+
+        /* Hide Scrollbar but keep functionality */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #05070a; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
     </style>
 </head>
-<body class="relative selection:bg-brand-petrol selection:text-white">
+<body>
 
-    <div class="noise-bg"></div>
+    <div class="premium-noise"></div>
 
-    <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-brand-petrol/20 rounded-full blur-[150px] pointer-events-none z-0"></div>
+    <div id="root"></div>
 
-    <main class="relative z-10 min-h-screen flex flex-col pt-8 pb-20 lg:pt-20 lg:pb-24">
-        
-        <header class="container mx-auto px-6 mb-12 lg:mb-20 flex justify-between items-center gsap-reveal" data-reveal-type="fade">
-            <div class="text-xl font-serif font-semibold tracking-wide text-white">
-                <span class="text-brand-petrolLight">MPU</span> Kompetenz
-            </div>
-            <a href="#kontakt" class="text-sm font-medium text-brand-sand/80 hover:text-white transition-colors border-b border-brand-sand/20 hover:border-white pb-0.5">
-                +49 123 4567 890
-            </a>
-        </header>
+    <script type="text/babel">
+        const { useEffect, useRef, useState, useLayoutEffect } = React;
 
-        <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 flex-grow items-center">
-            
-            <div class="lg:col-span-7 flex flex-col justify-center">
-                
-                <div class="gsap-reveal flex items-center gap-3 mb-8" data-reveal-type="slide-up">
-                    <span class="relative flex h-3 w-3">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-petrolLight opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-petrol"></span>
+        // --- COMPONENTS ---
+
+        // 1. Magnetic Button mit innerem Flare
+        const MagneticCTA = ({ children, primary = true }) => {
+            const buttonRef = useRef(null);
+            const flareRef = useRef(null);
+
+            useEffect(() => {
+                const btn = buttonRef.current;
+                const flare = flareRef.current;
+                if (!btn) return;
+
+                // Respect reduced motion
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+                const moveMouse = (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    // Magnetic pull (subtle)
+                    const xPos = (x - rect.width / 2) * 0.2;
+                    const yPos = (y - rect.height / 2) * 0.2;
+                    
+                    gsap.to(btn, { x: xPos, y: yPos, duration: 0.4, ease: "power2.out" });
+                    
+                    // Inner light flare follow
+                    if(flare) {
+                        gsap.to(flare, { x: x, y: y, opacity: 1, duration: 0.3 });
+                    }
+                };
+
+                const leaveMouse = () => {
+                    gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
+                    if(flare) gsap.to(flare, { opacity: 0, duration: 0.3 });
+                };
+
+                btn.addEventListener('mousemove', moveMouse);
+                btn.addEventListener('mouseleave', leaveMouse);
+
+                return () => {
+                    btn.removeEventListener('mousemove', moveMouse);
+                    btn.removeEventListener('mouseleave', leaveMouse);
+                };
+            }, []);
+
+            const baseStyle = "relative overflow-hidden inline-flex items-center justify-center px-8 py-4 rounded-lg font-medium tracking-wide transition-colors z-10 w-full sm:w-auto text-center";
+            const primaryStyle = "bg-brand-accent text-white hover:bg-teal-500 shadow-[0_0_20px_rgba(13,148,136,0.2)]";
+            const secondaryStyle = "bg-transparent border border-white/10 text-brand-text hover:bg-white/5";
+
+            return (
+                <a href="#" ref={buttonRef} className={`${baseStyle} ${primary ? primaryStyle : secondaryStyle}`}>
+                    <span className="relative z-10 flex items-center gap-2">
+                        {children}
+                        {primary && (
+                            <svg className="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        )}
                     </span>
-                    <div class="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-brand-sand/90 backdrop-blur-sm">
-                        Vor Ort in [Stadt] & Online
-                    </div>
-                </div>
-
-                <h1 class="gsap-reveal text-5xl sm:text-6xl lg:text-7xl font-serif font-medium leading-[1.1] text-white mb-6" data-reveal-type="slide-up">
-                    Zurück in die Spur —<br>
-                    <span class="text-brand-sand/60 italic font-light text-4xl sm:text-5xl lg:text-6xl">mit klarer MPU-Vorbereitung.</span>
-                </h1>
-
-                <p class="gsap-reveal text-lg sm:text-xl text-brand-sand/70 font-light leading-relaxed max-w-2xl mb-10" data-reveal-type="slide-up">
-                    Wir begleiten Sie diskret, persönlich und zielgerichtet zurück zum Führerschein. Strukturierte Aufarbeitung bei Alkohol, Drogen, Cannabis oder Punkten — ohne Auswendiglernen, aber mit echtem Verstehen.
-                </p>
-
-                <div class="gsap-reveal flex flex-wrap gap-3 mb-10" data-reveal-type="slide-up">
-                    <span class="px-3 py-1 text-sm border border-brand-petrol/30 rounded-md text-brand-petrolLight bg-brand-petrol/5">Diskrete Erstberatung</span>
-                    <span class="px-3 py-1 text-sm border border-white/10 rounded-md text-brand-sand/80 bg-white/5">Alkohol, Drogen, Punkte</span>
-                    <span class="px-3 py-1 text-sm border border-white/10 rounded-md text-brand-sand/80 bg-white/5">Einzelgespräche</span>
-                </div>
-
-                <div class="gsap-reveal flex flex-col sm:flex-row gap-4 items-start sm:items-center" data-reveal-type="slide-up">
-                    <a href="#erstgespraech" class="btn-glow w-full sm:w-auto inline-flex justify-center items-center px-8 py-4 bg-brand-petrol text-white rounded-lg font-medium tracking-wide shadow-[0_0_20px_rgba(20,116,111,0.3)] hover:shadow-[0_0_30px_rgba(20,116,111,0.5)] transition-all duration-300">
-                        Kostenlose Ersteinschätzung
-                        <svg class="w-5 h-5 ml-2 -mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </a>
-                    <a href="https://wa.me/123456789" class="w-full sm:w-auto inline-flex justify-center items-center px-8 py-4 bg-transparent border border-white/10 text-brand-sand hover:bg-white/5 rounded-lg font-medium transition-colors">
-                        WhatsApp schreiben
-                    </a>
-                </div>
-
-                <p class="gsap-reveal mt-6 text-xs text-brand-sand/40 font-light flex items-start gap-2" data-reveal-type="fade">
-                    <svg class="w-4 h-4 flex-shrink-0 text-brand-sand/30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span>Wir geben bewusst keine Bestehensgarantie. Eine erfolgreiche MPU erfordert seriöse, persönliche Aufarbeitung statt falscher Versprechen.</span>
-                </p>
-            </div>
-
-            <div class="lg:col-span-5 relative lg:pl-10 mt-12 lg:mt-0">
-                
-                <div class="relative max-w-sm mx-auto lg:ml-auto lg:mr-0">
-                    <div class="absolute left-4 top-2 bottom-6 w-px bg-white/10 z-0"></div>
-                    
-                    <div class="animated-route-line absolute left-4 top-2 bottom-6 w-px bg-gradient-to-b from-brand-petrolLight via-brand-petrol to-transparent z-0 origin-top transform scale-y-0"></div>
-
-                    <div class="space-y-8 relative z-10">
-                        
-                        <div class="roadmap-item flex gap-6 items-start gsap-reveal" data-reveal-type="roadmap">
-                            <div class="w-8 h-8 rounded-full bg-brand-dark border-2 border-brand-petrolLight flex items-center justify-center flex-shrink-0 mt-1 shadow-[0_0_15px_rgba(33,160,154,0.3)]">
-                                <span class="text-xs font-bold text-brand-petrolLight">1</span>
-                            </div>
-                            <div class="glass-card rounded-xl p-5 flex-grow">
-                                <h3 class="text-white font-medium mb-1">Fall & Akte verstehen</h3>
-                                <p class="text-sm text-brand-sand/60 font-light">Wir analysieren Ihre Führerscheinakte und klären die genauen Vorwürfe.</p>
-                            </div>
-                        </div>
-
-                        <div class="roadmap-item flex gap-6 items-start gsap-reveal" data-reveal-type="roadmap">
-                            <div class="w-8 h-8 rounded-full bg-brand-dark border-2 border-white/20 flex items-center justify-center flex-shrink-0 mt-1 transition-colors duration-500 indicator-dot">
-                                <span class="text-xs font-bold text-white/50 indicator-num">2</span>
-                            </div>
-                            <div class="glass-card rounded-xl p-5 flex-grow">
-                                <h3 class="text-white font-medium mb-1">Fristen & Nachweise</h3>
-                                <p class="text-sm text-brand-sand/60 font-light">Klarheit über Sperrfristen und ob Abstinenznachweise nötig sind.</p>
-                            </div>
-                        </div>
-
-                        <div class="roadmap-item flex gap-6 items-start gsap-reveal" data-reveal-type="roadmap">
-                            <div class="w-8 h-8 rounded-full bg-brand-dark border-2 border-white/20 flex items-center justify-center flex-shrink-0 mt-1 transition-colors duration-500 indicator-dot">
-                                <span class="text-xs font-bold text-white/50 indicator-num">3</span>
-                            </div>
-                            <div class="glass-card rounded-xl p-5 flex-grow">
-                                <h3 class="text-white font-medium mb-1">Ehrliche Aufarbeitung</h3>
-                                <p class="text-sm text-brand-sand/60 font-light">Gemeinsame Entwicklung von Vermeidungsstrategien in Einzelgesprächen.</p>
-                            </div>
-                        </div>
-
-                        <div class="roadmap-item flex gap-6 items-start gsap-reveal" data-reveal-type="roadmap">
-                            <div class="w-8 h-8 rounded-full bg-brand-dark border-2 border-white/20 flex items-center justify-center flex-shrink-0 mt-1 transition-colors duration-500 indicator-dot">
-                                <span class="text-xs font-bold text-white/50 indicator-num">4</span>
-                            </div>
-                            <div class="glass-card rounded-xl p-5 flex-grow">
-                                <h3 class="text-white font-medium mb-1">Sicher ins Gespräch</h3>
-                                <p class="text-sm text-brand-sand/60 font-light">Mentale Vorbereitung und Simulation des Gutachter-Gesprächs.</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </main>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            
-            // Accessibility Check: Respect "prefers-reduced-motion"
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-            if (prefersReducedMotion) {
-                // Bei aktiver Reduzierung: Sichtbarkeit via CSS (siehe <style>) bereits geregelt, keine GSAP Timelines.
-                return; 
-            }
-
-            // GSAP Timeline Setup
-            // Wir machen alle Elemente sichtbar, aber setzen sie via GSAP direkt auf Start-Werte
-            gsap.set(".gsap-reveal", { autoAlpha: 1 }); // autoAlpha managet visibility und opacity
-            
-            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-            // 1. Linke Spalte (Copy & CTAs) animieren
-            const leftElements = document.querySelectorAll('.lg\\:col-span-7 .gsap-reveal');
-            
-            gsap.set(leftElements, { y: 30, opacity: 0 });
-            
-            tl.to(leftElements, {
-                y: 0,
-                opacity: 1,
-                duration: 1,
-                stagger: 0.15
-            });
-
-            // 2. Rechte Spalte: Header/Logo einblenden (parallel)
-            tl.fromTo("header.gsap-reveal", 
-                { opacity: 0 }, 
-                { opacity: 1, duration: 1 }, 
-                "-=1"
+                    {/* Inner Hover Flare */}
+                    {primary && (
+                        <div 
+                            ref={flareRef} 
+                            className="absolute pointer-events-none w-24 h-24 bg-white/30 rounded-full blur-xl opacity-0 transform -translate-x-1/2 -translate-y-1/2"
+                        ></div>
+                    )}
+                </a>
             );
+        };
 
-            // 3. Rechte Spalte: Die animierte Leitlinie
-            const lineDuration = 2;
-            tl.to(".animated-route-line", {
-                scaleY: 1,
-                duration: lineDuration,
-                ease: "power2.inOut"
-            }, "-=0.5");
+        // 2. Das interaktive System: Chaos to Order (Der Fahrplan)
+        const ChaosSystem = ({ steps }) => {
+            const containerRef = useRef(null);
+            const cardsRef = useRef([]);
 
-            // 4. Fahrplan-Karten einblenden, synchronisiert mit der Linie
-            const roadmapItems = document.querySelectorAll('.roadmap-item');
-            
-            roadmapItems.forEach((item, index) => {
-                // Startwerte für die Karten
-                gsap.set(item, { x: 20, opacity: 0 });
-                
-                // Wir berechnen den Zeitpunkt in der Timeline, wann die Linie den Punkt erreicht
-                // (index / (Anzahl - 1)) gibt uns einen %-Wert, multipliziert mit der lineDuration
-                let triggerPoint = index === 0 ? "-=" + lineDuration : "-=" + (lineDuration - (index * (lineDuration / roadmapItems.length)));
-                
-                // Ausnahme für den ersten Punkt, der soll etwas früher kommen
-                if(index === 0) triggerPoint = "-=1.8";
+            useEffect(() => {
+                // Initial: Cards sind wild verteilt (Chaos)
+                gsap.set(cardsRef.current, {
+                    x: () => gsap.utils.random(-200, 200),
+                    y: () => gsap.utils.random(-150, 150),
+                    rotation: () => gsap.utils.random(-25, 25),
+                    scale: 0.8,
+                    opacity: 0
+                });
 
-                // Animation der Karte
-                tl.to(item, {
-                    x: 0,
-                    opacity: 1,
-                    duration: 0.8,
-                }, triggerPoint);
+                // Master Timeline ruft später die Ordnung auf
+            }, []);
 
-                // Aktivierung des "Dots" (Border-Farbe ändern via Klasse/Style)
-                if(index > 0) { // Punkt 1 ist schon an
-                    const dot = item.querySelector('.indicator-dot');
-                    const num = item.querySelector('.indicator-num');
+            return (
+                <div ref={containerRef} className="relative w-full max-w-lg mx-auto lg:ml-auto lg:mr-0 grid gap-4 grid-cols-1 sm:grid-cols-2 z-20 perspective-1000 mt-12 lg:mt-0">
+                    {/* Decorative Background Lines */}
+                    <div className="absolute inset-0 border border-white/5 rounded-2xl -z-10 transform -rotate-3 scale-105"></div>
+                    <div className="absolute inset-0 border border-brand-accent/20 rounded-2xl -z-10 transform rotate-2 scale-105"></div>
+
+                    {steps.map((step, i) => (
+                        <div 
+                            key={i} 
+                            ref={el => cardsRef.current[i] = el}
+                            className={`glass-panel p-6 rounded-xl flex flex-col justify-between min-h-[160px] system-card
+                                ${i === 0 ? 'sm:col-span-2' : ''}
+                                hover:border-brand-accent/50 hover:bg-white/[0.04] transition-colors duration-500 cursor-default
+                            `}
+                        >
+                            <div className="flex justify-between items-start mb-4">
+                                <span className="text-brand-accent text-sm font-bold tracking-wider">PHASE 0{i+1}</span>
+                                <div className="w-2 h-2 rounded-full bg-brand-accent/50"></div>
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-medium text-white mb-1">{step.title}</h3>
+                                <p className="text-sm text-brand-textMuted leading-relaxed">{step.desc}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            );
+        };
+
+        // 3. Main App / Hero Component
+        const Hero = () => {
+            const heroRef = useRef(null);
+            const headlineRef = useRef(null);
+            const subheadRef = useRef(null);
+            const trustRefs = useRef([]);
+            const buttonClusterRef = useRef(null);
+            const bgGlowRef = useRef(null);
+
+            const steps = [
+                { title: "Fall verstehen", desc: "Akte analysieren und genaue Vorwürfe klären." },
+                { title: "Fristen klären", desc: "Sperrfristen und Abstinenznachweise prüfen." },
+                { title: "Planung", desc: "Strukturierte Aufarbeitung ohne Auswendiglernen." },
+                { title: "Sicherheit", desc: "Mentale Simulation des Gutachter-Gesprächs." }
+            ];
+
+            useLayoutEffect(() => {
+                document.getElementById('root').classList.add('ready');
+
+                const ctx = gsap.context(() => {
+                    const tl = gsap.timeline({ delay: 0.2 });
+
+                    // 1. Background Pulse
+                    tl.to(bgGlowRef.current, {
+                        opacity: 1,
+                        scale: 1.2,
+                        duration: 3,
+                        ease: "power2.out"
+                    }, 0);
+
+                    // 2. Headline Reveal (Clip Path Masking) - The text acts like it's pulled out of the dark
+                    tl.to(".headline-line", {
+                        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+                        y: 0,
+                        duration: 1.2,
+                        stagger: 0.15,
+                        ease: "power4.out"
+                    }, 0.2);
+
+                    tl.fromTo(subheadRef.current, 
+                        { opacity: 0, y: 20 },
+                        { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
+                        "-=0.8"
+                    );
+
+                    // 3. Trust Signals stagger
+                    tl.fromTo(trustRefs.current,
+                        { opacity: 0, scale: 0.9, y: 10 },
+                        { opacity: 1, scale: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "back.out(1.5)" },
+                        "-=0.5"
+                    );
+
+                    // 4. SIGNATURE MOTION: Chaos to Order
+                    tl.to(".system-card", {
+                        x: 0,
+                        y: 0,
+                        rotation: 0,
+                        scale: 1,
+                        opacity: 1,
+                        duration: 1.5,
+                        stagger: 0.1,
+                        ease: "expo.out"
+                    }, 0.4);
+
+                    // 5. Buttons Reveal
+                    tl.fromTo(buttonClusterRef.current,
+                        { opacity: 0, y: 20 },
+                        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
+                        "-=1"
+                    );
+
+                    // 6. Mobile Sticky CTA delay
+                    gsap.to(".mobile-sticky", {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.5,
+                        delay: 2.5,
+                        ease: "power2.out"
+                    });
+
+                }, heroRef);
+
+                return () => ctx.revert();
+            }, []);
+
+            return (
+                <div ref={heroRef} className="relative min-h-[100dvh] flex flex-col justify-center">
                     
-                    tl.to(dot, {
-                        borderColor: '#21A09A', // brand-petrolLight
-                        boxShadow: '0 0 15px rgba(33,160,154,0.3)',
-                        duration: 0.4
-                    }, triggerPoint);
+                    {/* Deep Ambient Background Glow */}
+                    <div 
+                        ref={bgGlowRef}
+                        className="absolute top-1/4 -right-1/4 w-full h-[80%] bg-brand-accent/10 rounded-[100%] blur-[120px] opacity-0 pointer-events-none"
+                    ></div>
 
-                    tl.to(num, {
-                        color: '#21A09A',
-                        duration: 0.4
-                    }, triggerPoint);
-                }
-            });
+                    {/* Header Minimal */}
+                    <header className="absolute top-0 w-full p-6 lg:p-10 flex justify-between items-center z-50">
+                        <div className="font-serif text-xl tracking-wider text-white flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-brand-accent"></div>
+                            MPU Kompetenz
+                        </div>
+                        <div className="hidden sm:flex items-center gap-2 text-xs uppercase tracking-widest text-brand-textMuted border border-white/10 px-4 py-2 rounded-full glass-panel">
+                            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                            Vor Ort in [Stadt] & Online
+                        </div>
+                    </header>
 
-        });
+                    {/* Main Content Grid */}
+                    <main className="container mx-auto px-6 lg:px-12 relative z-10 pt-24 pb-32">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                            
+                            {/* Left: Typography & Conversion */}
+                            <div className="flex flex-col relative z-20">
+                                
+                                {/* Trust Signals */}
+                                <div className="flex flex-wrap gap-2 mb-8">
+                                    {["Diskrete Erstberatung", "Alkohol, Drogen, Punkte", "Ohne Auswendiglernen"].map((text, i) => (
+                                        <span 
+                                            key={i} 
+                                            ref={el => trustRefs.current[i] = el}
+                                            className="px-3 py-1.5 text-xs font-medium text-brand-textMuted border border-white/10 rounded-md bg-white/[0.02]"
+                                        >
+                                            {text}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                {/* Headline (Split for Clip-Path reveal) */}
+                                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-sans font-medium leading-[1.05] tracking-tight text-white mb-6">
+                                    <div className="overflow-hidden pb-2">
+                                        <div className="headline-line clip-text-mask translate-y-full">Zurück in die</div>
+                                    </div>
+                                    <div className="overflow-hidden pb-2">
+                                        <div className="headline-line clip-text-mask translate-y-full text-brand-accent font-serif italic">Spur des Lebens.</div>
+                                    </div>
+                                </h1>
+
+                                <p ref={subheadRef} className="text-lg sm:text-xl text-brand-textMuted font-light leading-relaxed max-w-xl mb-10">
+                                    Strukturierte, persönliche MPU-Vorbereitung in [Stadt]. Wir bringen Ordnung in Ihre Akte – diskret, ehrlich und mit klarem Fahrplan.
+                                </p>
+
+                                {/* CTAs */}
+                                <div ref={buttonClusterRef} className="flex flex-col sm:flex-row gap-4 items-center">
+                                    <MagneticCTA primary={true}>Kostenlose Ersteinschätzung</MagneticCTA>
+                                    <MagneticCTA primary={false}>Anrufen / WhatsApp</MagneticCTA>
+                                </div>
+
+                                {/* Disclaimer */}
+                                <div className="mt-8 flex items-start gap-3 opacity-60">
+                                    <svg className="w-5 h-5 flex-shrink-0 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                    <p className="text-xs font-light text-brand-textMuted max-w-sm">
+                                        Keine Garantie-Märchen. Eine erfolgreiche MPU erfordert echte Aufarbeitung statt falscher Versprechen.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            {/* Right: Chaos to Order System */}
+                            <div className="relative w-full h-full min-h-[400px] flex items-center justify-center mt-12 lg:mt-0">
+                                <ChaosSystem steps={steps} />
+                            </div>
+
+                        </div>
+                    </main>
+
+                    {/* Mobile Sticky CTA (Hidden on Desktop) */}
+                    <div className="mobile-sticky fixed bottom-0 left-0 w-full p-4 glass-panel border-t border-white/10 z-50 lg:hidden translate-y-full opacity-0">
+                        <a href="#" className="flex justify-center items-center w-full bg-brand-accent text-white py-3 rounded-lg font-medium shadow-lg">
+                            Ersteinschätzung anfragen
+                        </a>
+                    </div>
+
+                </div>
+            );
+        };
+
+        // Render App
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Hero />);
     </script>
 </body>
 </html>
