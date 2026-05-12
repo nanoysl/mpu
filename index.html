@@ -3,411 +3,362 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MPU Beratung | Ihr sicherer Hafen</title>
+    <title>MPU | Radikale Ehrlichkeit</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --text-warm: #fcf8f2;
-            --text-muted: rgba(252, 248, 242, 0.7);
-            --gold: #d4af37;
+            --bg-color: #030303; /* Absolute Darkness */
+            --text-color: #f0f0f0;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; /* Custom Interaction Focus */
+            cursor: default;
         }
 
         body, html {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #050505;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            scrollbar-width: none;
         }
+        ::-webkit-scrollbar { display: none; }
 
-        /* WebGL Canvas */
-        #glcanvas {
-            position: absolute;
+        /* Das 3D Canvas (Fixiert im Hintergrund) */
+        #webgl-canvas {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             z-index: 1;
+            pointer-events: none;
         }
 
-        /* UI Overlay */
+        /* Die Scroll-Distanz für die Kamerafahrt */
+        .scroll-track {
+            position: relative;
+            height: 400vh;
+            z-index: 2;
+        }
+
+        /* Das UI, das am Ende der Kamerafahrt auftaucht */
         .ui-layer {
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10;
+            width: 100vw;
+            height: 100vh; /* Sitzt im letzten Viewport der Scroll-Track */
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            pointer-events: none; /* Maus interagiert mit dem Glas dahinter */
-            padding: 2rem;
-            text-align: center;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding: 4vw;
+            z-index: 10;
+            pointer-events: none;
         }
 
-        .location-badge {
-            font-size: 0.75rem;
+        .ui-content {
+            max-width: 500px;
+            opacity: 0; /* Wird von GSAP eingeblendet */
+            transform: translateY(30px);
+        }
+
+        .ui-subhead {
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.2em;
-            color: var(--gold);
-            margin-bottom: 2rem;
-            opacity: 0;
-            transform: translateY(20px);
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 1rem;
         }
 
-        .headline {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(3.5rem, 8vw, 7rem);
-            font-weight: 400;
-            line-height: 1.1;
-            color: var(--text-warm);
-            margin-bottom: 2rem;
-            letter-spacing: -0.02em;
-            
-            /* Start-Zustand: Beschlagenes Glas */
-            opacity: 0;
-            filter: blur(15px);
-            text-shadow: 0 0 20px rgba(255,255,255,0.5);
-            transition: filter 0.8s ease, text-shadow 0.8s ease;
-        }
-
-        .headline i {
-            font-style: italic;
-            color: rgba(255,255,255,0.6);
-        }
-
-        .subtext {
-            font-size: clamp(1rem, 1.2vw, 1.25rem);
-            max-width: 600px;
-            color: var(--text-muted);
+        .ui-text {
+            font-size: 1.1rem;
             line-height: 1.6;
             font-weight: 300;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2.5rem;
         }
 
-        /* Call to Action */
-        .cta-wrap {
-            margin-top: 4rem;
-            opacity: 0;
-            transform: translateY(20px);
-            pointer-events: auto;
-        }
-
-        .btn {
+        .cta-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 1.2rem 3rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            color: var(--text-warm);
+            background-color: #ffffff;
+            color: #000000;
             text-decoration: none;
+            font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            font-size: 0.85rem;
-            border-radius: 2px;
-            transition: all 0.4s ease;
+            font-size: 0.8rem;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
+            pointer-events: auto; /* Klickbar machen */
         }
 
-        .btn:hover {
-            background: var(--text-warm);
-            color: #050505;
+        .cta-btn:hover {
+            transform: scale(1.05);
+            background-color: #cccccc;
         }
 
-        /* Wenn das Glas fokussiert ist (Klasse wird per JS gesetzt) */
-        body.focused .headline {
-            filter: blur(0px);
-            text-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        }
-
-        /* Custom Interaction Ring */
-        .focus-ring {
+        /* Instruktion am Start */
+        .scroll-instruction {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 60px;
-            height: 60px;
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%) scale(1);
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .focus-ring::after {
-            content: '';
-            position: absolute;
             top: 50%;
             left: 50%;
-            width: 4px;
-            height: 4px;
-            background: var(--gold);
-            border-radius: 50%;
             transform: translate(-50%, -50%);
-        }
-
-        body.focused .focus-ring {
-            transform: translate(-50%, -50%) scale(0.6);
-            border-color: rgba(212, 175, 55, 0.5); /* Gold */
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: rgba(255, 255, 255, 0.3);
+            z-index: 20;
+            mix-blend-mode: difference;
         }
     </style>
 </head>
 <body>
 
-    <div id="glcanvas"></div>
-    <div class="focus-ring" id="focus-ring"></div>
+    <canvas id="webgl-canvas"></canvas>
 
-    <div class="ui-layer">
-        <div class="location-badge" id="anim-badge">Diskret in Berlin & Digital</div>
-        <h1 class="headline" id="anim-h1">Ihr sicherer <i>Hafen</i><br>im System.</h1>
-        <p class="subtext" id="anim-sub">
-            Die MPU fühlt sich oft an, als stünde man allein im Regen. Wir holen Sie da raus. Keine Verurteilung, keine leeren Versprechen. Nur eine präzise, ehrliche Vorbereitung auf Augenhöhe.
-        </p>
-        <div class="cta-wrap" id="anim-cta">
-            <a href="#" class="btn">Kostenfreie Ersteinschätzung</a>
+    <div class="scroll-instruction" id="instruction">Scroll to reveal truth</div>
+
+    <div class="scroll-track">
+        <div class="ui-layer">
+            <div class="ui-content" id="final-ui">
+                <div class="ui-subhead">MPU Strategie & Beratung</div>
+                <p class="ui-text">
+                    Wir arbeiten nicht mit Tricks. Wir arbeiten mit Struktur. Eine erfolgreiche MPU erfordert ehrliche Aufarbeitung und eine wissenschaftlich fundierte Vorbereitung. Wir machen es machbar.
+                </p>
+                <a href="#" class="cta-btn">Termin vereinbaren</a>
+            </div>
         </div>
     </div>
 
-    <script type="x-shader/x-vertex" id="vertexShader">
-        varying vec2 vUv;
-        void main() {
-            vUv = uv;
-            gl_Position = vec4(position, 1.0);
-        }
-    </script>
-
-    <script type="x-shader/x-fragment" id="fragmentShader">
-        uniform float u_time;
-        uniform vec2 u_resolution;
-        uniform vec2 u_mouse;
-        uniform float u_focus; // 0.0 = Draußen scharf (Kalt), 1.0 = Drinnen scharf (Warm)
-        
-        uniform sampler2D texCity; // Kalte Stadt (Draußen)
-        uniform sampler2D texRoom; // Warmer Raum (Spiegelung)
-
-        varying vec2 vUv;
-
-        // Hash & Noise für Kondenswasser und Regentropfen
-        vec3 hash3( vec2 p ) {
-            vec3 q = vec3( dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,183.3)), dot(p,vec2(419.2,371.9)) );
-            return fract(sin(q)*43758.5453);
-        }
-
-        float noise( vec2 x ) {
-            vec2 p = floor(x);
-            vec2 f = fract(x);
-            f = f*f*(3.0-2.0*f);
-            float n = mix(
-                mix( dot(hash3(p+vec2(0.0,0.0)).xy, f-vec2(0.0,0.0)), dot(hash3(p+vec2(1.0,0.0)).xy, f-vec2(1.0,0.0)), f.x),
-                mix( dot(hash3(p+vec2(0.0,1.0)).xy, f-vec2(0.0,1.0)), dot(hash3(p+vec2(1.0,1.0)).xy, f-vec2(1.0,1.0)), f.x),
-                f.y);
-            return 0.5 + 0.5*n;
-        }
-
-        // Fast Gaussian Blur Simulation für die Unschärfe
-        vec4 blurSample(sampler2D tex, vec2 uv, float radius) {
-            vec4 color = vec4(0.0);
-            float total = 0.0;
-            vec2 offset = vec2(radius) / u_resolution;
-            
-            // 9-Tap Blur
-            for(float x = -1.0; x <= 1.0; x++) {
-                for(float y = -1.0; y <= 1.0; y++) {
-                    color += texture2D(tex, uv + vec2(x, y) * offset);
-                    total += 1.0;
-                }
-            }
-            return color / total;
-        }
-
-        void main() {
-            vec2 uv = vUv;
-            
-            // Fix Aspect Ratio für korrekte Tropfen
-            vec2 st = uv;
-            st.x *= u_resolution.x / u_resolution.y;
-
-            // Kondenswasser / Glas-Textur generieren
-            float frost = noise(st * 15.0);
-            frost += noise(st * 40.0) * 0.5;
-            
-            // Verzerrung der UVs durch das Glas
-            vec2 frostDistortion = vec2(noise(st * 10.0 + u_time * 0.1), noise(st * 10.0 - u_time * 0.1)) * 0.02;
-            
-            // Maus-Distanz für den interaktiven "Wipe/Focus" Effekt
-            vec2 mouseUV = u_mouse / u_resolution;
-            float mouseDist = distance(uv, mouseUV);
-            
-            // u_focus steuert den globalen Fokus, die Maus macht lokal "klar"
-            float focusState = smoothstep(0.0, 1.0, u_focus);
-            float localClear = 1.0 - smoothstep(0.0, 0.2, mouseDist);
-            float finalFocus = clamp(focusState + localClear * 0.5, 0.0, 1.0);
-
-            // STATE 1: Kalte Stadt draußen
-            // Wenn fokussiert, wird die Stadt extrem unscharf (Bokeh Simulation)
-            float cityBlurRadius = mix(2.0, 25.0, finalFocus); 
-            vec2 cityUV = uv + frostDistortion * (1.0 - finalFocus); // Weniger Verzerrung wenn fokussiert
-            vec4 colCity = blurSample(texCity, cityUV, cityBlurRadius);
-            
-            // Die Stadt etwas kälter/dunkler machen
-            colCity.rgb *= vec3(0.7, 0.8, 1.0);
-
-            // STATE 2: Warme Spiegelung des Innenraums
-            // Wenn NICHT fokussiert, ist die Spiegelung unsichtbar/verschwommen
-            float roomBlurRadius = mix(15.0, 1.0, finalFocus);
-            vec4 colRoom = blurSample(texRoom, uv, roomBlurRadius);
-            
-            // Raumfarben extrem warm und hochwertig graden
-            colRoom.rgb *= vec3(1.2, 0.9, 0.6) * 1.5;
-
-            // MIXEN:
-            // Wenn der Fokus auf der Scheibe liegt (finalFocus = 1.0),
-            // dominiert die warme Spiegelung auf dem schwarzen Glas.
-            vec3 finalColor = mix(colCity.rgb, colRoom.rgb * 0.8 + colCity.rgb * 0.2, finalFocus);
-
-            // Vignette für den filmischen Look
-            float vignette = uv.x * uv.y * (1.0 - uv.x) * (1.0 - uv.y);
-            finalColor *= pow(vignette, 0.2) * 2.0;
-
-            gl_FragColor = vec4(finalColor, 1.0);
-        }
-    </script>
-
     <script>
         /**
-         * 1. THE CINETMATIC SETUP (Three.js)
+         * 1. LENIS SMOOTH SCROLL (Die physikalische Schwere der Kamera)
          */
-        const container = document.getElementById('glcanvas');
-        const focusRing = document.getElementById('focus-ring');
-        let width = window.innerWidth;
-        let height = window.innerHeight;
-
-        const scene = new THREE.Scene();
-        const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-        const renderer = new THREE.WebGLRenderer({ antialias: false });
-        renderer.setSize(width, height);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        container.appendChild(renderer.domElement);
-
-        // High-End Texturen laden (CORS friendly Unsplash Source)
-        const loader = new THREE.TextureLoader();
-        loader.setCrossOrigin("anonymous");
-
-        // Kalte Stadt im Regen
-        const texCity = loader.load('https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=2000&q=80');
-        // Warme Luxus-Lounge (Spiegelung)
-        const texRoom = loader.load('https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&w=2000&q=80');
-
-        // Shader Uniforms
-        const uniforms = {
-            u_time: { value: 0.0 },
-            u_resolution: { value: new THREE.Vector2(width, height) },
-            u_mouse: { value: new THREE.Vector2(width / 2, height / 2) },
-            u_focus: { value: 0.0 }, // 0 = Stadt, 1 = Scheibe/Spiegelung
-            texCity: { value: texCity },
-            texRoom: { value: texRoom }
-        };
-
-        const material = new THREE.ShaderMaterial({
-            vertexShader: document.getElementById('vertexShader').textContent,
-            fragmentShader: document.getElementById('fragmentShader').textContent,
-            uniforms: uniforms
+        const lenis = new Lenis({
+            duration: 2.0, // Extrem langsam und schwer für den Monolithen-Effekt
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            smooth: true,
         });
 
-        const plane = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
-        scene.add(plane);
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        gsap.registerPlugin(ScrollTrigger);
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0, 0);
 
         /**
-         * 2. INTERACTION & FOCUS LOGIC
+         * 2. GENERIERE DIE 4K TEXTUR ON THE FLY
+         * Wir zeichnen den Text auf ein Canvas, das als Roughness/Bump-Map für das Metall dient.
          */
-        let mouseX = width / 2;
-        let mouseY = height / 2;
-        let targetFocus = 0.0;
-        let isFocused = false;
+        function createMonolithTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 4096;
+            canvas.height = 4096;
+            const ctx = canvas.getContext('2d');
 
-        // Custom Cursor Tracker
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            
-            // Ring folgen lassen
-            focusRing.style.left = `${mouseX}px`;
-            focusRing.style.top = `${mouseY}px`;
-            
-            // Für den WebGL Shader (Y invertieren)
-            gsap.to(uniforms.u_mouse.value, {
-                x: mouseX,
-                y: height - mouseY,
-                duration: 0.5,
-                ease: "power2.out"
-            });
+            // Hintergrund: Sehr helles Grau (In der Roughness-Map bedeutet Weiß = extrem rau/matt)
+            ctx.fillStyle = '#e0e0e0'; 
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Sobald die Maus bewegt wird, triggern wir den globalen Fokus
-            if (!isFocused) {
-                isFocused = true;
-                targetFocus = 1.0;
-                document.body.classList.add('focused');
+            // Text: Absolutes Schwarz (In der Roughness-Map bedeutet Schwarz = Spiegelglatt/poliert)
+            ctx.fillStyle = '#000000';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // Brutalistische Typografie
+            ctx.font = '900 320px Inter, sans-serif';
+            
+            // Textblöcke zeichnen
+            ctx.fillText('WIR VERSPRECHEN', 2048, 1400);
+            ctx.fillText('NICHT, DASS ES', 2048, 1800);
+            ctx.fillText('LEICHT WIRD.', 2048, 2200);
+            
+            ctx.font = '500 160px Inter, sans-serif';
+            ctx.fillText('WIR VERSPRECHEN, DASS ES MACHBAR IST.', 2048, 2800);
+
+            // Füge extrem feines Rauschen (Brushed Metal Grain) über das ganze Canvas hinzu
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            for (let i = 0; i < data.length; i += 4) {
+                // Nur Rauschen auf dem grauen "Stein", nicht im polierten Text
+                if (data[i] > 50) { 
+                    const noise = (Math.random() - 0.5) * 30;
+                    data[i] += noise;     // R
+                    data[i+1] += noise;   // G
+                    data[i+2] += noise;   // B
+                }
+            }
+            ctx.putImageData(imageData, 0, 0);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.anisotropy = 16; // Höchste Schärfe im Winkel
+            return texture;
+        }
+
+        /**
+         * 3. THREE.JS SCENE SETUP
+         */
+        const canvas = document.getElementById('webgl-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+
+        const scene = new THREE.Scene();
+        // Fog für absolute Tiefe in den Ecken
+        scene.fog = new THREE.FogExp2(0x030303, 0.02);
+
+        // Kamera
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        
+        /**
+         * 4. DER MONOLITH (Das 200k Element)
+         */
+        const monolithGeometry = new THREE.BoxGeometry(24, 24, 2);
+        const monolithTexture = createMonolithTexture();
+
+        const monolithMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0x111111,          // Dunkles Titan/Obsidian
+            metalness: 1.0,           // 100% Metall
+            roughness: 0.8,           // Basis-Rauheit wird von der Map überschrieben
+            roughnessMap: monolithTexture, // Der Text ist glatt (schwarz), der Rest rau (weiß)
+            bumpMap: monolithTexture,      // Der Text ist physisch "eingraviert"
+            bumpScale: 0.05,
+            clearcoat: 0.1,
+            clearcoatRoughness: 0.4,
+        });
+
+        const monolith = new THREE.Mesh(monolithGeometry, monolithMaterial);
+        scene.add(monolith);
+
+        /**
+         * 5. HIGH-END BELEUCHTUNG (Cinematic Studio)
+         */
+        // Umgebungslicht (sehr schwach)
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        scene.add(ambientLight);
+
+        // Dramatisches Spotlight von oben (Key Light)
+        const spotLight = new THREE.SpotLight(0xffffff, 500);
+        spotLight.position.set(0, 20, 10);
+        spotLight.angle = Math.PI / 4;
+        spotLight.penumbra = 0.8;
+        scene.add(spotLight);
+
+        // Ein seitliches, kühles Kantenlicht (Rim Light) für das Metall
+        const rimLight = new THREE.PointLight(0x88bbff, 200);
+        rimLight.position.set(-15, 0, -5);
+        scene.add(rimLight);
+
+        // Interaktives Licht, das der Maus folgt (simuliert eine Taschenlampe/Reflektion)
+        const mouseLight = new THREE.PointLight(0xffddaa, 100);
+        mouseLight.position.set(0, 0, 5);
+        scene.add(mouseLight);
+
+        /**
+         * 6. STARTPOSITIONEN (Makro-Aufnahme)
+         */
+        // Wir starten EXTREM nah am Monolithen, angewinkelt. Man sieht nur die Textur, keinen Text.
+        camera.position.set(-8, -5, 4);
+        monolith.rotation.x = -0.2;
+        monolith.rotation.y = 0.5;
+
+        /**
+         * 7. GSAP SCROLL ANIMATION (Die Kamerafahrt)
+         */
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".scroll-track",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1.5, // Schwere, filmische Verzögerung
             }
         });
 
-        // Resize Handling
-        window.addEventListener('resize', () => {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            renderer.setSize(width, height);
-            uniforms.u_resolution.value.set(width, height);
+        // Die Instruktion ausblenden
+        tl.to("#instruction", { opacity: 0, duration: 0.05 }, 0);
+
+        // Die monumentale Kamerafahrt und Monolith-Rotation
+        tl.to(camera.position, {
+            x: 0,
+            y: 0,
+            z: 28, // Wir ziehen massiv auf, um das ganze Objekt zu sehen
+            ease: "power2.inOut"
+        }, 0);
+
+        tl.to(monolith.rotation, {
+            x: 0,
+            y: 0, // Dreht sich frontal zum Nutzer
+            z: 0,
+            ease: "power2.inOut"
+        }, 0);
+
+        // Das finale UI einblenden, wenn die Kamera zum Stehen kommt
+        tl.to("#final-ui", {
+            opacity: 1,
+            y: 0,
+            duration: 0.2,
+            ease: "power1.out"
+        }, 0.8); // Startet bei 80% des Scrolls
+
+
+        /**
+         * 8. INTERAKTION & RENDER LOOP
+         */
+        let mouseX = 0;
+        let mouseY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            // Normalisierte Mauskoordinaten (-1 bis +1)
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
         });
 
-        /**
-         * 3. INITIAL REVEAL ANIMATION (GSAP)
-         * Lässt den Text elegant einfliegen, während draußen der Regen wütet.
-         */
-        window.onload = () => {
-            const tl = gsap.timeline({ delay: 0.5 });
-            
-            tl.to("#anim-badge", { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
-              .to("#anim-h1", { opacity: 1, duration: 1.5, ease: "power2.out" }, "-=0.5")
-              .to("#anim-sub", { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, "-=1.0")
-              .to("#anim-cta", { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, "-=0.8");
-        };
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
 
-        /**
-         * 4. RENDER LOOP
-         */
         const clock = new THREE.Clock();
 
         function animate() {
             requestAnimationFrame(animate);
-            
-            uniforms.u_time.value += clock.getDelta();
-            
-            // LERP den Fokus für einen butterweichen Übergang (Kamera Fokus Pull)
-            uniforms.u_focus.value += (targetFocus - uniforms.u_focus.value) * 0.03;
+
+            // Das interaktive Licht folgt butterweich der Maus (LERP)
+            mouseLight.position.x += (mouseX * 15 - mouseLight.position.x) * 0.05;
+            mouseLight.position.y += (mouseY * 15 - mouseLight.position.y) * 0.05;
+
+            // Ein minimales, ständiges "Atmen" des Monolithen, damit er nicht tot wirkt
+            const time = clock.getElapsedTime();
+            monolith.position.y = Math.sin(time * 0.5) * 0.2;
 
             renderer.render(scene, camera);
         }
-        animate();
 
+        animate();
     </script>
 </body>
 </html>
