@@ -13,7 +13,7 @@
 
   <style>
     :root {
-      --nav-height: 90px;
+      --nav-height: 80px;
       --page-pad: clamp(1.5rem, 4vw, 4.5rem);
       --white-soft: rgba(255,255,255,0.74);
       --cyan: #5CE1E6; 
@@ -108,33 +108,33 @@
     .intro-l-line:nth-child(1) { width: 100%; } .intro-l-line:nth-child(2) { width: 80%; } .intro-l-line:nth-child(3) { width: 60%; } .intro-l-line:nth-child(4) { width: 90%; } .intro-l-line:nth-child(5) { width: 40%; margin-top: 20px; }
 
     /* =========================================
-       NEUE NAVBAR (Kompakt & 100% Durchsichtig)
+       NEUE NAVBAR (Kompakt & Durchsichtig)
        ========================================= */
     .navbar {
-      position: absolute; 
+      position: absolute; /* Nicht fixed, damit sie clean oben liegt */
       top: 0; left: 0; right: 0; z-index: 50;
       height: var(--nav-height); display: flex; justify-content: space-between; align-items: center;
       padding: 0 4vw; background: transparent;
     }
 
     .nav-logo { display: flex; flex-direction: column; line-height: 1.1; }
-    .nav-logo-top { font-size: 1.4rem; font-weight: 900; letter-spacing: 0.05em; color: #fff; }
-    .nav-logo-bottom { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; color: var(--cyan); }
+    .nav-logo-top { font-size: 1.2rem; font-weight: 900; letter-spacing: 0.05em; color: #fff; }
+    .nav-logo-bottom { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; color: var(--cyan); }
 
     .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links li a { font-size: 0.7rem; font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.4rem; transition: color 0.3s ease; }
+    .nav-links li a { font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.4rem; transition: color 0.3s ease; }
     .nav-links li a:hover { color: #fff; }
     .nav-links svg { width: 10px; height: 10px; opacity: 0.7; }
 
     .nav-cta {
       background: var(--cyan); color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 0.1em; padding: 0.7rem 1.4rem; border-radius: 4px; display: flex; align-items: center; gap: 0.4rem; transition: transform 0.2s ease;
+      letter-spacing: 0.1em; padding: 0.6rem 1.2rem; border-radius: 4px; display: flex; align-items: center; gap: 0.4rem; transition: background 0.3s ease;
     }
-    .nav-cta:hover { transform: translateY(-2px); }
-    .nav-cta svg { width: 14px; height: 14px; }
+    .nav-cta:hover { background: var(--cyan-hover); }
+    .nav-cta svg { width: 12px; height: 12px; }
 
     /* =========================================
-       NEUER HERO BEREICH (Macbook Optimized & 5% eingerückt)
+       NEUER HERO BEREICH (Macbook Optimized)
        ========================================= */
     .hero-section {
       position: relative;
@@ -142,63 +142,74 @@
       display: flex;
       flex-direction: column;
       padding: calc(var(--nav-height) + 2rem) 4vw 2rem 4vw;
-      max-width: 1600px;
-      margin: 0 auto;
     }
 
-    /* Das Bild: Ohne Gradient, 5% nach innen gerückt, Background Contain */
+    /* Das Bild: Volle Höhe, rechtsbündig, Cover-Modus */
     .hero-bg-image {
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      right: 5%; 
-      width: 55%; 
-      height: 80%;
+      top: 0;
+      right: 0; 
+      bottom: 0;
+      width: 60%; 
+      height: 100%;
       background-image: url('mpu.png');
-      background-size: contain; 
-      background-position: right center;
-      background-repeat: no-repeat;
+      background-size: cover; 
+      background-position: center left;
       z-index: 1; 
     }
 
     .hero-content {
       position: relative;
       z-index: 10;
-      max-width: 580px; 
-      margin-top: 8vh;
+      max-width: 550px; 
+      margin-top: 4vh;
     }
 
-    .kicker { color: var(--cyan); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.2rem; }
-    
-    .hero-headline { font-size: clamp(2.8rem, 4.5vw, 4.2rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; text-transform: uppercase; }
+    .kicker {
+      color: var(--cyan); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.2rem;
+    }
+
+    .hero-headline {
+      font-size: clamp(2.5rem, 4vw, 3.8rem); 
+      font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.2rem; text-transform: uppercase;
+    }
     .hero-headline .highlight { color: var(--cyan); }
-    
-    .hero-subtext { font-size: 1rem; line-height: 1.6; color: var(--white-soft); margin-bottom: 3rem; max-width: 480px; }
+
+    .hero-subtext {
+      font-size: 0.95rem; line-height: 1.6; color: var(--white-soft); margin-bottom: 2.5rem; max-width: 450px;
+    }
 
     .hero-actions { display: flex; align-items: center; gap: 1.5rem; }
     
-    .btn-hero-primary { background: var(--cyan); color: #000; padding: 1rem 1.8rem; border-radius: 4px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 8px; transition: transform 0.2s ease;}
-    .btn-hero-primary:hover { transform: translateY(-2px); }
-    .btn-hero-primary svg { width: 16px; height: 16px; }
+    .btn-hero-primary {
+      background: var(--cyan); color: #000; padding: 0.9rem 1.6rem; border-radius: 4px;
+      font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;
+    }
+    .btn-hero-primary svg { width: 14px; height: 14px; }
     
-    .btn-play { display: flex; align-items: center; gap: 0.8rem; color: #fff; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; transition: opacity 0.2s ease; }
-    .btn-play:hover { opacity: 0.8; }
-    .play-circle { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; display: grid; place-items: center; }
+    .btn-play { display: flex; align-items: center; gap: 0.8rem; color: #fff; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; cursor: pointer; }
+    .play-circle { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; display: grid; place-items: center; }
     .play-circle svg { width: 12px; height: 12px; fill: #fff; margin-left: 2px; }
 
     /* Trust Bar unten im Hero */
-    .hero-bottom { position: relative; z-index: 10; margin-top: auto; padding-top: 4rem; display: flex; justify-content: space-between; align-items: flex-end; }
+    .hero-bottom {
+      position: relative; z-index: 10; margin-top: auto; padding-top: 4rem; display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    
     .trust-items { display: flex; gap: 3rem; }
-    .t-item { display: flex; align-items: center; gap: 1rem; }
+    .t-item { display: flex; align-items: center; gap: 0.8rem; }
     .t-icon { color: var(--cyan); display: flex; align-items: center; }
-    .t-icon svg { width: 24px; height: 24px; stroke-width: 1.5; }
-    .t-text h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; font-weight: 800; color: #fff;}
-    .t-text p { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.3; }
+    .t-icon svg { width: 22px; height: 22px; stroke-width: 1.5; }
+    .t-text h4 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; font-weight: 800; color: #fff;}
+    .t-text p { font-size: 0.75rem; color: rgba(255,255,255,0.5); line-height: 1.3; }
 
-    .quote-card { background: rgba(15, 20, 25, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); padding: 1.2rem 1.5rem; border-radius: 8px; max-width: 300px; position: relative; }
-    .quote-icon { position: absolute; top: -12px; left: -10px; color: var(--cyan); }
-    .quote-icon svg { width: 24px; height: 24px; fill: var(--cyan); }
-    .quote-card p { font-size: 0.85rem; line-height: 1.5; color: rgba(255,255,255,0.9); }
+    .quote-card {
+      background: rgba(15, 20, 25, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05);
+      padding: 1.2rem; border-radius: 8px; max-width: 280px; position: relative;
+    }
+    .quote-icon { position: absolute; top: -10px; left: -10px; color: var(--cyan); }
+    .quote-icon svg { width: 20px; height: 20px; fill: var(--cyan); }
+    .quote-card p { font-size: 0.8rem; line-height: 1.5; color: rgba(255,255,255,0.9); }
     .quote-card p span { color: var(--cyan); font-weight: 700; }
 
     /* =========================================
