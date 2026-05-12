@@ -13,7 +13,7 @@
 
   <style>
     :root {
-      --nav-height: 80px;
+      --nav-height: 90px;
       --page-pad: clamp(1.5rem, 4vw, 4.5rem);
       --white-soft: rgba(255,255,255,0.74);
       --cyan: #5CE1E6; 
@@ -52,7 +52,7 @@
       text-decoration: none;
     }
 
-    /* DEIN ORIGINAL HINTERGRUND */
+    /* DEIN ORIGINAL HINTERGRUND (OGL Canvas) */
     #line-waves-bg {
       position: fixed;
       inset: 0;
@@ -108,33 +108,33 @@
     .intro-l-line:nth-child(1) { width: 100%; } .intro-l-line:nth-child(2) { width: 80%; } .intro-l-line:nth-child(3) { width: 60%; } .intro-l-line:nth-child(4) { width: 90%; } .intro-l-line:nth-child(5) { width: 40%; margin-top: 20px; }
 
     /* =========================================
-       NEUE NAVBAR (Kompakt & Durchsichtig)
+       NAVBAR (Durchsichtig)
        ========================================= */
     .navbar {
-      position: absolute; /* Nicht fixed, damit sie clean oben liegt */
+      position: absolute; 
       top: 0; left: 0; right: 0; z-index: 50;
       height: var(--nav-height); display: flex; justify-content: space-between; align-items: center;
       padding: 0 4vw; background: transparent;
     }
 
     .nav-logo { display: flex; flex-direction: column; line-height: 1.1; }
-    .nav-logo-top { font-size: 1.2rem; font-weight: 900; letter-spacing: 0.05em; color: #fff; }
-    .nav-logo-bottom { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; color: var(--cyan); }
+    .nav-logo-top { font-size: 1.4rem; font-weight: 900; letter-spacing: 0.05em; color: #fff; }
+    .nav-logo-bottom { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; color: var(--cyan); }
 
     .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links li a { font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.4rem; transition: color 0.3s ease; }
+    .nav-links li a { font-size: 0.7rem; font-weight: 600; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.4rem; transition: color 0.3s ease; }
     .nav-links li a:hover { color: #fff; }
     .nav-links svg { width: 10px; height: 10px; opacity: 0.7; }
 
     .nav-cta {
       background: var(--cyan); color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 0.1em; padding: 0.6rem 1.2rem; border-radius: 4px; display: flex; align-items: center; gap: 0.4rem; transition: background 0.3s ease;
+      letter-spacing: 0.1em; padding: 0.7rem 1.4rem; border-radius: 4px; display: flex; align-items: center; gap: 0.4rem; transition: transform 0.2s ease;
     }
-    .nav-cta:hover { background: var(--cyan-hover); }
-    .nav-cta svg { width: 12px; height: 12px; }
+    .nav-cta:hover { transform: translateY(-2px); background: var(--cyan-hover); }
+    .nav-cta svg { width: 14px; height: 14px; }
 
     /* =========================================
-       NEUER HERO BEREICH (Macbook Optimized)
+       HERO BEREICH (Ganz normaler Hintergrund)
        ========================================= */
     .hero-section {
       position: relative;
@@ -142,74 +142,79 @@
       display: flex;
       flex-direction: column;
       padding: calc(var(--nav-height) + 2rem) 4vw 2rem 4vw;
+      /* Kein max-width auf der Section, damit das Bild komplett full-width geht */
     }
 
-    /* Das Bild: Volle Höhe, rechtsbündig, Cover-Modus */
+    /* Das Bild: Volle Breite & Höhe, ganz normales Cover */
     .hero-bg-image {
       position: absolute;
-      top: 0;
-      right: 0; 
-      bottom: 0;
-      width: 60%; 
+      inset: 0; /* Entspricht top: 0, bottom: 0, left: 0, right: 0 */
+      width: 100%; 
       height: 100%;
       background-image: url('mpu.png');
       background-size: cover; 
-      background-position: center left;
+      background-position: center; /* Einfach mittig zentriert */
+      background-repeat: no-repeat;
       z-index: 1; 
+    }
+
+    /* Ein weicher Fade von links, damit die weiße Schrift lesbar bleibt */
+    .hero-bg-fade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, #000 25%, transparent 65%);
+      z-index: 2;
     }
 
     .hero-content {
       position: relative;
       z-index: 10;
-      max-width: 550px; 
-      margin-top: 4vh;
+      max-width: 580px; 
+      margin-top: 8vh;
     }
 
-    .kicker {
-      color: var(--cyan); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.2rem;
-    }
-
-    .hero-headline {
-      font-size: clamp(2.5rem, 4vw, 3.8rem); 
-      font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.2rem; text-transform: uppercase;
-    }
+    .kicker { color: var(--cyan); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.2rem; }
+    
+    .hero-headline { font-size: clamp(2.8rem, 4.5vw, 4.2rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; text-transform: uppercase; }
     .hero-headline .highlight { color: var(--cyan); }
-
-    .hero-subtext {
-      font-size: 0.95rem; line-height: 1.6; color: var(--white-soft); margin-bottom: 2.5rem; max-width: 450px;
-    }
+    
+    .hero-subtext { font-size: 1rem; line-height: 1.6; color: var(--white-soft); margin-bottom: 3rem; max-width: 480px; }
 
     .hero-actions { display: flex; align-items: center; gap: 1.5rem; }
     
-    .btn-hero-primary {
-      background: var(--cyan); color: #000; padding: 0.9rem 1.6rem; border-radius: 4px;
-      font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 6px;
-    }
-    .btn-hero-primary svg { width: 14px; height: 14px; }
+    .btn-hero-primary { background: var(--cyan); color: #000; padding: 1rem 1.8rem; border-radius: 4px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 8px; transition: transform 0.2s ease;}
+    .btn-hero-primary:hover { transform: translateY(-2px); }
+    .btn-hero-primary svg { width: 16px; height: 16px; }
     
-    .btn-play { display: flex; align-items: center; gap: 0.8rem; color: #fff; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; cursor: pointer; }
-    .play-circle { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; display: grid; place-items: center; }
+    .btn-play { display: flex; align-items: center; gap: 0.8rem; color: #fff; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; transition: opacity 0.2s ease; }
+    .btn-play:hover { opacity: 0.8; }
+    .play-circle { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; display: grid; place-items: center; }
     .play-circle svg { width: 12px; height: 12px; fill: #fff; margin-left: 2px; }
 
-    /* Trust Bar unten im Hero */
-    .hero-bottom {
-      position: relative; z-index: 10; margin-top: auto; padding-top: 4rem; display: flex; justify-content: space-between; align-items: flex-end;
+    /* Trust Bar & Quote (Content wrapper to keep them aligned with text) */
+    .hero-content-wrapper {
+      position: relative;
+      z-index: 10;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
     }
-    
-    .trust-items { display: flex; gap: 3rem; }
-    .t-item { display: flex; align-items: center; gap: 0.8rem; }
-    .t-icon { color: var(--cyan); display: flex; align-items: center; }
-    .t-icon svg { width: 22px; height: 22px; stroke-width: 1.5; }
-    .t-text h4 { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; font-weight: 800; color: #fff;}
-    .t-text p { font-size: 0.75rem; color: rgba(255,255,255,0.5); line-height: 1.3; }
 
-    .quote-card {
-      background: rgba(15, 20, 25, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05);
-      padding: 1.2rem; border-radius: 8px; max-width: 280px; position: relative;
-    }
-    .quote-icon { position: absolute; top: -10px; left: -10px; color: var(--cyan); }
-    .quote-icon svg { width: 20px; height: 20px; fill: var(--cyan); }
-    .quote-card p { font-size: 0.8rem; line-height: 1.5; color: rgba(255,255,255,0.9); }
+    .hero-bottom { margin-top: auto; padding-top: 4rem; display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
+    .trust-items { display: flex; gap: 3rem; }
+    .t-item { display: flex; align-items: center; gap: 1rem; }
+    .t-icon { color: var(--cyan); display: flex; align-items: center; }
+    .t-icon svg { width: 24px; height: 24px; stroke-width: 1.5; }
+    .t-text h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; font-weight: 800; color: #fff;}
+    .t-text p { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.3; }
+
+    .quote-card { background: rgba(15, 20, 25, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); padding: 1.2rem 1.5rem; border-radius: 8px; max-width: 300px; position: relative; }
+    .quote-icon { position: absolute; top: -12px; left: -10px; color: var(--cyan); }
+    .quote-icon svg { width: 24px; height: 24px; fill: var(--cyan); }
+    .quote-card p { font-size: 0.85rem; line-height: 1.5; color: rgba(255,255,255,0.9); }
     .quote-card p span { color: var(--cyan); font-weight: 700; }
 
     /* =========================================
@@ -318,15 +323,12 @@
     .after-inner p { width: min(620px, 100%); margin: 0 auto 2.2rem; color: var(--white-soft); line-height: 1.7; font-size: clamp(1rem, 1.25vw, 1.18rem); }
 
     /* RESPONSIVE HERO */
-    @media (max-width: 1024px) {
-      .hero-bg-image { width: 80%; right: 0; opacity: 0.6;}
-    }
     @media (max-width: 768px) {
       .navbar { padding: 0 1.5rem; }
       .nav-links, .nav-cta { display: none; }
       .hero-section { padding: 1.5rem 1.5rem 3rem 1.5rem; }
       .hero-headline { font-size: 2.8rem; }
-      .hero-bg-image { width: 100%; right: -10%; opacity: 0.4; }
+      .hero-bg-image { background-position: right -150px center; }
       .hero-actions { flex-direction: column; align-items: flex-start; }
       .trust-items { flex-direction: column; gap: 1.5rem; }
       .hero-bottom { flex-direction: column; align-items: flex-start; gap: 2rem; }
@@ -376,72 +378,76 @@
 
     <main>
       <section class="hero-section">
-        <div class="hero-bg-image"></div>
         
-        <div class="hero-content hero-reveal">
-          <div class="kicker">Dein Neustart. Deine Zukunft.</div>
-          
-          <h1 class="hero-headline">
-            Wir bringen dich<br>zurück auf die<br>
-            <span class="highlight">Überholspur.</span>
-          </h1>
-          
-          <p class="hero-subtext">
-            Professionelle MPU Vorbereitung, die dich wirklich weiterbringt.<br>Individuell. Ehrlich. Erfolgreich.
-          </p>
-
-          <div class="hero-actions">
-            <a href="#kontakt" class="btn-hero-primary">
-              Kostenloses Erstgespräch
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-            </a>
-            <div class="btn-play">
-              <div class="play-circle">
-                <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </div>
-              Mehr Erfahren
-            </div>
-          </div>
-        </div>
-
-        <div class="hero-bottom hero-reveal">
-          <div class="trust-items">
-            <div class="t-item">
-              <div class="t-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-              </div>
-              <div class="t-text">
-                <h4>100% Individuell</h4>
-                <p>Maßgeschneiderte<br>Vorbereitung</p>
-              </div>
-            </div>
+        <div class="hero-bg-image"></div>
+        <div class="hero-bg-fade"></div>
+        
+        <div class="hero-content-wrapper">
+          <div class="hero-content hero-reveal">
+            <div class="kicker">Dein Neustart. Deine Zukunft.</div>
             
-            <div class="t-item">
-              <div class="t-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              </div>
-              <div class="t-text">
-                <h4>Erfahrene Experten</h4>
-                <p>Psychologen &<br>MPU-Berater</p>
-              </div>
-            </div>
+            <h1 class="hero-headline">
+              Wir bringen dich<br>zurück auf die<br>
+              <span class="highlight">Überholspur.</span>
+            </h1>
+            
+            <p class="hero-subtext">
+              Professionelle MPU Vorbereitung, die dich wirklich weiterbringt.<br>Individuell. Ehrlich. Erfolgreich.
+            </p>
 
-            <div class="t-item">
-              <div class="t-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-              </div>
-              <div class="t-text">
-                <h4>Hohe Erfolgsquote</h4>
-                <p>Durch bewährte<br>Methoden</p>
+            <div class="hero-actions">
+              <a href="#kontakt" class="btn-hero-primary">
+                Kostenloses Erstgespräch
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </a>
+              <div class="btn-play">
+                <div class="play-circle">
+                  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </div>
+                Mehr Erfahren
               </div>
             </div>
           </div>
 
-          <div class="quote-card">
-            <div class="quote-icon">
-              <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Zm15 0c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Z"/></svg>
+          <div class="hero-bottom hero-reveal">
+            <div class="trust-items">
+              <div class="t-item">
+                <div class="t-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <div class="t-text">
+                  <h4>100% Individuell</h4>
+                  <p>Maßgeschneiderte<br>Vorbereitung</p>
+                </div>
+              </div>
+              
+              <div class="t-item">
+                <div class="t-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="t-text">
+                  <h4>Erfahrene Experten</h4>
+                  <p>Psychologen &<br>MPU-Berater</p>
+                </div>
+              </div>
+
+              <div class="t-item">
+                <div class="t-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                </div>
+                <div class="t-text">
+                  <h4>Hohe Erfolgsquote</h4>
+                  <p>Durch bewährte<br>Methoden</p>
+                </div>
+              </div>
             </div>
-            <p>"Der schwierigste Teil ist der erste Schritt.<br>Den Rest gehen wir <span>gemeinsam.</span>"</p>
+
+            <div class="quote-card">
+              <div class="quote-icon">
+                <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Zm15 0c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1.5.5 1.5 1.727 0 1.333-1.014 3.011-2.5 3.011-1.486 0-1.486 2.262 0 3.262Z"/></svg>
+              </div>
+              <p>"Der schwierigste Teil ist der erste Schritt.<br>Den Rest gehen wir <span>gemeinsam.</span>"</p>
+            </div>
           </div>
         </div>
       </section>
