@@ -108,7 +108,7 @@
     .intro-l-line:nth-child(1) { width: 100%; } .intro-l-line:nth-child(2) { width: 80%; } .intro-l-line:nth-child(3) { width: 60%; } .intro-l-line:nth-child(4) { width: 90%; } .intro-l-line:nth-child(5) { width: 40%; margin-top: 20px; }
 
     /* =========================================
-       NAVBAR (Kompakt & Durchsichtig)
+       NAVBAR (Durchsichtig)
        ========================================= */
     .navbar {
       position: absolute; 
@@ -128,9 +128,9 @@
 
     .nav-cta {
       background: var(--cyan); color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 0.1em; padding: 0.7rem 1.4rem; border-radius: 4px; display: flex; align-items: center; gap: 0.4rem; transition: transform 0.2s ease, box-shadow 0.2s ease;
+      letter-spacing: 0.1em; padding: 0.7rem 1.4rem; border-radius: 4px; display: flex; align-items: center; gap: 0.4rem; transition: transform 0.2s ease, background 0.3s ease;
     }
-    .nav-cta:hover { transform: translateY(-2px); background: var(--cyan-hover); box-shadow: 0 4px 15px rgba(92, 225, 230, 0.2); }
+    .nav-cta:hover { transform: translateY(-2px); background: var(--cyan-hover); }
     .nav-cta svg { width: 14px; height: 14px; }
 
     /* =========================================
@@ -142,27 +142,25 @@
       display: flex;
       flex-direction: column;
       padding: calc(var(--nav-height) + 2rem) 4vw 2rem 4vw;
-      max-width: 1600px;
-      margin: 0 auto;
     }
 
-    /* Das Bild mit Parallax Variablen */
     .hero-bg-image {
-      --px: 0px;
-      --py: 0px;
       position: absolute;
-      top: 50%;
-      right: 5%; 
-      width: 55%; 
-      height: 80%;
+      inset: 0; 
+      width: 100%; 
+      height: 100%;
       background-image: url('mpu.png');
-      background-size: contain; 
-      background-position: right center;
+      background-size: cover; 
+      background-position: center; 
       background-repeat: no-repeat;
       z-index: 1; 
-      /* scale(1.02) verhindert, dass Kanten beim Parallaxen abgeschnitten werden */
-      transform: translate(var(--px), calc(-50% + var(--py))) scale(1.02);
-      will-change: transform;
+    }
+
+    .hero-bg-fade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, #000 25%, transparent 65%);
+      z-index: 2;
     }
 
     .hero-content {
@@ -176,52 +174,91 @@
     
     .hero-headline { font-size: clamp(2.8rem, 4.5vw, 4.2rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; text-transform: uppercase; }
     
-    /* Der metallische Shine-Effekt für das Cyan Wort */
+    /* --- ANIMATION: TEXT SHINE --- */
     .hero-headline .highlight { 
-      background: linear-gradient(110deg, var(--cyan) 0%, var(--cyan) 40%, #ffffff 50%, var(--cyan) 60%, var(--cyan) 100%);
+      background: linear-gradient(to right, var(--cyan) 20%, #ffffff 50%, var(--cyan) 80%);
       background-size: 200% auto;
       color: transparent;
       -webkit-background-clip: text;
       background-clip: text;
-      animation: shine 6s linear infinite;
-      display: inline-block;
+      animation: shineText 6s linear infinite;
     }
-    @keyframes shine {
-      to { background-position: 200% center; }
+    @keyframes shineText {
+      0% { background-position: 200% center; }
+      20% { background-position: -200% center; }
+      100% { background-position: -200% center; } /* Lange Pause zwischen dem Glitzern */
     }
     
     .hero-subtext { font-size: 1rem; line-height: 1.6; color: var(--white-soft); margin-bottom: 3rem; max-width: 480px; }
 
     .hero-actions { display: flex; align-items: center; gap: 1.5rem; }
     
-    .btn-hero-primary { background: var(--cyan); color: #000; padding: 1rem 1.8rem; border-radius: 4px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 8px; transition: transform 0.2s ease, box-shadow 0.2s ease;}
-    .btn-hero-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(92, 225, 230, 0.15); }
+    /* --- ANIMATION: BUTTON FLARE --- */
+    .btn-hero-primary { 
+      position: relative;
+      overflow: hidden; /* Wichtig für die Lichtkante */
+      background: var(--cyan); color: #000; padding: 1rem 1.8rem; border-radius: 4px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 8px; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    }
+    .btn-hero-primary::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
+      transform: skewX(-25deg);
+      animation: buttonFlare 5s infinite;
+    }
+    @keyframes buttonFlare {
+      0% { left: -100%; }
+      15% { left: 200%; }
+      100% { left: 200%; }
+    }
+    .btn-hero-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(92, 225, 230, 0.3); }
     .btn-hero-primary svg { width: 16px; height: 16px; }
     
-    .btn-play { display: flex; align-items: center; gap: 0.8rem; color: #fff; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; transition: opacity 0.2s ease; }
-    .btn-play:hover { opacity: 0.8; }
-    .play-circle { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; display: grid; place-items: center; transition: background 0.3s, border-color 0.3s; }
-    .btn-play:hover .play-circle { background: rgba(255,255,255,0.05); border-color: #fff; }
-    .play-circle svg { width: 12px; height: 12px; fill: #fff; margin-left: 2px; }
+    .btn-play { display: flex; align-items: center; gap: 0.8rem; color: #fff; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; transition: opacity 0.2s ease, transform 0.3s ease; }
+    .btn-play:hover { opacity: 0.8; transform: translateX(5px); }
+    .play-circle { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; display: grid; place-items: center; transition: border-color 0.3s ease;}
+    .btn-play:hover .play-circle { border-color: var(--cyan); }
+    .play-circle svg { width: 12px; height: 12px; fill: #fff; margin-left: 2px; transition: fill 0.3s ease;}
+    .btn-play:hover .play-circle svg { fill: var(--cyan); }
 
-    /* Trust Bar unten im Hero */
-    .hero-bottom { position: relative; z-index: 10; margin-top: auto; padding-top: 4rem; display: flex; justify-content: space-between; align-items: flex-end; }
+    /* Trust Bar & Quote */
+    .hero-content-wrapper {
+      position: relative;
+      z-index: 10;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-bottom { margin-top: auto; padding-top: 4rem; display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
     .trust-items { display: flex; gap: 3rem; }
-    .t-item { display: flex; align-items: center; gap: 1rem; }
-    .t-icon { color: var(--cyan); display: flex; align-items: center; }
+    
+    /* --- ANIMATION: HOVER LIFT & GLOW --- */
+    .t-item { display: flex; align-items: center; gap: 1rem; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); cursor: default; }
+    .t-item:hover { transform: translateY(-4px); }
+    .t-icon { color: var(--cyan); display: flex; align-items: center; transition: filter 0.3s ease; }
+    .t-item:hover .t-icon svg { filter: drop-shadow(0 0 8px rgba(92, 225, 230, 0.8)); }
     .t-icon svg { width: 24px; height: 24px; stroke-width: 1.5; }
+    
     .t-text h4 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; font-weight: 800; color: #fff;}
     .t-text p { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.3; }
 
-    .quote-card { background: rgba(15, 20, 25, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); padding: 1.2rem 1.5rem; border-radius: 8px; max-width: 300px; position: relative; transition: border-color 0.3s ease; }
-    .quote-card:hover { border-color: rgba(92, 225, 230, 0.2); }
+    .quote-card { background: rgba(15, 20, 25, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); padding: 1.2rem 1.5rem; border-radius: 8px; max-width: 300px; position: relative; transition: transform 0.4s ease, border-color 0.4s ease;}
+    .quote-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.15); }
     .quote-icon { position: absolute; top: -12px; left: -10px; color: var(--cyan); }
     .quote-icon svg { width: 24px; height: 24px; fill: var(--cyan); }
     .quote-card p { font-size: 0.85rem; line-height: 1.5; color: rgba(255,255,255,0.9); }
     .quote-card p span { color: var(--cyan); font-weight: 700; }
 
     /* =========================================
-       DEIN ORIGINAL STORY & 3D CSS
+       DEIN ORIGINAL STORY & 3D CSS (100% UNVERÄNDERT)
        ========================================= */
     .license-story {
       position: relative; z-index: 3; height: 540vh;
@@ -385,6 +422,7 @@
     <main>
       <section class="hero-section">
         <div class="hero-bg-image"></div>
+        <div class="hero-bg-fade"></div>
         
         <div class="hero-content-wrapper">
           <div class="hero-content hero-reveal">
@@ -832,37 +870,7 @@
       ScrollTrigger.refresh();
     }
 
-    // --- MOUSE PARALLAX FÜR DAS HERO BILD ---
-    function initHeroParallax() {
-      const heroSection = document.querySelector('.hero-section');
-      const heroImage = document.querySelector('.hero-bg-image');
-
-      if (heroSection && heroImage && !isTouchLike) {
-        heroSection.addEventListener('mousemove', (e) => {
-          // Ganz dezente Verschiebung (max ~15px)
-          const x = (e.clientX / window.innerWidth - 0.5) * 30; 
-          const y = (e.clientY / window.innerHeight - 0.5) * 30;
-
-          gsap.to(heroImage, {
-            '--px': `${x}px`,
-            '--py': `${y}px`,
-            duration: 1.2,
-            ease: "power2.out"
-          });
-        });
-        
-        heroSection.addEventListener('mouseleave', () => {
-          gsap.to(heroImage, {
-            '--px': '0px',
-            '--py': '0px',
-            duration: 1.5,
-            ease: "power2.out"
-          });
-        });
-      }
-    }
-
-    // --- DEIN ORIGINAL INITIAL LOAD (mit angepasstem Easing) ---
+    // --- DEIN ORIGINAL INITIAL LOAD ---
     window.addEventListener("load", () => {
       const tl = gsap.timeline();
 
@@ -898,21 +906,21 @@
         duration: 1.45,
         ease: "power2.out"
       }, "-=0.55")
+      /* NEU: Smooth Cinematic Reveal mit power4.out */
       .from(".hero-reveal", {
         autoAlpha: 0,
-        y: 34,
+        y: 40,
         filter: "blur(10px)",
-        duration: 1.2, // Minimal weicher & länger
-        stagger: 0.09,
-        ease: "power4.out" // Elegantes, weiches Easing
-      }, "-=1.0")
+        duration: 1.2,
+        stagger: 0.15,
+        ease: "power4.out"
+      }, "-=0.8")
       .add(() => {
         document.body.classList.remove("intro-lock");
         const intro = document.getElementById("intro-container");
         if (intro) intro.remove();
 
         initScrollStory();
-        initHeroParallax(); // Parallax initialisieren
         ScrollTrigger.refresh();
       });
     });
