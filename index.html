@@ -7,7 +7,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -15,14 +15,16 @@
             theme: {
                 extend: {
                     colors: {
-                        void: '#030407',       // Abyssal Black
-                        silver: '#e2e8f0',     // Premium Text
-                        obsidian: '#0f111a',   // Darker surface
-                        accent: '#00f0ff',     // Cyan/Teal glow for clarity
+                        void: '#000000',
+                        obsidian: '#09090b',
+                        sand: '#E5E1D8',
+                        gold: '#D4AF37',
+                        accent: '#0D9488', // Seriöses Petrol
                     },
                     fontFamily: {
-                        sans: ['Space Grotesk', 'sans-serif'],
-                        display: ['Syne', 'sans-serif'],
+                        sans: ['Manrope', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        wide: ['Syncopate', 'sans-serif'],
                     }
                 }
             }
@@ -36,385 +38,318 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 
     <style>
+        /* Pure Performance Resets */
+        *, *::before, *::after { box-sizing: border-box; }
         body, html {
-            background-color: #030407;
-            color: #e2e8f0;
+            background-color: #000000;
+            color: #E5E1D8;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
-            cursor: none; /* Custom Cursor */
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Lock scroll, this is a cinematic hero */
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* SVG Noise Filter */
-        .noise-overlay {
-            position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: 0.05;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        /* Hardware Acceleration Classes 
+           forces browser to use GPU, preventing lag 
+        */
+        .gpu-accel {
+            will-change: transform, opacity, clip-path;
+            transform: translateZ(0);
+            backface-visibility: hidden;
         }
 
-        /* WebGL-like Liquid Aura strictly using CSS & SVG Filters */
-        .liquid-aura {
-            position: absolute;
-            width: 60vw;
-            height: 60vw;
-            background: radial-gradient(circle, rgba(0,240,255,0.15) 0%, rgba(0,100,255,0.05) 40%, transparent 70%);
-            border-radius: 50%;
-            filter: blur(40px) url(#displacementFilter);
-            pointer-events: none;
-            z-index: 0;
-            transform: translate(-50%, -50%);
-            will-change: transform;
+        /* Custom Selection */
+        ::selection { background: #0D9488; color: #fff; }
+
+        /* The Cinematic Clip Mask */
+        .reveal-mask {
+            clip-path: inset(0 100% 0 0);
         }
 
-        /* Typographic clipping for smooth reveals */
-        .clip-wrap { overflow: hidden; display: inline-block; }
-        .char-wrap { display: inline-block; will-change: transform, opacity; }
-
-        /* Custom Cursor */
-        .custom-cursor {
-            position: fixed; top: 0; left: 0; width: 20px; height: 20px;
-            background: #fff; border-radius: 50%; pointer-events: none;
-            mix-blend-mode: difference; z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, background-color 0.3s;
-            will-change: transform, width, height;
-        }
-        .custom-cursor.hovering { width: 80px; height: 80px; background: rgba(0, 240, 255, 0.8); }
+        /* Minimalist Scrollbar if ever needed */
+        ::-webkit-scrollbar { display: none; }
         
-        /* Outline Cursor Follower */
-        .cursor-follower {
-            position: fixed; top: 0; left: 0; width: 40px; height: 40px;
-            border: 1px solid rgba(255,255,255,0.2); border-radius: 50%;
-            pointer-events: none; z-index: 9998;
-            transform: translate(-50%, -50%);
-            will-change: transform;
-        }
-
-        /* Hide default selection, make it look custom */
-        ::selection { background: #00f0ff; color: #030407; }
-
-        /* Loader */
-        #initial-loader {
-            position: fixed; inset: 0; background: #030407; z-index: 10000;
-            display: flex; justify-content: center; items-center; color: #fff;
-        }
-
-        @media (max-width: 768px) {
-            body { cursor: auto; }
-            .custom-cursor, .cursor-follower { display: none; }
+        /* Perspective Container */
+        .scene-container {
+            perspective: 2000px;
+            transform-style: preserve-3d;
         }
     </style>
 </head>
 <body>
 
-    <svg style="width:0;height:0;position:absolute;" aria-hidden="true">
-        <filter id="displacementFilter">
-            <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3" result="noise">
-                <animate attributeName="baseFrequency" values="0.01; 0.015; 0.01" dur="10s" repeatCount="indefinite" />
-            </feTurbulence>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="150" xChannelSelector="R" yChannelSelector="G" />
-        </filter>
-    </svg>
-
-    <div class="noise-overlay"></div>
-    <div id="root"></div>
+    <div id="root" class="w-full h-full"></div>
 
     <script type="text/babel">
         const { useEffect, useRef, useState, useLayoutEffect } = React;
 
-        // --- UTILS ---
-        
-        // Custom Hook for Mouse Tracking
-        const useMousePosition = () => {
-            const [mousePosition, setMousePosition] = useState({ x: window.innerWidth/2, y: window.innerHeight/2 });
-            useEffect(() => {
-                const updateMousePosition = ev => {
-                    setMousePosition({ x: ev.clientX, y: ev.clientY });
-                };
-                window.addEventListener('mousemove', updateMousePosition);
-                return () => window.removeEventListener('mousemove', updateMousePosition);
-            }, []);
-            return mousePosition;
-        };
-
         // --- COMPONENTS ---
 
-        // 1. Interactive Custom Cursor
-        const Cursor = () => {
-            const cursorRef = useRef(null);
-            const followerRef = useRef(null);
-            const mousePosition = useMousePosition();
-            const [isHovering, setIsHovering] = useState(false);
+        // 1. The Kinetic Pillar (Fahrplan-Schritte im 3D-Raum)
+        const KineticPillar = ({ num, title, desc, index }) => {
+            const pillarRef = useRef(null);
+            const contentRef = useRef(null);
 
-            useEffect(() => {
-                const addHover = () => setIsHovering(true);
-                const removeHover = () => setIsHovering(false);
-                
-                const hoverElements = document.querySelectorAll('a, button, .hover-trigger');
-                hoverElements.forEach(el => {
-                    el.addEventListener('mouseenter', addHover);
-                    el.addEventListener('mouseleave', removeHover);
+            const handleEnter = () => {
+                gsap.to(pillarRef.current, { 
+                    y: -10, 
+                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    borderColor: 'rgba(13, 148, 136, 0.5)', // accent
+                    duration: 0.4, 
+                    ease: "power3.out" 
                 });
-
-                return () => {
-                    hoverElements.forEach(el => {
-                        el.removeEventListener('mouseenter', addHover);
-                        el.removeEventListener('mouseleave', removeHover);
-                    });
-                };
-            });
-
-            useEffect(() => {
-                // Main cursor instant follow
-                gsap.to(cursorRef.current, {
-                    x: mousePosition.x, y: mousePosition.y, duration: 0, ease: "none"
+                gsap.to(contentRef.current, {
+                    opacity: 1, y: 0, duration: 0.4, ease: "power2.out"
                 });
-                // Follower delayed
-                gsap.to(followerRef.current, {
-                    x: mousePosition.x, y: mousePosition.y, duration: 0.6, ease: "power3.out"
-                });
-            }, [mousePosition]);
-
-            return (
-                <>
-                    <div ref={cursorRef} className={`custom-cursor ${isHovering ? 'hovering' : ''}`} />
-                    <div ref={followerRef} className="cursor-follower" />
-                </>
-            );
-        };
-
-        // 2. Custom Split Text Component (Da GSAP SplitText Premium ist)
-        const SplitText = ({ text, className }) => {
-            return (
-                <span className={className} aria-label={text}>
-                    {text.split(' ').map((word, wordIndex) => (
-                        <span key={wordIndex} className="clip-wrap mr-[0.3em]">
-                            {word.split('').map((char, charIndex) => (
-                                <span key={charIndex} className="char-wrap" dangerouslySetInnerHTML={{ __html: char === ' ' ? '&nbsp;' : char }} />
-                            ))}
-                        </span>
-                    ))}
-                </span>
-            );
-        };
-
-        // 3. The Interactive Blueprint Accordion (Fahrplan)
-        const BlueprintFahrplan = () => {
-            const [activeIndex, setActiveIndex] = useState(null);
-            const containerRef = useRef(null);
-
-            const steps = [
-                { num: "01", title: "Akte & Fall", desc: "Tiefenanalyse der Behördenakte. Wir entschlüsseln die exakten Vorwürfe und Fristen." },
-                { num: "02", title: "Nachweise", desc: "Strategische Klärung: Sind Abstinenznachweise zwingend? Wir verhindern verlorene Monate." },
-                { num: "03", title: "Aufarbeitung", desc: "Kein Auswendiglernen. Echte, psychologisch fundierte Reflexion Ihres Falls in Einzelgesprächen." },
-                { num: "04", title: "Simulation", desc: "Wir simulieren das Gutachtergespräch unter Realbedingungen, bis die Unsicherheit verschwindet." }
-            ];
-
-            const handleEnter = (index) => {
-                setActiveIndex(index);
-                gsap.to(`.step-content-${index}`, { height: 'auto', opacity: 1, duration: 0.6, ease: "expo.out" });
-                gsap.to(`.step-num-${index}`, { x: 20, color: '#00f0ff', duration: 0.4 });
             };
 
-            const handleLeave = (index) => {
-                setActiveIndex(null);
-                gsap.to(`.step-content-${index}`, { height: 0, opacity: 0, duration: 0.4, ease: "power2.inOut" });
-                gsap.to(`.step-num-${index}`, { x: 0, color: 'rgba(226, 232, 240, 0.2)', duration: 0.4 });
+            const handleLeave = () => {
+                gsap.to(pillarRef.current, { 
+                    y: 0, 
+                    backgroundColor: 'rgba(255, 255, 255, 0)',
+                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    duration: 0.6, 
+                    ease: "power3.out" 
+                });
+                gsap.to(contentRef.current, {
+                    opacity: 0.3, y: 5, duration: 0.4, ease: "power2.in"
+                });
             };
 
             return (
-                <div className="flex flex-col gap-0 border-t border-white/10 w-full lg:max-w-md mt-16 lg:mt-0 relative z-20" ref={containerRef}>
-                    <div className="text-[10px] uppercase tracking-[0.2em] text-accent mb-6 font-bold">Protokoll / Fahrplan</div>
+                <div 
+                    ref={pillarRef}
+                    onMouseEnter={handleEnter}
+                    onMouseLeave={handleLeave}
+                    className="pillar-item gpu-accel relative flex flex-col justify-between p-6 border-l border-white/10 h-full min-h-[250px] cursor-pointer group transition-colors"
+                >
+                    <div className="font-wide text-3xl md:text-5xl font-bold text-white/20 group-hover:text-accent transition-colors duration-500">
+                        {num}
+                    </div>
                     
-                    {steps.map((step, i) => (
-                        <div 
-                            key={i} 
-                            className="group relative border-b border-white/10 py-6 cursor-none hover-trigger"
-                            onMouseEnter={() => handleEnter(i)}
-                            onMouseLeave={() => handleLeave(i)}
-                        >
-                            <div className="flex items-center gap-8 pointer-events-none">
-                                <span className={`step-num-${i} text-5xl font-display font-bold text-white/20 transition-colors duration-500`}>
-                                    {step.num}
-                                </span>
-                                <h3 className="text-xl font-medium tracking-wide text-silver">{step.title}</h3>
-                            </div>
-                            
-                            <div className={`step-content-${i} h-0 overflow-hidden opacity-0 pl-[5.5rem] pr-4`}>
-                                <div className="pt-4 pb-2 text-sm text-silver/60 leading-relaxed font-light">
-                                    {step.desc}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+                    <div ref={contentRef} className="opacity-30 translate-y-1">
+                        <h3 className="font-serif text-xl text-white mb-2">{title}</h3>
+                        <p className="font-sans text-xs text-sand/60 leading-relaxed">
+                            {desc}
+                        </p>
+                    </div>
                 </div>
             );
         };
 
-        // 4. Main Hero Scene
-        const App = () => {
-            const heroRef = useRef(null);
-            const mousePos = useMousePosition();
-            const auraRef = useRef(null);
+        // 2. Pure Performance Magnetic CTA
+        const MagneticCTA = ({ text, primary = true }) => {
+            const btnRef = useRef(null);
+            const textRef = useRef(null);
 
-            // Aura Parallax Logic
             useEffect(() => {
-                if (window.innerWidth > 768 && auraRef.current) {
-                    const x = (mousePos.x - window.innerWidth / 2) * 0.1;
-                    const y = (mousePos.y - window.innerHeight / 2) * 0.1;
-                    gsap.to(auraRef.current, {
-                        x: x - window.innerWidth * 0.3, // offset for center
-                        y: y - window.innerHeight * 0.3,
-                        duration: 2,
-                        ease: "power2.out"
-                    });
-                }
-            }, [mousePos]);
+                const btn = btnRef.current;
+                if (!btn) return;
 
-            // Master Entry Animation
+                const moveMouse = (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = (e.clientX - rect.left - rect.width / 2) * 0.3;
+                    const y = (e.clientY - rect.top - rect.height / 2) * 0.3;
+                    
+                    gsap.to(btn, { x, y, duration: 0.6, ease: "power3.out" });
+                    gsap.to(textRef.current, { x: x*0.5, y: y*0.5, duration: 0.6, ease: "power3.out" });
+                };
+
+                const leaveMouse = () => {
+                    gsap.to(btn, { x: 0, y: 0, duration: 1, ease: "elastic.out(1, 0.3)" });
+                    gsap.to(textRef.current, { x: 0, y: 0, duration: 1, ease: "elastic.out(1, 0.3)" });
+                };
+
+                btn.addEventListener('mousemove', moveMouse);
+                btn.addEventListener('mouseleave', leaveMouse);
+
+                return () => {
+                    btn.removeEventListener('mousemove', moveMouse);
+                    btn.removeEventListener('mouseleave', leaveMouse);
+                };
+            }, []);
+
+            return (
+                <button 
+                    ref={btnRef}
+                    className={`gpu-accel relative group flex items-center justify-center px-10 py-5 rounded-full font-sans font-semibold tracking-wider text-sm uppercase overflow-hidden
+                        ${primary ? 'bg-accent text-void' : 'bg-transparent border border-white/20 text-sand hover:border-white/50'}
+                    `}
+                >
+                    {primary && <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></div>}
+                    <span ref={textRef} className="relative z-10 block mix-blend-difference text-white flex items-center gap-2">
+                        {text}
+                        {primary && (
+                            <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        )}
+                    </span>
+                </button>
+            );
+        };
+
+        // 3. Main Masterpiece Scene
+        const MpuHero = () => {
+            const sceneRef = useRef(null);
+            
+            // GSAP Master Timeline
             useLayoutEffect(() => {
                 const ctx = gsap.context(() => {
                     const tl = gsap.timeline();
 
-                    // Initial States
-                    gsap.set(".char-wrap", { y: "120%", rotateX: -90, opacity: 0 });
-                    gsap.set(".fade-up", { y: 40, opacity: 0 });
-                    gsap.set(".trust-line", { scaleX: 0, transformOrigin: "left" });
+                    // Initial set states for 3D architecture
+                    gsap.set(".headline-word", { y: "100%", opacity: 0, rotateX: -90 });
+                    gsap.set(".divider-line", { scaleX: 0, transformOrigin: "left" });
+                    gsap.set(".trust-badge", { opacity: 0, x: -20 });
+                    gsap.set(".pillar-item", { opacity: 0, y: 50, rotateY: 15 });
+                    gsap.set(".action-area", { opacity: 0, y: 20 });
+                    gsap.set(".intro-overlay", { scaleY: 1, transformOrigin: "bottom" });
 
-                    // 1. Aura Swells up
-                    tl.fromTo(auraRef.current, 
-                        { scale: 0, opacity: 0 },
-                        { scale: 1, opacity: 1, duration: 3, ease: "expo.out" },
-                        0
-                    );
+                    // 1. The Monolith Opens (Extremely fast, cinematic reveal)
+                    tl.to(".intro-overlay", {
+                        scaleY: 0,
+                        duration: 1.2,
+                        ease: "expo.inOut"
+                    }, 0.2);
 
-                    // 2. Cinematic Typography Reveal
-                    tl.to(".char-wrap", {
+                    // 2. Kinetic Typography Entry (3D rotation)
+                    tl.to(".headline-word", {
                         y: "0%",
+                        opacity: 1,
                         rotateX: 0,
-                        opacity: 1,
-                        duration: 1.5,
-                        stagger: 0.02,
-                        ease: "expo.out"
-                    }, 0.5);
-
-                    // 3. Subtext & Trust Elements
-                    tl.to(".fade-up", {
-                        y: 0,
-                        opacity: 1,
                         duration: 1.2,
                         stagger: 0.1,
-                        ease: "power3.out"
-                    }, 1.2);
+                        ease: "power4.out"
+                    }, 0.8);
 
-                    tl.to(".trust-line", {
+                    // 3. Trust Badges & Divider shoot across
+                    tl.to(".divider-line", {
                         scaleX: 1,
                         duration: 1.5,
-                        ease: "expo.inOut"
+                        ease: "expo.out"
                     }, 1.2);
 
-                }, heroRef);
+                    tl.to(".trust-badge", {
+                        opacity: 1,
+                        x: 0,
+                        duration: 0.8,
+                        stagger: 0.1,
+                        ease: "power3.out"
+                    }, 1.4);
+
+                    // 4. The Architecture (Pillars) slide into 3D space
+                    tl.to(".pillar-item", {
+                        opacity: 1,
+                        y: 0,
+                        rotateY: 0,
+                        duration: 1.2,
+                        stagger: 0.15,
+                        ease: "expo.out"
+                    }, 1.6);
+
+                    // 5. Action Area Fades in
+                    tl.to(".action-area", {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        ease: "power3.out"
+                    }, 2.2);
+
+                }, sceneRef);
 
                 return () => ctx.revert();
             }, []);
 
+            const steps = [
+                { num: "01", title: "Akte & Fall", desc: "Tiefenanalyse der Behördenakte. Wir entschlüsseln Vorwürfe und Fristen ohne Umwege." },
+                { num: "02", title: "Nachweise", desc: "Strategische Klärung: Sind Abstinenznachweise zwingend? Wir verhindern verlorene Monate." },
+                { num: "03", title: "Aufarbeitung", desc: "Kein Auswendiglernen. Echte, psychologisch fundierte Reflexion Ihres Falls." },
+                { num: "04", title: "Simulation", desc: "Wir simulieren das Gutachtergespräch unter Realbedingungen, bis die Unsicherheit weicht." }
+            ];
+
             return (
-                <div ref={heroRef} className="relative min-h-[100dvh] w-full flex flex-col justify-between pt-8 lg:pt-12 pb-24 px-6 lg:px-12 selection:bg-accent selection:text-void">
+                <div ref={sceneRef} className="scene-container w-full h-full relative flex flex-col justify-between p-6 lg:p-12 overflow-hidden">
                     
-                    <Cursor />
+                    <div className="intro-overlay fixed inset-0 bg-obsidian z-50 pointer-events-none flex items-center justify-center">
+                        <div className="font-wide text-xs tracking-[0.5em] text-white/30 animate-pulse">SYSTEM INITIALIZING</div>
+                    </div>
 
-                    {/* The WebGL-Simulated Aura */}
-                    <div ref={auraRef} className="liquid-aura top-1/2 left-1/2 hidden md:block"></div>
-
-                    {/* Header Top */}
-                    <header className="relative z-20 flex justify-between items-center fade-up w-full max-w-7xl mx-auto">
-                        <div className="flex flex-col">
-                            <span className="font-display font-bold tracking-widest text-lg uppercase flex items-center gap-3">
-                                <span className="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
+                    {/* Top Navigation / Branding */}
+                    <header className="relative z-20 flex justify-between items-start w-full">
+                        <div className="trust-badge flex flex-col">
+                            <span className="font-wide font-bold tracking-widest text-lg uppercase flex items-center gap-3 text-white">
+                                <span className="w-1.5 h-1.5 bg-accent rounded-full"></span>
                                 MPU Kompetenz
                             </span>
-                            <span className="text-[10px] text-silver/50 uppercase tracking-[0.3em] mt-1 ml-5">
-                                [Stadt] & Secure Online
+                            <span className="font-sans text-[10px] text-sand/50 uppercase tracking-[0.2em] mt-2">
+                                [Stadt] & Online Coaching
                             </span>
                         </div>
-                        <a href="#kontakt" className="hover-trigger relative overflow-hidden group px-6 py-3 border border-white/20 rounded-full text-xs font-medium tracking-widest uppercase transition-all duration-500 hover:border-accent hover:text-accent">
-                            <span className="relative z-10">Diskret Kontaktieren</span>
-                            <div className="absolute inset-0 bg-accent/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></div>
-                        </a>
+
+                        <div className="hidden lg:flex gap-4">
+                            {["Diskrete Erstberatung", "Alkohol, Drogen, Punkte", "Ohne Auswendiglernen"].map((text, i) => (
+                                <div key={i} className="trust-badge font-sans text-[10px] uppercase tracking-widest px-4 py-2 border border-white/10 rounded-full text-sand/70">
+                                    {text}
+                                </div>
+                            ))}
+                        </div>
                     </header>
 
-                    {/* Main Stage */}
-                    <main className="relative z-20 flex-grow flex flex-col lg:flex-row items-center justify-between gap-12 max-w-7xl mx-auto w-full mt-16 lg:mt-0">
+                    {/* Main Cinematic Core */}
+                    <main className="relative z-10 w-full flex flex-col justify-center flex-grow mt-12 lg:mt-0">
                         
-                        {/* Left: Colossal Typography & Action */}
-                        <div className="w-full lg:w-[60%] flex flex-col">
-                            
-                            <div className="mb-6 fade-up">
-                                <div className="inline-flex items-center gap-3 px-4 py-2 border border-white/10 bg-white/[0.02] backdrop-blur-md rounded-full">
-                                    <svg className="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                                    <span className="text-xs tracking-[0.1em] text-silver/80 uppercase font-medium">100% Diskrete Ersteinschätzung</span>
+                        {/* Massive Typography Section */}
+                        <div className="flex flex-col w-full max-w-7xl mx-auto">
+                            <h1 className="font-wide text-[10vw] lg:text-[7vw] leading-[0.85] font-bold uppercase text-white tracking-tighter mix-blend-difference perspective-1000">
+                                <div className="overflow-hidden"><div className="headline-word gpu-accel">ZURÜCK</div></div>
+                                <div className="overflow-hidden flex items-center gap-4">
+                                    <div className="headline-word gpu-accel text-accent">IN DIE</div>
+                                    <div className="headline-word gpu-accel italic font-serif font-light text-sand lowercase translate-y-[-10%]">Spur.</div>
                                 </div>
-                            </div>
-
-                            <h1 className="text-[4rem] sm:text-[6rem] lg:text-[7.5rem] leading-[0.85] font-display font-bold uppercase tracking-tight text-white mb-8 perspective-1000">
-                                <SplitText text="ZURÜCK" className="block" />
-                                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-accent via-white to-silver italic font-medium">
-                                    <SplitText text="IN DIE SPUR" className="" />
-                                </span>
                             </h1>
-
-                            <div className="pl-0 lg:pl-2 border-l border-transparent lg:border-accent/30 fade-up">
-                                <p className="text-lg lg:text-xl font-light text-silver/70 max-w-lg leading-relaxed mb-10">
-                                    Wir ordnen das Chaos. Strukturierte Vorbereitung bei Alkohol, Drogen, Cannabis oder Punkten in [Stadt]. <br/>
-                                    <strong className="font-semibold text-silver">Keine falschen Versprechen. Nur klare Fakten und ein sicherer Plan.</strong>
-                                </p>
-
-                                {/* Action Area */}
-                                <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
-                                    <button className="hover-trigger group relative w-full sm:w-auto px-8 py-5 bg-white text-void rounded-none font-display font-bold uppercase tracking-widest text-sm overflow-hidden flex items-center justify-center gap-4">
-                                        <div className="absolute inset-0 bg-accent translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></div>
-                                        <span className="relative z-10">Kostenlose Fallanalyse</span>
-                                        <svg className="relative z-10 w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                                    </button>
-
-                                    <div className="flex flex-col gap-1">
-                                        <span className="text-xs uppercase tracking-widest text-silver/40">Direktkontakt</span>
-                                        <a href="tel:0123456" className="hover-trigger text-silver font-medium hover:text-accent transition-colors">0123 / 456 789 0</a>
-                                    </div>
+                            
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8 lg:mt-12 items-end">
+                                <div className="lg:col-span-5 overflow-hidden">
+                                    <p className="headline-word font-sans text-base lg:text-lg font-light text-sand/80 leading-relaxed">
+                                        Wir ordnen das Chaos. Strukturierte, persönliche Vorbereitung in [Stadt]. <strong className="text-white font-medium">Keine Garantieversprechen. Nur glasklare Fakten, Diskretion und ein sicherer Weg zum Gutachter.</strong>
+                                    </p>
                                 </div>
+                                
+                                {/* Dynamic Divider */}
+                                <div className="lg:col-span-7 h-px bg-white/20 divider-line hidden lg:block mb-4"></div>
                             </div>
                         </div>
 
-                        {/* Right: The Interactive Blueprint */}
-                        <div className="w-full lg:w-[40%] flex justify-end">
-                            <BlueprintFahrplan />
+                        {/* 3D Kinetic Pillars (The Roadmap) */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full max-w-7xl mx-auto mt-12 lg:mt-16 h-auto lg:h-[30vh]">
+                            {steps.map((step, i) => (
+                                <KineticPillar key={i} index={i} num={step.num} title={step.title} desc={step.desc} />
+                            ))}
                         </div>
 
                     </main>
 
-                    {/* Bottom Trust Line & Disclaimer */}
-                    <div className="relative z-20 w-full max-w-7xl mx-auto mt-20 pt-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 opacity-50">
-                        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-accent/50 to-transparent trust-line"></div>
-                        <p className="text-[10px] uppercase tracking-widest font-light">
-                            Seriöse Aufarbeitung & Einzelgespräche anstatt Auswendiglernen.
-                        </p>
-                        <p className="text-[10px] uppercase tracking-widest font-light">
-                            Hinweis: Keine unseriöse Bestehensgarantie.
-                        </p>
-                    </div>
+                    {/* Bottom Action Area */}
+                    <footer className="action-area relative z-20 w-full max-w-7xl mx-auto mt-8 flex flex-col md:flex-row justify-between items-center gap-6 border-t border-white/10 pt-8">
+                        
+                        <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+                            <MagneticCTA text="Ersteinschätzung anfragen" primary={true} />
+                            <MagneticCTA text="0123 / 456 789 0" primary={false} />
+                        </div>
 
-                    {/* Mobile Sticky CTA */}
-                    <div className="fixed bottom-0 left-0 w-full p-4 bg-void/90 backdrop-blur-xl border-t border-white/10 z-50 lg:hidden fade-up">
-                        <button className="w-full bg-accent text-void py-4 text-sm font-bold uppercase tracking-widest">
-                            Fallanalyse anfragen
-                        </button>
-                    </div>
+                        <div className="flex items-center gap-3 opacity-40">
+                            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span className="font-sans text-[10px] uppercase tracking-widest text-white">Seriöse Vorbereitung statt falscher Versprechen.</span>
+                        </div>
+                    </footer>
 
                 </div>
             );
         };
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        root.render(<MpuHero />);
     </script>
 </body>
 </html>
