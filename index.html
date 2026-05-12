@@ -3,432 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MPU Beratung | Synchronisation</title>
+    <title>MPU | The Subtractive Truth</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Playfair+Display:ital,wght@0,400;1,500&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --sand-bg: #EAE6DF;
-            --text-dark: #1A1A18;
-            --text-muted: rgba(26, 26, 24, 0.6);
+            --bg-dark: #0a0a0a;
+            --bg-light: #f5f5f3;
+            --accent: #d4af37;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            user-select: none;
-        }
-
-        body, html {
-            width: 100%;
-            height: 100%;
-            background-color: var(--sand-bg);
-            color: var(--text-dark);
-            font-family: 'Inter', sans-serif;
             overflow: hidden;
         }
 
-        /* 200k Detail: Echtes SVG Film Grain auf dem Sand */
-        .film-grain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 100;
-            opacity: 0.25;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            mix-blend-mode: multiply;
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Inter', sans-serif;
+            cursor: crosshair;
+            transition: background-color 2s ease;
         }
 
-        /* Initiation Screen (Wegen Browser Audio Policies) */
-        #init-screen {
+        /* Das UI Layer (Erscheint erst nach der Zerstörung) */
+        .reveal-layer {
             position: fixed;
             inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--sand-bg);
-            z-index: 9999;
-            cursor: pointer;
-            transition: opacity 1.5s ease;
-        }
-
-        .init-text {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.3em;
-            color: var(--text-dark);
-            animation: pulseText 2s infinite;
-        }
-
-        @keyframes pulseText {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
-
-        /* WebGL Canvas */
-        #webgl-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-        }
-
-        /* Instruktion während der Sync */
-        #sync-instruction {
-            position: fixed;
-            bottom: 10vh;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--text-muted);
-            z-index: 10;
-            opacity: 0; /* Wird per GSAP eingeblendet */
-            pointer-events: none;
-        }
-
-        /* Das finale UI (Die Lösung) */
-        .ui-layer {
-            position: absolute;
-            inset: 0;
-            z-index: 20;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             text-align: center;
+            z-index: 10;
             pointer-events: none;
             padding: 2rem;
+            opacity: 0;
         }
 
         .headline {
-            font-family: 'Cormorant', serif;
-            font-size: clamp(3rem, 7vw, 6rem);
-            font-weight: 300;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 5.5rem);
+            color: var(--bg-dark);
             line-height: 1.1;
-            letter-spacing: -0.02em;
             margin-bottom: 2rem;
-            color: var(--text-dark);
-            opacity: 0;
-            transform: translateY(40px);
-            filter: blur(10px);
         }
 
-        .headline span {
-            font-style: italic;
-            color: #8c8c85;
+        .headline i {
+            color: var(--accent);
         }
 
         .subtext {
-            font-size: clamp(1rem, 1.2vw, 1.25rem);
-            line-height: 1.6;
-            max-width: 550px;
-            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
             font-weight: 300;
-            opacity: 0;
-            transform: translateY(20px);
+            font-size: 1.2rem;
+            max-width: 600px;
+            color: rgba(0,0,0,0.6);
+            margin-bottom: 3rem;
         }
 
-        .cta-wrap {
-            margin-top: 3rem;
-            opacity: 0;
-            pointer-events: auto;
-        }
-
-        .btn {
+        .cta-btn {
             display: inline-block;
             padding: 1.2rem 3.5rem;
-            border: 1px solid rgba(26, 26, 24, 0.2);
-            border-radius: 100px;
-            color: var(--text-dark);
+            background: var(--bg-dark);
+            color: white;
             text-decoration: none;
-            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            letter-spacing: 0.2em;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            pointer-events: auto;
+            transition: transform 0.3s ease;
         }
 
-        .btn:hover {
-            background: var(--text-dark);
-            color: var(--sand-bg);
-            border-color: var(--text-dark);
+        .cta-btn:hover {
             transform: scale(1.05);
+        }
+
+        /* Der Canvas für die Physik */
+        #physics-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 5;
+        }
+
+        .instruction {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            z-index: 6;
+            opacity: 0.4;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="film-grain"></div>
+    <div class="instruction" id="instr">Zerstöre das System</div>
 
-    <div id="init-screen">
-        <div class="init-text">Klicken, um zu beginnen</div>
-    </div>
+    <div id="physics-container"></div>
 
-    <canvas id="webgl-canvas"></canvas>
-
-    <div id="sync-instruction">Bewege die Maus, um zu atmen</div>
-
-    <div class="ui-layer">
-        <h1 class="headline" id="ui-h1">Atmen Sie durch.<br><span>Ab hier übernehmen wir.</span></h1>
-        <p class="subtext" id="ui-sub">
-            Der Weg durch die MPU ist schwer genug. Wir nehmen Ihnen die Last ab – mit Struktur, absoluter Diskretion und einer fundierten Strategie, die jedem Gutachter standhält.
+    <div class="reveal-layer" id="reveal">
+        <h1 class="headline">Ihre Geschichte ist <br><i>mehr als eine Akte.</i></h1>
+        <p class="subtext">
+            Keine Verurteilung. Keine Standard-Antworten. Wir erarbeiten Ihre echte Geschichte, damit Sie dem Gutachter auf Augenhöhe begegnen können.
         </p>
-        <div class="cta-wrap" id="ui-cta">
-            <a href="#" class="btn">Diskret anfragen</a>
-        </div>
+        <a href="#" class="cta-btn">Kostenfreies Erstgespräch</a>
     </div>
 
     <script>
-        /**
-         * 1. NEURO-AUDIO ENGINE (Generative Brownian Noise)
-         */
-        let audioCtx;
-        let brownNoise;
-        let filterNode;
-        let gainNode;
-        let isAudioInitialized = false;
+        const { Engine, Render, Runner, Bodies, Composite, MouseConstraint, Mouse, World } = Matter;
 
-        function initAudio() {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            
-            // Generiere Brown Noise (Tiefes, beruhigendes Rauschen)
-            const bufferSize = audioCtx.sampleRate * 2; // 2 Sekunden Loop
-            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-            const output = buffer.getChannelData(0);
-            let lastOut = 0;
-            for (let i = 0; i < bufferSize; i++) {
-                const white = Math.random() * 2 - 1;
-                output[i] = (lastOut + (0.02 * white)) / 1.02;
-                lastOut = output[i];
-                output[i] *= 3.5; // Gain Compensation
-            }
+        // 1. ENGINE SETUP
+        const engine = Engine.create();
+        const world = engine.world;
+        const container = document.getElementById('physics-container');
 
-            brownNoise = audioCtx.createBufferSource();
-            brownNoise.buffer = buffer;
-            brownNoise.loop = true;
-
-            // Lowpass Filter: Hiermit simulieren wir das "Chaos" (offen) vs "Ruhe" (geschlossen)
-            filterNode = audioCtx.createBiquadFilter();
-            filterNode.type = 'lowpass';
-            filterNode.frequency.value = 2000; // Start: Unruhig (hell)
-
-            // Volume Control
-            gainNode = audioCtx.createGain();
-            gainNode.gain.value = 0; // Fade in
-
-            brownNoise.connect(filterNode);
-            filterNode.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-
-            brownNoise.start();
-            isAudioInitialized = true;
-            
-            // Sanfter Fade In des Audios
-            gsap.to(gainNode.gain, { value: 0.8, duration: 3 });
-        }
-
-        /**
-         * 2. THREE.JS SETUP (Der organische Kiesel / The Pebble)
-         */
-        const canvas = document.getElementById('webgl-canvas');
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.z = 5;
-
-        // Beleuchtung für die Refraktion des Glases
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-        scene.add(ambientLight);
-
-        // Warmes Licht von links
-        const dirLight1 = new THREE.DirectionalLight(0xffeacc, 2);
-        dirLight1.position.set(-2, 2, 2);
-        scene.add(dirLight1);
-
-        // Kühleres Licht von rechts
-        const dirLight2 = new THREE.DirectionalLight(0xd9e5ff, 1.5);
-        dirLight2.position.set(2, -1, 1);
-        scene.add(dirLight2);
-
-        // Das innere, pulsierende "Herz" (PointLight)
-        const heartLight = new THREE.PointLight(0xffb84d, 2, 10);
-        scene.add(heartLight);
-
-        // Das Glas-Material (High-End Transmission)
-        const glassMaterial = new THREE.MeshPhysicalMaterial({
-            color: 0xffffff,
-            transmission: 1.0, // Macht es zu Glas
-            opacity: 1.0,
-            metalness: 0.1,
-            roughness: 0.2, // Leicht mattiert
-            ior: 1.5,
-            thickness: 2.0, // Für realistische Lichtbrechung
-            specularIntensity: 1.0
-        });
-
-        // Die Geometrie (Icosahedron, um es leicht organisch/amorph zu machen)
-        const geometry = new THREE.IcosahedronGeometry(1, 16);
-        
-        // Speichere die originalen Vertices für die organische Deformation
-        const originalVertices = [];
-        const positionAttribute = geometry.attributes.position;
-        for (let i = 0; i < positionAttribute.count; i++) {
-            originalVertices.push(
-                new THREE.Vector3().fromBufferAttribute(positionAttribute, i)
-            );
-        }
-
-        const pebble = new THREE.Mesh(geometry, glassMaterial);
-        scene.add(pebble);
-
-        /**
-         * 3. BIO-FEEDBACK LOGIC (The Pacing)
-         */
-        let currentBPM = 130; // Start: Extrem gestresst
-        let targetBPM = 130;
-        let isSyncing = false;
-        let isRevealed = false;
-
-        // Init durch den Nutzer
-        document.getElementById('init-screen').addEventListener('click', () => {
-            initAudio();
-            
-            // Fade out Init Screen
-            gsap.to('#init-screen', { 
-                opacity: 0, 
-                duration: 1, 
-                onComplete: () => {
-                    document.getElementById('init-screen').style.display = 'none';
-                    isSyncing = true;
-                    // Instruktion einblenden
-                    gsap.to('#sync-instruction', { opacity: 0.6, duration: 2, delay: 1 });
-                }
-            });
-        });
-
-        // Mausbewegung fängt an, den Puls zu senken
-        window.addEventListener('mousemove', () => {
-            if (isSyncing && !isRevealed) {
-                targetBPM -= 0.5; // Jeder Move senkt den Stress
-                if (targetBPM < 40) targetBPM = 40; // Absoluter Ruhezustand (4-7-8)
+        const render = Render.create({
+            element: container,
+            engine: engine,
+            options: {
+                width: window.innerWidth,
+                height: window.innerHeight,
+                wireframes: false,
+                background: 'transparent',
+                pixelRatio: window.devicePixelRatio
             }
         });
 
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+        Render.run(render);
+        const runner = Runner.create();
+        Runner.run(runner, engine);
 
-        /**
-         * 4. THE REVEAL (Wenn der Nutzer ruhig ist)
-         */
-        function triggerReveal() {
-            if (isRevealed) return;
-            isRevealed = true;
-            isSyncing = false;
+        // 2. DAS BÜROKRATIE-CHAOS (Wörter generieren)
+        const words = [
+            "§ 13 FeV", "SPERRFRIST", "DELIKT", "PROMILLE", "SCREENING", "DURCHFALLQUOTE", 
+            "FAHREIGNUNG", "GUTACHTEN", "VERSTOSS", "AKTENZEICHEN", "MPU-BÜROKRATIE",
+            "BEHÖRDENSTRESS", "PUNKTE", "ENTZUG", "FEHLERQUELLE", "STEUERUNGSFÄHIGKEIT",
+            "ANORDNUNG", "EIGNUNGSZWEIFEL", "TRINKMOTIVE", "VERHALTENSÄNDERUNG"
+        ];
 
-            // 1. Instruktion verschwindet
-            gsap.to('#sync-instruction', { opacity: 0, duration: 1 });
+        const bodies = [];
 
-            // 2. Audio sanft ausfaden
-            if (gainNode) gsap.to(gainNode.gain, { value: 0, duration: 4 });
+        function createWordBlock() {
+            for (let i = 0; i < 40; i++) {
+                const word = words[Math.floor(Math.random() * words.length)];
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+                
+                // Wir zeichnen den Text auf ein verstecktes Canvas, um eine Textur für Matter.js zu erstellen
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                ctx.font = '900 40px Inter';
+                const metrics = ctx.measureText(word);
+                const width = metrics.width + 40;
+                const height = 60;
+                
+                canvas.width = width;
+                canvas.height = height;
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 40px Inter';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(word, width / 2, height / 2);
 
-            // 3. Der Glaskörper expandiert, wird unsichtbar
-            gsap.to(pebble.scale, { x: 5, y: 5, z: 5, duration: 3, ease: "power2.inOut" });
-            gsap.to(glassMaterial, { roughness: 1.0, transmission: 0, opacity: 0, transparent: true, duration: 2.5, ease: "power2.inOut" });
-            gsap.to(heartLight, { intensity: 0, duration: 2 });
-
-            // 4. Typografie fließt majestätisch ein
-            const tl = gsap.timeline({ delay: 1 });
-            tl.to('#ui-h1', { opacity: 1, y: 0, filter: "blur(0px)", duration: 2, ease: "expo.out" })
-              .to('#ui-sub', { opacity: 1, y: 0, duration: 1.5, ease: "power2.out" }, "-=1.2")
-              .to('#ui-cta', { opacity: 1, y: 0, duration: 1.5, ease: "power2.out" }, "-=1");
+                const body = Bodies.rectangle(x, y, width, height, {
+                    restitution: 0.6,
+                    friction: 0.1,
+                    render: {
+                        sprite: {
+                            texture: canvas.toDataURL(),
+                            xScale: 1,
+                            yScale: 1
+                        }
+                    }
+                });
+                bodies.push(body);
+            }
         }
 
-        /**
-         * 5. RENDER LOOP (Die Animation)
-         */
-        const clock = new THREE.Clock();
+        createWordBlock();
 
-        function animate() {
-            requestAnimationFrame(animate);
-            const time = clock.getElapsedTime();
+        // Grenzen (Boden, Wände)
+        const ground = Bodies.rectangle(window.innerWidth / 2, window.innerHeight + 50, window.innerWidth, 100, { isStatic: true });
+        const leftWall = Bodies.rectangle(-50, window.innerHeight / 2, 100, window.innerHeight, { isStatic: true });
+        const rightWall = Bodies.rectangle(window.innerWidth + 50, window.innerHeight / 2, 100, window.innerHeight, { isStatic: true });
 
-            // LERP den aktuellen Puls zum Zielpuls
-            currentBPM += (targetBPM - currentBPM) * 0.02;
+        World.add(world, [...bodies, ground, leftWall, rightWall]);
 
-            // Trigger den Reveal, wenn tiefste Entspannung erreicht ist
-            if (currentBPM <= 42 && !isRevealed) {
+        // 3. INTERAKTION (Die Abrissbirne)
+        const mouse = Mouse.create(render.canvas);
+        const mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: { visible: false }
+            }
+        });
+
+        World.add(world, mouseConstraint);
+
+        // Tracke Zerstörung
+        let destroyedCount = 0;
+        let hasTriggered = false;
+
+        Matter.Events.on(mouseConstraint, 'mousemove', function(event) {
+            destroyedCount++;
+            if (destroyedCount > 200 && !hasTriggered) {
                 triggerReveal();
             }
+        });
 
-            // Audio Filter koppeln (Gestresst = Hell/Offen, Ruhig = Dumpf/Tief)
-            if (isAudioInitialized && filterNode && !isRevealed) {
-                const mappedFreq = gsap.utils.mapRange(40, 130, 200, 2000, currentBPM);
-                filterNode.frequency.value += (mappedFreq - filterNode.frequency.value) * 0.1;
-            }
+        // 4. DER REVEAL
+        function triggerReveal() {
+            hasTriggered = true;
+            
+            // UI weichmachen
+            gsap.to("body", { backgroundColor: "#f5f5f3", duration: 2 });
+            gsap.to("#instr", { opacity: 0, duration: 0.5 });
+            
+            // Die physischen Wörter verblassen lassen
+            bodies.forEach(body => {
+                gsap.to(body.render, { opacity: 0, duration: 2 });
+            });
 
-            if (!isRevealed) {
-                // Dynamischer Rhythmus basierend auf BPM
-                const pulseRate = currentBPM / 60; // Konvertiere in Hz
-                const pulse = Math.sin(time * pulseRate * Math.PI); // -1 to 1
+            // Das Finale einblenden
+            gsap.to("#reveal", { 
+                opacity: 1, 
+                pointerEvents: "auto", 
+                duration: 2, 
+                delay: 0.5,
+                ease: "power2.out" 
+            });
 
-                // 1. Skalierung: Der Körper "atmet" schwer und schnell, oder tief und langsam
-                const scaleBase = 1.0;
-                const scaleVariation = gsap.utils.mapRange(40, 130, 0.1, 0.03, currentBPM); 
-                const s = scaleBase + pulse * scaleVariation;
-                pebble.scale.set(s, s, s);
-
-                // 2. Licht-Intensität pulsiert mit
-                heartLight.intensity = gsap.utils.mapRange(-1, 1, 0.5, 3.0, pulse);
-
-                // 3. Organische Vertex-Deformation (Fluidität des Kieselsteins)
-                const positions = geometry.attributes.position;
-                for (let i = 0; i < positions.count; i++) {
-                    const orig = originalVertices[i];
-                    
-                    // Komplexe Noise-Simulation mit Math.sin
-                    const displacement = Math.sin(orig.x * 2 + time * 0.5) * Math.cos(orig.y * 2 + time * 0.5) * Math.sin(orig.z * 2 + time * 0.5);
-                    
-                    // Bei hohem Puls zittert die Form stärker
-                    const amplitude = gsap.utils.mapRange(40, 130, 0.02, 0.15, currentBPM);
-
-                    positions.setXYZ(
-                        i,
-                        orig.x + orig.normal.x * displacement * amplitude,
-                        orig.y + orig.normal.y * displacement * amplitude,
-                        orig.z + orig.normal.z * displacement * amplitude
-                    );
-                }
-                positions.needsUpdate = true;
-                geometry.computeVertexNormals();
-
-                // Sanfte Rotation
-                pebble.rotation.y += 0.005;
-                pebble.rotation.x += 0.002;
-            }
-
-            renderer.render(scene, camera);
+            // Schwerkraft massiv erhöhen, damit alles nach unten wegsackt
+            engine.gravity.y = 5;
         }
 
-        animate();
+        // Resize
+        window.addEventListener('resize', function() {
+            render.canvas.width = window.innerWidth;
+            render.canvas.height = window.innerHeight;
+        });
+
     </script>
 </body>
 </html>
