@@ -179,7 +179,6 @@
     .play-circle svg { width: 12px; height: 12px; fill: #fff; margin-left: 2px; transition: fill 0.3s ease;}
     .btn-play:hover .play-circle svg { fill: var(--cyan); }
 
-    /* Trust Bar & Quote */
     .hero-content-wrapper { position: relative; z-index: 10; max-width: 1600px; margin: 0 auto; width: 100%; flex-grow: 1; display: flex; flex-direction: column; }
     .hero-bottom { margin-top: auto; padding-top: 4rem; display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
     .trust-items { display: flex; gap: 3rem; }
@@ -204,7 +203,7 @@
        ========================================= */
     .license-story {
       position: relative; z-index: 3; height: 540vh;
-      background: #000; /* Fallback */
+      background: #000;
     }
     
     /* NEU: DIE HINTERGRUND-BILDER FÜR DIE 3D STORY */
@@ -212,7 +211,7 @@
       position: absolute;
       inset: 0;
       z-index: 0;
-      opacity: 0; /* Wird beim Scrollen eingeblendet */
+      /* Wird über GSAP animiert, daher kein opacity: 0 hier im CSS */
     }
 
     .story-bg-desktop, .story-bg-mobile {
@@ -220,26 +219,25 @@
       inset: 0;
       background-size: cover;
       background-position: center;
-      filter: blur(5px); /* Dein gewünschter 5px Blur Effekt */
+      filter: blur(5px);
     }
 
     .story-bg-desktop {
-      /* HIER DEIN DESKTOP HINTERGRUNDBILD FÜR SEKTION 2 EINTRAGEN */
+      /* HIER IST DEIN BILD FEST EINGETRAGEN */
       background-image: url('mpuhell.png');
     }
 
     .story-bg-mobile {
       display: none;
-      /* HIER DEIN HANDY HINTERGRUNDBILD FÜR SEKTION 2 EINTRAGEN */
-      background-image: url('mpuhellmobile.mpu'); 
+      /* HIER IST DEIN BILD FEST EINGETRAGEN */
+      background-image: url('mpuhellmobile.png'); 
     }
 
     .story-bg-overlay {
       position: absolute;
       inset: 0;
-      /* Dieser Verlauf sorgt dafür, dass die Seite nahtlos an den Hero anschließt 
-         und der weiße Text über dem hellen Bild gut lesbar bleibt */
-      background: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.5) 15%, rgba(0,0,0,0.6) 100%);
+      /* Den Schatten heller gemacht, damit man das helle Bild gut erkennt! */
+      background: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.5) 100%);
     }
 
     .story-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; perspective: 1800px; }
@@ -339,7 +337,7 @@
     .after-inner h2 { font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.98; letter-spacing: -0.07em; font-weight: 900; margin-bottom: 1.2rem; text-wrap: balance; }
     .after-inner p { width: min(620px, 100%); margin: 0 auto 2.2rem; color: var(--white-soft); line-height: 1.7; font-size: clamp(1rem, 1.25vw, 1.18rem); }
 
-    /* RESPONSIVE HERO */
+    /* RESPONSIVE */
     @media (max-width: 1024px) {
       .hero-bg-image { width: 80%; right: 0; opacity: 0.6;}
     }
@@ -354,14 +352,12 @@
         width: 100%; 
         right: 0; 
         opacity: 1; 
-        background-image: url('mpumobile.png'); 
+        background-image: url('mpu-mobile.png'); 
         background-position: center center;
         background-size: cover;
       }
       
-      .hero-bg-fade {
-        display: none; 
-      }
+      .hero-bg-fade { display: none; }
       
       .hero-actions { flex-direction: column; align-items: flex-start; }
       .trust-items { flex-direction: column; gap: 1.5rem; }
@@ -570,8 +566,8 @@
         <div class="story-sticky">
           
           <div class="story-bg-wrapper">
-            <div class="mpuhell.png"></div>
-            <div class="mpuhellmobile.png"></div>
+            <div class="story-bg-desktop"></div>
+            <div class="story-bg-mobile"></div>
             <div class="story-bg-overlay"></div>
           </div>
 
@@ -949,7 +945,7 @@
       ScrollTrigger.refresh();
     }
 
-    // --- DEIN ORIGINAL INITIAL LOAD MIT CINEMATIC REVEAL ---
+    // --- DEIN ORIGINAL INITIAL LOAD ---
     window.addEventListener("load", () => {
       const tl = gsap.timeline();
 
@@ -985,7 +981,6 @@
         duration: 1.45,
         ease: "power2.out"
       }, "-=0.55")
-      /* Cinematic Reveal für den Hero Text */
       .from(".hero-reveal", {
         autoAlpha: 0,
         y: 40,
@@ -1001,15 +996,15 @@
 
         initScrollStory();
 
-        // NEU: HINTERGRUND-FADE-IN BEIM SCROLLEN
+        // HINTERGRUND-FADE-IN BEIM SCROLLEN
         gsap.fromTo(".story-bg-wrapper", 
           { opacity: 0 },
           {
             opacity: 1,
             scrollTrigger: {
               trigger: "#license-story",
-              start: "top bottom", // Fade in startet, wenn die Story in Sichtweite kommt
-              end: "top top",      // Ist voll sichtbar, wenn die Story oben anschlägt
+              start: "top bottom",
+              end: "top 20%", /* Fade-In ist schneller abgeschlossen */
               scrub: true
             }
           }
