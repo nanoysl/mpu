@@ -179,6 +179,7 @@
     .play-circle svg { width: 12px; height: 12px; fill: #fff; margin-left: 2px; transition: fill 0.3s ease;}
     .btn-play:hover .play-circle svg { fill: var(--cyan); }
 
+    /* Trust Bar & Quote */
     .hero-content-wrapper { position: relative; z-index: 10; max-width: 1600px; margin: 0 auto; width: 100%; flex-grow: 1; display: flex; flex-direction: column; }
     .hero-bottom { margin-top: auto; padding-top: 4rem; display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
     .trust-items { display: flex; gap: 3rem; }
@@ -206,12 +207,12 @@
       background: #000;
     }
     
-    /* NEU: DIE HINTERGRUND-BILDER FÜR DIE 3D STORY */
+    /* HINTERGRUND-BILDER FÜR DIE 3D STORY */
     .story-bg-wrapper {
       position: absolute;
       inset: 0;
       z-index: 0;
-      /* Wird über GSAP animiert, daher kein opacity: 0 hier im CSS */
+      opacity: 0; /* Wird beim Scrollen eingeblendet */
     }
 
     .story-bg-desktop, .story-bg-mobile {
@@ -223,20 +224,17 @@
     }
 
     .story-bg-desktop {
-      /* HIER IST DEIN BILD FEST EINGETRAGEN */
       background-image: url('mpuhell.png');
     }
 
     .story-bg-mobile {
       display: none;
-      /* HIER IST DEIN BILD FEST EINGETRAGEN */
       background-image: url('mpuhellmobile.png'); 
     }
 
     .story-bg-overlay {
       position: absolute;
       inset: 0;
-      /* Den Schatten heller gemacht, damit man das helle Bild gut erkennt! */
       background: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.5) 100%);
     }
 
@@ -264,7 +262,7 @@
     
     .final-card-copy { padding: clamp(1.35rem, 2vw, 2rem); border: 1px solid rgba(255,255,255,0.14); background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035)); border-radius: 28px; box-shadow: 0 24px 80px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.08); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); overflow: hidden; pointer-events: auto; }
     .final-cta { display: inline-flex; align-items: center; justify-content: center; margin-top: 0.5rem; padding: 0.98rem 1.45rem; border-radius: 999px; background: #fff; color: #000; font-weight: 900; pointer-events: auto; box-shadow: 0 18px 42px rgba(255,255,255,0.12); text-align: center; }
-    .story-final-glow { position: absolute; top: 50%; left: 50%; z-index: 4; width: 48vw; aspect-ratio: 1 / 1; border-radius: 999px; background: radial-gradient(circle, rgba(92, 225, 230, 0.22), transparent 68%); transform: translate(-50%, -50%) scale(0.7); opacity: 0; pointer-events: none; filter: blur(10px); }
+    .story-final-glow { position: absolute; top: 50%; left: 50%; z-index: 4; width: 48vw; aspect-ratio: 1 / 1; border-radius: 999px; background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 68%); transform: translate(-50%, -50%) scale(0.7); opacity: 0; pointer-events: none; filter: blur(10px); }
     .story-progress { position: absolute; left: var(--page-pad); right: var(--page-pad); bottom: clamp(1.25rem, 3vh, 2rem); z-index: 10; height: 1px; background: rgba(255,255,255,0.12); overflow: hidden; }
     .story-progress-fill { height: 100%; width: 100%; background: #fff; transform: scaleX(0); transform-origin: left center; will-change: transform; }
 
@@ -348,16 +346,16 @@
       .hero-section { padding: 1.5rem 1.5rem 3rem 1.5rem; }
       .hero-headline { font-size: 2.8rem; }
       
+      /* HIER IST DER FIX FÜR DAS MOBILE BILD */
       .hero-bg-image { 
         width: 100%; 
         right: 0; 
         opacity: 1; 
-        background-image: url('mpu-mobile.png'); 
-        background-position: center center;
+        background-image: url('mpumobile.png'); 
+        background-position: center;
         background-size: cover;
       }
-      
-      .hero-bg-fade { display: none; }
+      .hero-bg-fade { display: none; } /* Fade ausblenden auf dem Handy */
       
       .hero-actions { flex-direction: column; align-items: flex-start; }
       .trust-items { flex-direction: column; gap: 1.5rem; }
@@ -981,6 +979,7 @@
         duration: 1.45,
         ease: "power2.out"
       }, "-=0.55")
+      /* Cinematic Reveal */
       .from(".hero-reveal", {
         autoAlpha: 0,
         y: 40,
@@ -1004,7 +1003,7 @@
             scrollTrigger: {
               trigger: "#license-story",
               start: "top bottom",
-              end: "top 20%", /* Fade-In ist schneller abgeschlossen */
+              end: "top 20%", 
               scrub: true
             }
           }
