@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MPU Experten | Fahrplan zurück zum Führerschein</title>
+  <title>MPU Akademie | MPU Vorbereitung mit Klarna Zahlung</title>
+  <meta name="description" content="Moderne MPU Vorbereitung mit klarem Fahrplan, individueller Analyse, Gesprächstraining und flexibler Zahlung über Klarna." />
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -661,6 +662,1096 @@
         font-size: clamp(0.4rem, 1.55cqw, 0.56rem);
       }
     }
+
+
+    /* =========================================
+       REST DER WEBSITE: MODERN, RESPONSIVE, ANIMIERT
+       ========================================= */
+    :root {
+      --panel: rgba(9, 18, 28, 0.66);
+      --panel-strong: rgba(12, 26, 38, 0.84);
+      --line-soft: rgba(255,255,255,0.11);
+      --line-cyan: rgba(92,225,230,0.35);
+      --muted: rgba(255,255,255,0.68);
+      --muted-2: rgba(255,255,255,0.48);
+      --pink: #ffb3c7;
+      --pink-strong: #ff8fb3;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-primary,
+    .btn-secondary,
+    .btn-klarna,
+    .btn-ghost {
+      position: relative;
+      isolation: isolate;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      border-radius: 999px;
+      min-height: 48px;
+      padding: 0.92rem 1.35rem;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.075em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.35s var(--ease-out), border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+    }
+
+    .btn-primary {
+      color: #001014;
+      background: linear-gradient(135deg, #fff, var(--cyan));
+      box-shadow: 0 22px 56px rgba(92,225,230,0.18);
+    }
+
+    .btn-primary::after,
+    .btn-klarna::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(115deg, transparent 0%, transparent 36%, rgba(255,255,255,0.62) 48%, transparent 62%, transparent 100%);
+      transform: translateX(-115%) skewX(-18deg);
+      transition: transform 0.72s var(--ease-out);
+    }
+
+    .btn-primary:hover,
+    .btn-secondary:hover,
+    .btn-klarna:hover,
+    .btn-ghost:hover { transform: translateY(-3px); }
+    .btn-primary:hover::after,
+    .btn-klarna:hover::after { transform: translateX(115%) skewX(-18deg); }
+
+    .btn-secondary,
+    .btn-ghost {
+      color: #fff;
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.14);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .btn-secondary:hover,
+    .btn-ghost:hover { border-color: rgba(92,225,230,0.38); box-shadow: 0 18px 48px rgba(0,0,0,0.28); }
+
+    .btn-klarna {
+      color: #111;
+      background: linear-gradient(135deg, #ffd8e3, var(--pink));
+      box-shadow: 0 24px 70px rgba(255,179,199,0.18);
+    }
+
+    .btn-primary svg,
+    .btn-secondary svg,
+    .btn-klarna svg,
+    .btn-ghost svg { width: 16px; height: 16px; }
+
+    .cta-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-top: clamp(1.35rem, 2.4vw, 2rem);
+    }
+
+    .section-transition {
+      position: relative;
+      z-index: 4;
+      height: 36vh;
+      min-height: 260px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: linear-gradient(180deg, #000 0%, #020a10 52%, #000 100%);
+    }
+
+    .section-transition::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, rgba(92,225,230,0.8), transparent);
+      box-shadow: 0 0 45px rgba(92,225,230,0.5);
+      transform: translateX(-50%);
+    }
+
+    .transition-copy {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.8rem 1.1rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      background: rgba(0,0,0,0.46);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      color: rgba(255,255,255,0.72);
+      font-size: clamp(0.68rem, 1vw, 0.82rem);
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .transition-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--cyan);
+      box-shadow: 0 0 24px rgba(92,225,230,0.9);
+    }
+
+    .mpu-section {
+      position: relative;
+      z-index: 4;
+      overflow: hidden;
+      padding: clamp(5.5rem, 9vw, 9.5rem) 0;
+      background: #000;
+      isolation: isolate;
+    }
+
+    .mpu-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(92,225,230,0.13), transparent 32%),
+        radial-gradient(circle at 86% 30%, rgba(255,255,255,0.08), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0));
+    }
+
+    .mpu-section::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: var(--page-pad);
+      right: var(--page-pad);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(92,225,230,0.45), rgba(255,255,255,0.18), transparent);
+      opacity: 0.9;
+    }
+
+    .section-shell {
+      width: min(1180px, calc(100% - 2 * var(--page-pad)));
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.6fr);
+      gap: clamp(1.8rem, 5vw, 5rem);
+      align-items: end;
+      margin-bottom: clamp(2.4rem, 5vw, 4.8rem);
+    }
+
+    .section-head.center {
+      display: block;
+      text-align: center;
+      width: min(860px, 100%);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .section-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      color: var(--cyan);
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .section-kicker::before {
+      content: "";
+      width: 34px;
+      height: 1px;
+      background: var(--cyan);
+      box-shadow: 0 0 18px rgba(92,225,230,0.7);
+    }
+
+    .section-title {
+      font-size: clamp(2.4rem, 6vw, 6.4rem);
+      line-height: 0.94;
+      letter-spacing: -0.075em;
+      font-weight: 900;
+      text-wrap: balance;
+    }
+
+    .section-title.small { font-size: clamp(2.25rem, 5vw, 4.8rem); }
+
+    .section-lead {
+      color: var(--muted);
+      line-height: 1.72;
+      font-size: clamp(0.98rem, 1.15vw, 1.13rem);
+    }
+
+    .gradient-text {
+      color: transparent;
+      background: linear-gradient(90deg, #fff 0%, var(--cyan) 42%, #fff 72%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .pink-text {
+      color: transparent;
+      background: linear-gradient(90deg, #fff 0%, var(--pink) 50%, #fff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .reason-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .reason-card,
+    .method-card,
+    .route-card,
+    .package-card,
+    .proof-card,
+    .faq-item,
+    .contact-panel,
+    .lead-form {
+      border: 1px solid var(--line-soft);
+      background: linear-gradient(145deg, rgba(255,255,255,0.085), rgba(255,255,255,0.025)), rgba(6, 15, 24, 0.55);
+      box-shadow: 0 24px 90px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.065);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .reason-card {
+      min-height: 260px;
+      padding: 1.25rem;
+      border-radius: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.45s var(--ease-out), border-color 0.45s ease;
+      transform-style: preserve-3d;
+    }
+
+    .reason-card:hover { transform: translateY(-8px); border-color: rgba(92,225,230,0.34); }
+
+    .reason-icon {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: rgba(92,225,230,0.1);
+      border: 1px solid rgba(92,225,230,0.22);
+      color: var(--cyan);
+      font-weight: 900;
+      font-size: 1rem;
+      margin-bottom: 1.35rem;
+      box-shadow: 0 0 30px rgba(92,225,230,0.12);
+    }
+
+    .reason-card h3 {
+      font-size: clamp(1.15rem, 1.5vw, 1.45rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin-bottom: 0.75rem;
+    }
+
+    .reason-card p { color: var(--muted); line-height: 1.58; font-size: 0.92rem; }
+
+    .reason-meta {
+      position: absolute;
+      left: 1.25rem;
+      right: 1.25rem;
+      bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      color: rgba(255,255,255,0.46);
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .reason-meta span:last-child { color: var(--cyan); }
+
+    .method-section { overflow: hidden; }
+    .method-layout { display: grid; grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: start; }
+
+    .method-sticky {
+      position: sticky;
+      top: 110px;
+      padding: clamp(1.3rem, 2.4vw, 2rem);
+      border-radius: 32px;
+      border: 1px solid rgba(92,225,230,0.20);
+      background: radial-gradient(circle at 25% 15%, rgba(92,225,230,0.16), transparent 36%), linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03));
+      box-shadow: 0 28px 90px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.08);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+
+    .method-sticky h3 { font-size: clamp(1.65rem, 2.7vw, 2.7rem); line-height: 0.98; letter-spacing: -0.06em; margin-bottom: 1rem; }
+    .method-sticky p { color: var(--muted); line-height: 1.7; margin-bottom: 1.3rem; }
+
+    .method-meter { display: grid; gap: 0.7rem; margin-top: 1.4rem; }
+    .meter-row { display: grid; grid-template-columns: 92px 1fr; gap: 0.8rem; align-items: center; color: rgba(255,255,255,0.6); font-size: 0.72rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; }
+    .meter-line { height: 7px; border-radius: 99px; background: rgba(255,255,255,0.08); overflow: hidden; }
+    .meter-line span { display: block; height: 100%; width: 0%; border-radius: inherit; background: linear-gradient(90deg, var(--cyan), #fff); box-shadow: 0 0 20px rgba(92,225,230,0.5); }
+
+    .method-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .method-card { min-height: 315px; border-radius: 30px; padding: clamp(1.15rem, 2vw, 1.6rem); position: relative; overflow: hidden; }
+    .method-num { color: var(--cyan); font-size: 0.72rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .method-card h3 { font-size: clamp(1.35rem, 2.4vw, 2.25rem); line-height: 0.98; letter-spacing: -0.06em; margin-bottom: 1rem; }
+    .method-card p { color: var(--muted); line-height: 1.62; }
+
+    .klarna-section::before { background: radial-gradient(circle at 72% 14%, rgba(255,179,199,0.22), transparent 34%), radial-gradient(circle at 10% 60%, rgba(92,225,230,0.14), transparent 32%), linear-gradient(180deg, #000, #030d14 52%, #000); }
+    .klarna-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(330px, 0.85fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+    .klarna-copy h2 { font-size: clamp(2.55rem, 6.4vw, 7rem); line-height: 0.9; letter-spacing: -0.08em; font-weight: 900; text-wrap: balance; margin-bottom: 1.2rem; }
+    .klarna-copy p { color: var(--muted); line-height: 1.75; font-size: clamp(1rem, 1.22vw, 1.18rem); }
+    .klarna-bullets { display: grid; gap: 0.75rem; margin: 1.5rem 0 1.8rem; }
+    .klarna-bullets li { list-style: none; display: flex; align-items: flex-start; gap: 0.7rem; color: rgba(255,255,255,0.74); line-height: 1.55; }
+    .klarna-bullets li::before { content: ""; width: 18px; height: 18px; margin-top: 0.13rem; border-radius: 50%; flex: 0 0 auto; background: radial-gradient(circle, #111 0 3px, transparent 4px), var(--pink); box-shadow: 0 0 20px rgba(255,179,199,0.42); }
+
+    .payment-card { position: relative; padding: clamp(1.1rem, 2.6vw, 1.8rem); border-radius: 36px; border: 1px solid rgba(255,255,255,0.13); background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035)), rgba(4, 13, 21, 0.74); box-shadow: 0 30px 100px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.08); backdrop-filter: blur(26px); -webkit-backdrop-filter: blur(26px); transform-style: preserve-3d; }
+    .payment-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.3rem; }
+    .klarna-logo { display: inline-flex; align-items: center; justify-content: center; padding: 0.55rem 0.9rem; min-height: 38px; border-radius: 999px; color: #111; background: var(--pink); font-weight: 900; letter-spacing: -0.04em; }
+    .payment-secure { color: rgba(255,255,255,0.5); font-size: 0.72rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; }
+    .payment-title { padding: 1.1rem; border-radius: 24px; border: 1px solid rgba(255,255,255,0.10); background: linear-gradient(135deg, rgba(92,225,230,0.12), rgba(255,179,199,0.12)); margin-bottom: 1rem; }
+    .payment-title span { display: block; color: rgba(255,255,255,0.56); font-size: 0.74rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .payment-title strong { display: block; font-size: clamp(1.65rem, 3vw, 2.6rem); line-height: 0.98; letter-spacing: -0.06em; }
+    .pay-option { display: grid; grid-template-columns: auto 1fr auto; gap: 0.75rem; align-items: center; padding: 0.9rem 0.95rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.09); background: rgba(0,0,0,0.22); margin-top: 0.72rem; }
+    .pay-option.featured { border-color: rgba(255,179,199,0.35); background: rgba(255,179,199,0.11); }
+    .pay-radio { width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.28); position: relative; }
+    .pay-option.featured .pay-radio::after { content: ""; position: absolute; inset: 4px; border-radius: inherit; background: var(--pink); }
+    .pay-copy strong { display: block; font-size: 0.94rem; }
+    .pay-copy small { display: block; margin-top: 0.22rem; color: rgba(255,255,255,0.52); line-height: 1.35; font-size: 0.78rem; }
+    .pay-tag { color: var(--cyan); font-size: 0.68rem; font-weight: 900; letter-spacing: 0.09em; text-transform: uppercase; }
+    .klarna-note { margin-top: 1rem; color: rgba(255,255,255,0.45); font-size: 0.76rem; line-height: 1.55; }
+
+    .route-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+    .route-card { border-radius: 28px; padding: 1.25rem; min-height: 270px; display: flex; flex-direction: column; justify-content: space-between; }
+    .route-step { width: 44px; height: 44px; border-radius: 16px; display: grid; place-items: center; background: var(--cyan); color: #001014; font-weight: 900; box-shadow: 0 18px 42px rgba(92,225,230,0.18); }
+    .route-card h3 { font-size: 1.2rem; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 0.6rem; }
+    .route-card p { color: var(--muted); line-height: 1.58; font-size: 0.92rem; }
+
+    .package-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; align-items: stretch; }
+    .package-card { display: flex; flex-direction: column; min-height: 560px; padding: clamp(1.1rem, 2vw, 1.65rem); border-radius: 32px; transform-style: preserve-3d; }
+    .package-card.featured { border-color: rgba(92,225,230,0.36); background: linear-gradient(145deg, rgba(92,225,230,0.14), rgba(255,255,255,0.042)); box-shadow: 0 36px 120px rgba(92,225,230,0.13), inset 0 1px 0 rgba(255,255,255,0.08); }
+    .package-topline { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.2rem; }
+    .package-name { font-size: 0.82rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.72); }
+    .package-badge { padding: 0.42rem 0.58rem; border-radius: 999px; background: rgba(92,225,230,0.12); color: var(--cyan); border: 1px solid rgba(92,225,230,0.28); font-size: 0.68rem; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+    .package-card h3 { font-size: clamp(1.7rem, 3vw, 3.1rem); line-height: 0.96; letter-spacing: -0.065em; font-weight: 900; margin-bottom: 1rem; }
+    .package-desc { color: var(--muted); line-height: 1.62; margin-bottom: 1.4rem; }
+    .package-price { margin: 0.2rem 0 1.4rem; padding: 1rem; border-radius: 22px; background: rgba(0,0,0,0.20); border: 1px solid rgba(255,255,255,0.08); }
+    .package-price strong { display: block; font-size: clamp(1.25rem, 2.4vw, 2rem); line-height: 1; letter-spacing: -0.045em; font-weight: 900; color: #fff; }
+    .package-price small { display: block; margin-top: 0.45rem; color: rgba(255,255,255,0.55); line-height: 1.35; }
+    .package-list { list-style: none; display: grid; gap: 0.75rem; margin-bottom: 1.35rem; }
+    .package-list li { display: flex; gap: 0.65rem; align-items: flex-start; color: rgba(255,255,255,0.72); line-height: 1.45; font-size: 0.9rem; }
+    .package-list li::before { content: ""; width: 16px; height: 16px; margin-top: 0.13rem; border-radius: 50%; flex: 0 0 auto; background: radial-gradient(circle, #001014 0 3px, transparent 4px), var(--cyan); }
+    .package-bottom { margin-top: auto; display: grid; gap: 0.75rem; }
+
+    .trust-layout { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(1.3rem, 4vw, 4rem); align-items: center; }
+    .trust-copy h2 { font-size: clamp(2.25rem, 5.2vw, 5.4rem); line-height: 0.94; letter-spacing: -0.075em; font-weight: 900; margin-bottom: 1.2rem; }
+    .trust-copy p { color: var(--muted); line-height: 1.72; font-size: 1.05rem; }
+    .proof-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .proof-card { border-radius: 28px; padding: 1.25rem; min-height: 210px; }
+    .proof-card span { color: var(--cyan); font-size: 0.7rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
+    .proof-card h3 { font-size: 1.25rem; line-height: 1.08; letter-spacing: -0.045em; margin: 1.2rem 0 0.65rem; }
+    .proof-card p { color: var(--muted); line-height: 1.58; font-size: 0.9rem; }
+
+    .faq-list { width: min(900px, 100%); margin: 0 auto; display: grid; gap: 0.85rem; }
+    .faq-item { border-radius: 24px; overflow: hidden; transition: border-color 0.28s ease, background 0.28s ease; }
+    .faq-item.is-open { border-color: rgba(92,225,230,0.34); background: rgba(92,225,230,0.06); }
+    .faq-question { width: 100%; border: 0; background: transparent; color: #fff; padding: 1.2rem 1.3rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; text-align: left; font: inherit; font-size: clamp(1rem, 1.25vw, 1.12rem); font-weight: 850; cursor: pointer; }
+    .faq-plus { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,0.07); color: var(--cyan); transition: transform 0.25s ease; flex: 0 0 auto; }
+    .faq-item.is-open .faq-plus { transform: rotate(45deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq-item.is-open .faq-answer { max-height: 240px; }
+    .faq-answer p { color: var(--muted); line-height: 1.7; padding: 0 1.3rem 1.25rem; }
+
+    .contact-section::before { background: radial-gradient(circle at 70% 15%, rgba(92,225,230,0.18), transparent 34%), radial-gradient(circle at 16% 66%, rgba(255,179,199,0.10), transparent 32%), linear-gradient(180deg, #000, #051019 54%, #000); }
+    .contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+    .contact-panel { border-radius: 32px; padding: clamp(1.25rem, 2.5vw, 2rem); }
+    .contact-panel h2 { font-size: clamp(2.15rem, 4.6vw, 5rem); line-height: 0.94; letter-spacing: -0.075em; font-weight: 900; margin-bottom: 1rem; }
+    .contact-panel p { color: var(--muted); line-height: 1.72; }
+    .contact-points { display: grid; gap: 0.75rem; margin-top: 1.5rem; }
+    .contact-point { display: grid; grid-template-columns: auto 1fr; gap: 0.75rem; padding: 0.9rem; border-radius: 18px; background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.08); }
+    .contact-point span { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--cyan); color: #001014; font-weight: 900; font-size: 0.75rem; }
+    .contact-point strong { display: block; margin-bottom: 0.22rem; }
+    .contact-point small { color: rgba(255,255,255,0.58); line-height: 1.45; }
+
+    .lead-form { border-radius: 32px; padding: clamp(1.15rem, 2.4vw, 2rem); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; }
+    .field { display: grid; gap: 0.42rem; }
+    .field.full, .form-consent, .form-actions, .form-success { grid-column: 1 / -1; }
+    .field label { color: rgba(255,255,255,0.62); font-size: 0.72rem; font-weight: 900; letter-spacing: 0.09em; text-transform: uppercase; }
+    .field input, .field select, .field textarea { width: 100%; border: 1px solid rgba(255,255,255,0.12); background: rgba(0,0,0,0.24); color: #fff; border-radius: 16px; min-height: 52px; padding: 0.9rem 1rem; outline: none; font-size: 0.95rem; transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; }
+    .field textarea { min-height: 132px; resize: vertical; }
+    .field select option { background: #071018; color: #fff; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: rgba(92,225,230,0.55); box-shadow: 0 0 0 4px rgba(92,225,230,0.09); background: rgba(0,0,0,0.34); }
+    .form-consent { display: flex; align-items: flex-start; gap: 0.7rem; color: rgba(255,255,255,0.58); line-height: 1.45; font-size: 0.82rem; }
+    .form-consent input { margin-top: 0.16rem; accent-color: var(--cyan); }
+    .form-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 0.3rem; }
+    .form-success { display: none; padding: 0.95rem 1rem; border-radius: 18px; color: #bfffff; background: rgba(92,225,230,0.09); border: 1px solid rgba(92,225,230,0.22); line-height: 1.5; }
+    .lead-form.is-sent .form-success { display: block; }
+    .klarna-small-note { grid-column: 1 / -1; padding: 0.95rem 1rem; border-radius: 18px; color: rgba(255,255,255,0.64); background: rgba(255,179,199,0.08); border: 1px solid rgba(255,179,199,0.18); line-height: 1.55; font-size: 0.84rem; }
+    .klarna-small-note strong { color: #ffd8e2; }
+
+    .site-footer { position: relative; z-index: 4; padding: 2.2rem var(--page-pad); border-top: 1px solid rgba(255,255,255,0.09); background: #000; }
+    .footer-inner { width: min(1180px, 100%); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; color: rgba(255,255,255,0.48); font-size: 0.82rem; }
+    .footer-brand { display: flex; flex-direction: column; line-height: 1.05; color: #fff; font-weight: 900; letter-spacing: 0.08em; }
+    .footer-brand span:last-child { color: var(--cyan); font-size: 0.64rem; letter-spacing: 0.22em; margin-top: 0.2rem; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: flex-end; }
+    .footer-links a { color: rgba(255,255,255,0.54); transition: color 0.2s ease; }
+    .footer-links a:hover { color: #fff; }
+
+    @media (max-width: 1100px) {
+      .reason-grid,
+      .route-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .klarna-grid,
+      .method-layout,
+      .trust-layout,
+      .contact-grid { grid-template-columns: 1fr; }
+      .method-sticky { position: relative; top: auto; }
+      .package-grid { grid-template-columns: 1fr; }
+      .package-card { min-height: auto; }
+    }
+
+    @media (max-width: 768px) {
+      .section-shell { width: min(100% - 2.2rem, 1180px); }
+      .mpu-section { padding: clamp(4.2rem, 14vw, 6rem) 0; }
+      .section-head { display: block; margin-bottom: 2rem; }
+      .section-lead { margin-top: 1rem; }
+      .reason-grid,
+      .method-grid,
+      .route-grid,
+      .proof-grid,
+      .lead-form { grid-template-columns: 1fr; }
+      .reason-card { min-height: 235px; }
+      .method-card,
+      .route-card,
+      .proof-card { min-height: auto; }
+      .pay-option { grid-template-columns: auto 1fr; }
+      .pay-tag { grid-column: 2; }
+      .form-actions .btn-primary { width: 100%; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .footer-links { justify-content: flex-start; }
+    }
+
+
+
+    /* =====================================================
+       UPDATE: AB DER 3. SECTION WEISS + SCROLL PAGE-SWITCH
+       Hero + 3D-Führerschein-Story bleiben unverändert.
+       ===================================================== */
+    :root {
+      --paper: #f7fbfc;
+      --paper-2: #ffffff;
+      --paper-3: #eefbfc;
+      --ink: #061017;
+      --ink-soft: rgba(6, 16, 23, 0.72);
+      --ink-muted: rgba(6, 16, 23, 0.54);
+      --ink-faint: rgba(6, 16, 23, 0.38);
+      --cyan-deep: #0aa8b0;
+      --paper-line: rgba(6, 16, 23, 0.10);
+      --paper-shadow: 0 26px 80px rgba(4, 32, 44, 0.10), 0 8px 28px rgba(4, 32, 44, 0.06);
+    }
+
+    .section-transition {
+      --line-scale: 1;
+      --wipe-x: -112%;
+      position: relative;
+      z-index: 4;
+      height: clamp(170px, 22vw, 290px);
+      min-height: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 34%, rgba(92,225,230,0.26), transparent 34%),
+        linear-gradient(to bottom, #000 0%, rgba(0, 10, 16, 0.88) 23%, rgba(247,251,252,0.92) 78%, var(--paper) 100%) !important;
+    }
+
+    .section-transition.generated-transition {
+      --line-scale: 0;
+      --wipe-x: -112%;
+      height: clamp(96px, 11vw, 152px);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(92,225,230,0.12), transparent 44%),
+        linear-gradient(180deg, rgba(255,255,255,0), rgba(247,251,252,0.78), rgba(255,255,255,0)) !important;
+      margin: clamp(-1.35rem, -1.5vw, -0.6rem) 0;
+    }
+
+    .section-transition::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      bottom: auto;
+      width: min(1180px, calc(100% - 2rem));
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(10,168,176,0.72), rgba(255,143,179,0.44), transparent) !important;
+      box-shadow: 0 0 38px rgba(10,168,176,0.30);
+      transform: translateX(-50%) scaleX(var(--line-scale));
+      transform-origin: center;
+    }
+
+    .section-transition::after {
+      content: "";
+      position: absolute;
+      left: -8%;
+      top: 50%;
+      width: 116%;
+      height: clamp(44px, 6vw, 74px);
+      opacity: 0.72;
+      background: linear-gradient(90deg, transparent, rgba(92,225,230,0.18), rgba(255,179,199,0.22), transparent);
+      filter: blur(1px);
+      transform: translateY(-50%) translateX(var(--wipe-x)) skewY(-2deg);
+      pointer-events: none;
+    }
+
+    .transition-copy {
+      color: var(--ink);
+      border-color: rgba(6,16,23,0.10);
+      background: rgba(255,255,255,0.84);
+      box-shadow: var(--paper-shadow);
+    }
+
+    .transition-dot {
+      background: linear-gradient(135deg, var(--cyan-deep), var(--pink));
+      box-shadow: 0 0 24px rgba(10,168,176,0.78);
+    }
+
+    .mpu-section {
+      --section-line: 0;
+      position: relative;
+      z-index: 4;
+      overflow: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 18%, rgba(92,225,230,0.14), transparent 28%),
+        linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%) !important;
+      isolation: isolate;
+    }
+
+    .mpu-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      opacity: 0.55;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(10,168,176,0.09), transparent 30%),
+        radial-gradient(circle at 84% 15%, rgba(255,143,179,0.09), transparent 29%);
+      mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+    }
+
+    .mpu-section::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: var(--page-pad);
+      right: var(--page-pad);
+      height: 1px;
+      z-index: 3;
+      background: linear-gradient(90deg, transparent, rgba(10,168,176,0.72), rgba(255,143,179,0.42), transparent);
+      box-shadow: 0 0 30px rgba(10,168,176,0.20);
+      transform: scaleX(var(--section-line));
+      transform-origin: left center;
+      opacity: 1;
+    }
+
+    .intro-after {
+      background:
+        radial-gradient(circle at 0% 16%, rgba(10,168,176,0.18), transparent 34%),
+        linear-gradient(180deg, var(--paper) 0%, #ffffff 100%) !important;
+    }
+
+    .method-section {
+      background:
+        radial-gradient(circle at 100% 8%, rgba(92,225,230,0.16), transparent 32%),
+        linear-gradient(180deg, #ffffff 0%, #f3fbfc 100%) !important;
+    }
+
+    .klarna-section {
+      background:
+        radial-gradient(circle at 78% 18%, rgba(255,143,179,0.30), transparent 34%),
+        radial-gradient(circle at 18% 72%, rgba(92,225,230,0.17), transparent 31%),
+        linear-gradient(145deg, #fff7fa 0%, #ffffff 48%, #f3fbfc 100%) !important;
+    }
+
+    .route-section {
+      background:
+        radial-gradient(circle at 50% 8%, rgba(10,168,176,0.14), transparent 34%),
+        linear-gradient(180deg, #ffffff 0%, #f7fbfc 100%) !important;
+    }
+
+    .package-section {
+      background:
+        radial-gradient(circle at 50% 5%, rgba(92,225,230,0.16), transparent 36%),
+        linear-gradient(180deg, #f7fbfc 0%, #ffffff 100%) !important;
+    }
+
+    .faq-section {
+      background:
+        radial-gradient(circle at 8% 12%, rgba(255,143,179,0.13), transparent 30%),
+        linear-gradient(180deg, #ffffff 0%, #f6fbfc 100%) !important;
+    }
+
+    .contact-section,
+    .contact-section::before {
+      background:
+        radial-gradient(circle at 50% 18%, rgba(92,225,230,0.20), transparent 36%),
+        radial-gradient(circle at 84% 84%, rgba(255,143,179,0.14), transparent 32%),
+        linear-gradient(180deg, #f6fbfc 0%, #ffffff 100%) !important;
+    }
+
+    .section-title,
+    .section-title.small,
+    .reason-card h3,
+    .method-sticky h3,
+    .method-card h3,
+    .route-card h3,
+    .package-card h3,
+    .trust-copy h2,
+    .proof-card h3,
+    .contact-panel h2,
+    .form-title h3,
+    .faq-question,
+    .case-panel strong,
+    .package-price strong,
+    .contact-point strong {
+      color: var(--ink) !important;
+    }
+
+    .section-lead,
+    .method-sticky p,
+    .method-card p,
+    .route-card p,
+    .proof-card p,
+    .package-card p,
+    .package-desc,
+    .reason-card p,
+    .trust-copy p,
+    .contact-panel p,
+    .form-title p,
+    .case-panel p,
+    .faq-answer p,
+    .klarna-copy p {
+      color: var(--ink-soft) !important;
+    }
+
+    .section-kicker,
+    .method-num,
+    .floating-note b,
+    .contact-option span,
+    .proof-card span,
+    .pay-tag {
+      color: var(--cyan-deep) !important;
+    }
+
+    .section-kicker::before,
+    .section-head.center .section-kicker::after {
+      background: var(--cyan-deep);
+      box-shadow: 0 0 18px rgba(10,168,176,0.45);
+    }
+
+    .gradient-text {
+      color: transparent;
+      background: linear-gradient(90deg, var(--ink) 0%, var(--cyan-deep) 48%, #35dbe1 72%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .pink-text {
+      color: transparent;
+      background: linear-gradient(90deg, var(--ink) 0%, #ff79a8 48%, #ffb3c7 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .btn-primary {
+      color: #001014;
+      background: linear-gradient(135deg, #ffffff, var(--cyan));
+      box-shadow: 0 22px 56px rgba(10,168,176,0.18);
+    }
+
+    .btn-secondary,
+    .btn-ghost {
+      color: var(--ink);
+      background: rgba(255,255,255,0.76);
+      border-color: rgba(6,16,23,0.12);
+      box-shadow: 0 12px 34px rgba(4,32,44,0.06);
+    }
+
+    .btn-secondary:hover,
+    .btn-ghost:hover {
+      border-color: rgba(10,168,176,0.38);
+      box-shadow: 0 18px 46px rgba(10,168,176,0.14);
+    }
+
+    .btn-klarna {
+      box-shadow: 0 24px 70px rgba(255,143,179,0.24);
+    }
+
+    .reason-card,
+    .method-card,
+    .route-card,
+    .package-card,
+    .proof-card,
+    .faq-item,
+    .contact-panel,
+    .lead-form,
+    .case-panel,
+    .method-sticky,
+    .payment-card {
+      border-color: rgba(6,16,23,0.10);
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.96), rgba(255,255,255,0.74)),
+        rgba(255,255,255,0.84);
+      box-shadow: var(--paper-shadow), inset 0 1px 0 rgba(255,255,255,0.9);
+    }
+
+    .reason-card:hover,
+    .method-card:hover,
+    .package-card:hover {
+      border-color: rgba(10,168,176,0.36);
+      box-shadow: 0 30px 90px rgba(10,168,176,0.13), 0 12px 34px rgba(4,32,44,0.08);
+    }
+
+    .reason-icon,
+    .package-badge,
+    .faq-plus {
+      background: rgba(10,168,176,0.10);
+      border-color: rgba(10,168,176,0.24);
+      color: var(--cyan-deep);
+      box-shadow: 0 0 30px rgba(10,168,176,0.12);
+    }
+
+    .reason-meta,
+    .package-name,
+    .route-time,
+    .meter-row,
+    .package-list,
+    .proof-point,
+    .contact-disclaimer,
+    .privacy-row,
+    .form-note,
+    .form-consent,
+    .klarna-note,
+    .contact-point small,
+    .pay-copy small,
+    .klarna-small-note {
+      color: var(--ink-muted) !important;
+    }
+
+    .reason-meta span:last-child {
+      color: var(--cyan-deep) !important;
+    }
+
+    .method-bg-orb {
+      background: radial-gradient(circle, rgba(10,168,176,0.16), transparent 67%);
+    }
+
+    .meter-line {
+      background: rgba(6,16,23,0.08);
+    }
+
+    .meter-line span {
+      background: linear-gradient(90deg, var(--cyan-deep), var(--cyan));
+      box-shadow: 0 0 22px rgba(10,168,176,0.34);
+    }
+
+    .klarna-bullets li {
+      color: var(--ink-soft);
+      border-color: rgba(6,16,23,0.10);
+      background: rgba(255,255,255,0.68);
+    }
+
+    .klarna-bullets li::before {
+      background: var(--cyan-deep);
+      box-shadow: 0 0 14px rgba(10,168,176,0.45);
+    }
+
+    .payment-card {
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 0%, rgba(255,179,199,0.24), transparent 36%),
+        linear-gradient(145deg, rgba(255,255,255,0.98), rgba(255,245,249,0.92));
+      box-shadow: 0 36px 110px rgba(255,143,179,0.20), 0 18px 50px rgba(4,32,44,0.08);
+    }
+
+    .payment-secure,
+    .payment-title span,
+    .payment-card small {
+      color: var(--ink-muted) !important;
+    }
+
+    .payment-title strong,
+    .klarna-logo,
+    .pay-copy strong {
+      color: var(--ink) !important;
+    }
+
+    .pay-option {
+      border-color: rgba(6,16,23,0.10);
+      background: rgba(255,255,255,0.72);
+    }
+
+    .pay-option.featured {
+      border-color: rgba(255,143,179,0.30);
+      background: rgba(255,179,199,0.14);
+    }
+
+    .pay-radio {
+      border-color: rgba(6,16,23,0.24);
+    }
+
+    .route-grid::before,
+    .route-wrap::before {
+      background: linear-gradient(90deg, transparent, rgba(10,168,176,0.42), transparent);
+      box-shadow: 0 0 30px rgba(10,168,176,0.20);
+    }
+
+    .route-step,
+    .contact-point span {
+      color: #001014;
+      background: linear-gradient(135deg, #ffffff, var(--cyan));
+      box-shadow: 0 0 38px rgba(10,168,176,0.20);
+    }
+
+    .package-card.featured {
+      border-color: rgba(10,168,176,0.44);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(92,225,230,0.23), transparent 42%),
+        linear-gradient(145deg, rgba(255,255,255,0.98), rgba(255,255,255,0.76));
+      box-shadow: 0 34px 110px rgba(10,168,176,0.12), 0 24px 70px rgba(4,32,44,0.08);
+    }
+
+    .package-price {
+      background: rgba(255,255,255,0.70);
+      border-color: rgba(6,16,23,0.08);
+    }
+
+    .package-price span,
+    .package-price small,
+    .contact-disclaimer {
+      color: var(--ink-muted) !important;
+    }
+
+    .package-list li {
+      color: var(--ink-soft) !important;
+    }
+
+    .package-list li::before {
+      background: radial-gradient(circle, #fff 0 3px, transparent 4px), var(--cyan-deep);
+      box-shadow: 0 0 14px rgba(10,168,176,0.45);
+    }
+
+    .proof-card span {
+      color: var(--cyan-deep) !important;
+    }
+
+    .faq-item.is-open {
+      border-color: rgba(10,168,176,0.34);
+      background: rgba(92,225,230,0.08);
+    }
+
+    .contact-point {
+      border-color: rgba(6,16,23,0.10);
+      background: rgba(255,255,255,0.72);
+    }
+
+    .field label {
+      color: rgba(6,16,23,0.58);
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      border-color: rgba(6,16,23,0.12);
+      background: rgba(255,255,255,0.86);
+      color: var(--ink);
+    }
+
+    .field select {
+      color: rgba(6,16,23,0.72);
+    }
+
+    .field select option {
+      background: #ffffff;
+      color: var(--ink);
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: rgba(6,16,23,0.42);
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: rgba(10,168,176,0.56);
+      box-shadow: 0 0 0 4px rgba(10,168,176,0.10);
+      background: #ffffff;
+    }
+
+    .form-success {
+      border-color: rgba(10,168,176,0.24);
+      background: rgba(92,225,230,0.11);
+      color: rgba(6,16,23,0.76);
+    }
+
+    .klarna-small-note {
+      border-color: rgba(255,143,179,0.22);
+      background: rgba(255,179,199,0.10);
+    }
+
+    .klarna-small-note strong {
+      color: #d9467c;
+    }
+
+    .site-footer {
+      border-top-color: rgba(6,16,23,0.08);
+      color: rgba(6,16,23,0.46);
+      background: #ffffff;
+    }
+
+    .footer-brand {
+      color: var(--ink);
+    }
+
+    .footer-brand span:last-child,
+    .footer-links a:hover {
+      color: var(--cyan-deep);
+    }
+
+    .footer-links a {
+      color: rgba(6,16,23,0.52);
+    }
+
+    /* Fixed Wipe-Overlay: reagiert auf jeden Section-Wechsel beim Scrollen */
+    .scroll-page-wipe {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      pointer-events: none;
+      visibility: hidden;
+      opacity: 0;
+      overflow: hidden;
+      contain: layout paint;
+    }
+
+    .scroll-page-wipe__panel {
+      position: absolute;
+      inset: -6%;
+      transform: translateX(-110%);
+      will-change: transform;
+    }
+
+    .scroll-page-wipe__panel:nth-child(1) {
+      background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(238,251,252,0.98));
+    }
+
+    .scroll-page-wipe__panel:nth-child(2) {
+      clip-path: polygon(0 0, 78% 0, 62% 100%, 0 100%);
+      background: linear-gradient(135deg, rgba(92,225,230,0.92), rgba(255,255,255,0.92));
+      box-shadow: 22px 0 60px rgba(10,168,176,0.20);
+    }
+
+    .scroll-page-wipe__panel:nth-child(3) {
+      clip-path: polygon(0 0, 46% 0, 34% 100%, 0 100%);
+      background: linear-gradient(135deg, rgba(255,179,199,0.90), rgba(255,255,255,0.88));
+    }
+
+    .scroll-page-wipe__label {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      max-width: calc(100vw - 2rem);
+      padding: 0.82rem 1.08rem;
+      border-radius: 999px;
+      border: 1px solid rgba(6,16,23,0.10);
+      background: rgba(255,255,255,0.82);
+      color: var(--ink);
+      box-shadow: 0 24px 80px rgba(4,32,44,0.14);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      font-size: clamp(0.68rem, 1vw, 0.84rem);
+      line-height: 1;
+      font-weight: 950;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      visibility: hidden;
+      will-change: transform, opacity;
+    }
+
+    .scroll-page-wipe__label::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--cyan-deep);
+      box-shadow: 0 0 22px rgba(10,168,176,0.72);
+      flex: 0 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .section-transition {
+        height: 145px;
+      }
+
+      .section-transition.generated-transition {
+        height: 92px;
+        margin: -0.7rem 0;
+      }
+
+      .transition-copy {
+        max-width: calc(100% - 2.2rem);
+        font-size: 0.58rem;
+        letter-spacing: 0.11em;
+        white-space: normal;
+        text-align: center;
+        justify-content: center;
+      }
+
+      .scroll-page-wipe__panel:nth-child(2) {
+        clip-path: polygon(0 0, 92% 0, 74% 100%, 0 100%);
+      }
+
+      .scroll-page-wipe__panel:nth-child(3) {
+        clip-path: polygon(0 0, 58% 0, 42% 100%, 0 100%);
+      }
+
+      .scroll-page-wipe__label {
+        width: calc(100vw - 2rem);
+        justify-content: center;
+        letter-spacing: 0.1em;
+        padding: 0.72rem 0.9rem;
+        white-space: normal;
+        text-align: center;
+        line-height: 1.25;
+      }
+    }
+
   </style>
 </head>
 
@@ -691,11 +1782,11 @@
       </div>
 
       <ul class="nav-links">
-        <li><a href="#">MPU Vorbereitung</a></li>
-        <li><a href="#">Ablauf <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></a></li>
-        <li><a href="#">Unsere Methoden</a></li>
-        <li><a href="#">Über uns</a></li>
-        <li><a href="#">FAQ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></a></li>
+        <li><a href="#vorbereitung">MPU Vorbereitung</a></li>
+        <li><a href="#license-story">Ablauf <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></a></li>
+        <li><a href="#methoden">Unsere Methoden</a></li>
+        <li><a href="#ueber-uns">Über uns</a></li>
+        <li><a href="#faq">FAQ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></a></li>
       </ul>
 
       <a href="#kontakt" class="nav-cta">
@@ -947,13 +2038,228 @@
         </div>
       </section>
 
-      <section id="kontakt" class="after-story">
-        <div class="after-inner">
-          <h2>Bereit für den nächsten klaren Schritt?</h2>
-          <p>Im Erstgespräch klären wir, wo Sie stehen, welche Vorbereitung sinnvoll ist und wie Ihr Weg zurück zum Führerschein strukturiert aussehen kann.</p>
-          <a href="#" class="btn-primary" style="display: inline-flex; padding: 1.18rem 3.4rem; background: #fff; color: #000; border-radius: 10px;">Erstgespräch anfragen</a>
+
+      <div class="section-transition" aria-hidden="true">
+        <div class="transition-copy js-reveal"><span class="transition-dot"></span> Ab hier wird aus Unsicherheit ein System</div>
+      </div>
+
+      <section id="vorbereitung" class="mpu-section intro-after">
+        <div class="section-shell">
+          <div class="section-head js-reveal">
+            <div>
+              <div class="section-kicker">MPU Vorbereitung</div>
+              <h2 class="section-title">Nicht raten. <span class="gradient-text">Richtig vorbereiten.</span></h2>
+            </div>
+            <p class="section-lead">Eine MPU wird selten durch einen einzelnen Satz entschieden. Entscheidend ist, ob Ihre Geschichte, Ihre Nachweise und Ihr heutiges Verhalten zusammenpassen. Genau dafür bauen wir einen klaren Fahrplan.</p>
+          </div>
+
+          <div class="reason-grid">
+            <article class="reason-card tilt-card js-card">
+              <div class="reason-icon">A</div>
+              <h3>Alkohol & Abstinenz</h3>
+              <p>Wir ordnen ein, was passiert ist, welche Nachweise wichtig sein können und wie Sie Ihre Veränderung nachvollziehbar erklären.</p>
+              <div class="reason-meta"><span>Analyse</span><span>Plan</span></div>
+            </article>
+            <article class="reason-card tilt-card js-card">
+              <div class="reason-icon">D</div>
+              <h3>Drogen & Laborwerte</h3>
+              <p>Von Konsummustern bis Nachweisstrategie: Sie bekommen Struktur, damit keine Frist und kein Detail unnötig Druck macht.</p>
+              <div class="reason-meta"><span>Nachweise</span><span>Sicherheit</span></div>
+            </article>
+            <article class="reason-card tilt-card js-card">
+              <div class="reason-icon">P</div>
+              <h3>Punkte & Verhalten</h3>
+              <p>Wir arbeiten heraus, was sich im Alltag ändern muss und wie Sie Verantwortung ohne Ausreden klar formulieren.</p>
+              <div class="reason-meta"><span>Reflexion</span><span>Training</span></div>
+            </article>
+            <article class="reason-card tilt-card js-card">
+              <div class="reason-icon">R</div>
+              <h3>Negatives Gutachten</h3>
+              <p>Wenn es schon einmal nicht gereicht hat, prüfen wir die Schwachstellen und bauen Ihre Vorbereitung gezielt neu auf.</p>
+              <div class="reason-meta"><span>Review</span><span>Neustart</span></div>
+            </article>
+          </div>
         </div>
       </section>
+
+      <section id="methoden" class="mpu-section method-section">
+        <div class="section-shell">
+          <div class="method-layout">
+            <aside class="method-sticky js-reveal">
+              <div class="section-kicker">Unsere Methode</div>
+              <h3>Keine auswendig gelernten Antworten.</h3>
+              <p>Wir verbinden Aktenlogik, Nachweisplanung und Gesprächstraining. Das Ziel ist keine perfekte Show, sondern eine glaubwürdige, ruhige und belastbare Darstellung.</p>
+              <a href="#kontakt" class="btn-secondary">Methode besprechen</a>
+              <div class="method-meter" aria-hidden="true">
+                <div class="meter-row"><span>Struktur</span><div class="meter-line"><span style="--w: 92%"></span></div></div>
+                <div class="meter-row"><span>Training</span><div class="meter-line"><span style="--w: 84%"></span></div></div>
+                <div class="meter-row"><span>Ruhe</span><div class="meter-line"><span style="--w: 78%"></span></div></div>
+              </div>
+            </aside>
+
+            <div class="method-grid">
+              <article class="method-card js-card"><div class="method-num">01 / Akten-Check</div><h3>Was steht wirklich im Fall?</h3><p>Wir prüfen Anlass, Risiken, Fristen und mögliche Schwachstellen, bevor Sie Zeit und Geld in die falsche Richtung investieren.</p></article>
+              <article class="method-card js-card"><div class="method-num">02 / Ursachen</div><h3>Die Frage hinter der Frage.</h3><p>Der Gutachter will verstehen, warum es passiert ist und warum es heute anders ist. Wir machen diese Logik greifbar.</p></article>
+              <article class="method-card js-card"><div class="method-num">03 / Nachweise</div><h3>Fristen sauber planen.</h3><p>Abstinenz, Unterlagen, Termine, Laborwerte: Sie bekommen eine klare Übersicht, was wichtig ist und was nicht.</p></article>
+              <article class="method-card js-card"><div class="method-num">04 / Simulation</div><h3>Realistisch trainieren.</h3><p>Wir üben typische Gesprächssituationen, reagieren auf kritische Nachfragen und schleifen Ihre Antworten auf Klarheit.</p></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="klarna" class="mpu-section klarna-section">
+        <div class="section-shell">
+          <div class="klarna-grid">
+            <div class="klarna-copy js-reveal">
+              <div class="section-kicker">Flexibel zahlen</div>
+              <h2>Nicht alles <span class="pink-text">auf einmal</span> zahlen.</h2>
+              <p>Viele Menschen brauchen gute MPU-Vorbereitung, aber können oder möchten den kompletten Betrag nicht sofort zahlen. Deshalb ist Klarna ein wichtiger Bestandteil: planbarer starten, statt aus Kostendruck zu warten.</p>
+              <ul class="klarna-bullets">
+                <li>Klarna Zahlungsoptionen können im Angebot berücksichtigt werden.</li>
+                <li>Vor dem Start wissen Sie transparent, welche Kosten und Optionen anstehen.</li>
+                <li>Das kostenlose Erstgespräch bleibt kostenlos — Sie entscheiden danach in Ruhe.</li>
+              </ul>
+              <div class="cta-row">
+                <a href="#kontakt" class="btn-klarna">Klarna Option anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></a>
+                <a href="#faq" class="btn-ghost">FAQ lesen</a>
+              </div>
+            </div>
+
+            <div class="payment-card tilt-card js-card">
+              <div class="payment-top"><div class="klarna-logo">Klarna</div><div class="payment-secure">Zahlungsoption</div></div>
+              <div class="payment-title"><span>MPU Vorbereitung</span><strong>flexibel zahlbar</strong></div>
+              <div class="pay-option"><div class="pay-radio"></div><div class="pay-copy"><strong>Einmalzahlung</strong><small>Direkt bezahlen und starten.</small></div><div class="pay-tag">Option</div></div>
+              <div class="pay-option featured"><div class="pay-radio"></div><div class="pay-copy"><strong>Klarna Teilzahlung</strong><small>Je nach Verfügbarkeit in flexiblen Beträgen zahlen.</small></div><div class="pay-tag">Beliebt</div></div>
+              <div class="pay-option"><div class="pay-radio"></div><div class="pay-copy"><strong>Individuell klären</strong><small>Wir besprechen, was zu Ihrer Situation passt.</small></div><div class="pay-tag">Fair</div></div>
+              <p class="klarna-note">Die konkreten Zahlungsarten hängen von Verfügbarkeit und Prüfung durch Klarna ab. Vor dem Start erhalten Sie ein klares Angebot.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="ablauf" class="mpu-section route-section">
+        <div class="section-shell">
+          <div class="section-head center js-reveal">
+            <div class="section-kicker">So läuft es nach der Anfrage</div>
+            <h2 class="section-title small">Vier Schritte bis zu einem klaren MPU-Fahrplan.</h2>
+            <p class="section-lead">Kurz, strukturiert und ohne unnötiges Hin und Her.</p>
+          </div>
+          <div class="route-grid">
+            <article class="route-card js-card"><div class="route-step">1</div><div><h3>Anfrage senden</h3><p>Sie schildern kurz MPU-Grund, Fristen und offene Fragen.</p></div></article>
+            <article class="route-card js-card"><div class="route-step">2</div><div><h3>Erstgespräch</h3><p>Wir prüfen, was wirklich wichtig ist und ob Vorbereitung sinnvoll startet.</p></div></article>
+            <article class="route-card js-card"><div class="route-step">3</div><div><h3>Angebot & Klarna</h3><p>Sie erhalten Umfang, Kosten und mögliche Zahlungsoptionen transparent.</p></div></article>
+            <article class="route-card js-card"><div class="route-step">4</div><div><h3>Training starten</h3><p>Analyse, Nachweise und Gesprächstraining greifen in einem Plan zusammen.</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section id="programme" class="mpu-section package-section">
+        <div class="section-shell">
+          <div class="section-head center js-reveal">
+            <div class="section-kicker">Leistungen</div>
+            <h2 class="section-title small">Vorbereitung in der Tiefe, die Ihr Fall braucht.</h2>
+            <p class="section-lead">Keine blinden Pakete. Wir empfehlen nach dem Erstgespräch, was sinnvoll ist.</p>
+          </div>
+
+          <div class="package-grid">
+            <article class="package-card tilt-card js-card">
+              <div class="package-topline"><div class="package-name">Analyse</div><span class="package-badge">Start</span></div>
+              <h3>Fall-Check</h3><p class="package-desc">Für Orientierung, bevor Sie entscheiden.</p>
+              <div class="package-price"><strong>Transparentes Angebot</strong><small>nach kostenloser Einschätzung</small></div>
+              <ul class="package-list"><li>Ausgangslage sortieren</li><li>Risiken und offene Nachweise erkennen</li><li>Nächste Schritte priorisieren</li></ul>
+              <div class="package-bottom"><a href="#kontakt" class="btn-secondary">Fall prüfen lassen</a></div>
+            </article>
+
+            <article class="package-card featured tilt-card js-card">
+              <div class="package-topline"><div class="package-name">Intensiv</div><span class="package-badge">Empfohlen</span></div>
+              <h3>MPU Training</h3><p class="package-desc">Für strukturierte Vorbereitung mit Gesprächssimulation.</p>
+              <div class="package-price"><strong>Klarna möglich</strong><small>für planbare Zahlung, sofern verfügbar</small></div>
+              <ul class="package-list"><li>Individueller Fahrplan</li><li>Aufarbeitung und Antwortstruktur</li><li>Simulation mit Feedback</li><li>Finaler Check vor dem Termin</li></ul>
+              <div class="package-bottom"><a href="#kontakt" class="btn-primary">Intensiv anfragen</a></div>
+            </article>
+
+            <article class="package-card tilt-card js-card">
+              <div class="package-topline"><div class="package-name">Premium</div><span class="package-badge">Begleitung</span></div>
+              <h3>Komplettplan</h3><p class="package-desc">Für komplexe Fälle oder engere Begleitung.</p>
+              <div class="package-price"><strong>Individuell planbar</strong><small>inklusive Zahlungsoptionen</small></div>
+              <ul class="package-list"><li>Mehrere Trainingseinheiten</li><li>Nachweise und Fristen im Blick</li><li>Kritische Fragen intensiv üben</li><li>Begleitung bis zum Abschluss</li></ul>
+              <div class="package-bottom"><a href="#kontakt" class="btn-secondary">Premium besprechen</a></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="ueber-uns" class="mpu-section trust-section">
+        <div class="section-shell">
+          <div class="trust-layout">
+            <div class="trust-copy js-reveal">
+              <div class="section-kicker">Warum wir</div>
+              <h2>Seriös vorbereiten heißt: keine falschen Versprechen.</h2>
+              <p>Eine MPU ist ernst. Deshalb arbeiten wir mit Struktur, Ehrlichkeit und Training statt mit Angst, Druck oder leeren Garantien.</p>
+              <div class="cta-row"><a href="#kontakt" class="btn-primary">Erstgespräch anfragen</a></div>
+            </div>
+            <div class="proof-grid">
+              <article class="proof-card js-card"><span>01</span><h3>Individuell statt Vorlage</h3><p>Jede Vorbereitung beginnt mit Ihrer echten Ausgangslage.</p></article>
+              <article class="proof-card js-card"><span>02</span><h3>Klartext statt Panik</h3><p>Wir erklären ehrlich, was kritisch ist und was als Nächstes zählt.</p></article>
+              <article class="proof-card js-card"><span>03</span><h3>Training statt Theorie</h3><p>Sie üben, schwierige Themen ruhig und klar zu erklären.</p></article>
+              <article class="proof-card js-card"><span>04</span><h3>Planbar statt überfordert</h3><p>Mit Klarna können Zahlungsoptionen planbar berücksichtigt werden.</p></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="mpu-section faq-section">
+        <div class="section-shell">
+          <div class="section-head center js-reveal">
+            <div class="section-kicker">FAQ</div>
+            <h2 class="section-title small">Fragen, die fast jeder vor der MPU hat.</h2>
+          </div>
+          <div class="faq-list">
+            <article class="faq-item is-open js-card"><button class="faq-question" type="button">Kann ich wirklich mit Klarna zahlen?<span class="faq-plus">+</span></button><div class="faq-answer"><p>Ja, Klarna Zahlungsoptionen sind vorgesehen. Welche Zahlungsart konkret verfügbar ist, hängt von Verfügbarkeit und Prüfung durch Klarna ab.</p></div></article>
+            <article class="faq-item js-card"><button class="faq-question" type="button">Muss ich beim Erstgespräch bezahlen?<span class="faq-plus">+</span></button><div class="faq-answer"><p>Nein. Das Erstgespräch dient zur Einschätzung Ihrer Situation und bleibt kostenlos.</p></div></article>
+            <article class="faq-item js-card"><button class="faq-question" type="button">Bereitet ihr auf Alkohol, Drogen und Punkte vor?<span class="faq-plus">+</span></button><div class="faq-answer"><p>Ja. Wir unterstützen bei Alkohol-, Drogen-, Punkte- und Mischfällen. Entscheidend ist die genaue Ausgangslage.</p></div></article>
+            <article class="faq-item js-card"><button class="faq-question" type="button">Geht die Vorbereitung online?<span class="faq-plus">+</span></button><div class="faq-answer"><p>Ja, viele Teile lassen sich online vorbereiten. Im Erstgespräch klären wir, welche Form für Sie sinnvoll ist.</p></div></article>
+            <article class="faq-item js-card"><button class="faq-question" type="button">Garantiert ihr das Bestehen?<span class="faq-plus">+</span></button><div class="faq-answer"><p>Nein. Seriöse Vorbereitung verspricht keine Garantie, sondern macht Sie strukturiert und realistisch vorbereitet.</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section id="kontakt" class="mpu-section contact-section">
+        <div class="section-shell">
+          <div class="contact-grid">
+            <div class="contact-panel js-reveal">
+              <div class="section-kicker">Kostenloses Erstgespräch</div>
+              <h2>Bereit für den nächsten klaren Schritt?</h2>
+              <p>Schreiben Sie uns kurz, worum es bei Ihrer MPU geht. Wir melden uns mit einer ehrlichen Einschätzung, welche Vorbereitung sinnvoll ist und wie Klarna als Zahlungsoption eingebunden werden kann.</p>
+              <div class="contact-points">
+                <div class="contact-point"><span>1</span><div><strong>Situation schildern</strong><small>MPU-Grund, Fristen und offene Fragen kurz angeben.</small></div></div>
+                <div class="contact-point"><span>2</span><div><strong>Erstgespräch führen</strong><small>Wir sortieren Ihren Fall und beantworten die wichtigsten Fragen.</small></div></div>
+                <div class="contact-point"><span>3</span><div><strong>Fahrplan bekommen</strong><small>Sie erhalten eine klare Empfehlung inklusive Zahlungsoptionen.</small></div></div>
+              </div>
+            </div>
+
+            <form class="lead-form js-card">
+              <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" placeholder="Ihr Name" required /></div>
+              <div class="field"><label for="phone">Telefon</label><input id="phone" name="phone" type="tel" placeholder="Telefonnummer" required /></div>
+              <div class="field"><label for="email">E-Mail</label><input id="email" name="email" type="email" placeholder="E-Mail-Adresse" /></div>
+              <div class="field"><label for="reason">MPU-Grund</label><select id="reason" name="reason" required><option value="">Bitte auswählen</option><option>Alkohol</option><option>Drogen</option><option>Punkte</option><option>Mischfall / mehrere Themen</option><option>Ich bin unsicher</option></select></div>
+              <div class="field full"><label for="message">Kurzbeschreibung</label><textarea id="message" name="message" placeholder="Was ist passiert? Gibt es Fristen, Nachweise oder bereits einen MPU-Termin?"></textarea></div>
+              <label class="form-consent"><input type="checkbox" required /><span>Ich stimme zu, dass meine Angaben zur Kontaktaufnahme verarbeitet werden. Details können später in Datenschutzhinweisen ergänzt werden.</span></label>
+              <div class="form-success">Danke — die Anfrage ist vorbereitet. Verbinden Sie das Formular später mit Ihrem E-Mail- oder CRM-System, damit echte Anfragen versendet werden.</div>
+              <div class="klarna-small-note"><strong>Klarna Hinweis:</strong> Die Vorbereitung muss nicht automatisch komplett auf einmal bezahlt werden. Im Angebot können Klarna Zahlungsoptionen berücksichtigt werden, sofern verfügbar.</div>
+              <div class="form-actions"><button class="btn-primary" type="submit">Erstgespräch anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></button></div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <div class="footer-brand"><span>MPU</span><span>AKADEMIE</span></div>
+          <div>© <span id="footer-year">2026</span> MPU Akademie. Moderne MPU Vorbereitung.</div>
+          <div class="footer-links"><a href="#vorbereitung">Vorbereitung</a><a href="#klarna">Klarna</a><a href="#faq">FAQ</a><a href="#kontakt">Kontakt</a></div>
+        </div>
+      </footer>
 
     </main>
   </div>
@@ -1129,6 +2435,257 @@
       ScrollTrigger.refresh();
     }
 
+
+
+
+
+    function initWhiteSectionSwitches(reduceMotion) {
+      const sections = Array.from(document.querySelectorAll("main > .mpu-section"));
+      if (!sections.length) return;
+
+      const labels = {
+        vorbereitung: "Richtig vorbereiten",
+        methoden: "Methode & Training",
+        klarna: "Flexibel mit Klarna zahlen",
+        ablauf: "Ihr MPU-Fahrplan",
+        programme: "Programme & Pakete",
+        "ueber-uns": "Warum wir",
+        faq: "Häufige Fragen",
+        kontakt: "Erstgespräch starten"
+      };
+
+      sections.forEach((section, index) => {
+        if (index === 0) return;
+        const previous = section.previousElementSibling;
+        if (previous && previous.classList && previous.classList.contains("generated-transition")) return;
+
+        const label = labels[section.id] || "Nächster Abschnitt";
+        const divider = document.createElement("div");
+        divider.className = "section-transition generated-transition";
+        divider.setAttribute("aria-hidden", "true");
+        divider.innerHTML = `<div class="transition-copy"><span class="transition-dot"></span>${label}</div>`;
+        section.parentNode.insertBefore(divider, section);
+      });
+
+      if (reduceMotion || typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+
+      let wipe = document.querySelector(".scroll-page-wipe");
+      if (!wipe) {
+        wipe = document.createElement("div");
+        wipe.className = "scroll-page-wipe";
+        wipe.setAttribute("aria-hidden", "true");
+        wipe.innerHTML = `
+          <div class="scroll-page-wipe__panel"></div>
+          <div class="scroll-page-wipe__panel"></div>
+          <div class="scroll-page-wipe__panel"></div>
+          <div class="scroll-page-wipe__label">Weiter</div>
+        `;
+        document.body.appendChild(wipe);
+      }
+
+      const wipePanels = gsap.utils.toArray(wipe.querySelectorAll(".scroll-page-wipe__panel"));
+      const wipeLabel = wipe.querySelector(".scroll-page-wipe__label");
+      let wipeTl;
+      let lastPlay = 0;
+      let lastId = "";
+
+      function sectionLabel(section) {
+        if (!section) return "Weiter";
+        if (labels[section.id]) return labels[section.id];
+        const title = section.querySelector(".section-title, .klarna-copy h2, .contact-panel h2, h2, h3");
+        return title ? title.textContent.replace(/\s+/g, " ").trim() : "Weiter";
+      }
+
+      function runWipe(section, index, direction) {
+        const now = Date.now();
+        const id = `${section.id || index}-${direction}`;
+        if (id === lastId && now - lastPlay < 800) return;
+        if (now - lastPlay < 420) return;
+        lastId = id;
+        lastPlay = now;
+
+        if (wipeLabel) wipeLabel.textContent = sectionLabel(section);
+        if (wipeTl) wipeTl.kill();
+
+        const fromX = direction === "up" ? 112 : -112;
+        const toX = direction === "up" ? -112 : 112;
+        gsap.set(wipe, { autoAlpha: 1 });
+        gsap.set(wipePanels, { xPercent: fromX });
+        gsap.set(wipeLabel, { autoAlpha: 0, y: 18, scale: 0.96, filter: "blur(10px)" });
+
+        wipeTl = gsap.timeline({
+          defaults: { ease: "power4.inOut" },
+          onComplete: () => gsap.set(wipe, { autoAlpha: 0 })
+        });
+
+        wipeTl
+          .to(wipePanels[0], { xPercent: 0, duration: 0.28 }, 0)
+          .to(wipePanels[1], { xPercent: 0, duration: 0.34 }, 0.035)
+          .to(wipePanels[2], { xPercent: 0, duration: 0.40 }, 0.07)
+          .to(wipeLabel, { autoAlpha: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.28, ease: "power3.out" }, 0.14)
+          .to(wipeLabel, { autoAlpha: 0, y: -14, scale: 0.98, filter: "blur(8px)", duration: 0.18, ease: "power2.in" }, 0.48)
+          .to(wipePanels[2], { xPercent: toX, duration: 0.34 }, 0.50)
+          .to(wipePanels[1], { xPercent: toX, duration: 0.38 }, 0.54)
+          .to(wipePanels[0], { xPercent: toX, duration: 0.42 }, 0.58);
+      }
+
+      gsap.utils.toArray(".section-transition").forEach((divider) => {
+        gsap.fromTo(divider,
+          { "--line-scale": divider.classList.contains("generated-transition") ? 0 : 0.2, "--wipe-x": "-112%" },
+          {
+            "--line-scale": 1,
+            "--wipe-x": "112%",
+            ease: "none",
+            scrollTrigger: {
+              trigger: divider,
+              start: "top 90%",
+              end: "bottom 25%",
+              scrub: true
+            }
+          }
+        );
+
+        const copy = divider.querySelector(".transition-copy");
+        if (copy) {
+          gsap.fromTo(copy,
+            { autoAlpha: 0, y: 22, scale: 0.94, filter: "blur(10px)" },
+            {
+              autoAlpha: 1,
+              y: 0,
+              scale: 1,
+              filter: "blur(0px)",
+              duration: 0.6,
+              ease: "power3.out",
+              scrollTrigger: { trigger: divider, start: "top 76%", once: true }
+            }
+          );
+        }
+      });
+
+      sections.forEach((section, index) => {
+        ScrollTrigger.create({
+          trigger: section,
+          start: "top 62%",
+          onEnter: () => runWipe(section, index, "down"),
+          onEnterBack: () => runWipe(section, index, "up")
+        });
+
+        gsap.to(section, {
+          "--section-line": 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 86%",
+            end: "top 38%",
+            scrub: true
+          }
+        });
+
+        const shell = section.querySelector(".section-shell");
+        if (shell) {
+          gsap.fromTo(shell,
+            { y: 36, scale: 0.985, filter: "blur(6px)" },
+            {
+              y: 0,
+              scale: 1,
+              filter: "blur(0px)",
+              ease: "none",
+              scrollTrigger: {
+                trigger: section,
+                start: "top 96%",
+                end: "top 44%",
+                scrub: 0.6
+              }
+            }
+          );
+        }
+      });
+    }
+
+    function initRestWebsite() {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      initWhiteSectionSwitches(reduceMotion);
+
+      if (!reduceMotion) {
+        gsap.utils.toArray(".js-reveal").forEach((el) => {
+          gsap.from(el, {
+            autoAlpha: 0,
+            y: 44,
+            filter: "blur(12px)",
+            duration: 0.9,
+            ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 86%", once: true }
+          });
+        });
+
+        gsap.utils.toArray(".js-card").forEach((el, index) => {
+          gsap.from(el, {
+            autoAlpha: 0,
+            y: 54,
+            scale: 0.965,
+            filter: "blur(10px)",
+            duration: 0.85,
+            delay: Math.min(index % 4, 3) * 0.045,
+            ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 88%", once: true }
+          });
+        });
+
+        gsap.utils.toArray(".meter-line span").forEach((bar) => {
+          const targetWidth = getComputedStyle(bar).getPropertyValue("--w") || "80%";
+          gsap.fromTo(bar, { width: "0%" }, {
+            width: targetWidth,
+            duration: 1.15,
+            ease: "power3.out",
+            scrollTrigger: { trigger: bar, start: "top 88%", once: true }
+          });
+        });
+      }
+
+      document.querySelectorAll(".faq-question").forEach((button) => {
+        button.addEventListener("click", () => {
+          const item = button.closest(".faq-item");
+          if (!item) return;
+          const list = item.parentElement;
+          if (list) {
+            list.querySelectorAll(".faq-item.is-open").forEach((openItem) => {
+              if (openItem !== item) openItem.classList.remove("is-open");
+            });
+          }
+          item.classList.toggle("is-open");
+        });
+      });
+
+      const leadForm = document.querySelector(".lead-form");
+      if (leadForm) {
+        leadForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          leadForm.classList.add("is-sent");
+          const success = leadForm.querySelector(".form-success");
+          if (success) success.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        });
+      }
+
+      const year = document.getElementById("footer-year");
+      if (year) year.textContent = new Date().getFullYear();
+
+      if (!isTouchLike && !reduceMotion) {
+        document.querySelectorAll(".tilt-card").forEach((card) => {
+          card.addEventListener("mousemove", (event) => {
+            const rect = card.getBoundingClientRect();
+            const px = (event.clientX - rect.left) / rect.width - 0.5;
+            const py = (event.clientY - rect.top) / rect.height - 0.5;
+            gsap.to(card, { rotationY: px * 7, rotationX: -py * 7, transformPerspective: 900, duration: 0.45, ease: "power2.out" });
+          });
+          card.addEventListener("mouseleave", () => {
+            gsap.to(card, { rotationY: 0, rotationX: 0, duration: 0.55, ease: "power3.out" });
+          });
+        });
+      }
+
+      ScrollTrigger.refresh();
+    }
+
     // --- DEIN ORIGINAL INITIAL LOAD ---
     window.addEventListener("load", () => {
       const tl = gsap.timeline();
@@ -1203,6 +2760,7 @@
         }
 
         initScrollStory();
+        initRestWebsite();
 
         // HINTERGRUND-FADE-IN BEIM SCROLLEN
         gsap.fromTo(".story-bg-wrapper", 
