@@ -140,11 +140,10 @@
       display: flex;
       flex-direction: column;
       padding: calc(var(--nav-height) + 2rem) 4vw 2rem 4vw;
-      overflow: hidden; /* Verhindert horizontales Scrollen */
-      background: #02070d; /* Fallback */
+      overflow: hidden; 
+      background: #02070d; 
     }
 
-    /* 1. LAYER: HINTERGRUND-BILDER ÜBER PICTURE TAG */
     .hero-bg-picture {
       position: absolute;
       inset: 0;
@@ -159,7 +158,6 @@
       object-position: center right;
     }
 
-    /* 2. LAYER: GRADIENT (FÜR LESBARKEIT) */
     .hero-bg-fade {
       position: absolute; 
       inset: 0; 
@@ -170,7 +168,6 @@
       pointer-events: none;
     }
 
-    /* 3. LAYER: DER SCHWEBENDE FÜHRERSCHEIN (BILD 2) */
     .license-parallax {
       position: absolute;
       z-index: 3;
@@ -199,7 +196,6 @@
       50% { transform: translate3d(0, -16px, 0) rotate(0.5deg) scale(1.015); }
     }
 
-    /* 4. LAYER: CONTENT (TEXT, BUTTONS, TRUST) */
     .hero-content-wrapper { 
       position: relative; 
       z-index: 10; 
@@ -243,7 +239,6 @@
     .play-circle svg { width: 12px; height: 12px; fill: #fff; margin-left: 2px; transition: fill 0.3s ease;}
     .btn-play:hover .play-circle svg { fill: var(--cyan); }
 
-    /* Trust Bar & Quote */
     .hero-bottom { margin-top: auto; padding-top: 4rem; display: flex; justify-content: space-between; align-items: flex-end; width: 100%; }
     .trust-items { display: flex; gap: 3rem; }
     
@@ -270,35 +265,16 @@
       background: #000;
     }
     
-    /* HINTERGRUND-BILDER FÜR DIE 3D STORY */
     .story-bg-wrapper {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      opacity: 0; /* Wird beim Scrollen eingeblendet */
+      position: absolute; inset: 0; z-index: 0; opacity: 0; 
     }
-
     .story-bg-desktop, .story-bg-mobile {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      filter: blur(5px);
+      position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(5px);
     }
-
-    .story-bg-desktop {
-      background-image: url('mpuhell.png');
-    }
-
-    .story-bg-mobile {
-      display: none;
-      background-image: url('mpuhellmobile.png'); 
-    }
-
+    .story-bg-desktop { background-image: url('mpuhell.png'); }
+    .story-bg-mobile { display: none; background-image: url('mpuhellmobile.png'); }
     .story-bg-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.5) 100%);
+      position: absolute; inset: 0; background: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.5) 100%);
     }
 
     .story-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; perspective: 1800px; }
@@ -403,38 +379,79 @@
       .license-parallax { width: 50vw; right: 4vw; top: 30%; }
     }
 
+    /* =========================================
+       FIX: MOBILE STYLES (Bild 3 Design)
+       ========================================= */
     @media (max-width: 768px) {
       .navbar { padding: 0 1.5rem; }
       .nav-links, .nav-cta { display: none; }
       
-      /* HERO MOBILE FORMAT: 3:4 */
+      /* HERO MOBILE FORMAT: Full Screen */
       .hero-section { 
-        padding: calc(var(--nav-height) + 1.5rem) 1.5rem 2rem 1.5rem;
-        min-height: auto; 
-        aspect-ratio: 3 / 4; 
+        padding: calc(var(--nav-height) + 1rem) 1.5rem 2rem 1.5rem;
+        min-height: 100svh; /* Füllt das Handydisplay exakt aus */
         height: auto;
       }
       
-      .hero-headline { font-size: 2.8rem; }
-      
-      .hero-bg-image { object-position: center center; }
+      .hero-bg-image { 
+        object-position: bottom center; /* Zeigt mehr von der Straße auf Mobile */
+      }
       
       .hero-bg-fade { 
-        background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.9) 100%); 
-        display: none; 
+        display: block; 
+        background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.9) 100%); 
       }
       
-      /* HIER IST DIE MOBILE KARTEN-POSITION */
-      .license-parallax { 
-        width: 85vw; 
-        right: 5vw; 
-        top: 55%; 
+      .hero-content-wrapper {
+        display: flex;
+        flex-direction: column;
       }
 
-      .hero-content { margin-top: 5vh; }
-      .hero-actions { flex-direction: column; align-items: flex-start; }
-      .trust-items { flex-direction: column; gap: 1.5rem; }
-      .hero-bottom { flex-direction: column; align-items: flex-start; gap: 2rem; margin-top: 2rem; }
+      .hero-content { margin-top: 0; width: 100%; }
+      .hero-headline { font-size: 2.6rem; margin-bottom: 1rem; }
+      
+      /* BUTTONS GESTAPELT WIE IN BILD 3 */
+      .hero-actions { flex-direction: column; align-items: stretch; gap: 1rem; width: 100%; margin-bottom: 2rem; }
+      
+      .btn-hero-primary {
+        justify-content: center;
+        background: rgba(92, 225, 230, 0.15); /* Glass Cyan wie im Entwurf */
+        border: 1px solid var(--cyan);
+        box-shadow: 0 0 20px rgba(92, 225, 230, 0.4);
+        color: #fff;
+      }
+      .btn-hero-primary::after { display: none; } /* Die Flare-Animation auf Mobile aus für cleaneren Look */
+      
+      .btn-play { justify-content: flex-start; padding-left: 0.5rem; }
+
+      /* FÜHRERSCHEIN NICHT MEHR ABSOLUT, SONDERN IM FLUSS */
+      .license-parallax { 
+        position: relative;
+        width: 90vw; 
+        right: auto; 
+        top: auto;
+        margin: 0 auto 2rem auto;
+      }
+
+      /* TRUST BAR IM GLASSMORPHISM-ROW WIE IN BILD 3 */
+      .hero-bottom { margin-top: auto; padding-top: 0; }
+      .trust-items { 
+        flex-direction: row; 
+        gap: 0.5rem; 
+        background: rgba(20, 25, 35, 0.6);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 16px;
+        padding: 1rem 0.5rem;
+        width: 100%;
+        justify-content: space-around;
+      }
+      .t-item { flex-direction: column; gap: 0.5rem; text-align: center; align-items: center; width: 33%; }
+      .t-icon svg { width: 28px; height: 28px; }
+      .t-text h4 { font-size: 0.6rem; margin-bottom: 0.1rem; }
+      .t-text p { font-size: 0.55rem; line-height: 1.2; }
+
+      .quote-card { display: none; } /* Auf Mobile nicht sichtbar im Entwurf */
 
       /* DEIN MOBILES STORY CSS */
       .story-bg-mobile { display: block; }
@@ -570,12 +587,6 @@
         
         <div class="hero-bg-fade"></div>
         
-        <div class="license-parallax" id="parallax-wrapper">
-          <div class="license-wrapper">
-            <img class="license-card" src="Unbenannt-9.png" alt="Führerschein">
-          </div>
-        </div>
-        
         <div class="hero-content-wrapper">
           <div class="hero-content hero-reveal">
             <div class="kicker">Dein Neustart. Deine Zukunft.</div>
@@ -600,6 +611,12 @@
                 </div>
                 Mehr Erfahren
               </div>
+            </div>
+          </div>
+
+          <div class="license-parallax" id="parallax-wrapper">
+            <div class="license-wrapper">
+              <img class="license-card" src="Unbenannt-9.png" alt="Führerschein">
             </div>
           </div>
 
