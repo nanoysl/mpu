@@ -309,11 +309,11 @@
     .story-progress-fill { height: 100%; width: 100%; background: #fff; transform: scaleX(0); transform-origin: left center; will-change: transform; }
 
     /* =========================================
-       FIX: DIE 3D KARTE (DIE BOUNDING-BOX LÖSUNG)
+       FIX: DIE 3D KARTE
        ========================================= */
     .mpu-license-stage { 
       position: absolute; top: 50%; left: 50%; z-index: 7; 
-      width: clamp(550px, 45vw, 850px); /* Leicht vergrößert für mehr Platz */
+      width: clamp(550px, 45vw, 850px);
       aspect-ratio: 1.585 / 1; 
       transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; 
     }
@@ -332,14 +332,12 @@
       background: transparent; 
     }
     
-    /* Front-Bild laden */
     .mpu-card-front { 
       transform: rotateY(0deg) translateZ(1px); -webkit-transform: rotateY(0deg) translateZ(1px); 
       background-image: url('Unbenannt-10.png'); 
       background-size: 100% 100%; background-position: center; background-repeat: no-repeat; 
     }
     
-    /* Back-Bild laden */
     .mpu-card-back { 
       transform: rotateY(180deg) translateZ(1px); -webkit-transform: rotateY(180deg) translateZ(1px); 
       background-image: url('Unbenannt-11.png'); 
@@ -351,66 +349,190 @@
       display: block; overflow: hidden; background: transparent;
     }
 
-    /* FRONT: Bounding Box Methode - An 4 Punkten festpinnen */
     .mpu-front-body { display: block; height: 100%; position: relative; }
-    
-    .mpu-step-panel { 
-      position: absolute !important; 
-      top: 14% !important;    /* Abstand von oben */
-      bottom: 14% !important; /* Abstand von unten (hält es über der Unterschrift) */
-      left: 43% !important;   /* Abstand von links (beginnt nach dem Foto) */
-      right: 4% !important;   /* Abstand von rechts */
-      width: auto !important; /* Breite wird durch left/right definiert */
-      height: auto !important; /* Höhe wird durch top/bottom definiert */
-      display: flex !important; 
-      flex-direction: column; 
-      justify-content: space-evenly; /* Gleichmäßig verteilen */
-    }
-    
-    .mpu-step-list { 
-      display: flex; flex-direction: column; justify-content: space-between; height: 100%; gap: 0; overflow: hidden; 
-    }
-    
-    .mpu-step-row { 
-      min-height: 0; display: flex; align-items: center; gap: 4%; 
-      padding: 2% 4%; /* Padding in Prozent, damit es nicht nach außen wächst */
-      border-radius: 12px; background: transparent; border: 1px solid transparent; 
-      opacity: 0.5; overflow: hidden; transition: all 0.3s ease; 
-    }
-    .mpu-step-row.is-active { opacity: 1; background: rgba(92, 225, 230, 0.1); border-color: rgba(92, 225, 230, 0.4); box-shadow: 0 0 20px rgba(92, 225, 230, 0.2); }
-    
-    .mpu-step-index { 
-      width: clamp(1.2rem, 3cqw, 2rem); height: clamp(1.2rem, 3cqw, 2rem); /* Relative Größe */
-      border-radius: 50%; background: rgba(255,255,255,0.15); color: #fff; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; transition: all 0.3s ease;
-      aspect-ratio: 1;
-    }
-    .mpu-step-row.is-active .mpu-step-index { background: var(--cyan); color: #000; box-shadow: 0 0 10px var(--cyan); }
-    .mpu-step-index span { font-size: clamp(0.6rem, 1.5cqw, 0.9rem); line-height: 1; font-weight: 900; letter-spacing: 0; font-feature-settings: "tnum" 1; transform: translateY(-1.5px); }
-    
-    .mpu-step-text { min-width: 0; display: flex; flex-direction: column; justify-content: center; flex: 1 1 0; gap: 0.2rem; overflow: hidden; }
-    .mpu-step-text strong { display: block; font-size: clamp(0.7rem, 1.8cqw, 1rem); line-height: 1.02; letter-spacing: -0.035em; color: #fff; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .mpu-step-text small { display: block; font-size: clamp(0.5rem, 1.2cqw, 0.75rem); line-height: 1.05; color: rgba(255,255,255,0.6); font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    /* BACK: Bounding Box Methode */
     .mpu-back-safe { display: block; position: relative; }
-    .mpu-result-list { 
-      position: absolute !important; 
-      top: 14% !important; 
-      bottom: 35% !important; /* Etwas mehr Abstand nach unten wegen dem Barcode */
-      left: 43% !important; 
-      right: 4% !important; 
-      width: auto !important; 
-      height: auto !important; 
-      display: flex !important; 
-      flex-direction: column; 
-      justify-content: space-evenly; 
-      gap: 0; 
+
+    /* FRONT: gemessene Safe-Area */
+    .mpu-step-panel {
+      position: absolute !important;
+      top: 30.0184% !important;
+      bottom: 35.5433% !important;
+      left: 33.5635% !important;
+      right: 15.5387% !important;
+      width: auto !important;
+      height: auto !important;
+      display: block !important;
+      overflow: hidden !important;
+      container-type: inline-size;
     }
-    .mpu-result-row { min-height: 0; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 2% 4%; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
-    .mpu-result-copy { min-width: 0; display: flex; align-items: baseline; gap: 0.35rem; white-space: nowrap; overflow: hidden; }
-    .mpu-result-copy strong { min-width: 0; font-size: clamp(0.7rem, 1.8cqw, 1rem); font-weight: 900; letter-spacing: -0.035em; color: #fff; overflow: hidden; text-overflow: ellipsis; }
-    .mpu-result-copy small { min-width: 0; font-size: clamp(0.5rem, 1.2cqw, 0.75rem); font-weight: 850; color: rgba(255,255,255,0.5); overflow: hidden; text-overflow: ellipsis; }
-    .mpu-result-ok { font-size: clamp(0.6rem, 1.5cqw, 0.9rem); font-weight: 900; letter-spacing: 0.08em; color: var(--cyan); text-shadow: 0 0 10px rgba(92, 225, 230, 0.5); white-space: nowrap; }
+
+    .mpu-step-list {
+      width: 100%;
+      height: 100% !important;
+      display: grid !important;
+      grid-template-rows: repeat(4, minmax(0, 1fr));
+      gap: clamp(2px, 0.85cqw, 6px);
+      overflow: hidden;
+    }
+
+    .mpu-step-row {
+      min-height: 0 !important;
+      height: auto;
+      display: flex;
+      align-items: center;
+      gap: clamp(4px, 1.35cqw, 10px);
+      padding: clamp(2px, 0.75cqw, 5px) clamp(5px, 1.55cqw, 11px);
+      border-radius: clamp(5px, 1.7cqw, 12px);
+      background: transparent;
+      border: 1px solid transparent;
+      overflow: hidden;
+      opacity: 0.5;
+      transition: opacity 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .mpu-step-row.is-active {
+      opacity: 1;
+      background: rgba(92, 225, 230, 0.10);
+      border-color: rgba(92, 225, 230, 0.40);
+      box-shadow: 0 0 clamp(8px, 2.2cqw, 18px) rgba(92, 225, 230, 0.20);
+    }
+
+    .mpu-step-index {
+      width: clamp(1rem, 4.8cqw, 1.55rem);
+      height: clamp(1rem, 4.8cqw, 1.55rem);
+      flex: 0 0 auto;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .mpu-step-row.is-active .mpu-step-index {
+      background: var(--cyan);
+      color: #000;
+      box-shadow: 0 0 clamp(6px, 1.8cqw, 12px) rgba(92, 225, 230, 0.85);
+    }
+
+    .mpu-step-index span {
+      display: block;
+      font-size: clamp(0.48rem, 1.7cqw, 0.72rem);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      font-feature-settings: "tnum" 1;
+      transform: translateY(-1px);
+    }
+
+    .mpu-step-text {
+      min-width: 0;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: clamp(0px, 0.35cqw, 3px);
+      overflow: hidden;
+    }
+
+    .mpu-step-text strong {
+      display: block;
+      max-width: 100%;
+      font-size: clamp(0.56rem, 2.5cqw, 0.88rem);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mpu-step-text small {
+      display: block;
+      max-width: 100%;
+      font-size: clamp(0.42rem, 1.85cqw, 0.68rem);
+      line-height: 1;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.62);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* BACK: gemessene Safe-Area */
+    .mpu-result-list {
+      position: absolute !important;
+      top: 19.6872% !important;
+      bottom: 35.6026% !important;
+      left: 33.8632% !important;
+      right: 16.3787% !important;
+      width: auto !important;
+      height: auto !important;
+      display: grid !important;
+      grid-template-rows: repeat(4, minmax(0, 1fr));
+      gap: clamp(3px, 0.9cqw, 8px);
+      overflow: hidden !important;
+      container-type: inline-size;
+    }
+
+    .mpu-result-row {
+      min-height: 0 !important;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: clamp(4px, 1.1cqw, 10px);
+      padding: clamp(4px, 1cqw, 8px) clamp(7px, 1.8cqw, 14px);
+      border-radius: clamp(6px, 1.7cqw, 12px);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      overflow: hidden;
+    }
+
+    .mpu-result-copy {
+      min-width: 0;
+      flex: 1 1 auto;
+      display: flex;
+      align-items: baseline;
+      gap: clamp(2px, 0.85cqw, 6px);
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .mpu-result-copy strong {
+      min-width: 0;
+      font-size: clamp(0.58rem, 2.6cqw, 0.98rem);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      color: #fff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mpu-result-copy small {
+      min-width: 0;
+      font-size: clamp(0.42rem, 1.75cqw, 0.72rem);
+      line-height: 1;
+      font-weight: 850;
+      color: rgba(255, 255, 255, 0.52);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mpu-result-ok {
+      flex: 0 0 auto;
+      font-size: clamp(0.48rem, 1.75cqw, 0.78rem);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: var(--cyan);
+      text-shadow: 0 0 clamp(6px, 1.8cqw, 12px) rgba(92, 225, 230, 0.55);
+      white-space: nowrap;
+    }
 
     /* Ausblenden alter CSS Elemente */
     .mpu-card-pattern, .mpu-card-watermark, .mpu-card-shine, .mpu-doc-head, .mpu-photo-panel, .mpu-signature-line, .mpu-id-line, .mpu-panel-meta, .mpu-front-footer, .mpu-back-head, .mpu-back-footer { display: none !important; }
@@ -484,6 +606,60 @@
 
       .mpu-license-stage { width: min(94vw, 470px); top: 31%; }
       .mpu-card-face { border-radius: 12px; }
+
+      .mpu-step-list { gap: clamp(1px, 0.45cqw, 3px); }
+
+      .mpu-step-row {
+        gap: clamp(2px, 0.9cqw, 6px);
+        padding: clamp(1px, 0.45cqw, 3px) clamp(3px, 1cqw, 7px);
+        border-radius: clamp(4px, 1.2cqw, 7px);
+      }
+
+      .mpu-step-index {
+        width: clamp(0.8rem, 4cqw, 1.05rem);
+        height: clamp(0.8rem, 4cqw, 1.05rem);
+      }
+
+      .mpu-step-index span {
+        font-size: clamp(0.42rem, 1.5cqw, 0.58rem);
+        transform: translateY(-0.5px);
+      }
+
+      .mpu-step-text { gap: 0; }
+
+      .mpu-step-text strong {
+        font-size: clamp(0.48rem, 2.15cqw, 0.62rem);
+        line-height: 0.98;
+      }
+
+      .mpu-step-text small {
+        font-size: clamp(0.36rem, 1.55cqw, 0.48rem);
+        line-height: 1;
+      }
+
+      .mpu-result-list { gap: clamp(1px, 0.5cqw, 4px); }
+
+      .mpu-result-row {
+        gap: clamp(2px, 0.85cqw, 6px);
+        padding: clamp(2px, 0.65cqw, 5px) clamp(4px, 1.15cqw, 8px);
+        border-radius: clamp(4px, 1.2cqw, 8px);
+      }
+
+      .mpu-result-copy { gap: clamp(2px, 0.65cqw, 4px); }
+
+      .mpu-result-copy strong {
+        font-size: clamp(0.48rem, 2.15cqw, 0.64rem);
+        line-height: 1;
+      }
+
+      .mpu-result-copy small {
+        font-size: clamp(0.36rem, 1.55cqw, 0.50rem);
+        line-height: 1;
+      }
+
+      .mpu-result-ok {
+        font-size: clamp(0.4rem, 1.55cqw, 0.56rem);
+      }
     }
   </style>
 </head>
