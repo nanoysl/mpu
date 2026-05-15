@@ -89,23 +89,40 @@
       position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
       z-index: 9999; perspective: 1500px; pointer-events: none; background: #000;
     }
+
     .intro-license-card {
       width: min(400px, 82vw); aspect-ratio: 1.6 / 1; background: linear-gradient(135deg, #e6c5d1 0%, #d8e0e8 100%);
       border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.5);
       padding: 20px; position: relative; transform-style: preserve-3d; opacity: 0; overflow: hidden;
     }
+
     .intro-license-card::after {
       content: ""; position: absolute; inset: -40%; background: linear-gradient(115deg, transparent 0%, transparent 36%, rgba(255,255,255,0.55) 47%, transparent 58%, transparent 100%);
       transform: translateX(-40%) rotate(12deg); opacity: 0.5;
     }
+
     .intro-license-eu {
       position: absolute; top: 15px; left: 15px; width: 40px; height: 25px; background: #003399;
       border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #ffcc00; font-size: 10px; font-weight: 800;
     }
-    .intro-license-photo { position: absolute; top: 40px; left: 20px; width: 80px; height: 100px; background: rgba(0,0,0,0.2); border-radius: 4px; }
-    .intro-license-lines { position: absolute; top: 40px; left: 120px; width: 240px; display: flex; flex-direction: column; gap: 12px; }
-    .intro-l-line { height: 8px; background: rgba(0,0,0,0.15); border-radius: 4px; }
-    .intro-l-line:nth-child(1) { width: 100%; } .intro-l-line:nth-child(2) { width: 80%; } .intro-l-line:nth-child(3) { width: 60%; } .intro-l-line:nth-child(4) { width: 90%; } .intro-l-line:nth-child(5) { width: 40%; margin-top: 20px; }
+
+    .intro-license-photo {
+      position: absolute; top: 40px; left: 20px; width: 80px; height: 100px; background: rgba(0,0,0,0.2); border-radius: 4px;
+    }
+
+    .intro-license-lines {
+      position: absolute; top: 40px; left: 120px; width: 240px; display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .intro-l-line {
+      height: 8px; background: rgba(0,0,0,0.15); border-radius: 4px;
+    }
+
+    .intro-l-line:nth-child(1) { width: 100%; }
+    .intro-l-line:nth-child(2) { width: 80%; }
+    .intro-l-line:nth-child(3) { width: 60%; }
+    .intro-l-line:nth-child(4) { width: 90%; }
+    .intro-l-line:nth-child(5) { width: 40%; margin-top: 20px; }
 
     /* NAVBAR */
     .navbar {
@@ -128,10 +145,11 @@
       background: var(--cyan); color: #000; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
       letter-spacing: 0.1em; padding: 0.7rem 1.4rem; border-radius: 4px; display: flex; align-items: center; gap: 0.4rem; transition: transform 0.2s ease, background 0.3s ease;
     }
+
     .nav-cta:hover { transform: translateY(-2px); background: var(--cyan-hover); }
     .nav-cta svg { width: 14px; height: 14px; }
 
-    /* HERO BEREICH (LAYER SYSTEM) */
+    /* HERO BEREICH */
     .hero-section {
       position: relative;
       min-height: 100vh;
@@ -166,13 +184,25 @@
     .kicker { color: var(--cyan); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.2rem; }
     .hero-headline { font-size: clamp(2.8rem, 4.5vw, 4.2rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; text-transform: uppercase; }
     .hero-headline .highlight { background: linear-gradient(to right, var(--cyan) 20%, #ffffff 50%, var(--cyan) 80%); background-size: 200% auto; color: transparent; -webkit-background-clip: text; background-clip: text; animation: shineText 6s linear infinite; }
-    @keyframes shineText { 0% { background-position: 200% center; } 20% { background-position: -200% center; } 100% { background-position: -200% center; } }
+
+    @keyframes shineText {
+      0% { background-position: 200% center; }
+      20% { background-position: -200% center; }
+      100% { background-position: -200% center; }
+    }
+
     .hero-subtext { font-size: 1rem; line-height: 1.6; color: var(--white-soft); margin-bottom: 3rem; max-width: 480px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
 
     .hero-actions { display: flex; align-items: center; gap: 1.5rem; }
     .btn-hero-primary { position: relative; overflow: hidden; background: var(--cyan); color: #000; padding: 1rem 1.8rem; border-radius: 4px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 8px; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease; }
     .btn-hero-primary::after { content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%); transform: skewX(-25deg); animation: buttonFlare 5s infinite; }
-    @keyframes buttonFlare { 0% { left: -100%; } 15% { left: 200%; } 100% { left: 200%; } }
+
+    @keyframes buttonFlare {
+      0% { left: -100%; }
+      15% { left: 200%; }
+      100% { left: 200%; }
+    }
+
     .btn-hero-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(92, 225, 230, 0.3); }
     .btn-hero-primary svg { width: 16px; height: 16px; }
     
@@ -244,6 +274,7 @@
       aspect-ratio: 1.585 / 1; 
       transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; 
     }
+
     .mpu-card-object { position: absolute; inset: 0; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; transform-origin: center center; }
     .mpu-card-face { position: absolute; inset: 0; border-radius: 18px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; contain: layout paint; background: transparent; }
     .mpu-card-front { transform: rotateY(0deg) translateZ(1px); -webkit-transform: rotateY(0deg) translateZ(1px); background-image: url('Unbenannt-10.png'); background-size: 100% 100%; background-position: center; background-repeat: no-repeat; }
@@ -257,6 +288,7 @@
       top: 30.0184% !important; bottom: 35.5433% !important; left: 33.5635% !important; right: 15.5387% !important;
       width: auto !important; height: auto !important; display: block !important; overflow: hidden !important; container-type: inline-size;
     }
+
     .mpu-step-list { width: 100%; height: 100% !important; display: grid !important; grid-template-rows: repeat(4, minmax(0, 1fr)); gap: clamp(2px, 0.85cqw, 6px); overflow: hidden; }
     .mpu-step-row { min-height: 0 !important; height: auto; display: flex; align-items: center; gap: clamp(4px, 1.35cqw, 10px); padding: clamp(2px, 0.75cqw, 5px) clamp(5px, 1.55cqw, 11px); border-radius: clamp(5px, 1.7cqw, 12px); background: transparent; border: 1px solid transparent; overflow: hidden; opacity: 0.5; transition: opacity 0.3s ease, background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
     .mpu-step-row.is-active { opacity: 1; background: rgba(92, 225, 230, 0.10); border-color: rgba(92, 225, 230, 0.40); box-shadow: 0 0 clamp(8px, 2.2cqw, 18px) rgba(92, 225, 230, 0.20); }
@@ -303,128 +335,670 @@
     .m-caret { display: none; }
 
     /* =========================================
-       NEU: FALL-CHECK SECTION (EXAKT BILD 2)
+       FALL-CHECK SECTION — KOMPAKTES REFERENZ-DESIGN
        ========================================= */
+
     .fall-check-section {
-      /* Sehr sanfter Hintergrund wie in Bild 2 */
-      background: #f8fafc;
-      background-image: 
-        radial-gradient(100% 100% at 100% 0%, rgba(0, 168, 175, 0.06) 0%, transparent 60%),
-        radial-gradient(100% 100% at 0% 50%, rgba(0, 168, 175, 0.04) 0%, transparent 60%);
-      padding: 8rem var(--page-pad);
-      color: #0f172a;
+      --fc-ink: #0b1224;
+      --fc-muted: #536174;
+      --fc-soft: #eef7f8;
+      --fc-line: rgba(148, 163, 184, 0.28);
+      --fc-cyan: #00a8af;
+      --fc-cyan-dark: #008f96;
+      --fc-cyan-soft: #bdf3f5;
+
       position: relative;
       z-index: 10;
+      isolation: isolate;
+      overflow: hidden;
+
+      min-height: 100svh;
+      display: grid;
+      align-items: center;
+
+      padding: clamp(2.65rem, 5vh, 3.15rem) var(--page-pad) clamp(2.35rem, 4.4vh, 2.85rem);
+      color: var(--fc-ink);
       font-family: "Inter", sans-serif;
+
+      background:
+        radial-gradient(55rem 38rem at 98% 82%, rgba(92, 225, 230, 0.22) 0%, rgba(92, 225, 230, 0.08) 38%, transparent 70%),
+        radial-gradient(42rem 42rem at -8% 44%, rgba(92, 225, 230, 0.12) 0%, transparent 64%),
+        linear-gradient(180deg, #fbfdff 0%, #f8fbfd 100%);
+    }
+
+    .fall-check-section::before {
+      content: "";
+      position: absolute;
+      left: -23rem;
+      top: 5.5rem;
+      width: 34rem;
+      height: 34rem;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 168, 175, 0.12);
+      box-shadow:
+        0 0 0 2.2rem rgba(0, 168, 175, 0.035),
+        0 0 0 4.8rem rgba(0, 168, 175, 0.025);
+      opacity: 0.8;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .fall-check-section::after {
+      content: "";
+      position: absolute;
+      right: 2.5rem;
+      top: 3rem;
+      width: 10rem;
+      height: 10rem;
+      background-image: radial-gradient(rgba(0, 168, 175, 0.28) 1.2px, transparent 1.2px);
+      background-size: 0.65rem 0.65rem;
+      opacity: 0.42;
+      mask-image: radial-gradient(circle, #000 0%, transparent 72%);
+      pointer-events: none;
+      z-index: -1;
     }
 
     .fc-container {
-      max-width: 1300px;
+      width: 100%;
+      max-width: 1400px;
       margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
 
-    /* HEADER */
     .fc-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 4rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 430px);
+      column-gap: clamp(3rem, 6vw, 6rem);
+      align-items: start;
+      margin-bottom: clamp(1.55rem, 3.45vh, 2.1rem);
     }
-    .fc-header-left { flex: 1; max-width: 600px; }
-    .fc-header-right { flex: 0 1 450px; padding-left: 2.5rem; border-left: 1px solid #cbd5e1; margin-top: 2rem; }
-    
+
+    .fc-header-left {
+      max-width: 790px;
+      min-width: 0;
+    }
+
     .fc-kicker {
-      color: #00a8af; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase;
-      display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
-    }
-    .fc-kicker::before { content: ""; width: 40px; height: 2px; background: #00a8af; }
-    
-    .fc-header h2 { font-size: clamp(3rem, 5vw, 4.5rem); font-weight: 900; line-height: 1.02; letter-spacing: -0.04em; color: #0f172a; }
-    .fc-header h2 .highlight-cyan { color: #00a8af; }
-    .fc-header p { font-size: 1.05rem; line-height: 1.6; color: #475569; }
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.95rem;
 
-    /* GRID & KARTEN BASIS */
+      color: var(--fc-cyan);
+      font-size: 0.72rem;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .fc-kicker::before {
+      content: "";
+      width: 2.65rem;
+      height: 2px;
+      background: var(--fc-cyan);
+      flex: 0 0 auto;
+    }
+
+    .fc-header h2 {
+      margin: 0;
+      color: var(--fc-ink);
+      font-size: clamp(3.55rem, 5vw, 4.65rem);
+      line-height: 0.945;
+      letter-spacing: -0.072em;
+      font-weight: 900;
+      text-wrap: balance;
+    }
+
+    .fall-check-section .highlight-cyan {
+      color: var(--fc-cyan);
+    }
+
+    .fc-header-right {
+      max-width: 430px;
+      margin-top: clamp(3.05rem, 6.2vh, 3.85rem);
+      padding-left: 2rem;
+      border-left: 2px solid rgba(0, 168, 175, 0.5);
+    }
+
+    .fc-header-right p {
+      margin: 0;
+      color: #39465a;
+      font-size: 1.03rem;
+      line-height: 1.62;
+      font-weight: 500;
+    }
+
     .fc-grid {
-      display: grid; grid-template-columns: 1fr 1.6fr; gap: 2rem;
+      display: grid;
+      grid-template-columns: minmax(0, 0.68fr) minmax(0, 1fr);
+      gap: clamp(1.8rem, 2.6vw, 2.65rem);
+      align-items: stretch;
     }
+
     .fc-card {
-      background: #ffffff; border-radius: 24px; padding: 3rem;
-      box-shadow: 0 24px 48px rgba(15, 23, 42, 0.04), 0 0 0 1px rgba(15, 23, 42, 0.02);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,255,255,0.72)),
+        radial-gradient(34rem 24rem at 0% 0%, rgba(92, 225, 230, 0.12), transparent 66%);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 22px;
+      box-shadow:
+        0 28px 60px rgba(15, 23, 42, 0.08),
+        0 2px 8px rgba(15, 23, 42, 0.035),
+        inset 0 1px 0 rgba(255,255,255,0.8);
     }
 
-    /* LINKE KARTE: Beratungslogik */
-    .fc-card-left-top { display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 1.5rem; }
-    /* Exaktes Icon-Design aus Bild 2 (Ineinander liegende Kreise) */
-    .fc-icon-wrap { 
-      width: 56px; height: 56px; border-radius: 50%; background: #e6f7f8; 
-      display: flex; align-items: center; justify-content: center; color: #00a8af; 
-      flex-shrink: 0; box-shadow: 0 0 0 8px #f4fbfb; 
+    .fc-card-left,
+    .fc-card-right {
+      min-height: 36rem;
     }
-    .fc-icon-wrap svg { width: 24px; height: 24px; stroke-width: 2; }
-    
-    .fc-card-kicker { color: #00a8af; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
-    .fc-card h3 { font-size: 1.8rem; font-weight: 900; line-height: 1.1; letter-spacing: -0.03em; color: #0f172a; margin-bottom: 1.5rem; }
-    .fc-card-desc { font-size: 0.95rem; line-height: 1.6; color: #475569; margin-bottom: 2.5rem; }
-    
-    .fc-action-list { display: flex; flex-direction: column; gap: 1rem; }
-    .fc-action-item { display: flex; align-items: center; gap: 1.2rem; padding: 1.2rem; border: 1px solid #e2e8f0; border-radius: 16px; transition: border-color 0.3s; cursor: pointer; }
-    .fc-action-item:hover { border-color: #00a8af; }
-    .fc-ai-icon { color: #00a8af; display: flex; align-items: center; }
-    .fc-ai-icon svg { width: 24px; height: 24px; stroke-width: 1.5; }
-    .fc-ai-text { flex-grow: 1; display: flex; flex-direction: column; gap: 0.2rem; }
-    .fc-ai-text strong { font-size: 0.95rem; font-weight: 800; color: #0f172a; }
-    .fc-ai-text span { font-size: 0.8rem; color: #64748b; }
-    .fc-ai-arrow { color: #00a8af; display: flex; align-items: center; }
-    .fc-ai-arrow svg { width: 18px; height: 18px; }
 
-    /* RECHTE KARTE: Interaktiver Check */
-    .fc-card-right-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-    .fc-badge { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.8rem; border-radius: 100px; border: 1px solid #00a8af; color: #00a8af; font-size: 0.75rem; font-weight: 700; }
-    .fc-badge svg { width: 14px; height: 14px; }
-    
-    .fc-step { margin-bottom: 2rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 1.5rem; }
-    .fc-step:last-of-type { border-bottom: none; padding-bottom: 0; }
-    .fc-step-title { display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem; }
-    .fc-step-title svg { color: #00a8af; width: 18px; height: 18px; }
-    
-    .fc-pills { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-    .fc-pill { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 100px; padding: 0.6rem 1.25rem; font-size: 0.85rem; font-weight: 600; color: #475569; cursor: pointer; transition: all 0.2s ease; font-family: inherit; }
-    .fc-pill:hover { border-color: #cbd5e1; }
-    /* Exakter "Negatives Gutachten" Active State aus Bild 2 */
-    .fc-pill.active { background: #baf2f5; border-color: #baf2f5; color: #004c4f; font-weight: 700; }
-    
-    /* Summary Box unten */
-    .fc-summary { background: #f0fdfa; border: 1px solid #ccfbf1; border-radius: 16px; padding: 1.5rem; display: flex; gap: 1.25rem; margin-bottom: 2rem; }
-    .fc-sum-icon { width: 48px; height: 48px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; color: #00a8af; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-    .fc-sum-icon svg { width: 24px; height: 24px; }
-    .fc-sum-content strong { display: block; font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.4rem; }
-    .fc-sum-content p { font-size: 0.85rem; color: #475569; line-height: 1.5; margin-bottom: 1.2rem; }
-    
-    .fc-tags { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
-    .fc-tag { font-size: 0.75rem; color: #475569; font-weight: 600; }
-    .fc-tag strong { color: #0d9488; } /* Cyan für die Value */
-    
-    .fc-ctas { display: flex; gap: 1rem; }
-    .fc-btn-primary { flex: 1; background: #008f96; color: #fff; border: none; border-radius: 8px; padding: 1.2rem; font-size: 0.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: center; align-items: center; gap: 0.8rem; cursor: pointer; transition: background 0.3s; font-family: inherit; }
-    .fc-btn-primary:hover { background: #007a80; }
-    .fc-btn-primary svg { width: 18px; height: 18px; }
-    
-    .fc-btn-secondary { flex: 1; background: #fff; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 8px; padding: 1.2rem; font-size: 0.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: center; align-items: center; gap: 0.8rem; cursor: pointer; transition: background 0.3s; font-family: inherit; }
-    .fc-btn-secondary:hover { background: #f8fafc; }
-    .fc-btn-secondary svg { width: 20px; height: 20px; }
+    .fc-card-left {
+      padding: 3rem 2rem 2rem;
+    }
 
+    .fc-card-left-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.85rem;
+      margin-left: 0.5rem;
+      margin-bottom: 0;
+    }
+
+    .fc-icon-wrap {
+      width: 4.5rem;
+      height: 4.5rem;
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--fc-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      box-shadow:
+        0 14px 24px rgba(15, 23, 42, 0.08),
+        0 0 0 0.95rem rgba(92, 225, 230, 0.08);
+    }
+
+    .fc-icon-wrap svg {
+      width: 2rem;
+      height: 2rem;
+      stroke-width: 2;
+    }
+
+    .fc-card-kicker {
+      color: var(--fc-cyan);
+      font-size: 0.72rem;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .fc-card-left .fc-card-kicker {
+      margin-bottom: 0.55rem;
+    }
+
+    .fc-card-left .fc-card-kicker::after {
+      content: "";
+      display: block;
+      width: 2.15rem;
+      height: 2px;
+      margin-top: 0.52rem;
+      background: var(--fc-cyan);
+    }
+
+    .fc-card-left h3 {
+      margin: 0;
+      color: var(--fc-ink);
+      font-size: clamp(1.62rem, 1.9vw, 1.86rem);
+      line-height: 1.12;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+    }
+
+    .fc-card-left .fc-card-desc {
+      max-width: 25.5rem;
+      margin: 1.45rem 0 3.35rem calc(0.5rem + 4.5rem + 1.85rem);
+      color: var(--fc-muted);
+      font-size: 0.91rem;
+      line-height: 1.58;
+      font-weight: 500;
+    }
+
+    .fc-action-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.72rem;
+    }
+
+    .fc-action-item {
+      min-height: 4.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.72rem 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 15px;
+      background: rgba(255,255,255,0.62);
+      cursor: pointer;
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .fc-action-item:hover {
+      transform: translateY(-1px);
+      border-color: rgba(0, 168, 175, 0.45);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.05);
+    }
+
+    .fc-ai-icon {
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 14px;
+      background: rgba(240, 253, 250, 0.9);
+      border: 1px solid rgba(0, 168, 175, 0.18);
+      color: var(--fc-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .fc-ai-icon svg {
+      width: 1.45rem;
+      height: 1.45rem;
+      stroke-width: 1.8;
+    }
+
+    .fc-ai-text {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.22rem;
+    }
+
+    .fc-ai-text strong {
+      color: var(--fc-ink);
+      font-size: 0.88rem;
+      line-height: 1.15;
+      font-weight: 850;
+      letter-spacing: -0.015em;
+    }
+
+    .fc-ai-text span {
+      color: #64748b;
+      font-size: 0.78rem;
+      line-height: 1.25;
+      font-weight: 500;
+    }
+
+    .fc-ai-arrow {
+      color: var(--fc-cyan-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .fc-ai-arrow svg {
+      width: 1.15rem;
+      height: 1.15rem;
+    }
+
+    .fc-card-right {
+      position: relative;
+      padding: 1.75rem 1.85rem 1.45rem;
+    }
+
+    .fc-card-right-top {
+      display: block;
+      margin-bottom: 0.58rem;
+      padding-right: 8.7rem;
+    }
+
+    .fc-badge {
+      position: absolute;
+      top: 1.7rem;
+      right: 1.75rem;
+
+      min-height: 2.25rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.46rem;
+      padding: 0 0.88rem;
+      border-radius: 0.72rem;
+      border: 1px solid rgba(148, 163, 184, 0.38);
+      background: rgba(255,255,255,0.72);
+
+      color: var(--fc-cyan-dark);
+      font-size: 0.7rem;
+      line-height: 1;
+      font-weight: 850;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .fc-badge svg {
+      width: 1rem;
+      height: 1rem;
+      stroke-width: 2;
+    }
+
+    .fc-check-title {
+      margin: 0 0 1.05rem;
+      padding-right: 8rem;
+      color: var(--fc-ink);
+      font-size: clamp(1.72rem, 2.35vw, 2rem);
+      line-height: 1.05;
+      font-weight: 900;
+      letter-spacing: -0.055em;
+    }
+
+    .fc-step {
+      margin-bottom: 0.72rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.28);
+    }
+
+    .fc-step:last-of-type {
+      margin-bottom: 1rem;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .fc-step-title {
+      display: flex;
+      align-items: center;
+      gap: 0.72rem;
+      margin-bottom: 0.55rem;
+
+      color: var(--fc-ink);
+      font-size: 0.92rem;
+      line-height: 1.1;
+      font-weight: 850;
+      letter-spacing: -0.02em;
+    }
+
+    .fc-step-title svg {
+      width: 2.1rem;
+      height: 2.1rem;
+      padding: 0.48rem;
+      border-radius: 0.62rem;
+      color: var(--fc-cyan);
+      background: rgba(255,255,255,0.86);
+      border: 1px solid rgba(0, 168, 175, 0.16);
+      flex: 0 0 auto;
+    }
+
+    .fc-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.58rem;
+      padding-left: 2.85rem;
+    }
+
+    .fc-pill {
+      min-height: 2.25rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 1.65rem;
+
+      border: 1px solid rgba(148, 163, 184, 0.34);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+
+      color: #334155;
+      font-family: inherit;
+      font-size: 0.82rem;
+      line-height: 1;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
+      transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+    }
+
+    .fc-pill:hover {
+      border-color: rgba(0, 168, 175, 0.32);
+      transform: translateY(-1px);
+    }
+
+    .fc-pill.active {
+      background: linear-gradient(180deg, #c8f8fa 0%, #aeeff2 100%);
+      border-color: rgba(0, 168, 175, 0.42);
+      color: #064e52;
+      font-weight: 850;
+    }
+
+    .fc-summary {
+      min-height: 7.35rem;
+      display: flex;
+      align-items: center;
+      gap: 1.35rem;
+      margin-bottom: 0.95rem;
+      padding: 1rem 1.05rem 1rem 1rem;
+
+      border: 1px solid rgba(0, 168, 175, 0.2);
+      border-radius: 14px;
+      background:
+        radial-gradient(24rem 12rem at 0% 0%, rgba(92, 225, 230, 0.14), transparent 70%),
+        rgba(240, 253, 250, 0.62);
+    }
+
+    .fc-sum-icon {
+      width: 3.55rem;
+      height: 3.55rem;
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--fc-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      box-shadow: 0 13px 26px rgba(15, 23, 42, 0.08);
+    }
+
+    .fc-sum-icon svg {
+      width: 1.45rem;
+      height: 1.45rem;
+    }
+
+    .fc-sum-content {
+      min-width: 0;
+    }
+
+    .fc-sum-content strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--fc-ink);
+      font-size: 0.94rem;
+      line-height: 1.16;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+    }
+
+    .fc-sum-content p {
+      max-width: 40rem;
+      margin: 0 0 0.72rem;
+      color: var(--fc-muted);
+      font-size: 0.8rem;
+      line-height: 1.36;
+      font-weight: 500;
+    }
+
+    .fc-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .fc-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.22rem;
+      min-height: 1.55rem;
+      padding: 0 0.58rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      background: rgba(255,255,255,0.82);
+
+      color: #475569;
+      font-size: 0.68rem;
+      line-height: 1;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .fc-tag strong {
+      color: var(--fc-cyan-dark);
+      font-weight: 900;
+    }
+
+    .fc-ctas {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+    }
+
+    .fc-btn-primary,
+    .fc-btn-secondary {
+      height: 2.85rem;
+      border-radius: 0.62rem;
+      font-family: inherit;
+      font-size: 0.82rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+      cursor: pointer;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+
+      transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+    }
+
+    .fc-btn-primary {
+      flex: 0 0 19rem;
+      border: none;
+      color: #ffffff;
+      background: linear-gradient(180deg, #09abb1 0%, #008e96 100%);
+      box-shadow: 0 13px 26px rgba(0, 143, 150, 0.22);
+    }
+
+    .fc-btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px rgba(0, 143, 150, 0.28);
+    }
+
+    .fc-btn-primary svg {
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+
+    .fc-btn-secondary {
+      flex: 0 0 16rem;
+      color: var(--fc-ink);
+      border: 1px solid rgba(148, 163, 184, 0.42);
+      background: rgba(255,255,255,0.72);
+    }
+
+    .fc-btn-secondary:hover {
+      transform: translateY(-1px);
+      background: #ffffff;
+    }
+
+    .fc-btn-secondary svg {
+      width: 1.1rem;
+      height: 1.1rem;
+      color: #8aa3ad;
+    }
 
     /* RESPONSIVE */
+    @media (min-width: 1121px) and (max-height: 860px) {
+      .fall-check-section {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+      }
+
+      .fc-header {
+        margin-bottom: 1.35rem;
+      }
+
+      .fc-header h2 {
+        font-size: clamp(3.25rem, 4.35vw, 4.1rem);
+        line-height: 0.94;
+      }
+
+      .fc-header-right {
+        margin-top: 2.75rem;
+      }
+
+      .fc-card-left,
+      .fc-card-right {
+        min-height: 0;
+      }
+
+      .fc-card-left {
+        padding-top: 2.35rem;
+      }
+
+      .fc-card-left .fc-card-desc {
+        margin-bottom: 2.1rem;
+      }
+
+      .fc-summary {
+        min-height: 6.6rem;
+      }
+    }
+
+    @media (max-width: 1200px) {
+      .fall-check-section {
+        min-height: auto;
+        display: block;
+        padding: 4.5rem var(--page-pad);
+      }
+
+      .fc-header {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .fc-header-left {
+        max-width: 820px;
+      }
+
+      .fc-header-right {
+        max-width: 640px;
+        margin-top: 0;
+        padding-left: 0;
+        padding-top: 1rem;
+        border-left: none;
+        border-top: 2px solid rgba(0, 168, 175, 0.38);
+      }
+
+      .fc-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .fc-card-left,
+      .fc-card-right {
+        min-height: 0;
+      }
+    }
+
     @media (max-width: 1024px) {
       .license-parallax { width: 50vw; right: 4vw; top: 30%; }
       .services-grid { grid-template-columns: repeat(2, 1fr); }
       .services-bottom-bar { padding: 1.5rem; flex-wrap: wrap; gap: 1.5rem; border-radius: 24px; justify-content: center;}
       .s-bottom-divider { display: none; }
-
-      .fc-grid { grid-template-columns: 1fr; }
-      .fc-header { flex-direction: column; gap: 2rem; align-items: flex-start; }
-      .fc-header-right { padding-left: 0; border-left: none; margin-top: 0;}
-      .fc-ctas { flex-direction: column; }
     }
 
     @media (max-width: 768px) {
@@ -499,21 +1073,175 @@
       .s-bottom-item { background: #ffffff; padding: 1.2rem 1.2rem; border-radius: 12px; justify-content: space-between; font-size: 0.9rem; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
       .m-caret { display: block; }
 
-      /* FALL CHECK MOBILE CSS */
-      .fall-check-section { padding: 4rem 1.5rem; }
-      .fc-header h2 { font-size: 2.6rem; }
-      .fc-card { padding: 1.5rem; border-radius: 20px; }
-      .fc-card h3 { font-size: 1.5rem; }
-      .fc-action-item { padding: 1rem; }
-      
-      .fc-summary { padding: 1.2rem; gap: 1rem; flex-direction: column; }
-      .fc-sum-icon { width: 40px; height: 40px; }
-      .fc-sum-icon svg { width: 20px; height: 20px; }
-      .fc-card-right-top { margin-bottom: 1.5rem; flex-direction: column; align-items: flex-start; gap: 1rem;}
-      
-      /* Mobile active fix for Termin bald */
-      .fc-pill.active { background: #ffffff; border-color: #e2e8f0; color: #475569; font-weight: 600; }
-      .fc-pill.active-mobile { background: #baf2f5; border-color: #baf2f5; color: #004c4f; font-weight: 700; }
+      .fall-check-section {
+        padding: 4rem 1.5rem;
+      }
+
+      .fall-check-section::before,
+      .fall-check-section::after {
+        opacity: 0.35;
+      }
+
+      .fc-header {
+        margin-bottom: 1.7rem;
+      }
+
+      .fc-kicker {
+        font-size: 0.66rem;
+        gap: 0.75rem;
+        margin-bottom: 0.9rem;
+      }
+
+      .fc-kicker::before {
+        width: 2rem;
+      }
+
+      .fc-header h2 {
+        font-size: clamp(2.25rem, 10vw, 3rem);
+        line-height: 1.02;
+        letter-spacing: -0.055em;
+      }
+
+      .fc-header-right p {
+        font-size: 0.95rem;
+        line-height: 1.58;
+      }
+
+      .fc-card {
+        border-radius: 20px;
+      }
+
+      .fc-card-left {
+        padding: 2rem 1.2rem 1.2rem;
+      }
+
+      .fc-card-left-top {
+        margin-left: 0;
+        gap: 1rem;
+      }
+
+      .fc-icon-wrap {
+        width: 3.6rem;
+        height: 3.6rem;
+        box-shadow:
+          0 12px 22px rgba(15, 23, 42, 0.07),
+          0 0 0 0.65rem rgba(92, 225, 230, 0.08);
+      }
+
+      .fc-icon-wrap svg {
+        width: 1.65rem;
+        height: 1.65rem;
+      }
+
+      .fc-card-left h3 {
+        font-size: 1.42rem;
+      }
+
+      .fc-card-left .fc-card-desc {
+        max-width: none;
+        margin: 1.25rem 0 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      .fc-action-item {
+        min-height: auto;
+        padding: 0.9rem;
+      }
+
+      .fc-ai-icon {
+        width: 2.55rem;
+        height: 2.55rem;
+      }
+
+      .fc-card-right {
+        padding: 1.4rem;
+      }
+
+      .fc-card-right-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-right: 0;
+        margin-bottom: 1rem;
+      }
+
+      .fc-badge {
+        position: static;
+        min-height: 2.1rem;
+        padding: 0 0.72rem;
+        font-size: 0.66rem;
+      }
+
+      .fc-check-title {
+        padding-right: 0;
+        margin-bottom: 1.25rem;
+        font-size: 1.62rem;
+        line-height: 1.1;
+      }
+
+      .fc-step {
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+      }
+
+      .fc-step-title {
+        font-size: 0.9rem;
+      }
+
+      .fc-pills {
+        padding-left: 0;
+        gap: 0.5rem;
+      }
+
+      .fc-pill {
+        min-height: 2.25rem;
+        padding: 0 1rem;
+        font-size: 0.78rem;
+      }
+
+      .fc-summary {
+        min-height: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.1rem;
+        gap: 0.9rem;
+      }
+
+      .fc-sum-icon {
+        width: 2.75rem;
+        height: 2.75rem;
+      }
+
+      .fc-tags {
+        gap: 0.45rem;
+      }
+
+      .fc-ctas {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+      }
+
+      .fc-btn-primary,
+      .fc-btn-secondary {
+        width: 100%;
+        flex: 0 0 auto;
+      }
+
+      .fc-pill.active {
+        background: rgba(255,255,255,0.72);
+        border-color: rgba(148, 163, 184, 0.34);
+        color: #334155;
+        font-weight: 700;
+      }
+
+      .fc-pill.active-mobile {
+        background: linear-gradient(180deg, #c8f8fa 0%, #aeeff2 100%);
+        border-color: rgba(0, 168, 175, 0.42);
+        color: #064e52;
+        font-weight: 850;
+      }
     }
 
     @media (max-width: 390px) {
@@ -523,9 +1251,27 @@
       .mpu-step-text small { font-size: 0.55rem; }
       .story-copy-left h2 { font-size: clamp(2rem, 9.4vw, 2.5rem); }
       .story-copy-left p { font-size: 0.9rem; }
-      
-      .fc-header h2 { font-size: 2.2rem; }
-      .fc-card { padding: 1.25rem; }
+
+      .fall-check-section {
+        padding: 3.5rem 1.1rem;
+      }
+
+      .fc-header h2 {
+        font-size: 2.18rem;
+      }
+
+      .fc-card-left,
+      .fc-card-right {
+        padding: 1.15rem;
+      }
+
+      .fc-card-left-top {
+        flex-direction: column;
+      }
+
+      .fc-card-left .fc-card-desc {
+        margin-top: 1rem;
+      }
     }
 
     @media (max-width: 768px) and (max-height: 760px) {
@@ -925,6 +1671,7 @@
               <div class="fc-kicker">MPU VORBEREITUNG</div>
               <h2>Dein Fall braucht keinen Standard.<br>Er braucht <span class="highlight-cyan">einen Plan.</span></h2>
             </div>
+
             <div class="fc-header-right">
               <p>Viele scheitern nicht, weil sie nichts geändert haben. Sie scheitern, weil Nachweise, Geschichte und Gespräch nicht sauber zusammenpassen. Genau diese Lücke schließen wir.</p>
             </div>
@@ -935,8 +1682,15 @@
             <div class="fc-card fc-card-left">
               <div class="fc-card-left-top">
                 <div class="fc-icon-wrap">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="8"></circle>
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <circle cx="12" cy="12" r="1.3"></circle>
+                    <path d="M15.5 8.5 20 4"></path>
+                    <path d="M17.2 4H20v2.8"></path>
+                  </svg>
                 </div>
+
                 <div>
                   <div class="fc-card-kicker">BERATUNGSLOGIK</div>
                   <h3>Wir sortieren zuerst.<br>Dann trainieren wir.</h3>
@@ -948,40 +1702,63 @@
               <div class="fc-action-list">
                 <div class="fc-action-item">
                   <div class="fc-ai-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                      <path d="m9 12 2 2 4-4"/>
+                    </svg>
                   </div>
+
                   <div class="fc-ai-text">
                     <strong>Angst reduzieren</strong>
                     <span>Mehr Sicherheit durch klare Struktur.</span>
                   </div>
+
                   <div class="fc-ai-arrow">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
                   </div>
                 </div>
                 
                 <div class="fc-action-item">
                   <div class="fc-ai-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
                   </div>
+
                   <div class="fc-ai-text">
                     <strong>Fristen klären</strong>
                     <span>Realistische Planung statt Zeitdruck.</span>
                   </div>
+
                   <div class="fc-ai-arrow">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
                   </div>
                 </div>
                 
                 <div class="fc-action-item">
                   <div class="fc-ai-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
                   </div>
+
                   <div class="fc-ai-text">
                     <strong>Gespräch trainieren</strong>
                     <span>Prüfungsgespräche gezielt vorbereiten.</span>
                   </div>
+
                   <div class="fc-ai-arrow">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
                   </div>
                 </div>
               </div>
@@ -990,19 +1767,27 @@
             <div class="fc-card fc-card-right">
               <div class="fc-card-right-top">
                 <span class="fc-card-kicker">INTERAKTIVER MPU-FALL-CHECK</span>
+
                 <div class="fc-badge">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
                   3 MINUTEN
                 </div>
               </div>
               
-              <h3 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 2rem;">Welche Situation trifft auf Sie zu?</h3>
+              <h3 class="fc-check-title">Welche Situation trifft auf Sie zu?</h3>
 
               <div class="fc-step">
                 <div class="fc-step-title">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                  </svg>
                   1. Grund der MPU
                 </div>
+
                 <div class="fc-pills">
                   <button class="fc-pill">Alkohol</button>
                   <button class="fc-pill">Drogen</button>
@@ -1014,9 +1799,13 @@
 
               <div class="fc-step">
                 <div class="fc-step-title">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
                   2. Zeitdruck
                 </div>
+
                 <div class="fc-pills">
                   <button class="fc-pill active-mobile">Termin bald</button>
                   <button class="fc-pill">Noch kein Termin</button>
@@ -1026,9 +1815,16 @@
 
               <div class="fc-step">
                 <div class="fc-step-title">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="M9 14h6"/><path d="M9 18h6"/><path d="M9 10h6"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                    <path d="M9 14h6"/>
+                    <path d="M9 18h6"/>
+                    <path d="M9 10h6"/>
+                  </svg>
                   3. Nachweise
                 </div>
+
                 <div class="fc-pills">
                   <button class="fc-pill">Vorhanden</button>
                   <button class="fc-pill">Fehlen</button>
@@ -1038,11 +1834,15 @@
 
               <div class="fc-summary">
                 <div class="fc-sum-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/>
+                  </svg>
                 </div>
+
                 <div class="fc-sum-content">
                   <strong>Noch nicht vollständig eingeordnet.</strong>
                   <p>Wählen Sie alle drei Punkte aus. Danach sehen Sie, was im Erstgespräch zuerst geprüft werden sollte.</p>
+
                   <div class="fc-tags">
                     <div class="fc-tag">Grund: <strong>Negatives Gutachten</strong></div>
                     <div class="fc-tag">Frist: <strong>offen</strong></div>
@@ -1054,14 +1854,20 @@
               <div class="fc-ctas">
                 <button class="fc-btn-primary">
                   FALL EINSCHÄTZEN LASSEN
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
                 </button>
+
                 <button class="fc-btn-secondary">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                  </svg>
                   KLARNA ANSEHEN
                 </button>
               </div>
-              
             </div>
           </div>
         </div>
@@ -1090,22 +1896,123 @@
     // DEIN ORIGINAL OGL HINTERGRUND SCRIPT
     const vertexShader = `attribute vec2 uv; attribute vec2 position; varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position, 0, 1); }`;
     const fragmentShader = `precision highp float; uniform float uTime; uniform vec3 uResolution; uniform float uSpeed; uniform float uInnerLines; uniform float uOuterLines; uniform float uWarpIntensity; uniform float uRotation; uniform float uEdgeFadeWidth; uniform float uColorCycleSpeed; uniform float uBrightness; uniform vec3 uColor1; uniform vec3 uColor2; uniform vec3 uColor3; uniform vec2 uMouse; uniform float uMouseInfluence; uniform bool uEnableMouse; #define HALF_PI 1.5707963 float hashF(float n) { return fract(sin(n * 127.1) * 43758.5453123); } float smoothNoise(float x) { float i = floor(x); float f = fract(x); float u = f * f * (3.0 - 2.0 * f); return mix(hashF(i), hashF(i + 1.0), u); } float displaceA(float coord, float t) { float result = sin(coord * 2.123) * 0.2; result += sin(coord * 3.234 + t * 4.345) * 0.1; result += sin(coord * 0.589 + t * 0.934) * 0.5; return result; } float displaceB(float coord, float t) { float result = sin(coord * 1.345) * 0.3; result += sin(coord * 2.734 + t * 3.345) * 0.2; result += sin(coord * 0.189 + t * 0.934) * 0.3; return result; } vec2 rotate2D(vec2 p, float angle) { float c = cos(angle); float s = sin(angle); return vec2(p.x * c - p.y * s, p.x * s + p.y * c); } void main() { vec2 coords = gl_FragCoord.xy / uResolution.xy; coords = coords * 2.0 - 1.0; coords = rotate2D(coords, uRotation); float halfT = uTime * uSpeed * 0.5; float fullT = uTime * uSpeed; float mouseWarp = 0.0; if (uEnableMouse) { vec2 mPos = rotate2D(uMouse * 2.0 - 1.0, uRotation); float mDist = length(coords - mPos); mouseWarp = uMouseInfluence * exp(-mDist * mDist * 4.0); } float warpAx = coords.x + displaceA(coords.y, halfT) * uWarpIntensity + mouseWarp; float warpAy = coords.y - displaceA(coords.x * cos(fullT) * 1.235, halfT) * uWarpIntensity; float warpBx = coords.x + displaceB(coords.y, halfT) * uWarpIntensity + mouseWarp; float warpBy = coords.y - displaceB(coords.x * sin(fullT) * 1.235, halfT) * uWarpIntensity; vec2 fieldA = vec2(warpAx, warpAy); vec2 fieldB = vec2(warpBx, warpBy); vec2 blended = mix(fieldA, fieldB, mix(fieldA, fieldB, 0.5)); float fadeTop = smoothstep(uEdgeFadeWidth, uEdgeFadeWidth + 0.4, blended.y); float fadeBottom = smoothstep(-uEdgeFadeWidth, -(uEdgeFadeWidth + 0.4), blended.y); float vMask = 1.0 - max(fadeTop, fadeBottom); float tileCount = mix(uOuterLines, uInnerLines, vMask); float scaledY = blended.y * tileCount; float nY = smoothNoise(abs(scaledY)); float ridge = pow(step(abs(nY - blended.x) * 2.0, HALF_PI) * cos(2.0 * (nY - blended.x)), 5.0); float lines = 0.0; for (float i = 1.0; i < 3.0; i += 1.0) { lines += pow(max(fract(scaledY), fract(-scaledY)), i * 2.0); } float pattern = vMask * lines; float cycleT = fullT * uColorCycleSpeed; float rChannel = (pattern + lines * ridge) * (cos(blended.y + cycleT * 0.234) * 0.5 + 1.0); float gChannel = (pattern + vMask * ridge) * (sin(blended.x + cycleT * 1.745) * 0.5 + 1.0); float bChannel = (pattern + lines * ridge) * (cos(blended.x + cycleT * 0.534) * 0.5 + 1.0); vec3 col = (rChannel * uColor1 + gChannel * uColor2 + bChannel * uColor3) * uBrightness; float alpha = clamp(length(col), 0.0, 1.0); gl_FragColor = vec4(col, alpha); }`;
-    function hexToVec3(hex) { const h = hex.replace("#", ""); return [parseInt(h.slice(0, 2), 16) / 255, parseInt(h.slice(2, 4), 16) / 255, parseInt(h.slice(4, 6), 16) / 255]; }
-    const config = { speed: 0.3, innerLineCount: 32, outerLineCount: 36, warpIntensity: 1, rotation: -45, edgeFadeWidth: 0, colorCycleSpeed: 1, brightness: 0.2, color1: "#ffffff", color2: "#ffffff", color3: "#ffffff", enableMouseInteraction: !isTouchLike, mouseInfluence: isTouchLike ? 0 : 2 };
+
+    function hexToVec3(hex) {
+      const h = hex.replace("#", "");
+      return [
+        parseInt(h.slice(0, 2), 16) / 255,
+        parseInt(h.slice(2, 4), 16) / 255,
+        parseInt(h.slice(4, 6), 16) / 255
+      ];
+    }
+
+    const config = {
+      speed: 0.3,
+      innerLineCount: 32,
+      outerLineCount: 36,
+      warpIntensity: 1,
+      rotation: -45,
+      edgeFadeWidth: 0,
+      colorCycleSpeed: 1,
+      brightness: 0.2,
+      color1: "#ffffff",
+      color2: "#ffffff",
+      color3: "#ffffff",
+      enableMouseInteraction: !isTouchLike,
+      mouseInfluence: isTouchLike ? 0 : 2
+    };
+
     const container = document.getElementById("line-waves-bg");
-    const renderer = new Renderer({ alpha: true, premultipliedAlpha: false, dpr: Math.min(isTouchLike ? 1.15 : 1.6, window.devicePixelRatio || 1) });
-    const gl = renderer.gl; gl.clearColor(0, 0, 0, 0); gl.canvas.setAttribute("aria-hidden", "true"); container.appendChild(gl.canvas);
-    let currentMouse = [0.5, 0.5]; let targetMouse = [0.5, 0.5]; let program; let isPageVisible = true;
-    document.addEventListener("visibilitychange", () => { isPageVisible = !document.hidden; });
-    function handleMouseMove(e) { targetMouse = [e.clientX / window.innerWidth, 1.0 - e.clientY / window.innerHeight]; }
-    function handleMouseLeave() { targetMouse = [0.5, 0.5]; }
-    function resize() { const width = Math.max(1, container.offsetWidth); const height = Math.max(1, container.offsetHeight); renderer.setSize(width, height); if (program) { program.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height]; } }
+    const renderer = new Renderer({
+      alpha: true,
+      premultipliedAlpha: false,
+      dpr: Math.min(isTouchLike ? 1.15 : 1.6, window.devicePixelRatio || 1)
+    });
+
+    const gl = renderer.gl;
+    gl.clearColor(0, 0, 0, 0);
+    gl.canvas.setAttribute("aria-hidden", "true");
+    container.appendChild(gl.canvas);
+
+    let currentMouse = [0.5, 0.5];
+    let targetMouse = [0.5, 0.5];
+    let program;
+    let isPageVisible = true;
+
+    document.addEventListener("visibilitychange", () => {
+      isPageVisible = !document.hidden;
+    });
+
+    function handleMouseMove(e) {
+      targetMouse = [e.clientX / window.innerWidth, 1.0 - e.clientY / window.innerHeight];
+    }
+
+    function handleMouseLeave() {
+      targetMouse = [0.5, 0.5];
+    }
+
+    function resize() {
+      const width = Math.max(1, container.offsetWidth);
+      const height = Math.max(1, container.offsetHeight);
+      renderer.setSize(width, height);
+
+      if (program) {
+        program.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height];
+      }
+    }
+
     window.addEventListener("resize", resize);
-    const geometry = new Triangle(gl); const rotationRad = (config.rotation * Math.PI) / 180;
-    program = new Program(gl, { vertex: vertexShader, fragment: fragmentShader, uniforms: { uTime: { value: 0 }, uResolution: { value: [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height] }, uSpeed: { value: config.speed }, uInnerLines: { value: config.innerLineCount }, uOuterLines: { value: config.outerLineCount }, uWarpIntensity: { value: config.warpIntensity }, uRotation: { value: rotationRad }, uEdgeFadeWidth: { value: config.edgeFadeWidth }, uColorCycleSpeed: { value: config.colorCycleSpeed }, uBrightness: { value: config.brightness }, uColor1: { value: hexToVec3(config.color1) }, uColor2: { value: hexToVec3(config.color2) }, uColor3: { value: hexToVec3(config.color3) }, uMouse: { value: new Float32Array([0.5, 0.5]) }, uMouseInfluence: { value: config.mouseInfluence }, uEnableMouse: { value: config.enableMouseInteraction } } });
-    const mesh = new OglMesh(gl, { geometry, program }); resize();
-    if (config.enableMouseInteraction) { window.addEventListener("mousemove", handleMouseMove); window.addEventListener("mouseleave", handleMouseLeave); }
-    function update(time) { requestAnimationFrame(update); if (!isPageVisible) return; program.uniforms.uTime.value = time * 0.001; if (config.enableMouseInteraction) { currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]); currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]); program.uniforms.uMouse.value[0] = currentMouse[0]; program.uniforms.uMouse.value[1] = currentMouse[1]; } renderer.render({ scene: mesh }); }
+
+    const geometry = new Triangle(gl);
+    const rotationRad = (config.rotation * Math.PI) / 180;
+
+    program = new Program(gl, {
+      vertex: vertexShader,
+      fragment: fragmentShader,
+      uniforms: {
+        uTime: { value: 0 },
+        uResolution: { value: [gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height] },
+        uSpeed: { value: config.speed },
+        uInnerLines: { value: config.innerLineCount },
+        uOuterLines: { value: config.outerLineCount },
+        uWarpIntensity: { value: config.warpIntensity },
+        uRotation: { value: rotationRad },
+        uEdgeFadeWidth: { value: config.edgeFadeWidth },
+        uColorCycleSpeed: { value: config.colorCycleSpeed },
+        uBrightness: { value: config.brightness },
+        uColor1: { value: hexToVec3(config.color1) },
+        uColor2: { value: hexToVec3(config.color2) },
+        uColor3: { value: hexToVec3(config.color3) },
+        uMouse: { value: new Float32Array([0.5, 0.5]) },
+        uMouseInfluence: { value: config.mouseInfluence },
+        uEnableMouse: { value: config.enableMouseInteraction }
+      }
+    });
+
+    const mesh = new OglMesh(gl, { geometry, program });
+    resize();
+
+    if (config.enableMouseInteraction) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    function update(time) {
+      requestAnimationFrame(update);
+      if (!isPageVisible) return;
+
+      program.uniforms.uTime.value = time * 0.001;
+
+      if (config.enableMouseInteraction) {
+        currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]);
+        currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]);
+        program.uniforms.uMouse.value[0] = currentMouse[0];
+        program.uniforms.uMouse.value[1] = currentMouse[1];
+      }
+
+      renderer.render({ scene: mesh });
+    }
+
     requestAnimationFrame(update);
 
     // DEINE ORIGINAL STORY LOGIC
@@ -1344,10 +2251,12 @@
       // MOUSE PARALLAX FÜR DIE KARTE IM HERO BEREICH (NUR DESKTOP)
       if (!isTouchLike) {
         const parallaxWrapper = document.getElementById("parallax-wrapper");
+
         if (parallaxWrapper) {
           window.addEventListener("mousemove", (e) => {
             const x = (e.clientX / window.innerWidth - 0.5) * 40; 
             const y = (e.clientY / window.innerHeight - 0.5) * 40; 
+
             gsap.to(parallaxWrapper, {
               x: x,
               y: y,
