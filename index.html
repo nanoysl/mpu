@@ -140,10 +140,11 @@
       display: flex;
       flex-direction: column;
       padding: calc(var(--nav-height) + 2rem) 4vw 2rem 4vw;
-      overflow: hidden; 
+      overflow: hidden;
       background: #02070d; 
     }
 
+    /* 1. LAYER: HINTERGRUND-BILDER ÜBER PICTURE TAG */
     .hero-bg-picture {
       position: absolute;
       inset: 0;
@@ -156,8 +157,10 @@
       height: 100%;
       object-fit: cover; 
       object-position: center right;
+      display: block; /* Wichtig, damit kein leerer Raum entsteht */
     }
 
+    /* 2. LAYER: GRADIENT (FÜR LESBARKEIT) */
     .hero-bg-fade {
       position: absolute; 
       inset: 0; 
@@ -168,6 +171,7 @@
       pointer-events: none;
     }
 
+    /* 3. LAYER: DER SCHWEBENDE FÜHRERSCHEIN (BILD 2) */
     .license-parallax {
       position: absolute;
       z-index: 3;
@@ -196,6 +200,7 @@
       50% { transform: translate3d(0, -16px, 0) rotate(0.5deg) scale(1.015); }
     }
 
+    /* 4. LAYER: CONTENT (TEXT, BUTTONS, TRUST) */
     .hero-content-wrapper { 
       position: relative; 
       z-index: 10; 
@@ -386,25 +391,39 @@
       .navbar { padding: 0 1.5rem; }
       .nav-links, .nav-cta { display: none; }
       
-      /* HERO MOBILE FORMAT: Full Screen */
+      /* HERO MOBILE FORMAT: Full Screen, kein Aspect Ratio mehr! */
       .hero-section { 
         padding: calc(var(--nav-height) + 1rem) 1.5rem 2rem 1.5rem;
         min-height: 100svh; /* Füllt das Handydisplay exakt aus */
         height: auto;
       }
       
+      /* Der Picture-Tag Wrapper muss auf Mobile den gesamten Hero ausfüllen */
+      .hero-bg-picture {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+      
       .hero-bg-image { 
-        object-position: bottom center; /* Zeigt mehr von der Straße auf Mobile */
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center; 
       }
       
       .hero-bg-fade { 
         display: block; 
-        background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.9) 100%); 
+        background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.95) 100%); 
       }
       
       .hero-content-wrapper {
         display: flex;
         flex-direction: column;
+        flex-grow: 1;
+        width: 100%;
       }
 
       .hero-content { margin-top: 0; width: 100%; }
@@ -580,7 +599,7 @@
     <main>
       <section class="hero-section">
         
-        <picture style="display: contents;">
+        <picture class="hero-bg-picture">
           <source media="(max-width: 768px)" srcset="mpuohnemo.png" />
           <img class="hero-bg-image" src="mpuohne.png" alt="Hero Background" />
         </picture>
@@ -1082,7 +1101,7 @@
         duration: 1.45,
         ease: "power2.out"
       }, "-=0.55")
-      /* Cinematic Reveal */
+      /* Cinematic Reveal für den Hero Text */
       .from(".hero-reveal", {
         autoAlpha: 0,
         y: 40,
@@ -1135,5 +1154,3 @@
   </script>
 </body>
 </html>
-
-
