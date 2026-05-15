@@ -319,7 +319,8 @@
        ========================================= */
     .mpu-license-stage { 
       position: absolute; top: 50%; left: 50%; z-index: 7; 
-      width: clamp(470px, 39vw, 720px); aspect-ratio: 1.585 / 1; 
+      /* DESKTOP-GRÖSSE ERHÖHT FÜR BESSERE PASSFORM */
+      width: clamp(550px, 45vw, 850px); aspect-ratio: 1.585 / 1; 
       transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; 
     }
     
@@ -371,9 +372,9 @@
     /* === HIER WIRD DIE DESKTOP-PASSFORM OPTIMIERT === */
     .mpu-step-panel { 
       position: absolute; 
-      right: 4%; top: 12%; 
-      width: 52%; height: 80%; /* Erhöht von 76% */
-      display: flex; flex-direction: column; justify-content: space-around; /* Verteilter */
+      right: 1%; top: 14%; /* Position weiter rechts und tiefer */
+      width: 56%; height: 74%; /* Breiterer Textbereich */
+      display: flex; flex-direction: column; justify-content: space-between; /* Verteilter */
     }
     /* ============================================== */
     
@@ -381,34 +382,37 @@
     
     /* Schritt-Boxen durchsichtig machen, nur der Hover-State leuchtet noch */
     .mpu-step-row { 
-      --step-dot-size: clamp(1.4rem, 2vw, 1.85rem); --step-dot-font: clamp(0.58rem, 0.66vw, 0.74rem); 
       min-height: 0; display: flex; align-items: center; gap: 0.66rem; 
-      padding: clamp(0.2rem, 0.4vw, 0.4rem) clamp(0.58rem, 0.78vw, 0.82rem); 
-      border-radius: 12px; background: transparent; border: 1px solid transparent; 
+      padding: 0.8rem 1.5rem; /* Größeres Padding für Desktop */
+      border-radius: 14px; background: transparent; border: 1px solid transparent; 
       opacity: 0.5; overflow: hidden; transition: all 0.3s ease; 
     }
     .mpu-step-row.is-active { opacity: 1; background: rgba(92, 225, 230, 0.1); border-color: rgba(92, 225, 230, 0.4); box-shadow: 0 0 20px rgba(92, 225, 230, 0.2); }
     
-    .mpu-step-index { width: var(--step-dot-size); height: var(--step-dot-size); border-radius: 50%; background: rgba(255,255,255,0.15); color: #fff; display: flex; align-items: center; justify-content: center; flex: 0 0 var(--step-dot-size); overflow: hidden; transition: all 0.3s ease;}
+    .mpu-step-index { 
+      width: 2.2rem; height: 2.2rem; /* Fixe Desktop-Größe */
+      border-radius: 50%; background: rgba(255,255,255,0.15); color: #fff; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; overflow: hidden; transition: all 0.3s ease;
+      aspect-ratio: 1;
+    }
     .mpu-step-row.is-active .mpu-step-index { background: var(--cyan); color: #000; box-shadow: 0 0 10px var(--cyan); }
-    .mpu-step-index span { font-size: var(--step-dot-font); line-height: 1; font-weight: 900; letter-spacing: 0; font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; transform: translateY(-1.5px); }
+    .mpu-step-index span { font-size: 0.9rem; line-height: 1; font-weight: 900; letter-spacing: 0; transform: translateY(-1.5px); }
     
-    .mpu-step-text { min-width: 0; display: flex; flex-direction: column; justify-content: center; flex: 1 1 0; gap: 0.1rem; overflow: hidden; }
-    .mpu-step-text strong { display: block; font-size: clamp(0.72rem, 0.84vw, 0.98rem); line-height: 1.02; letter-spacing: -0.035em; color: #fff; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .mpu-step-text small { display: block; font-size: clamp(0.5rem, 0.58vw, 0.68rem); line-height: 1.05; color: rgba(255,255,255,0.6); font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mpu-step-text { min-width: 0; display: flex; flex-direction: column; justify-content: center; flex: 1 1 0; gap: 0.3rem; overflow: hidden; }
+    .mpu-step-text strong { display: block; font-size: 1.1rem; line-height: 1.02; letter-spacing: -0.035em; color: #fff; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mpu-step-text small { display: block; font-size: 0.85rem; line-height: 1.05; color: rgba(255,255,255,0.6); font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     /* BACK: Ergebnis-Liste auf die rechte Seite legen */
     .mpu-back-safe { display: block; position: relative; }
     .mpu-result-list { 
-      position: absolute; right: 4%; top: 12%; 
-      width: 52%; height: 76%; 
-      display: flex; flex-direction: column; justify-content: center; gap: clamp(0.32rem, 0.5vw, 0.58rem); 
+      position: absolute; right: 1%; top: 14%; /* Positionierung wie vorne */
+      width: 56%; height: 74%; 
+      display: flex; flex-direction: column; justify-content: space-between; gap: 0rem; 
     }
-    .mpu-result-row { min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; padding: clamp(0.46rem, 0.64vw, 0.68rem) clamp(0.62rem, 0.82vw, 0.9rem); border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
+    .mpu-result-row { min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; padding: 0.8rem 1.5rem; border-radius: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
     .mpu-result-copy { min-width: 0; display: flex; align-items: baseline; gap: 0.35rem; white-space: nowrap; overflow: hidden; }
-    .mpu-result-copy strong { min-width: 0; font-size: clamp(0.72rem, 0.86vw, 1rem); font-weight: 900; letter-spacing: -0.035em; color: #fff; overflow: hidden; text-overflow: ellipsis; }
-    .mpu-result-copy small { min-width: 0; font-size: clamp(0.54rem, 0.66vw, 0.76rem); font-weight: 850; color: rgba(255,255,255,0.5); overflow: hidden; text-overflow: ellipsis; }
-    .mpu-result-ok { font-size: clamp(0.58rem, 0.68vw, 0.8rem); font-weight: 900; letter-spacing: 0.08em; color: var(--cyan); text-shadow: 0 0 10px rgba(92, 225, 230, 0.5); white-space: nowrap; }
+    .mpu-result-copy strong { min-width: 0; font-size: 1.1rem; font-weight: 900; letter-spacing: -0.035em; color: #fff; overflow: hidden; text-overflow: ellipsis; }
+    .mpu-result-copy small { min-width: 0; font-size: 0.85rem; font-weight: 850; color: rgba(255,255,255,0.5); overflow: hidden; text-overflow: ellipsis; }
+    .mpu-result-ok { font-size: 0.95rem; font-weight: 900; letter-spacing: 0.08em; color: var(--cyan); text-shadow: 0 0 10px rgba(92, 225, 230, 0.5); white-space: nowrap; }
 
     /* KONTAKT SECTION */
     .after-story { position: relative; z-index: 4; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--nav-height) + 4rem) var(--page-pad) 5rem; background: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.1), transparent 34%), linear-gradient(to bottom, rgba(0,0,0,0.25), #000 75%); }
@@ -524,7 +528,6 @@
       .step-copy p { font-size: 0.96rem; line-height: 1.62; }
       .story-copy-left p { font-size: 0.95rem; line-height: 1.55; margin-bottom: 1rem; }
       .step-eyebrow, .final-eyebrow { font-size: 0.62rem; margin-bottom: 0.72rem; }
-      .micro-list { display: none; }
       .final-card-copy { border-radius: 22px; padding: 1.05rem; }
       .final-cta { width: 100%; padding: 1rem 1.05rem; font-size: 0.92rem; line-height: 1.15; }
       .story-progress { left: 1.1rem; right: 1.1rem; bottom: 1.85rem; }
@@ -537,49 +540,56 @@
       .mpu-front-body { display: block !important; height: 100%; position: relative; }
       .mpu-step-panel { 
         position: absolute !important; 
-        right: 4% !important; 
-        top: 20% !important; /* Tiefer positionieren, von 12% auf 20% */
-        width: 48% !important; /* Schmaler, von 55% auf 48% */
-        height: 72% !important; /* Etwas niedriger, um über der Signatur zu bleiben, von 76% auf 72% */
+        right: 1% !important; 
+        top: 26% !important; /* Tiefer positionieren, um Foto nicht zu verdeckten */
+        width: 45% !important; /* Schmaler, für freien Raum rechts */
+        height: 66% !important; /* Kompakter, um über Signatur zu bleiben */
         display: flex !important; 
         flex-direction: column !important; 
-        justify-content: space-around !important; /* Vertikal verteilen */
+        justify-content: space-between !important; /* Vertikal verteilen */
       }
       
       .mpu-back-safe { display: block !important; position: relative; }
       .mpu-result-list { 
         position: absolute !important; 
-        right: 4% !important; 
-        top: 20% !important; /* Tiefer positionieren */
-        width: 48% !important; /* Schmaler */
-        height: 72% !important; /* Etwas niedriger, um über der Signatur zu bleiben */
+        right: 1% !important; 
+        top: 26% !important; /* Positionierung wie vorne */
+        width: 45% !important; 
+        height: 66% !important; 
         display: flex !important; 
         flex-direction: column !important; 
-        justify-content: space-around !important; /* Vertikal verteilen */
+        justify-content: space-between !important; 
+        gap: 0rem !important;
       }
       /* ============================================================= */
 
       .mpu-step-list { gap: 0.24rem; }
-      .mpu-step-row { --step-dot-size: 1.32rem; --step-dot-font: 0.47rem; gap: 0.36rem; padding: 0.29rem 0.4rem; border-radius: 10px; }
+      .mpu-step-row { 
+        gap: 0.36rem; padding: 0.6rem 1rem; border-radius: 12px; 
+      }
       .mpu-step-row.is-active { transform: none; }
+      .mpu-step-index {
+        width: 1.8rem; height: 1.8rem; /* Fixe mobile Größe */
+        font-size: 0.7rem; aspect-ratio: 1; flex: 0 0 auto;
+      }
       .mpu-step-index span { transform: none; }
-      .mpu-step-text { gap: 0.06rem; }
-      .mpu-step-text strong { font-size: clamp(0.5rem, 2.1vw, 0.56rem); line-height: 1; }
-      .mpu-step-text small { font-size: clamp(0.39rem, 1.72vw, 0.43rem); line-height: 1.03; }
+      .mpu-step-text { gap: 0.2rem; }
+      .mpu-step-text strong { font-size: 0.8rem; line-height: 1; }
+      .mpu-step-text small { font-size: 0.6rem; line-height: 1.03; }
       
       .mpu-result-list { gap: 0.24rem; }
-      .mpu-result-row { padding: 0.3rem 0.46rem; border-radius: 10px; gap: 0.45rem; }
+      .mpu-result-row { padding: 0.6rem 1rem; border-radius: 12px; gap: 0.45rem; }
       .mpu-result-copy { display: block; line-height: 1.03; }
-      .mpu-result-copy strong { display: block; font-size: clamp(0.5rem, 2.15vw, 0.56rem); line-height: 1.02; }
-      .mpu-result-copy small { display: block; font-size: clamp(0.38rem, 1.72vw, 0.43rem); line-height: 1.05; }
-      .mpu-result-ok { font-size: 0.44rem; }
+      .mpu-result-copy strong { display: block; font-size: 0.8rem; line-height: 1.02; }
+      .mpu-result-copy small { display: block; font-size: 0.6rem; line-height: 1.05; }
+      .mpu-result-ok { font-size: 0.65rem; }
     }
 
     @media (max-width: 390px) {
       .mpu-license-stage { width: min(94vw, 470px); top: 31%; }
-      .mpu-step-row { --step-dot-size: 1.22rem; --step-dot-font: 0.43rem; gap: 0.32rem; padding: 0.26rem 0.34rem; }
-      .mpu-step-text strong { font-size: 0.49rem; }
-      .mpu-step-text small { font-size: 0.38rem; }
+      .mpu-step-row { gap: 0.32rem; padding: 0.5rem 0.8rem; }
+      .mpu-step-text strong { font-size: 0.75rem; }
+      .mpu-step-text small { font-size: 0.55rem; }
       .story-copy-left h2 { font-size: clamp(2rem, 9.4vw, 2.5rem); }
       .story-copy-left p { font-size: 0.9rem; }
     }
@@ -791,10 +801,6 @@
             <div class="mpu-card-object">
               
               <div class="mpu-card-face mpu-card-front">
-                <div class="mpu-card-pattern"></div>
-                <div class="mpu-card-watermark">MPU</div>
-                <div class="mpu-card-shine"></div>
-
                 <div class="mpu-card-safe">
                   <div class="mpu-front-body">
                     <div class="mpu-step-panel">
@@ -837,10 +843,6 @@
               </div>
 
               <div class="mpu-card-face mpu-card-back">
-                <div class="mpu-card-pattern"></div>
-                <div class="mpu-card-watermark">OK</div>
-                <div class="mpu-card-shine"></div>
-
                 <div class="mpu-card-safe mpu-back-safe">
                   <div class="mpu-result-list">
                     <div class="mpu-result-row">
@@ -1129,7 +1131,7 @@
             scrollTrigger: {
               trigger: "#license-story",
               start: "top bottom",
-              end: "top center", 
+              end: "top 20%", 
               scrub: true
             }
           }
