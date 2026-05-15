@@ -144,6 +144,7 @@
       background: #02070d; 
     }
 
+    /* 1. LAYER: HINTERGRUND-BILDER ÜBER PICTURE TAG */
     .hero-bg-picture {
       position: absolute;
       inset: 0;
@@ -156,9 +157,10 @@
       height: 100%;
       object-fit: cover; 
       object-position: center right;
-      display: block;
+      display: block; /* Wichtig, damit kein leerer Raum entsteht */
     }
 
+    /* 2. LAYER: GRADIENT (FÜR LESBARKEIT) */
     .hero-bg-fade {
       position: absolute; 
       inset: 0; 
@@ -169,6 +171,7 @@
       pointer-events: none;
     }
 
+    /* 3. LAYER: DER SCHWEBENDE FÜHRERSCHEIN (BILD 2) */
     .license-parallax {
       position: absolute;
       z-index: 3;
@@ -197,6 +200,7 @@
       50% { transform: translate3d(0, -16px, 0) rotate(0.5deg) scale(1.015); }
     }
 
+    /* 4. LAYER: CONTENT (TEXT, BUTTONS, TRUST) */
     .hero-content-wrapper { 
       position: relative; 
       z-index: 10; 
@@ -266,6 +270,22 @@
       background: #000;
     }
     
+    .story-bg-wrapper {
+      position: absolute; inset: 0; z-index: 0; opacity: 0; 
+    }
+    .story-bg-desktop, .story-bg-mobile {
+      position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(5px);
+    }
+    
+    /* === HIER WIRD DER FEHLENDE HINTERGRUND WIEDER HINZUGEFÜGT === */
+    .story-bg-desktop { background-image: url('mpuhell.png'); }
+    .story-bg-mobile { display: none; background-image: url('mpuhellmobile.png'); }
+    /* ============================================================ */
+    
+    .story-bg-overlay {
+      position: absolute; inset: 0; background: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.5) 100%);
+    }
+
     .story-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; perspective: 1800px; }
     .story-noise { position: absolute; inset: 0; pointer-events: none; opacity: 0.26; z-index: 1; background-image: linear-gradient(rgba(255,255,255,0.026) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.026) 1px, transparent 1px); background-size: 70px 70px; mask-image: radial-gradient(circle at center, black, transparent 76%); }
     
@@ -347,12 +367,15 @@
 
     /* FRONT: Wir positionieren die 4 Schritte exakt rechts über der leeren PNG-Fläche */
     .mpu-front-body { display: block; height: 100%; position: relative; }
+    
+    /* === HIER WIRD DIE DESKTOP-PASSFORM OPTIMIERT === */
     .mpu-step-panel { 
       position: absolute; 
       right: 4%; top: 12%; 
-      width: 52%; height: 76%; 
-      display: flex; flex-direction: column; justify-content: center; 
+      width: 52%; height: 80%; /* Erhöht von 76% */
+      display: flex; flex-direction: column; justify-content: space-around; /* Verteilter */
     }
+    /* ============================================== */
     
     .mpu-step-list { display: grid; grid-template-rows: repeat(4, minmax(0, 1fr)); gap: clamp(0.32rem, 0.48vw, 0.52rem); min-height: 0; overflow: hidden; }
     
@@ -398,44 +421,98 @@
       .license-parallax { width: 50vw; right: 4vw; top: 30%; }
     }
 
+    /* =========================================
+        FIX: MOBILE STYLES (Bild 3 Design)
+        ========================================= */
     @media (max-width: 768px) {
       .navbar { padding: 0 1.5rem; }
       .nav-links, .nav-cta { display: none; }
       
+      /* HERO MOBILE FORMAT: Full Screen, kein Aspect Ratio mehr! */
       .hero-section { 
         padding: calc(var(--nav-height) + 1rem) 1.5rem 2rem 1.5rem;
-        min-height: 100svh; 
+        min-height: 100svh; /* Füllt das Handydisplay exakt aus */
         height: auto;
       }
       
-      .hero-bg-picture { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
-      .hero-bg-image { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+      /* Der Picture-Tag Wrapper muss auf Mobile den gesamten Hero ausfüllen */
+      .hero-bg-picture {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
       
-      .hero-bg-fade { display: block; background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.95) 100%); }
+      .hero-bg-image { 
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center; 
+      }
       
-      .hero-content-wrapper { display: flex; flex-direction: column; flex-grow: 1; width: 100%; }
+      .hero-bg-fade { 
+        display: block; 
+        background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.95) 100%); 
+      }
+      
+      .hero-content-wrapper {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        width: 100%;
+      }
 
       .hero-content { margin-top: 0; width: 100%; }
       .hero-headline { font-size: 2.6rem; margin-bottom: 1rem; }
       
+      /* BUTTONS GESTAPELT WIE IN BILD 3 */
       .hero-actions { flex-direction: column; align-items: stretch; gap: 1rem; width: 100%; margin-bottom: 2rem; }
       
-      .btn-hero-primary { justify-content: center; background: rgba(92, 225, 230, 0.15); border: 1px solid var(--cyan); box-shadow: 0 0 20px rgba(92, 225, 230, 0.4); color: #fff; }
-      .btn-hero-primary::after { display: none; }
+      .btn-hero-primary {
+        justify-content: center;
+        background: rgba(92, 225, 230, 0.15); /* Glass Cyan wie im Entwurf */
+        border: 1px solid var(--cyan);
+        box-shadow: 0 0 20px rgba(92, 225, 230, 0.4);
+        color: #fff;
+      }
+      .btn-hero-primary::after { display: none; } /* Die Flare-Animation auf Mobile aus für cleaneren Look */
+      
       .btn-play { justify-content: flex-start; padding-left: 0.5rem; }
 
-      .license-parallax { position: relative; width: 90vw; right: auto; top: auto; margin: 0 auto 2rem auto; }
+      /* FÜHRERSCHEIN NICHT MEHR ABSOLUT, SONDERN IM FLUSS */
+      .license-parallax { 
+        position: relative;
+        width: 90vw; 
+        right: auto; 
+        top: auto;
+        margin: 0 auto 2rem auto;
+      }
 
+      /* TRUST BAR IM GLASSMORPHISM-ROW WIE IN BILD 3 */
       .hero-bottom { margin-top: auto; padding-top: 0; }
-      .trust-items { flex-direction: row; gap: 0.5rem; background: rgba(20, 25, 35, 0.6); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1rem 0.5rem; width: 100%; justify-content: space-around; }
+      .trust-items { 
+        flex-direction: row; 
+        gap: 0.5rem; 
+        background: rgba(20, 25, 35, 0.6);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 16px;
+        padding: 1rem 0.5rem;
+        width: 100%;
+        justify-content: space-around;
+      }
       .t-item { flex-direction: column; gap: 0.5rem; text-align: center; align-items: center; width: 33%; }
       .t-icon svg { width: 28px; height: 28px; }
       .t-text h4 { font-size: 0.6rem; margin-bottom: 0.1rem; }
       .t-text p { font-size: 0.55rem; line-height: 1.2; }
 
-      .quote-card { display: none; }
+      .quote-card { display: none; } /* Auf Mobile nicht sichtbar im Entwurf */
 
-      /* STORY CSS MOBILE */
+      /* DEIN MOBILES STORY CSS */
+      .story-bg-mobile { display: block; }
+      .story-bg-desktop { display: none; }
+
       .license-story { height: 520vh; }
       .story-kicker { top: calc(var(--nav-height) + 0.95rem); left: 1.1rem; right: 1.1rem; font-size: 0.64rem; gap: 0.68rem; letter-spacing: 0.13em; white-space: nowrap; overflow: hidden; }
       .story-kicker::before { width: 36px; }
@@ -447,21 +524,45 @@
       .step-copy p { font-size: 0.96rem; line-height: 1.62; }
       .story-copy-left p { font-size: 0.95rem; line-height: 1.55; margin-bottom: 1rem; }
       .step-eyebrow, .final-eyebrow { font-size: 0.62rem; margin-bottom: 0.72rem; }
+      .micro-list { display: none; }
       .final-card-copy { border-radius: 22px; padding: 1.05rem; }
       .final-cta { width: 100%; padding: 1rem 1.05rem; font-size: 0.92rem; line-height: 1.15; }
       .story-progress { left: 1.1rem; right: 1.1rem; bottom: 1.85rem; }
 
       .mpu-license-stage { width: min(94vw, 470px); top: 31%; }
+      .mpu-card-object, .mpu-card-face { border-radius: 22px; }
+      .mpu-card-safe { padding: 5.1% 5.3%; gap: 0.34rem; }
       
-      /* Beibehaltung des neuen Bild-Layouts auf Mobile! */
+      /* === HIER WIRD DIE MOBILE-PASSFORM OPTIMIERT (Bild 10 Design) === */
       .mpu-front-body { display: block !important; height: 100%; position: relative; }
-      .mpu-step-panel { position: absolute !important; right: 4% !important; top: 12% !important; width: 55% !important; height: 76% !important; display: flex !important; flex-direction: column !important; justify-content: center !important; }
+      .mpu-step-panel { 
+        position: absolute !important; 
+        right: 4% !important; 
+        top: 20% !important; /* Tiefer positionieren, von 12% auf 20% */
+        width: 48% !important; /* Schmaler, von 55% auf 48% */
+        height: 72% !important; /* Etwas niedriger, um über der Signatur zu bleiben, von 76% auf 72% */
+        display: flex !important; 
+        flex-direction: column !important; 
+        justify-content: space-around !important; /* Vertikal verteilen */
+      }
       
       .mpu-back-safe { display: block !important; position: relative; }
-      .mpu-result-list { position: absolute !important; right: 4% !important; top: 12% !important; width: 55% !important; height: 76% !important; display: flex !important; flex-direction: column !important; justify-content: center !important; }
+      .mpu-result-list { 
+        position: absolute !important; 
+        right: 4% !important; 
+        top: 20% !important; /* Tiefer positionieren */
+        width: 48% !important; /* Schmaler */
+        height: 72% !important; /* Etwas niedriger, um über der Signatur zu bleiben */
+        display: flex !important; 
+        flex-direction: column !important; 
+        justify-content: space-around !important; /* Vertikal verteilen */
+      }
+      /* ============================================================= */
 
       .mpu-step-list { gap: 0.24rem; }
       .mpu-step-row { --step-dot-size: 1.32rem; --step-dot-font: 0.47rem; gap: 0.36rem; padding: 0.29rem 0.4rem; border-radius: 10px; }
+      .mpu-step-row.is-active { transform: none; }
+      .mpu-step-index span { transform: none; }
       .mpu-step-text { gap: 0.06rem; }
       .mpu-step-text strong { font-size: clamp(0.5rem, 2.1vw, 0.56rem); line-height: 1; }
       .mpu-step-text small { font-size: clamp(0.39rem, 1.72vw, 0.43rem); line-height: 1.03; }
@@ -624,6 +725,12 @@
       <section id="license-story" class="license-story">
         <div class="story-sticky">
           
+          <div class="story-bg-wrapper">
+            <div class="story-bg-desktop"></div>
+            <div class="story-bg-mobile"></div>
+            <div class="story-bg-overlay"></div>
+          </div>
+
           <div class="story-noise"></div>
           <div class="story-final-glow"></div>
 
@@ -684,6 +791,10 @@
             <div class="mpu-card-object">
               
               <div class="mpu-card-face mpu-card-front">
+                <div class="mpu-card-pattern"></div>
+                <div class="mpu-card-watermark">MPU</div>
+                <div class="mpu-card-shine"></div>
+
                 <div class="mpu-card-safe">
                   <div class="mpu-front-body">
                     <div class="mpu-step-panel">
@@ -726,6 +837,10 @@
               </div>
 
               <div class="mpu-card-face mpu-card-back">
+                <div class="mpu-card-pattern"></div>
+                <div class="mpu-card-watermark">OK</div>
+                <div class="mpu-card-shine"></div>
+
                 <div class="mpu-card-safe mpu-back-safe">
                   <div class="mpu-result-list">
                     <div class="mpu-result-row">
@@ -990,6 +1105,7 @@
         duration: 1.45,
         ease: "power2.out"
       }, "-=0.55")
+      /* Cinematic Reveal für den Hero Text */
       .from(".hero-reveal", {
         autoAlpha: 0,
         y: 40,
@@ -1003,31 +1119,22 @@
         const intro = document.getElementById("intro-container");
         if (intro) intro.remove();
 
-        // Parallax-Effekt für das Hero-Bild beim Scrollen
-        gsap.to(".hero-img", {
-          y: "20%",
-          scrollTrigger: {
-            trigger: ".hero",
-            start: "top top",
-            end: "bottom top",
-            scrub: true
-          }
-        });
+        initScrollStory();
 
-        // Parallax-Effekt für den Führerschein im Hero
-        if (!isTouchLike) {
-          gsap.to(".license-card", {
-            y: "-15%",
+        // HINTERGRUND-FADE-IN BEIM SCROLLEN
+        gsap.fromTo(".story-bg-wrapper", 
+          { opacity: 0 },
+          {
+            opacity: 1,
             scrollTrigger: {
-              trigger: ".hero",
-              start: "top top",
-              end: "bottom top",
+              trigger: "#license-story",
+              start: "top bottom",
+              end: "top center", 
               scrub: true
             }
-          });
-        }
+          }
+        );
 
-        initScrollStory();
         ScrollTrigger.refresh();
       });
 
@@ -1047,8 +1154,6 @@
           });
         }
       }
-
-      window.dispatchEvent(new Event('resize'));
     });
   </script>
 </body>
