@@ -140,19 +140,23 @@
       display: flex;
       flex-direction: column;
       padding: calc(var(--nav-height) + 2rem) 4vw 2rem 4vw;
-      overflow: hidden; /* Verhindert horizontales Scrollen */
-      background: #02070d; /* Fallback */
+      overflow: hidden;
+      background: #02070d; 
     }
 
-    /* 1. LAYER: HINTERGRUND-BILD (OHNE FÜHRERSCHEIN) */
+    /* 1. LAYER: HINTERGRUND-BILDER ÜBER PICTURE TAG */
+    .hero-bg-picture {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
     .hero-bg-image {
-      position: absolute; 
-      inset: 0; 
       width: 100%; 
       height: 100%;
       object-fit: cover; 
       object-position: center right;
-      z-index: 1; 
     }
 
     /* 2. LAYER: GRADIENT (FÜR LESBARKEIT) */
@@ -174,13 +178,11 @@
       top: 22%;
       width: clamp(400px, 45vw, 820px);
       pointer-events: none;
-      /* Dient als Wrapper für den Mouse-Parallax-Effekt aus Javascript */
     }
 
     .license-wrapper {
       width: 100%;
       transform-origin: center;
-      /* CSS Keyframe Animation für das sanfte Schweben */
       animation: licenseFloat 8s ease-in-out infinite;
     }
 
@@ -188,9 +190,7 @@
       width: 100%;
       height: auto;
       display: block;
-      /* Subtiler Glow hinter der Karte */
       filter: drop-shadow(0 0 32px rgba(92, 225, 230, 0.35));
-      /* Da Unbenannt-9.jpg einen schwarzen Background hat, blendet dies das Schwarz aus und macht es zum Hologramm! */
       mix-blend-mode: screen; 
     }
 
@@ -271,7 +271,7 @@
     }
     
     .story-bg-wrapper {
-      position: absolute; inset: 0; z-index: 0; opacity: 0;
+      position: absolute; inset: 0; z-index: 0; opacity: 0; 
     }
     .story-bg-desktop, .story-bg-mobile {
       position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(5px);
@@ -379,7 +379,7 @@
     .after-inner h2 { font-size: clamp(2.5rem, 6vw, 6rem); line-height: 0.98; letter-spacing: -0.07em; font-weight: 900; margin-bottom: 1.2rem; text-wrap: balance; }
     .after-inner p { width: min(620px, 100%); margin: 0 auto 2.2rem; color: var(--white-soft); line-height: 1.7; font-size: clamp(1rem, 1.25vw, 1.18rem); }
 
-    /* RESPONSIVE HERO */
+    /* RESPONSIVE */
     @media (max-width: 1024px) {
       .license-parallax { width: 50vw; right: 4vw; top: 30%; }
     }
@@ -387,17 +387,24 @@
     @media (max-width: 768px) {
       .navbar { padding: 0 1.5rem; }
       .nav-links, .nav-cta { display: none; }
+      
+      /* HERO MOBILE FORMAT: 3:4 */
       .hero-section { 
-        padding: 1.5rem 1.5rem 250px 1.5rem; /* Platz nach unten für das Bild machen */
+        padding: calc(var(--nav-height) + 1.5rem) 1.5rem 2rem 1.5rem;
+        min-height: auto; 
+        aspect-ratio: 3 / 4; 
+        height: auto;
       }
+      
       .hero-headline { font-size: 2.8rem; }
       
+      .hero-bg-image { object-position: center center; }
+      
       .hero-bg-fade { 
-        /* Auf Mobile den dunklen Fade anders setzen, damit unten das Bild gut rauskommt */
         background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.9) 100%); 
+        display: none; 
       }
       
-      /* HIER IST DIE MOBILE KARTEN-POSITION */
       .license-parallax { 
         width: 85vw; 
         right: 5vw; 
@@ -536,12 +543,16 @@
     <main>
       <section class="hero-section">
         
-        <img class="hero-bg-image" src="mpuohne.png" alt="Hero Background">
+        <picture style="display: contents;">
+          <source media="(max-width: 768px)" srcset="mpuohmem.png" />
+          <img class="hero-bg-image" src="mpuohne.png" alt="Hero Background" />
+        </picture>
+        
         <div class="hero-bg-fade"></div>
         
         <div class="license-parallax" id="parallax-wrapper">
           <div class="license-wrapper">
-            <img class="license-card" src="Unbenannt-9.png" alt="Führerschein">
+            <img class="license-card" src="Unbenannt-9.jpg" alt="Führerschein">
           </div>
         </div>
         
@@ -998,7 +1009,7 @@
       ScrollTrigger.refresh();
     }
 
-    // --- DEIN ORIGINAL INITIAL LOAD MIT CINEMATIC REVEAL ---
+    // --- DEIN ORIGINAL INITIAL LOAD ---
     window.addEventListener("load", () => {
       const tl = gsap.timeline();
 
@@ -1072,8 +1083,8 @@
         const parallaxWrapper = document.getElementById("parallax-wrapper");
         if (parallaxWrapper) {
           window.addEventListener("mousemove", (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 40; // Bewegung X-Achse
-            const y = (e.clientY / window.innerHeight - 0.5) * 40; // Bewegung Y-Achse
+            const x = (e.clientX / window.innerWidth - 0.5) * 40; 
+            const y = (e.clientY / window.innerHeight - 0.5) * 40; 
             gsap.to(parallaxWrapper, {
               x: x,
               y: y,
