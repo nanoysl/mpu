@@ -144,7 +144,6 @@
       background: #02070d; 
     }
 
-    /* 1. LAYER: HINTERGRUND-BILDER ÜBER PICTURE TAG */
     .hero-bg-picture {
       position: absolute;
       inset: 0;
@@ -157,10 +156,9 @@
       height: 100%;
       object-fit: cover; 
       object-position: center right;
-      display: block; /* Wichtig, damit kein leerer Raum entsteht */
+      display: block;
     }
 
-    /* 2. LAYER: GRADIENT (FÜR LESBARKEIT) */
     .hero-bg-fade {
       position: absolute; 
       inset: 0; 
@@ -171,7 +169,6 @@
       pointer-events: none;
     }
 
-    /* 3. LAYER: DER SCHWEBENDE FÜHRERSCHEIN (BILD 2) */
     .license-parallax {
       position: absolute;
       z-index: 3;
@@ -200,7 +197,6 @@
       50% { transform: translate3d(0, -16px, 0) rotate(0.5deg) scale(1.015); }
     }
 
-    /* 4. LAYER: CONTENT (TEXT, BUTTONS, TRUST) */
     .hero-content-wrapper { 
       position: relative; 
       z-index: 10; 
@@ -277,10 +273,8 @@
       position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(5px);
     }
     
-    /* === HIER WIRD DER FEHLENDE HINTERGRUND WIEDER HINZUGEFÜGT === */
     .story-bg-desktop { background-image: url('mpuhell.png'); }
     .story-bg-mobile { display: none; background-image: url('mpuhellmobile.png'); }
-    /* ============================================================ */
     
     .story-bg-overlay {
       position: absolute; inset: 0; background: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.5) 100%);
@@ -315,12 +309,12 @@
     .story-progress-fill { height: 100%; width: 100%; background: #fff; transform: scaleX(0); transform-origin: left center; will-change: transform; }
 
     /* =========================================
-       NEU: DIE 3D KARTE (MIT DEINEN BILDERN ALS BASIS)
+       FIX: DIE 3D KARTE (DIE BOUNDING-BOX LÖSUNG)
        ========================================= */
     .mpu-license-stage { 
       position: absolute; top: 50%; left: 50%; z-index: 7; 
-      /* DESKTOP-GRÖSSE ERHÖHT FÜR BESSERE PASSFORM */
-      width: clamp(550px, 45vw, 850px); aspect-ratio: 1.585 / 1; 
+      width: clamp(550px, 45vw, 850px); /* Leicht vergrößert für mehr Platz */
+      aspect-ratio: 1.585 / 1; 
       transform-style: preserve-3d; -webkit-transform-style: preserve-3d; will-change: transform; 
     }
     
@@ -330,7 +324,6 @@
       will-change: transform; transform-origin: center center; 
     }
     
-    /* Keine CSS-Ränder oder Hintergrundfarben mehr, das PNG macht die Optik! */
     .mpu-card-face { 
       position: absolute; inset: 0; border-radius: 18px; overflow: hidden; 
       backface-visibility: hidden; -webkit-backface-visibility: hidden; 
@@ -352,67 +345,75 @@
       background-image: url('Unbenannt-11.png'); 
       background-size: 100% 100%; background-position: center; background-repeat: no-repeat; 
     }
-    
-    /* CSS-Schnickschnack (Glow, Watermark) ausblenden */
-    .mpu-card-pattern, .mpu-card-watermark, .mpu-card-shine { display: none !important; }
-
-    /* Wir blenden alle Standard-Texte/Bilder aus, die schon auf deinem PNG sind */
-    .mpu-doc-head, .mpu-photo-panel, .mpu-signature-line, .mpu-id-line, .mpu-panel-meta, .mpu-front-footer, .mpu-back-head, .mpu-back-footer { 
-      display: none !important; 
-    }
 
     .mpu-card-safe { 
       position: relative; z-index: 2; width: 100%; height: 100%; 
       display: block; overflow: hidden; background: transparent;
     }
 
-    /* FRONT: Wir positionieren die 4 Schritte exakt rechts über der leeren PNG-Fläche */
+    /* FRONT: Bounding Box Methode - An 4 Punkten festpinnen */
     .mpu-front-body { display: block; height: 100%; position: relative; }
     
-    /* === HIER WIRD DIE DESKTOP-PASSFORM OPTIMIERT === */
     .mpu-step-panel { 
-      position: absolute; 
-      right: 1%; top: 14%; /* Position weiter rechts und tiefer */
-      width: 56%; height: 74%; /* Breiterer Textbereich */
-      display: flex; flex-direction: column; justify-content: space-between; /* Verteilter */
+      position: absolute !important; 
+      top: 14% !important;    /* Abstand von oben */
+      bottom: 14% !important; /* Abstand von unten (hält es über der Unterschrift) */
+      left: 43% !important;   /* Abstand von links (beginnt nach dem Foto) */
+      right: 4% !important;   /* Abstand von rechts */
+      width: auto !important; /* Breite wird durch left/right definiert */
+      height: auto !important; /* Höhe wird durch top/bottom definiert */
+      display: flex !important; 
+      flex-direction: column; 
+      justify-content: space-evenly; /* Gleichmäßig verteilen */
     }
-    /* ============================================== */
     
-    .mpu-step-list { display: grid; grid-template-rows: repeat(4, minmax(0, 1fr)); gap: clamp(0.32rem, 0.48vw, 0.52rem); min-height: 0; overflow: hidden; }
+    .mpu-step-list { 
+      display: flex; flex-direction: column; justify-content: space-between; height: 100%; gap: 0; overflow: hidden; 
+    }
     
-    /* Schritt-Boxen durchsichtig machen, nur der Hover-State leuchtet noch */
     .mpu-step-row { 
-      min-height: 0; display: flex; align-items: center; gap: 0.66rem; 
-      padding: 0.8rem 1.5rem; /* Größeres Padding für Desktop */
-      border-radius: 14px; background: transparent; border: 1px solid transparent; 
+      min-height: 0; display: flex; align-items: center; gap: 4%; 
+      padding: 2% 4%; /* Padding in Prozent, damit es nicht nach außen wächst */
+      border-radius: 12px; background: transparent; border: 1px solid transparent; 
       opacity: 0.5; overflow: hidden; transition: all 0.3s ease; 
     }
     .mpu-step-row.is-active { opacity: 1; background: rgba(92, 225, 230, 0.1); border-color: rgba(92, 225, 230, 0.4); box-shadow: 0 0 20px rgba(92, 225, 230, 0.2); }
     
     .mpu-step-index { 
-      width: 2.2rem; height: 2.2rem; /* Fixe Desktop-Größe */
-      border-radius: 50%; background: rgba(255,255,255,0.15); color: #fff; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; overflow: hidden; transition: all 0.3s ease;
+      width: clamp(1.2rem, 3cqw, 2rem); height: clamp(1.2rem, 3cqw, 2rem); /* Relative Größe */
+      border-radius: 50%; background: rgba(255,255,255,0.15); color: #fff; display: flex; align-items: center; justify-content: center; flex: 0 0 auto; transition: all 0.3s ease;
       aspect-ratio: 1;
     }
     .mpu-step-row.is-active .mpu-step-index { background: var(--cyan); color: #000; box-shadow: 0 0 10px var(--cyan); }
-    .mpu-step-index span { font-size: 0.9rem; line-height: 1; font-weight: 900; letter-spacing: 0; transform: translateY(-1.5px); }
+    .mpu-step-index span { font-size: clamp(0.6rem, 1.5cqw, 0.9rem); line-height: 1; font-weight: 900; letter-spacing: 0; font-feature-settings: "tnum" 1; transform: translateY(-1.5px); }
     
-    .mpu-step-text { min-width: 0; display: flex; flex-direction: column; justify-content: center; flex: 1 1 0; gap: 0.3rem; overflow: hidden; }
-    .mpu-step-text strong { display: block; font-size: 1.1rem; line-height: 1.02; letter-spacing: -0.035em; color: #fff; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .mpu-step-text small { display: block; font-size: 0.85rem; line-height: 1.05; color: rgba(255,255,255,0.6); font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mpu-step-text { min-width: 0; display: flex; flex-direction: column; justify-content: center; flex: 1 1 0; gap: 0.2rem; overflow: hidden; }
+    .mpu-step-text strong { display: block; font-size: clamp(0.7rem, 1.8cqw, 1rem); line-height: 1.02; letter-spacing: -0.035em; color: #fff; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mpu-step-text small { display: block; font-size: clamp(0.5rem, 1.2cqw, 0.75rem); line-height: 1.05; color: rgba(255,255,255,0.6); font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    /* BACK: Ergebnis-Liste auf die rechte Seite legen */
+    /* BACK: Bounding Box Methode */
     .mpu-back-safe { display: block; position: relative; }
     .mpu-result-list { 
-      position: absolute; right: 1%; top: 14%; /* Positionierung wie vorne */
-      width: 56%; height: 74%; 
-      display: flex; flex-direction: column; justify-content: space-between; gap: 0rem; 
+      position: absolute !important; 
+      top: 14% !important; 
+      bottom: 35% !important; /* Etwas mehr Abstand nach unten wegen dem Barcode */
+      left: 43% !important; 
+      right: 4% !important; 
+      width: auto !important; 
+      height: auto !important; 
+      display: flex !important; 
+      flex-direction: column; 
+      justify-content: space-evenly; 
+      gap: 0; 
     }
-    .mpu-result-row { min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; padding: 0.8rem 1.5rem; border-radius: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
+    .mpu-result-row { min-height: 0; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 2% 4%; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
     .mpu-result-copy { min-width: 0; display: flex; align-items: baseline; gap: 0.35rem; white-space: nowrap; overflow: hidden; }
-    .mpu-result-copy strong { min-width: 0; font-size: 1.1rem; font-weight: 900; letter-spacing: -0.035em; color: #fff; overflow: hidden; text-overflow: ellipsis; }
-    .mpu-result-copy small { min-width: 0; font-size: 0.85rem; font-weight: 850; color: rgba(255,255,255,0.5); overflow: hidden; text-overflow: ellipsis; }
-    .mpu-result-ok { font-size: 0.95rem; font-weight: 900; letter-spacing: 0.08em; color: var(--cyan); text-shadow: 0 0 10px rgba(92, 225, 230, 0.5); white-space: nowrap; }
+    .mpu-result-copy strong { min-width: 0; font-size: clamp(0.7rem, 1.8cqw, 1rem); font-weight: 900; letter-spacing: -0.035em; color: #fff; overflow: hidden; text-overflow: ellipsis; }
+    .mpu-result-copy small { min-width: 0; font-size: clamp(0.5rem, 1.2cqw, 0.75rem); font-weight: 850; color: rgba(255,255,255,0.5); overflow: hidden; text-overflow: ellipsis; }
+    .mpu-result-ok { font-size: clamp(0.6rem, 1.5cqw, 0.9rem); font-weight: 900; letter-spacing: 0.08em; color: var(--cyan); text-shadow: 0 0 10px rgba(92, 225, 230, 0.5); white-space: nowrap; }
+
+    /* Ausblenden alter CSS Elemente */
+    .mpu-card-pattern, .mpu-card-watermark, .mpu-card-shine, .mpu-doc-head, .mpu-photo-panel, .mpu-signature-line, .mpu-id-line, .mpu-panel-meta, .mpu-front-footer, .mpu-back-head, .mpu-back-footer { display: none !important; }
 
     /* KONTAKT SECTION */
     .after-story { position: relative; z-index: 4; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--nav-height) + 4rem) var(--page-pad) 5rem; background: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.1), transparent 34%), linear-gradient(to bottom, rgba(0,0,0,0.25), #000 75%); }
@@ -425,95 +426,44 @@
       .license-parallax { width: 50vw; right: 4vw; top: 30%; }
     }
 
-    /* =========================================
-        FIX: MOBILE STYLES (Bild 3 Design)
-        ========================================= */
     @media (max-width: 768px) {
       .navbar { padding: 0 1.5rem; }
       .nav-links, .nav-cta { display: none; }
       
-      /* HERO MOBILE FORMAT: Full Screen, kein Aspect Ratio mehr! */
       .hero-section { 
         padding: calc(var(--nav-height) + 1rem) 1.5rem 2rem 1.5rem;
-        min-height: 100svh; /* Füllt das Handydisplay exakt aus */
+        min-height: 100svh; 
         height: auto;
       }
       
-      /* Der Picture-Tag Wrapper muss auf Mobile den gesamten Hero ausfüllen */
-      .hero-bg-picture {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-      }
+      .hero-bg-picture { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+      .hero-bg-image { width: 100%; height: 100%; object-fit: cover; object-position: center; }
       
-      .hero-bg-image { 
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center; 
-      }
+      .hero-bg-fade { display: block; background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.95) 100%); }
       
-      .hero-bg-fade { 
-        display: block; 
-        background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.95) 100%); 
-      }
-      
-      .hero-content-wrapper {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        width: 100%;
-      }
+      .hero-content-wrapper { display: flex; flex-direction: column; flex-grow: 1; width: 100%; }
 
       .hero-content { margin-top: 0; width: 100%; }
       .hero-headline { font-size: 2.6rem; margin-bottom: 1rem; }
       
-      /* BUTTONS GESTAPELT WIE IN BILD 3 */
       .hero-actions { flex-direction: column; align-items: stretch; gap: 1rem; width: 100%; margin-bottom: 2rem; }
       
-      .btn-hero-primary {
-        justify-content: center;
-        background: rgba(92, 225, 230, 0.15); /* Glass Cyan wie im Entwurf */
-        border: 1px solid var(--cyan);
-        box-shadow: 0 0 20px rgba(92, 225, 230, 0.4);
-        color: #fff;
-      }
-      .btn-hero-primary::after { display: none; } /* Die Flare-Animation auf Mobile aus für cleaneren Look */
-      
+      .btn-hero-primary { justify-content: center; background: rgba(92, 225, 230, 0.15); border: 1px solid var(--cyan); box-shadow: 0 0 20px rgba(92, 225, 230, 0.4); color: #fff; }
+      .btn-hero-primary::after { display: none; }
       .btn-play { justify-content: flex-start; padding-left: 0.5rem; }
 
-      /* FÜHRERSCHEIN NICHT MEHR ABSOLUT, SONDERN IM FLUSS */
-      .license-parallax { 
-        position: relative;
-        width: 90vw; 
-        right: auto; 
-        top: auto;
-        margin: 0 auto 2rem auto;
-      }
+      .license-parallax { position: relative; width: 90vw; right: auto; top: auto; margin: 0 auto 2rem auto; }
 
-      /* TRUST BAR IM GLASSMORPHISM-ROW WIE IN BILD 3 */
       .hero-bottom { margin-top: auto; padding-top: 0; }
-      .trust-items { 
-        flex-direction: row; 
-        gap: 0.5rem; 
-        background: rgba(20, 25, 35, 0.6);
-        backdrop-filter: blur(15px);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 16px;
-        padding: 1rem 0.5rem;
-        width: 100%;
-        justify-content: space-around;
-      }
+      .trust-items { flex-direction: row; gap: 0.5rem; background: rgba(20, 25, 35, 0.6); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1rem 0.5rem; width: 100%; justify-content: space-around; }
       .t-item { flex-direction: column; gap: 0.5rem; text-align: center; align-items: center; width: 33%; }
       .t-icon svg { width: 28px; height: 28px; }
       .t-text h4 { font-size: 0.6rem; margin-bottom: 0.1rem; }
       .t-text p { font-size: 0.55rem; line-height: 1.2; }
 
-      .quote-card { display: none; } /* Auf Mobile nicht sichtbar im Entwurf */
+      .quote-card { display: none; }
 
-      /* DEIN MOBILES STORY CSS */
+      /* STORY CSS MOBILE */
       .story-bg-mobile { display: block; }
       .story-bg-desktop { display: none; }
 
@@ -533,75 +483,7 @@
       .story-progress { left: 1.1rem; right: 1.1rem; bottom: 1.85rem; }
 
       .mpu-license-stage { width: min(94vw, 470px); top: 31%; }
-      .mpu-card-object, .mpu-card-face { border-radius: 22px; }
-      .mpu-card-safe { padding: 5.1% 5.3%; gap: 0.34rem; }
-      
-      /* === HIER WIRD DIE MOBILE-PASSFORM OPTIMIERT (Bild 10 Design) === */
-      .mpu-front-body { display: block !important; height: 100%; position: relative; }
-      .mpu-step-panel { 
-        position: absolute !important; 
-        right: 1% !important; 
-        top: 26% !important; /* Tiefer positionieren, um Foto nicht zu verdeckten */
-        width: 45% !important; /* Schmaler, für freien Raum rechts */
-        height: 66% !important; /* Kompakter, um über Signatur zu bleiben */
-        display: flex !important; 
-        flex-direction: column !important; 
-        justify-content: space-between !important; /* Vertikal verteilen */
-      }
-      
-      .mpu-back-safe { display: block !important; position: relative; }
-      .mpu-result-list { 
-        position: absolute !important; 
-        right: 1% !important; 
-        top: 26% !important; /* Positionierung wie vorne */
-        width: 45% !important; 
-        height: 66% !important; 
-        display: flex !important; 
-        flex-direction: column !important; 
-        justify-content: space-between !important; 
-        gap: 0rem !important;
-      }
-      /* ============================================================= */
-
-      .mpu-step-list { gap: 0.24rem; }
-      .mpu-step-row { 
-        gap: 0.36rem; padding: 0.6rem 1rem; border-radius: 12px; 
-      }
-      .mpu-step-row.is-active { transform: none; }
-      .mpu-step-index {
-        width: 1.8rem; height: 1.8rem; /* Fixe mobile Größe */
-        font-size: 0.7rem; aspect-ratio: 1; flex: 0 0 auto;
-      }
-      .mpu-step-index span { transform: none; }
-      .mpu-step-text { gap: 0.2rem; }
-      .mpu-step-text strong { font-size: 0.8rem; line-height: 1; }
-      .mpu-step-text small { font-size: 0.6rem; line-height: 1.03; }
-      
-      .mpu-result-list { gap: 0.24rem; }
-      .mpu-result-row { padding: 0.6rem 1rem; border-radius: 12px; gap: 0.45rem; }
-      .mpu-result-copy { display: block; line-height: 1.03; }
-      .mpu-result-copy strong { display: block; font-size: 0.8rem; line-height: 1.02; }
-      .mpu-result-copy small { display: block; font-size: 0.6rem; line-height: 1.05; }
-      .mpu-result-ok { font-size: 0.65rem; }
-    }
-
-    @media (max-width: 390px) {
-      .mpu-license-stage { width: min(94vw, 470px); top: 31%; }
-      .mpu-step-row { gap: 0.32rem; padding: 0.5rem 0.8rem; }
-      .mpu-step-text strong { font-size: 0.75rem; }
-      .mpu-step-text small { font-size: 0.55rem; }
-      .story-copy-left h2 { font-size: clamp(2rem, 9.4vw, 2.5rem); }
-      .story-copy-left p { font-size: 0.9rem; }
-    }
-
-    @media (max-width: 768px) and (max-height: 760px) {
-      .mpu-license-stage { width: min(94vw, 470px); top: 31%; }
-      .story-copy, .story-copy-left { bottom: 2.25rem; min-height: 300px; }
-      .step-copy h2 { font-size: clamp(1.82rem, 9vw, 2.72rem); }
-      .story-copy-left h2 { font-size: clamp(1.9rem, 8.8vw, 2.55rem); }
-      .step-copy p, .story-copy-left p { font-size: 0.9rem; line-height: 1.5; }
-      .final-card-copy { padding: 0.95rem; }
-      .final-cta { padding: 0.9rem 0.95rem; }
+      .mpu-card-face { border-radius: 12px; }
     }
   </style>
 </head>
@@ -1107,7 +989,6 @@
         duration: 1.45,
         ease: "power2.out"
       }, "-=0.55")
-      /* Cinematic Reveal für den Hero Text */
       .from(".hero-reveal", {
         autoAlpha: 0,
         y: 40,
@@ -1121,6 +1002,30 @@
         const intro = document.getElementById("intro-container");
         if (intro) intro.remove();
 
+        // Parallax-Effekt für das Hero-Bild beim Scrollen
+        gsap.to(".hero-img", {
+          y: "20%",
+          scrollTrigger: {
+            trigger: ".hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+          }
+        });
+
+        // Parallax-Effekt für den Führerschein im Hero
+        if (!isTouchLike) {
+          gsap.to(".license-card", {
+            y: "-15%",
+            scrollTrigger: {
+              trigger: ".hero",
+              start: "top top",
+              end: "bottom top",
+              scrub: true
+            }
+          });
+        }
+
         initScrollStory();
 
         // HINTERGRUND-FADE-IN BEIM SCROLLEN
@@ -1131,7 +1036,7 @@
             scrollTrigger: {
               trigger: "#license-story",
               start: "top bottom",
-              end: "top 20%", 
+              end: "top center", 
               scrub: true
             }
           }
