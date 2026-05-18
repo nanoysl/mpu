@@ -464,7 +464,8 @@
     }
     @media (max-width:768px){
       body.clarity-rise-active .mobile-sticky-cta,
-      body.fall-check-active .mobile-sticky-cta{
+      body.fall-check-active .mobile-sticky-cta,
+      body.klarna-active .mobile-sticky-cta{
         opacity:0;
         visibility:hidden;
         pointer-events:none;
@@ -701,6 +702,534 @@
     .problem-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:1rem;align-items:stretch}.diagnosis-card{padding:clamp(1.2rem,2.5vw,2rem);display:flex;flex-direction:column;justify-content:space-between;min-height:520px;position:relative;overflow:hidden}.diagnosis-card:before{content:"";position:absolute;inset:-30% -20% auto auto;width:360px;aspect-ratio:1;border-radius:999px;background:radial-gradient(circle,rgba(92,225,230,.24),transparent 68%);pointer-events:none}.diagnosis-card h3{color:var(--ink);font-size:clamp(1.8rem,3.4vw,3.8rem);line-height:.94;letter-spacing:-.07em;font-weight:950;margin:1rem 0}.diagnosis-card p{color:var(--ink2);line-height:1.68}.diagnosis-stack{display:grid;gap:.75rem;margin-top:1.2rem}.diagnosis-pill{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem .95rem;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.62);color:var(--ink2);font-size:.9rem;font-weight:760}.diagnosis-pill b{color:var(--ink)}.diagnosis-pill span{color:var(--deep-cyan);font-weight:950}.case-check{padding:clamp(1.05rem,2.5vw,1.6rem)}.check-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding-bottom:1rem;margin-bottom:1rem;border-bottom:1px solid var(--line)}.check-top h3{color:var(--ink);font-size:clamp(1.45rem,2.4vw,2.3rem);line-height:1;letter-spacing:-.055em;font-weight:950}.check-badge{flex:0 0 auto;padding:.48rem .72rem;border-radius:999px;background:rgba(10,168,176,.1);border:1px solid rgba(10,168,176,.22);color:var(--deep-cyan);font-size:.68rem;font-weight:950;letter-spacing:.08em;text-transform:uppercase}.check-rows{display:grid;gap:1rem}.check-row{padding:.95rem;border:1px solid var(--line);background:rgba(255,255,255,.6);border-radius:24px}.check-row legend{color:var(--ink);font-weight:900;letter-spacing:-.02em;margin-bottom:.7rem}.choice-grid{display:flex;flex-wrap:wrap;gap:.55rem}.choice-btn{border:1px solid rgba(6,16,23,.12);background:#fff;color:var(--ink2);border-radius:999px;padding:.68rem .86rem;font-weight:850;font-size:.88rem;cursor:pointer;transition:transform .22s var(--ease),border-color .22s,background .22s,color .22s,box-shadow .22s}.choice-btn:hover{transform:translateY(-2px);border-color:rgba(10,168,176,.34)}.choice-btn.is-selected{color:#001014;background:linear-gradient(135deg,#fff,var(--aqua));border-color:rgba(10,168,176,.45);box-shadow:0 10px 26px rgba(10,168,176,.14)}.case-output{margin-top:1rem;padding:1rem;border-radius:24px;background:linear-gradient(135deg,rgba(92,225,230,.13),rgba(255,179,199,.1));border:1px solid rgba(10,168,176,.18)}.case-output strong{display:block;color:var(--ink);margin-bottom:.38rem;letter-spacing:-.02em}.case-output p{color:var(--ink2);line-height:1.6;font-size:.92rem}.case-summary{display:flex;flex-wrap:wrap;gap:.44rem;margin-top:.9rem}.summary-chip{padding:.44rem .62rem;border-radius:999px;background:rgba(255,255,255,.75);border:1px solid var(--line);color:var(--ink3);font-size:.74rem;font-weight:860}.audience-section{background:linear-gradient(180deg,#fff,#f5fbfc)}.audience-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}.audience-card{min-height:320px;padding:1.25rem;position:relative;overflow:hidden;transition:transform .38s var(--ease),box-shadow .38s,border-color .38s}.audience-card:hover{transform:translateY(-7px);border-color:rgba(10,168,176,.34);box-shadow:var(--shadow-cyan)}.audience-num{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;margin-bottom:1.25rem;color:#001014;background:linear-gradient(135deg,#fff,var(--aqua));font-weight:950;box-shadow:0 14px 32px rgba(10,168,176,.18)}.audience-card h3{color:var(--ink);font-size:clamp(1.16rem,1.65vw,1.55rem);line-height:1.06;letter-spacing:-.045em;margin-bottom:.75rem}.audience-card p{color:var(--ink2);line-height:1.58;font-size:.92rem}.audience-card small{position:absolute;left:1.25rem;bottom:1.25rem;right:1.25rem;color:var(--deep-cyan);font-weight:950;letter-spacing:.08em;text-transform:uppercase;font-size:.68rem}.method-section-premium{background:radial-gradient(circle at 100% 0%,rgba(92,225,230,.18),transparent 32%),linear-gradient(180deg,#f5fbfc,#fff)}.method-layout{display:grid;grid-template-columns:minmax(260px,.68fr) minmax(0,1.32fr);gap:clamp(1.3rem,4vw,4rem);align-items:start}.method-sticky-premium{position:sticky;top:105px;padding:clamp(1.25rem,2.5vw,2rem);overflow:hidden}.method-sticky-premium h3{color:var(--ink);font-size:clamp(1.8rem,3vw,3rem);line-height:.96;letter-spacing:-.07em;font-weight:950;margin-bottom:1rem}.method-sticky-premium p{color:var(--ink2);line-height:1.7}.method-proof-mini{margin-top:1.4rem;display:grid;gap:.72rem}.proof-mini-row{display:grid;grid-template-columns:86px 1fr;gap:.72rem;align-items:center;color:var(--ink3);font-size:.72rem;font-weight:950;letter-spacing:.1em;text-transform:uppercase}.mini-bar{height:7px;border-radius:999px;background:rgba(6,16,23,.08);overflow:hidden}.mini-bar span{display:block;width:0%;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--deep-cyan),var(--aqua));box-shadow:0 0 18px rgba(10,168,176,.35)}.method-road{position:relative;display:grid;gap:1rem}.method-road:before{content:"";position:absolute;top:24px;bottom:24px;left:29px;width:2px;border-radius:999px;background:linear-gradient(180deg,rgba(10,168,176,.22),rgba(255,122,168,.16))}.road-card{position:relative;display:grid;grid-template-columns:auto 1fr;gap:1rem;padding:1.15rem}.road-index{width:60px;height:60px;border-radius:20px;display:grid;place-items:center;color:#001014;background:linear-gradient(135deg,#fff,var(--aqua));border:1px solid rgba(10,168,176,.18);font-weight:950;box-shadow:0 18px 40px rgba(10,168,176,.17);z-index:2}.road-card h3{color:var(--ink);font-size:clamp(1.35rem,2.25vw,2.25rem);line-height:1.02;letter-spacing:-.055em;margin-bottom:.55rem}.road-card p{color:var(--ink2);line-height:1.62}.road-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem}.road-tags span{padding:.4rem .58rem;border-radius:999px;background:rgba(10,168,176,.08);border:1px solid rgba(10,168,176,.14);color:var(--deep-cyan);font-size:.72rem;font-weight:850}
     .klarna-premium{background:radial-gradient(circle at 76% 12%,rgba(255,122,168,.30),transparent 34%),radial-gradient(circle at 9% 75%,rgba(92,225,230,.18),transparent 32%),linear-gradient(145deg,#fff7fa,#fff 48%,#effbfc)}.klarna-premium-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(330px,.92fr);gap:clamp(1.6rem,5vw,5rem);align-items:center}.klarna-copy h2{color:var(--ink);font-size:clamp(2.45rem,6.4vw,7.2rem);line-height:.88;letter-spacing:-.085em;font-weight:950;text-wrap:balance;margin-bottom:1.1rem}.klarna-copy p{color:var(--ink2);line-height:1.75;font-size:clamp(1rem,1.22vw,1.18rem)}.klarna-points{display:grid;gap:.75rem;margin:1.5rem 0 1.8rem}.klarna-point{display:grid;grid-template-columns:auto 1fr;gap:.72rem;align-items:flex-start;padding:.88rem;border-radius:20px;background:rgba(255,255,255,.62);border:1px solid rgba(255,122,168,.13);color:var(--ink2);line-height:1.52}.klarna-point:before{content:"";width:18px;height:18px;margin-top:.1rem;border-radius:999px;background:radial-gradient(circle,#fff 0 3px,transparent 4px),var(--rose);box-shadow:0 0 18px rgba(255,122,168,.45)}.split-card{padding:clamp(1.05rem,2.4vw,1.75rem);border-radius:36px;background:radial-gradient(circle at 20% 0%,rgba(255,179,199,.28),transparent 36%),linear-gradient(145deg,rgba(255,255,255,.98),rgba(255,247,250,.92));box-shadow:0 38px 120px rgba(255,122,168,.18),0 14px 44px rgba(4,32,44,.08)}.split-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem}.klarna-brand{display:inline-flex;align-items:center;min-height:40px;padding:.55rem .95rem;border-radius:999px;background:var(--pink);color:#12050b;font-weight:950;letter-spacing:-.045em}.split-safe{color:var(--ink3);font-size:.7rem;font-weight:950;letter-spacing:.11em;text-transform:uppercase}.amount-visual{position:relative;min-height:210px;display:grid;place-items:center;margin:.6rem 0 1rem;border-radius:28px;background:linear-gradient(135deg,rgba(92,225,230,.10),rgba(255,122,168,.10));border:1px solid rgba(6,16,23,.08);overflow:hidden}.amount-main{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center}.amount-main span{display:block;color:var(--ink3);font-size:.72rem;font-weight:950;letter-spacing:.12em;text-transform:uppercase}.amount-main strong{display:block;color:var(--ink);font-size:clamp(2.8rem,5.6vw,5.4rem);line-height:.92;letter-spacing:-.08em}.amount-piece{position:absolute;width:88px;height:50px;border-radius:16px;display:grid;place-items:center;color:var(--ink);background:rgba(255,255,255,.76);border:1px solid rgba(6,16,23,.10);box-shadow:0 12px 32px rgba(4,32,44,.08);font-weight:950}.amount-piece:nth-child(1){left:8%;top:13%;transform:rotate(-9deg)}.amount-piece:nth-child(2){right:11%;top:19%;transform:rotate(8deg)}.amount-piece:nth-child(3){left:14%;bottom:16%;transform:rotate(7deg)}.amount-piece:nth-child(4){right:8%;bottom:14%;transform:rotate(-6deg)}.split-options{display:grid;gap:.72rem}.split-option{display:grid;grid-template-columns:auto 1fr auto;gap:.75rem;align-items:center;padding:.88rem;border-radius:20px;border:1px solid rgba(6,16,23,.10);background:rgba(255,255,255,.70)}.split-option.is-main{background:rgba(255,179,199,.15);border-color:rgba(255,122,168,.27)}.radio-dot{width:18px;height:18px;border-radius:50%;border:1px solid rgba(6,16,23,.24);position:relative}.split-option.is-main .radio-dot:after{content:"";position:absolute;inset:4px;border-radius:inherit;background:var(--rose)}.split-option strong{color:var(--ink);font-size:.94rem}.split-option small{display:block;color:var(--ink3);line-height:1.35;margin-top:.22rem}.split-tag{color:var(--deep-cyan);font-size:.68rem;font-weight:950;letter-spacing:.09em;text-transform:uppercase}.klarna-legal{color:var(--ink3);font-size:.76rem;line-height:1.55;margin-top:1rem}.simulation-section{background:linear-gradient(180deg,#effbfc,#fff)}.simulation-stage{position:relative;min-height:620px;border-radius:42px;padding:clamp(1.25rem,3vw,2.4rem);overflow:hidden;color:#fff;background:radial-gradient(circle at 15% 0%,rgba(92,225,230,.22),transparent 34%),radial-gradient(circle at 90% 18%,rgba(255,122,168,.12),transparent 34%),linear-gradient(145deg,#061017,#0b1b27 62%,#020609);box-shadow:0 40px 140px rgba(4,32,44,.32)}.simulation-stage:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:54px 54px;mask-image:radial-gradient(circle at center,black,transparent 78%);opacity:.55;pointer-events:none}.simulation-content{position:relative;display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(1.3rem,4vw,3.4rem);align-items:center;min-height:560px}.simulation-copy .eyebrow{color:var(--aqua)}.simulation-copy .eyebrow:before{background:var(--aqua)}.simulation-copy h2{font-size:clamp(2.3rem,5.6vw,6.1rem);line-height:.88;letter-spacing:-.085em;font-weight:950;margin-bottom:1rem}.simulation-copy p{color:rgba(255,255,255,.72);line-height:1.72;font-size:clamp(1rem,1.17vw,1.13rem)}.dialogue-card{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);border-radius:34px;padding:clamp(1rem,2.5vw,1.6rem);box-shadow:0 30px 100px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(22px)}.dialogue-row{display:grid;grid-template-columns:42px 1fr;gap:.8rem;align-items:start;padding:1rem 0;border-bottom:1px solid rgba(255,255,255,.08)}.dialogue-row:last-child{border-bottom:0}.avatar-dot{width:42px;height:42px;border-radius:16px;display:grid;place-items:center;background:rgba(92,225,230,.12);color:var(--aqua);border:1px solid rgba(92,225,230,.24);font-weight:950}.dialogue-row.client .avatar-dot{background:rgba(255,179,199,.12);color:var(--pink);border-color:rgba(255,179,199,.24)}.dialogue-bubble strong{display:block;color:#fff;margin-bottom:.25rem}.dialogue-bubble p{color:rgba(255,255,255,.70);line-height:1.55;font-size:.94rem}.simulation-checks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.72rem;margin-top:1.2rem}.simulation-check{padding:.85rem;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.10);color:rgba(255,255,255,.78);font-size:.82rem;font-weight:780}.route-section-premium{background:radial-gradient(circle at 50% 0%,rgba(92,225,230,.16),transparent 36%),linear-gradient(180deg,#fff,#f6fbfc)}.route-wrap{position:relative}.route-line{position:absolute;top:50px;left:8%;right:8%;height:2px;background:linear-gradient(90deg,rgba(10,168,176,.12),rgba(10,168,176,.50),rgba(255,122,168,.22));transform:scaleX(0);transform-origin:left}.route-cards{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}.route-card{min-height:280px;padding:1.2rem;display:flex;flex-direction:column;justify-content:space-between}.route-step{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,#fff,var(--aqua));color:#001014;font-weight:950;box-shadow:0 18px 42px rgba(10,168,176,.18)}.route-card h3{color:var(--ink);font-size:1.25rem;line-height:1.06;letter-spacing:-.045em;margin-bottom:.62rem}.route-card p{color:var(--ink2);line-height:1.58;font-size:.92rem}.route-time{color:var(--ink3);font-size:.68rem;font-weight:950;letter-spacing:.1em;text-transform:uppercase;margin-top:1rem}.program-section{background:radial-gradient(circle at 50% 4%,rgba(92,225,230,.18),transparent 36%),linear-gradient(180deg,#f6fbfc,#fff)}.program-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;align-items:stretch}.program-card{padding:clamp(1.1rem,2.2vw,1.65rem);display:flex;flex-direction:column;min-height:560px;transition:transform .38s var(--ease),box-shadow .38s,border-color .38s}.program-card:hover{transform:translateY(-7px);border-color:rgba(10,168,176,.34);box-shadow:var(--shadow-cyan)}.program-card.featured{border-color:rgba(10,168,176,.38);background:radial-gradient(circle at 50% 0%,rgba(92,225,230,.22),transparent 44%),linear-gradient(145deg,rgba(255,255,255,.98),rgba(255,255,255,.78));box-shadow:0 34px 110px rgba(10,168,176,.13),0 18px 50px rgba(4,32,44,.08)}.program-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem}.program-type{color:var(--ink3);font-size:.78rem;font-weight:950;letter-spacing:.12em;text-transform:uppercase}.program-badge{padding:.42rem .58rem;border-radius:999px;background:rgba(10,168,176,.10);color:var(--deep-cyan);border:1px solid rgba(10,168,176,.24);font-size:.68rem;font-weight:950;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}.program-card h3{color:var(--ink);font-size:clamp(1.7rem,3vw,3.05rem);line-height:.96;letter-spacing:-.07em;font-weight:950;margin-bottom:.95rem}.program-card p{color:var(--ink2);line-height:1.62}.program-price{margin:1.2rem 0;padding:1rem;border-radius:22px;background:rgba(255,255,255,.72);border:1px solid var(--line)}.program-price strong{display:block;color:var(--ink);font-size:clamp(1.16rem,2vw,1.8rem);line-height:1.05;letter-spacing:-.045em}.program-price small{display:block;color:var(--ink3);line-height:1.35;margin-top:.42rem}.program-list{list-style:none;display:grid;gap:.75rem;margin-bottom:1.35rem}.program-list li{display:grid;grid-template-columns:auto 1fr;gap:.6rem;color:var(--ink2);line-height:1.45;font-size:.9rem}.program-list li:before{content:"";width:16px;height:16px;margin-top:.12rem;border-radius:999px;background:radial-gradient(circle,#fff 0 3px,transparent 4px),var(--deep-cyan);box-shadow:0 0 14px rgba(10,168,176,.34)}.program-actions{margin-top:auto;display:grid;gap:.65rem}.program-note{color:var(--ink3);font-size:.76rem;line-height:1.45}.trust-section-premium{background:linear-gradient(180deg,#fff,#f7fbfc)}.trust-system{display:grid;grid-template-columns:.92fr 1.08fr;gap:clamp(1.4rem,4vw,4rem);align-items:center}.trust-copy h2{color:var(--ink);font-size:clamp(2.2rem,5.2vw,5.5rem);line-height:.92;letter-spacing:-.083em;font-weight:950;margin-bottom:1rem}.trust-copy p{color:var(--ink2);line-height:1.72}.trust-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.trust-card{min-height:210px;padding:1.2rem}.trust-card span{color:var(--deep-cyan);font-size:.7rem;font-weight:950;letter-spacing:.12em;text-transform:uppercase}.trust-card h3{color:var(--ink);font-size:1.26rem;line-height:1.08;letter-spacing:-.045em;margin:1rem 0 .6rem}.trust-card p{color:var(--ink2);line-height:1.58;font-size:.9rem}.no-guarantee{margin-top:1rem;padding:1rem;border-radius:22px;background:rgba(255,122,168,.08);border:1px solid rgba(255,122,168,.18);color:var(--ink2);line-height:1.55}.no-guarantee strong{color:var(--ink)}.faq-section-premium{background:radial-gradient(circle at 10% 10%,rgba(255,122,168,.12),transparent 32%),linear-gradient(180deg,#f7fbfc,#fff)}.faq-wrap{width:min(920px,100%);margin:0 auto;display:grid;gap:.78rem}.faq-item{overflow:hidden;border-radius:24px}.faq-question{width:100%;min-height:66px;border:0;background:transparent;color:var(--ink);text-align:left;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem 1.22rem;cursor:pointer;font-weight:900;font-size:clamp(1rem,1.25vw,1.13rem)}.faq-plus{width:32px;height:32px;border-radius:999px;display:grid;place-items:center;color:var(--deep-cyan);background:rgba(10,168,176,.10);border:1px solid rgba(10,168,176,.20);flex:0 0 auto;transition:transform .25s}.faq-item.is-open{border-color:rgba(10,168,176,.32)}.faq-item.is-open .faq-plus{transform:rotate(45deg)}.faq-answer{max-height:0;overflow:hidden;transition:max-height .36s}.faq-item.is-open .faq-answer{max-height:300px}.faq-answer p{color:var(--ink2);line-height:1.68;padding:0 1.22rem 1.2rem}.contact-section-premium{background:radial-gradient(circle at 52% 12%,rgba(92,225,230,.22),transparent 36%),radial-gradient(circle at 90% 86%,rgba(255,122,168,.13),transparent 32%),linear-gradient(180deg,#fff,#f7fbfc);padding-bottom:clamp(6.5rem,10vw,10rem)}.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(1.4rem,5vw,4.8rem);align-items:start}.contact-copy{padding:clamp(1.2rem,2.5vw,2rem);position:sticky;top:105px}.contact-copy h2{color:var(--ink);font-size:clamp(2.1rem,4.8vw,5.2rem);line-height:.92;letter-spacing:-.083em;font-weight:950;margin-bottom:1rem}.contact-copy p{color:var(--ink2);line-height:1.72}.contact-options{display:grid;gap:.72rem;margin-top:1.4rem}.contact-option{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.75rem;padding:.86rem;border-radius:19px;background:rgba(255,255,255,.70);border:1px solid var(--line)}.contact-option span{width:34px;height:34px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#fff,var(--aqua));color:#001014;font-weight:950}.contact-option strong{color:var(--ink);display:block;font-size:.94rem}.contact-option small{color:var(--ink3);display:block;margin-top:.18rem}.contact-option i{font-style:normal;color:var(--deep-cyan);font-weight:950}.lead-form{padding:clamp(1.15rem,2.5vw,2rem);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem}.form-intro{grid-column:1/-1;padding-bottom:.9rem;border-bottom:1px solid var(--line);margin-bottom:.4rem}.form-intro h3{color:var(--ink);font-size:clamp(1.45rem,2.4vw,2.3rem);line-height:1;letter-spacing:-.055em;margin-bottom:.45rem}.form-intro p{color:var(--ink2);line-height:1.58}.field{display:grid;gap:.42rem}.field.full,.privacy-row,.form-submit-row,.form-success,.form-note{grid-column:1/-1}.field label{color:rgba(6,16,23,.6);font-size:.72rem;font-weight:950;letter-spacing:.09em;text-transform:uppercase}.field input,.field select,.field textarea{width:100%;min-height:54px;border:1px solid rgba(6,16,23,.12);background:rgba(255,255,255,.84);color:var(--ink);border-radius:17px;padding:.9rem 1rem;outline:none;transition:border-color .22s,box-shadow .22s,background .22s}.field textarea{min-height:132px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:rgba(10,168,176,.56);box-shadow:0 0 0 4px rgba(10,168,176,.10);background:#fff}.privacy-row{display:flex;align-items:flex-start;gap:.7rem;color:var(--ink3);line-height:1.45;font-size:.82rem}.privacy-row input{margin-top:.16rem;accent-color:var(--deep-cyan)}.form-note{padding:.92rem 1rem;border-radius:18px;background:rgba(255,179,199,.10);border:1px solid rgba(255,122,168,.20);color:var(--ink2);line-height:1.52;font-size:.85rem}.form-note strong{color:#c83268}.form-submit-row{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center}.form-success{display:none;padding:.95rem 1rem;border-radius:18px;background:rgba(92,225,230,.12);border:1px solid rgba(10,168,176,.24);color:var(--ink2);line-height:1.5}.lead-form.is-sent .form-success{display:block}.site-footer{position:relative;z-index:4;background:#fff;border-top:1px solid var(--line);color:var(--ink3);padding:2.2rem var(--page-pad)}.footer-inner{width:min(1180px,100%);margin:0 auto;display:grid;grid-template-columns:.7fr 1fr 1fr;gap:1.5rem;align-items:start}.footer-brand{color:var(--ink);font-weight:950;letter-spacing:.08em;line-height:1.05}.footer-brand span{display:block}.footer-brand span:last-child{color:var(--deep-cyan);font-size:.66rem;letter-spacing:.22em;margin-top:.2rem}.footer-copy{line-height:1.55;font-size:.88rem}.footer-links{display:flex;flex-wrap:wrap;gap:.85rem 1rem;justify-content:flex-end}.footer-links a{color:rgba(6,16,23,.54);font-size:.88rem;transition:color .2s}.footer-links a:hover{color:var(--deep-cyan)}.mobile-sticky-cta{position:fixed;left:.85rem;right:.85rem;bottom:.85rem;z-index:70;display:none;gap:.6rem;padding:.55rem;border-radius:22px;background:rgba(255,255,255,.82);border:1px solid rgba(6,16,23,.12);box-shadow:0 18px 50px rgba(4,32,44,.16);backdrop-filter:blur(20px)}.mobile-sticky-cta a{flex:1;min-height:46px;border-radius:16px;display:grid;place-items:center;text-align:center;font-size:.72rem;font-weight:950;letter-spacing:.07em;text-transform:uppercase}.mobile-sticky-cta a:first-child{background:linear-gradient(135deg,#fff,var(--aqua));color:#001014}.mobile-sticky-cta a:last-child{background:rgba(6,16,23,.08);color:var(--ink)}
     @media (max-width:1200px){.fall-check-section{padding:4.9rem var(--page-pad) 5.6rem}.fc-container{width:min(100%,980px)}.fc-header{grid-template-columns:1fr;gap:1.3rem;margin-bottom:2rem}.fc-header-right{max-width:720px;margin-top:0;padding-left:1.35rem;border-left:2px solid rgba(0,168,175,.46)}.fall-check-section .fc-title{font-size:clamp(3.45rem,8vw,5.25rem)}.fc-grid{grid-template-columns:1fr;gap:1.7rem}.fc-card-left,.fc-card-right{min-height:0}.fc-card-left{padding:3.2rem 2rem 2rem}.fall-check-section .fc-card-desc{margin-bottom:2.2rem}.fc-card-right{padding:2rem}.fc-ctas{gap:1rem}}@media (max-width:1100px){.problem-grid,.method-layout,.klarna-premium-grid,.simulation-content,.trust-system,.contact-grid{grid-template-columns:1fr}.method-sticky-premium,.contact-copy{position:relative;top:auto}.audience-grid,.route-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.program-grid{grid-template-columns:1fr}.program-card{min-height:auto}}@media (max-width:1024px){.license-parallax{width:50vw;right:4vw;top:30%}.services-grid{grid-template-columns:repeat(2,1fr)}.services-bottom-bar{padding:1.5rem;flex-wrap:wrap;gap:1.5rem;border-radius:24px;justify-content:center}.s-bottom-divider{display:none}}@media (max-width:768px){:root{--nav-height:82px;--page-pad:1.1rem}.navbar{padding:0 1.5rem}.nav-links,.nav-cta{display:none}.hero-section{padding:calc(var(--nav-height) + 1rem) 1.5rem 2rem;min-height:100svh;height:auto}.hero-bg-image{object-position:center}.hero-bg-fade{background:linear-gradient(180deg,rgba(0,0,0,.85),rgba(0,0,0,.2) 40%,rgba(0,0,0,.95))}.hero-content{margin-top:0;width:100%}.hero-headline{font-size:2.6rem;margin-bottom:1rem}.hero-actions{flex-direction:column;align-items:stretch;gap:1rem;width:100%;margin-bottom:2rem}.btn-hero-primary{justify-content:center;background:rgba(92,225,230,.15);border:1px solid var(--cyan);box-shadow:0 0 20px rgba(92,225,230,.4);color:#fff}.btn-hero-primary:after{display:none}.btn-play{justify-content:flex-start;padding-left:.5rem}.license-parallax{position:relative;width:90vw;right:auto;top:auto;margin:0 auto 2rem}.hero-bottom{padding-top:0}.trust-items{gap:.5rem;background:rgba(20,25,35,.6);backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:1rem .5rem;width:100%;justify-content:space-around}.t-item{flex-direction:column;gap:.5rem;text-align:center;align-items:center;width:33%}.t-icon svg{width:28px;height:28px}.t-text h4{font-size:.6rem}.t-text p{font-size:.55rem;line-height:1.2}.quote-card{display:none}.story-bg-mobile{display:block}.story-bg-desktop{display:none}.license-story{height:520vh}.story-kicker{top:calc(var(--nav-height) + .95rem);left:1.1rem;right:1.1rem;font-size:.64rem;gap:.68rem;letter-spacing:.13em;white-space:nowrap;overflow:hidden}.story-kicker:before{width:36px}.story-copy{top:auto;left:1.1rem;right:1.1rem;bottom:2.55rem;width:auto;min-height:328px;transform:none}.story-copy-right,.story-copy-left{left:1.1rem;right:1.1rem}.story-copy-left{bottom:2.55rem;min-height:328px;z-index:11}.step-copy h2{font-size:clamp(2rem,10vw,3.15rem)}.story-copy-left h2{font-size:clamp(2.12rem,9.8vw,2.95rem);line-height:.95;margin-bottom:.85rem}.step-copy p,.story-copy-left p{font-size:.95rem;line-height:1.55}.step-eyebrow,.final-eyebrow{font-size:.62rem;margin-bottom:.72rem}.final-card-copy{border-radius:22px;padding:1.05rem}.final-cta{width:100%;padding:1rem 1.05rem;font-size:.92rem}.story-progress{left:1.1rem;right:1.1rem;bottom:1.85rem}.mpu-license-stage{width:min(94vw,470px);top:31%}.mpu-card-face{border-radius:12px}.services-section{padding:4rem 1.5rem}.services-header h2{font-size:2.6rem}.services-header p{margin-bottom:2rem;font-size:1rem}.services-grid{grid-template-columns:repeat(2,1fr);gap:.75rem}.service-card{padding:1.5rem 1rem;border-radius:16px}.s-icon-wrapper{width:44px;height:44px;margin-bottom:1.25rem}.service-card h3{font-size:.95rem}.service-card p{font-size:.75rem}.services-bottom-bar{flex-direction:column;align-items:stretch;border-radius:0;padding:0;background:transparent;box-shadow:none;gap:.5rem}.s-bottom-item{background:#fff;padding:1.2rem;border-radius:12px;justify-content:space-between}.m-caret{display:block}.fall-check-section{padding:2.05rem 0 3.45rem;overflow:visible}.fc-bg:before{left:-19rem;top:5rem;width:30rem;height:30rem;opacity:.36}.fc-bg:after{display:none}.fc-bg-orb{right:-13rem;top:-4rem;bottom:auto;width:34rem;height:34rem;opacity:.52}.fc-container{width:min(100% - 2.65rem,720px)}.fc-header{display:block;margin-bottom:1.7rem}.fc-kicker{font-size:.72rem;letter-spacing:.18em;margin-bottom:1.18rem}.fc-kicker:before{display:none}.fall-check-section .fc-title{font-size:clamp(2.95rem,11.65vw,4.9rem);line-height:.99;letter-spacing:-.073em}.fc-title-line{display:block}.fc-header-right{max-width:none;margin:1.55rem 0 0;padding:0;border:0}.fc-header-right p{font-size:clamp(1rem,3.9vw,1.32rem);line-height:1.46;color:#354255}.fc-grid{grid-template-columns:1fr;gap:1.65rem}.fc-card{border-radius:19px}.fc-card-left,.fc-card-right{min-height:0}.fc-card-left{padding:1.95rem 1.55rem 1.35rem;overflow:hidden}.fc-card-left-top{margin:0;gap:1.2rem;min-height:9.2rem}.fc-icon-wrap{width:4.35rem;height:4.35rem;box-shadow:0 15px 26px rgba(15,23,42,.08),0 0 0 .72rem rgba(92,225,230,.07)}.fc-icon-wrap svg{width:2rem;height:2rem}.fc-card-kicker{font-size:.72rem;letter-spacing:.18em}.fc-card-left h3{font-size:clamp(1.58rem,5.6vw,2.06rem);line-height:1.04}.fall-check-section .fc-card-desc{max-width:63%;margin:1.05rem 0 1.65rem calc(4.35rem + 1.2rem);font-size:clamp(.83rem,2.9vw,.98rem);line-height:1.45}.fc-action-list{display:none}.fc-visual-clip{display:block;position:absolute;right:1.2rem;top:5.6rem;width:clamp(5.8rem,24vw,10rem);height:auto;filter:drop-shadow(0 14px 18px rgba(0,113,121,.18));}.fc-mobile-benefits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.85rem;margin-top:1.15rem;padding-top:1.35rem;border-top:1px solid rgba(148,163,184,.24)}.fc-mobile-benefit{display:grid;grid-template-columns:auto 1fr;gap:.65rem;align-items:start;min-width:0}.fc-mobile-benefit:not(:last-child){border-right:1px solid rgba(148,163,184,.23);padding-right:.7rem}.fc-mobile-benefit .fc-ai-icon{width:2.65rem;height:2.65rem;border-radius:999px}.fc-mobile-benefit .fc-ai-icon svg{width:1.42rem;height:1.42rem}.fc-mobile-benefit strong{display:block;color:var(--fc-ink);font-size:.88rem;line-height:1.08;font-weight:900;letter-spacing:-.02em}.fc-mobile-benefit span{display:block;margin-top:.2rem;color:#5b6879;font-size:.78rem;line-height:1.32;font-weight:520}.fc-card-right{padding:1.65rem 1.55rem 1.45rem}.fc-card-right-head{margin-bottom:1.05rem}.fc-badge{min-height:2.05rem;padding:0 .72rem;font-size:.66rem;border-radius:.68rem}.fc-check-title{margin-bottom:1.35rem;font-size:clamp(1.63rem,6.3vw,2.2rem);line-height:1.06}.fc-step{margin-bottom:1.02rem;padding-bottom:1rem}.fc-step-title{gap:.72rem;margin-bottom:.72rem;font-size:1rem}.fall-check-section .fc-step-icon{width:2.1rem;height:2.1rem}.fc-step-title strong{flex:1}.fc-step-chevron{display:grid;place-items:center;color:var(--fc-cyan-dark);margin-left:auto}.fc-step-chevron svg{width:1rem;height:1rem;stroke-width:2.6}.fc-pills{padding-left:3.15rem;gap:.58rem}.fc-pill{min-height:2.28rem;padding:0 1.25rem;font-size:.78rem}.fc-summary{min-height:0;margin:1.25rem 0 1.15rem;padding:1.05rem 1.05rem 1.08rem;align-items:flex-start;gap:1rem;border-radius:14px}.fc-sum-icon{width:3.35rem;height:3.35rem}.fc-sum-content strong{font-size:.96rem}.fc-sum-content p{font-size:.86rem;line-height:1.42}.fc-tags{gap:.48rem}.fc-tag{font-size:.68rem}.fc-ctas{flex-direction:column;align-items:stretch;gap:.85rem}.fc-btn-primary,.fc-btn-secondary{width:100%;height:3.28rem;flex:0 0 auto;border-radius:.62rem;font-size:.82rem;letter-spacing:.105em}.fc-mobile-trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.82rem;margin-top:1.65rem;padding:1.15rem 1rem;border-radius:18px;background:rgba(255,255,255,.86);border:1px solid rgba(148,163,184,.18);box-shadow:0 20px 50px rgba(15,23,42,.07),inset 0 1px 0 rgba(255,255,255,.86)}.fc-trust-item{display:grid;grid-template-columns:auto 1fr;gap:.62rem;align-items:start;min-width:0}.fc-trust-item:not(:last-child){border-right:1px solid rgba(148,163,184,.22);padding-right:.65rem}.fc-trust-icon{width:2.55rem;height:2.55rem;border-radius:999px;display:grid;place-items:center;color:var(--fc-cyan);background:rgba(240,253,250,.9);border:1px solid rgba(0,168,175,.18)}.fc-trust-icon svg{width:1.35rem;height:1.35rem;stroke-width:2}.fc-trust-item strong{display:block;color:#006f77;font-size:.8rem;line-height:1.1;font-weight:900}.fc-trust-item span{display:block;margin-top:.22rem;color:#5b6879;font-size:.72rem;line-height:1.28;font-weight:520}.premium-section{padding:clamp(4.4rem,14vw,6.2rem) 0}.premium-shell{width:min(100% - 2.2rem,1180px)}.section-grid-head{display:block}.premium-lead{margin-top:1rem}.audience-grid,.route-cards,.trust-cards,.simulation-checks,.lead-form{grid-template-columns:1fr}.route-line{display:none}.simulation-stage{min-height:auto;border-radius:30px}.simulation-content{min-height:auto}.footer-inner{grid-template-columns:1fr}.footer-links{justify-content:flex-start}.mobile-sticky-cta{display:flex}}@media (max-width:430px){.fc-container{width:min(100% - 2rem,720px)}.fall-check-section .fc-title{font-size:clamp(2.65rem,12.6vw,3.45rem)}.fc-header-right p{font-size:.98rem}.fc-card-left,.fc-card-right{padding:1.35rem 1.05rem 1.15rem}.fc-card-left-top{gap:.82rem;min-height:8.8rem}.fc-icon-wrap{width:3.65rem;height:3.65rem}.fall-check-section .fc-card-desc{max-width:64%;margin-left:calc(3.65rem + .82rem);font-size:.8rem}.fc-visual-clip{right:.72rem;top:5.25rem;width:5.5rem}.fc-mobile-benefits{gap:.45rem}.fc-mobile-benefit{grid-template-columns:1fr;gap:.45rem;text-align:left}.fc-mobile-benefit .fc-ai-icon{width:2.35rem;height:2.35rem}.fc-mobile-benefit strong{font-size:.75rem}.fc-mobile-benefit span{font-size:.66rem}.fc-pills{padding-left:0}.fc-pill{padding:0 1rem;font-size:.74rem}.fc-summary{gap:.75rem}.fc-sum-icon{width:2.9rem;height:2.9rem}.fc-mobile-trust{grid-template-columns:1fr;gap:.85rem}.fc-trust-item{grid-template-columns:auto 1fr}.fc-trust-item:not(:last-child){border-right:0;border-bottom:1px solid rgba(148,163,184,.22);padding-right:0;padding-bottom:.75rem}}@media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+  </style>
+  <style>
+    .klarna-redesign{
+      --kp-ink:#061017;
+      --kp-muted:#48586a;
+      --kp-soft:#f7fbfc;
+      --kp-line:rgba(6,16,23,.095);
+      --kp-pink:#ff3f86;
+      --kp-pink-2:#ff7cac;
+      --kp-pink-soft:#ffb6cf;
+      --kp-cyan:#04a6ae;
+      --kp-shadow:0 28px 76px rgba(18,38,54,.08),0 12px 34px rgba(18,38,54,.055);
+      min-height:100svh;
+      display:grid;
+      place-items:center;
+      padding:clamp(2.15rem,5.2svh,3.55rem) 0 clamp(1.95rem,4.7svh,3.8rem);
+      color:var(--kp-ink);
+      background:
+        radial-gradient(48rem 34rem at 79% 12%,rgba(255,182,207,.34),rgba(255,235,243,.32) 34%,transparent 68%),
+        radial-gradient(32rem 26rem at 9% 78%,rgba(92,225,230,.14),transparent 70%),
+        linear-gradient(145deg,#fff9fb 0%,#fff 45%,#f3fbfd 100%);
+    }
+    .klarna-redesign:after{display:none;}
+    .klarna-stage{
+      width:min(1390px,calc(100% - clamp(4.25rem,7.8vw,7.25rem)));
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:minmax(0,.94fr) minmax(520px,1fr);
+      grid-template-rows:auto auto auto;
+      column-gap:clamp(3rem,5.2vw,5.1rem);
+      row-gap:0;
+      align-items:center;
+    }
+    .klarna-left{grid-column:1;grid-row:1;min-width:0;}
+    .klarna-label{
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      margin:0 0 1.62rem;
+      color:var(--kp-pink);
+      font-size:clamp(.92rem,1vw,1.05rem);
+      font-weight:900;
+      letter-spacing:-.025em;
+    }
+    .klarna-label-icon{
+      width:3rem;
+      height:3rem;
+      display:grid;
+      place-items:center;
+      border-radius:1rem;
+      color:var(--kp-pink);
+      background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,235,244,.72));
+      border:1px solid rgba(255,63,134,.13);
+      box-shadow:0 12px 32px rgba(255,63,134,.10),inset 0 1px 0 rgba(255,255,255,.9);
+    }
+    .klarna-label-icon svg{width:1.26rem;height:1.26rem;stroke-width:2.45;}
+    .klarna-title{
+      max-width:40.6rem;
+      margin:0;
+      color:var(--kp-ink);
+      font-size:clamp(3.08rem,4.2vw,4.15rem);
+      line-height:.93;
+      letter-spacing:-.055em;
+      font-weight:950;
+      text-wrap:balance;
+    }
+    .klarna-highlight{
+      color:transparent;
+      background:linear-gradient(90deg,var(--kp-pink) 0%,#f54286 40%,#ff9dbb 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+    }
+    .klarna-lead{
+      max-width:35.2rem;
+      margin:1.02rem 0 0;
+      color:#46566a;
+      font-size:clamp(.98rem,1.08vw,1.1rem);
+      line-height:1.55;
+      font-weight:520;
+      letter-spacing:-.018em;
+    }
+    .klarna-benefits{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:.8rem;
+      margin-top:1.85rem;
+      max-width:40.8rem;
+    }
+    .klarna-benefit{
+      min-height:10.7rem;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      gap:.62rem;
+      padding:1.72rem .72rem 1.05rem;
+      text-align:center;
+      border-radius:.86rem;
+      border:1px solid rgba(9,24,35,.075);
+      background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,255,255,.66));
+      box-shadow:0 22px 44px rgba(21,35,48,.055),inset 0 1px 0 rgba(255,255,255,.92);
+      backdrop-filter:blur(16px);
+    }
+    .klarna-benefit-icon{
+      width:2.7rem;
+      height:2.7rem;
+      display:grid;
+      place-items:center;
+      color:var(--kp-pink);
+      flex:0 0 auto;
+    }
+    .klarna-benefit-icon svg{width:2.42rem;height:2.42rem;stroke-width:1.9;}
+    .klarna-benefit h3{
+      margin:.12rem 0 0;
+      color:var(--kp-ink);
+      font-size:.88rem;
+      line-height:1.12;
+      font-weight:900;
+      letter-spacing:-.035em;
+    }
+    .klarna-benefit p{
+      margin:0;
+      color:#435266;
+      font-size:.8rem;
+      line-height:1.36;
+      font-weight:520;
+      letter-spacing:-.018em;
+    }
+    .klarna-actions{
+      grid-column:1;
+      grid-row:2;
+      max-width:40.8rem;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(0,.98fr);
+      gap:1.25rem;
+      margin-top:2.35rem;
+    }
+    .klarna-action{
+      min-height:3.72rem;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.52rem;
+      border-radius:999px;
+      border:1px solid transparent;
+      font-size:.88rem;
+      line-height:1;
+      font-weight:950;
+      letter-spacing:.055em;
+      text-transform:uppercase;
+      box-shadow:0 18px 40px rgba(17,28,40,.065);
+      transition:transform .3s var(--ease),box-shadow .3s,border-color .3s;
+    }
+    .klarna-action:hover{transform:translateY(-2px);}
+    .klarna-action-primary{
+      color:#fff;
+      background:linear-gradient(135deg,#ff4289 0%,#ff3a83 56%,#ff71a6 100%);
+      box-shadow:0 18px 44px rgba(255,63,134,.22);
+    }
+    .klarna-action-secondary{
+      color:#061017;
+      background:rgba(255,255,255,.82);
+      border-color:rgba(6,16,23,.105);
+      box-shadow:0 14px 36px rgba(17,28,40,.065),inset 0 1px 0 rgba(255,255,255,.96);
+    }
+    .klarna-trust{
+      grid-column:1;
+      grid-row:3;
+      max-width:35.8rem;
+      display:grid;
+      grid-template-columns:repeat(3,max-content);
+      justify-content:space-between;
+      gap:1.2rem;
+      margin-top:2.85rem;
+    }
+    .klarna-trust-item{
+      display:grid;
+      grid-template-columns:auto minmax(0,8rem);
+      align-items:center;
+      gap:.9rem;
+      color:#405166;
+      font-size:.92rem;
+      line-height:1.22;
+      font-weight:570;
+      letter-spacing:-.018em;
+    }
+    .klarna-trust-item svg{
+      width:1.9rem;
+      height:1.9rem;
+      color:#061017;
+      stroke-width:2;
+    }
+    .klarna-payment-card{
+      grid-column:2;
+      grid-row:1 / 4;
+      align-self:center;
+      width:100%;
+      max-width:42.9rem;
+      justify-self:end;
+      padding:1.92rem 1.52rem 1.72rem;
+      border-radius:1.82rem;
+      border:1px solid rgba(255,63,134,.12);
+      background:
+        radial-gradient(32rem 20rem at 16% 0%,rgba(255,203,219,.22),transparent 64%),
+        linear-gradient(145deg,rgba(255,255,255,.90),rgba(255,255,255,.70));
+      box-shadow:0 30px 70px rgba(17,28,40,.075),0 18px 90px rgba(255,63,134,.095),inset 0 1px 0 rgba(255,255,255,.92);
+      backdrop-filter:blur(20px);
+    }
+    .klarna-card-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      margin:0 .36rem 1.32rem;
+    }
+    .klarna-brand-pill{
+      min-height:2.78rem;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 1.08rem;
+      border-radius:999px;
+      background:var(--kp-pink-soft);
+      color:#130610;
+      font-size:1.05rem;
+      font-weight:950;
+      letter-spacing:-.05em;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.34);
+    }
+    .klarna-card-title{
+      color:#657286;
+      font-size:.82rem;
+      line-height:1;
+      font-weight:950;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+    }
+    .klarna-plan-visual{
+      position:relative;
+      height:clamp(14.8rem,29svh,17.35rem);
+      overflow:hidden;
+      border-radius:1.36rem;
+      border:1px solid rgba(255,63,134,.075);
+      background:
+        radial-gradient(32rem 18rem at 50% 50%,rgba(255,183,207,.30),rgba(255,238,245,.54) 54%,rgba(255,247,250,.78) 100%),
+        linear-gradient(135deg,rgba(255,255,255,.84),rgba(255,228,239,.52));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.82);
+    }
+    .klarna-plan-main{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      pointer-events:none;
+    }
+    .klarna-plan-main span{
+      display:block;
+      margin-bottom:.44rem;
+      color:#667385;
+      font-size:.82rem;
+      line-height:1;
+      font-weight:950;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .klarna-plan-main strong{
+      display:block;
+      color:var(--kp-ink);
+      font-size:clamp(4.35rem,5.6vw,5.28rem);
+      line-height:.84;
+      letter-spacing:-.086em;
+      font-weight:950;
+    }
+    .klarna-float-chip{
+      position:absolute;
+      min-width:7.35rem;
+      height:3.08rem;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.52rem;
+      border-radius:.82rem;
+      color:#061017;
+      background:rgba(255,255,255,.86);
+      border:1px solid rgba(6,16,23,.06);
+      box-shadow:0 14px 30px rgba(17,28,40,.085);
+      font-size:1rem;
+      font-weight:950;
+      letter-spacing:-.03em;
+      z-index:2;
+    }
+    .klarna-float-chip svg{
+      width:1.34rem;
+      height:1.34rem;
+      color:#526174;
+      stroke-width:2.1;
+      flex:0 0 auto;
+    }
+    .klarna-float-chip:nth-child(1){left:7.2%;top:14.6%;transform:rotate(-9deg);}
+    .klarna-float-chip:nth-child(2){right:9.8%;top:14.8%;transform:rotate(9deg);}
+    .klarna-float-chip:nth-child(3){left:9.4%;bottom:13.8%;transform:rotate(8deg);}
+    .klarna-float-chip:nth-child(4){right:10.4%;bottom:15.2%;transform:rotate(-8deg);}
+    .klarna-options{
+      display:grid;
+      gap:.78rem;
+      margin-top:1.08rem;
+    }
+    .klarna-option{
+      min-height:5.05rem;
+      display:grid;
+      grid-template-columns:auto minmax(0,1fr) auto;
+      align-items:center;
+      gap:1.05rem;
+      padding:.75rem 1.48rem;
+      border-radius:1.05rem;
+      border:1px solid rgba(6,16,23,.09);
+      background:rgba(255,255,255,.74);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.84);
+    }
+    .klarna-option.is-selected{
+      border-color:rgba(255,63,134,.24);
+      background:linear-gradient(90deg,rgba(255,63,134,.095),rgba(255,223,235,.30));
+    }
+    .klarna-radio{
+      width:1.52rem;
+      height:1.52rem;
+      border-radius:999px;
+      border:2px solid #cfd5df;
+      background:#fff;
+      position:relative;
+      flex:0 0 auto;
+    }
+    .klarna-option.is-selected .klarna-radio{border-color:var(--kp-pink);}
+    .klarna-option.is-selected .klarna-radio:after{
+      content:"";
+      position:absolute;
+      inset:.28rem;
+      border-radius:inherit;
+      background:var(--kp-pink);
+    }
+    .klarna-option strong{
+      display:block;
+      color:var(--kp-ink);
+      font-size:1.06rem;
+      line-height:1.08;
+      font-weight:950;
+      letter-spacing:-.035em;
+    }
+    .klarna-option small{
+      display:block;
+      margin-top:.27rem;
+      color:#536173;
+      font-size:.96rem;
+      line-height:1.18;
+      font-weight:560;
+      letter-spacing:-.018em;
+    }
+    .klarna-option-tag{
+      color:var(--kp-cyan);
+      font-size:.78rem;
+      line-height:1;
+      font-weight:950;
+      letter-spacing:.105em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+    .klarna-option.is-selected .klarna-option-tag{color:var(--kp-pink);}
+    .klarna-note{
+      min-height:5.15rem;
+      display:grid;
+      grid-template-columns:auto minmax(0,1fr);
+      align-items:center;
+      gap:1.02rem;
+      margin-top:1.05rem;
+      padding:1.02rem 1.28rem;
+      border-radius:1rem;
+      border:1px solid rgba(6,16,23,.035);
+      background:linear-gradient(135deg,rgba(246,250,252,.96),rgba(255,255,255,.78));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+    }
+    .klarna-note svg{
+      width:1.95rem;
+      height:1.95rem;
+      color:var(--kp-pink);
+      stroke-width:1.95;
+    }
+    .klarna-note p{
+      margin:0;
+      color:#48586a;
+      font-size:.98rem;
+      line-height:1.42;
+      font-weight:650;
+      letter-spacing:-.02em;
+    }
+    @media (max-height:850px) and (min-width:1051px){
+      .klarna-redesign{padding:1.55rem 0 1.8rem;}
+      .klarna-stage{width:min(1260px,calc(100% - 5.2rem));column-gap:clamp(2.15rem,4.1vw,3.35rem);row-gap:0;}
+      .klarna-label{margin-bottom:1.12rem;}
+      .klarna-label-icon{width:2.62rem;height:2.62rem;border-radius:.86rem;}
+      .klarna-title{font-size:clamp(2.74rem,3.74vw,3.24rem);line-height:.91;letter-spacing:-.055em;}
+      .klarna-lead{margin-top:.8rem;font-size:.92rem;line-height:1.45;max-width:31.5rem;}
+      .klarna-benefits{margin-top:1.38rem;gap:.62rem;}
+      .klarna-benefit{min-height:8.65rem;padding:1.12rem .56rem .72rem;gap:.42rem;border-radius:.72rem;}
+      .klarna-benefit-icon{width:2.22rem;height:2.22rem;}
+      .klarna-benefit-icon svg{width:2.02rem;height:2.02rem;}
+      .klarna-benefit h3{font-size:.77rem;}
+      .klarna-benefit p{font-size:.68rem;line-height:1.28;}
+      .klarna-actions{margin-top:1.72rem;gap:1rem;}
+      .klarna-action{min-height:3.18rem;font-size:.76rem;}
+      .klarna-trust{margin-top:1.72rem;}
+      .klarna-trust-item{font-size:.8rem;gap:.68rem;}
+      .klarna-trust-item svg{width:1.58rem;height:1.58rem;}
+      .klarna-payment-card{max-width:39.5rem;padding:1.38rem 1.18rem 1.22rem;border-radius:1.62rem;}
+      .klarna-card-head{margin-bottom:.82rem;}
+      .klarna-brand-pill{min-height:2.3rem;font-size:.95rem;}
+      .klarna-card-title{font-size:.72rem;}
+      .klarna-plan-visual{height:11.7rem;border-radius:1.12rem;}
+      .klarna-plan-main span{font-size:.68rem;margin-bottom:.28rem;}
+      .klarna-plan-main strong{font-size:clamp(3.35rem,4.8vw,4.3rem);}
+      .klarna-float-chip{min-width:6.12rem;height:2.52rem;font-size:.86rem;border-radius:.68rem;}
+      .klarna-float-chip svg{width:1.08rem;height:1.08rem;}
+      .klarna-options{gap:.54rem;margin-top:.75rem;}
+      .klarna-option{min-height:3.78rem;border-radius:.82rem;padding:.48rem 1.05rem;gap:.78rem;}
+      .klarna-radio{width:1.2rem;height:1.2rem;}
+      .klarna-option.is-selected .klarna-radio:after{inset:.22rem;}
+      .klarna-option strong{font-size:.88rem;}
+      .klarna-option small{font-size:.78rem;margin-top:.14rem;}
+      .klarna-option-tag{font-size:.66rem;}
+      .klarna-note{min-height:3.9rem;margin-top:.72rem;padding:.72rem .95rem;gap:.75rem;}
+      .klarna-note svg{width:1.55rem;height:1.55rem;}
+      .klarna-note p{font-size:.78rem;line-height:1.32;}
+    }
+    @media (max-width:1180px){
+      .klarna-stage{width:min(100% - 4rem,1160px);grid-template-columns:minmax(0,.92fr) minmax(480px,1fr);column-gap:2.6rem;row-gap:0;}
+      .klarna-title{font-size:clamp(2.85rem,4.8vw,3.72rem);}
+      .klarna-benefit{min-height:9.9rem;}
+      .klarna-payment-card{max-width:none;}
+    }
+    @media (max-width:1050px){
+      .klarna-redesign{min-height:auto;padding:3.9rem 0 4.6rem;}
+      .klarna-stage{width:min(100% - 3.2rem,760px);display:block;}
+      .klarna-title{max-width:44rem;font-size:clamp(3.05rem,8.3vw,4.5rem);}
+      .klarna-lead{max-width:43rem;}
+      .klarna-benefits{max-width:none;}
+      .klarna-actions{max-width:none;}
+      .klarna-trust{max-width:none;}
+      .klarna-payment-card{margin-top:2rem;}
+    }
+    @media (max-width:768px){
+      .klarna-redesign{
+        padding:2.35rem 0 2.7rem;
+        background:
+          radial-gradient(31rem 28rem at 100% 0%,rgba(255,196,216,.34),transparent 66%),
+          radial-gradient(24rem 20rem at 0% 82%,rgba(92,225,230,.13),transparent 70%),
+          linear-gradient(145deg,#fffbfd 0%,#fff 50%,#f4fbfd 100%);
+      }
+      .klarna-stage{width:min(calc(100% - 3rem),47.5rem);}
+      .klarna-label{gap:.78rem;margin-bottom:1.75rem;font-size:1.12rem;}
+      .klarna-label-icon{width:2.42rem;height:2.42rem;border-radius:.72rem;}
+      .klarna-label-icon svg{width:1.1rem;height:1.1rem;}
+      .klarna-title{font-size:clamp(3rem,12.3vw,4.05rem);line-height:.98;letter-spacing:-.075em;}
+      .klarna-lead{margin-top:1.28rem;font-size:clamp(1.02rem,4vw,1.22rem);line-height:1.48;max-width:38rem;}
+      .klarna-benefits{grid-template-columns:repeat(4,minmax(0,1fr));gap:.9rem;margin-top:2.05rem;}
+      .klarna-benefit{min-height:10.8rem;padding:1.55rem .58rem .95rem;border-radius:.9rem;gap:.56rem;}
+      .klarna-benefit-icon{width:2.62rem;height:2.62rem;}
+      .klarna-benefit-icon svg{width:2.28rem;height:2.28rem;}
+      .klarna-benefit h3{font-size:.88rem;line-height:1.1;}
+      .klarna-benefit p{font-size:.82rem;line-height:1.34;}
+      .klarna-payment-card{margin-top:2rem;padding:1.65rem 1.5rem 1.25rem;border-radius:1.6rem;}
+      .klarna-card-head{margin:0 .1rem 1.45rem;}
+      .klarna-brand-pill{min-height:2.72rem;padding:0 1.04rem;font-size:1.03rem;}
+      .klarna-card-title{font-size:.94rem;letter-spacing:-.02em;text-transform:none;font-weight:850;}
+      .klarna-plan-visual{height:clamp(13.1rem,42vw,16.2rem);border-radius:1.18rem;}
+      .klarna-plan-main span{font-size:.78rem;margin-bottom:.48rem;}
+      .klarna-plan-main strong{font-size:clamp(4.05rem,15.5vw,5.3rem);}
+      .klarna-float-chip{min-width:7rem;height:3.02rem;font-size:1rem;border-radius:.82rem;gap:.48rem;}
+      .klarna-float-chip svg{width:1.28rem;height:1.28rem;}
+      .klarna-float-chip:nth-child(1){left:6%;top:10.2%;}
+      .klarna-float-chip:nth-child(2){right:8.6%;top:10.8%;}
+      .klarna-float-chip:nth-child(3){left:7.6%;bottom:14.5%;}
+      .klarna-float-chip:nth-child(4){right:8%;bottom:14.6%;}
+      .klarna-options{gap:.7rem;margin-top:1rem;}
+      .klarna-option{min-height:4.9rem;padding:.72rem 1.2rem;border-radius:1rem;gap:.9rem;}
+      .klarna-option strong{font-size:1.06rem;}
+      .klarna-option small{font-size:.93rem;}
+      .klarna-option-tag{font-size:.78rem;}
+      .klarna-note{margin-top:.9rem;min-height:5.8rem;padding:1.05rem 1rem;border-radius:.95rem;gap:.92rem;}
+      .klarna-note p{font-size:.96rem;line-height:1.38;}
+      .klarna-actions{grid-template-columns:1fr;gap:.95rem;margin-top:1.55rem;}
+      .klarna-action{min-height:3.75rem;font-size:1rem;letter-spacing:.085em;}
+      .klarna-trust{grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin-top:2.18rem;}
+      .klarna-trust-item{grid-template-columns:auto minmax(0,1fr);gap:.72rem;font-size:.95rem;}
+      .klarna-trust-item svg{width:1.72rem;height:1.72rem;}
+    }
+    @media (max-width:430px){
+      .klarna-stage{width:min(calc(100% - 2.1rem),47.5rem);}
+      .klarna-label{font-size:.98rem;margin-bottom:1.35rem;}
+      .klarna-title{font-size:clamp(2.18rem,9.8vw,2.5rem);line-height:.98;}
+      .klarna-lead{font-size:.94rem;line-height:1.48;margin-top:1.05rem;}
+      .klarna-benefits{gap:.48rem;margin-top:1.65rem;}
+      .klarna-benefit{min-height:8.65rem;padding:1.12rem .38rem .72rem;border-radius:.78rem;}
+      .klarna-benefit-icon{width:2.18rem;height:2.18rem;}
+      .klarna-benefit-icon svg{width:1.96rem;height:1.96rem;}
+      .klarna-benefit h3{font-size:.72rem;}
+      .klarna-benefit p{font-size:.68rem;line-height:1.3;}
+      .klarna-payment-card{padding:1.25rem .95rem 1rem;border-radius:1.35rem;}
+      .klarna-brand-pill{min-height:2.28rem;font-size:.9rem;}
+      .klarna-card-title{font-size:.8rem;}
+      .klarna-plan-visual{height:10.75rem;border-radius:1rem;}
+      .klarna-plan-main span{font-size:.62rem;margin-bottom:.3rem;}
+      .klarna-plan-main strong{font-size:3.55rem;}
+      .klarna-float-chip{min-width:5.85rem;height:2.32rem;font-size:.82rem;border-radius:.66rem;gap:.34rem;}
+      .klarna-float-chip svg{width:1rem;height:1rem;}
+      .klarna-option{min-height:4.25rem;padding:.62rem .72rem;gap:.62rem;border-radius:.85rem;}
+      .klarna-radio{width:1.25rem;height:1.25rem;border-width:2px;}
+      .klarna-option.is-selected .klarna-radio:after{inset:.24rem;}
+      .klarna-option strong{font-size:.9rem;}
+      .klarna-option small{font-size:.78rem;line-height:1.22;}
+      .klarna-option-tag{font-size:.64rem;}
+      .klarna-note{grid-template-columns:auto 1fr;min-height:5.4rem;padding:.88rem .78rem;gap:.7rem;}
+      .klarna-note svg{width:1.55rem;height:1.55rem;}
+      .klarna-note p{font-size:.8rem;line-height:1.32;}
+      .klarna-action{min-height:3.26rem;font-size:.82rem;}
+      .klarna-trust{gap:.55rem;margin-top:1.75rem;}
+      .klarna-trust-item{gap:.44rem;font-size:.72rem;}
+      .klarna-trust-item svg{width:1.38rem;height:1.38rem;}
+    }
   </style>
 </head>
 <body class="intro-lock">
@@ -968,7 +1497,85 @@
         </section>
         <section id="falltypen" class="premium-section audience-section"><div class="premium-shell"><div class="section-head-center js-reveal"><div class="eyebrow">Falltypen</div><h2 class="premium-title small">Jede MPU braucht eine andere Sprache.</h2><p class="premium-lead">Alkohol, Drogen, Punkte oder ein negatives Gutachten: Die Website verkaufen nicht alles mit demselben Text, sondern holt jede Situation präzise ab.</p></div><div class="audience-grid"><article class="audience-card glass-card tilt-card js-card"><div class="audience-num">A</div><h3>Alkohol-MPU</h3><p>Trinkverhalten, Anlass, Veränderung und mögliche Abstinenz werden verständlich sortiert.</p><small>Nachweise + Gespräch</small></article><article class="audience-card glass-card tilt-card js-card"><div class="audience-num">D</div><h3>Drogen-MPU</h3><p>Konsummuster, Laborwerte, Abstinenznachweise und kritische Fristen bekommen klare Struktur.</p><small>Fristen + Stabilität</small></article><article class="audience-card glass-card tilt-card js-card"><div class="audience-num">P</div><h3>Punkte-MPU</h3><p>Hier zählt Verhalten: Einsicht, Verantwortung und nachvollziehbare Veränderung im Alltag.</p><small>Reflexion + Alltag</small></article><article class="audience-card glass-card tilt-card js-card"><div class="audience-num">R</div><h3>Nach negativem Gutachten</h3><p>Wir suchen die Schwachstellen, lösen Widersprüche und bauen den Neustart sauber neu auf.</p><small>Review + Neustart</small></article></div></div></section>
         <section id="methoden" class="premium-section method-section-premium"><div class="premium-shell"><div class="method-layout"><aside class="method-sticky-premium glass-card js-reveal"><div class="eyebrow">Unsere Methode</div><h3>Die 4-Stufen-Methode gegen MPU-Panik.</h3><p>Wir bereiten nicht auf auswendig gelernte Antworten vor. Wir bauen eine belastbare Struktur, mit der Sie ruhig erklären können, was passiert ist und was sich verändert hat.</p><div class="cta-cluster"><a href="#kontakt" class="btn-premium">Methode besprechen</a></div><div class="method-proof-mini" aria-hidden="true"><div class="proof-mini-row"><span>Analyse</span><div class="mini-bar"><span style="--target:92%"></span></div></div><div class="proof-mini-row"><span>Nachweise</span><div class="mini-bar"><span style="--target:84%"></span></div></div><div class="proof-mini-row"><span>Training</span><div class="mini-bar"><span style="--target:88%"></span></div></div></div></aside><div class="method-road"><article class="road-card glass-card js-card"><div class="road-index">01</div><div><h3>Ausgangslage verstehen</h3><p>Wir klären Anlass, Risiken, Fristen und die Frage, was die Begutachtung wirklich sehen möchte.</p><div class="road-tags"><span>Aktenlogik</span><span>Risikopunkte</span><span>Fristen</span></div></div></article><article class="road-card glass-card js-card"><div class="road-index">02</div><div><h3>Nachweise sauber planen</h3><p>Abstinenz, Laborwerte, Unterlagen und zeitliche Schritte werden so geordnet, dass kein Detail unnötig Druck macht.</p><div class="road-tags"><span>Abstinenz</span><span>Unterlagen</span><span>Termine</span></div></div></article><article class="road-card glass-card js-card"><div class="road-index">03</div><div><h3>Veränderung nachvollziehbar machen</h3><p>Was hat sich geändert? Warum ist es heute stabil? Wir übersetzen Veränderung in klare, ehrliche Sprache.</p><div class="road-tags"><span>Einsicht</span><span>Verhalten</span><span>Glaubwürdigkeit</span></div></div></article><article class="road-card glass-card js-card"><div class="road-index">04</div><div><h3>Gespräch realistisch simulieren</h3><p>Wir üben typische Fragen, kritische Nachfragen und klare Antworten ohne Floskeln oder Panik.</p><div class="road-tags"><span>Simulation</span><span>Feedback</span><span>Sicherheit</span></div></div></article></div></div></div></section>
-        <section id="klarna" class="premium-section klarna-premium"><div class="premium-shell"><div class="klarna-premium-grid"><div class="klarna-copy js-reveal"><div class="eyebrow">Flexible Zahlung</div><h2>Gute Vorbereitung sollte nicht an einer <span class="text-pink">Einmalzahlung</span> scheitern.</h2><p>Klarna wird als Entlastung kommuniziert, nicht als aggressiver Kaufdruck. Erst wird der Fall verstanden, dann das passende Angebot erklärt und danach die Zahlungsoption transparent eingeordnet.</p><div class="klarna-points"><div class="klarna-point">Flexible Zahlung über Klarna möglich, sofern verfügbar.</div><div class="klarna-point">Kosten, Umfang und Zahlungsoptionen werden vor dem Start verständlich erklärt.</div><div class="klarna-point">Das kostenlose Erstgespräch bleibt ein Erstgespräch — kein versteckter Checkout.</div></div><div class="cta-cluster"><a href="#kontakt" class="btn-pink">Klarna Option anfragen →</a><a href="#faq" class="btn-line">Fragen zur Zahlung</a></div></div><div class="split-card glass-card tilt-card js-card"><div class="split-top"><div class="klarna-brand">Klarna</div><div class="split-safe">Zahlungsoption</div></div><div class="amount-visual" aria-hidden="true"><div class="amount-piece">Rate</div><div class="amount-piece">Plan</div><div class="amount-piece">Start</div><div class="amount-piece">Ruhe</div><div class="amount-main"><span>Einmalbetrag wird</span><strong>planbar</strong></div></div><div class="split-options"><div class="split-option"><div class="radio-dot"></div><div><strong>Einmalzahlung</strong><small>Direkt bezahlen und starten.</small></div><div class="split-tag">Option</div></div><div class="split-option is-main"><div class="radio-dot"></div><div><strong>Klarna Teilzahlung</strong><small>Je nach Verfügbarkeit in flexiblen Beträgen zahlen.</small></div><div class="split-tag">Beliebt</div></div><div class="split-option"><div class="radio-dot"></div><div><strong>Individuell klären</strong><small>Im Erstgespräch transparent besprechen.</small></div><div class="split-tag">Fair</div></div></div><p class="klarna-legal">Die konkreten Zahlungsarten hängen von Verfügbarkeit und Prüfung durch Klarna ab. Es wird keine Zusage gemacht, bevor die Option tatsächlich verfügbar ist.</p></div></div></div></section>
+        <section id="klarna" class="premium-section klarna-redesign" aria-labelledby="klarna-title">
+          <div class="klarna-stage">
+            <div class="klarna-left js-reveal">
+              <div class="klarna-label">
+                <span class="klarna-label-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M3.5 9.5h17"/><path d="M7.5 14h4M15 14h2"/></svg>
+                </span>
+                <span>Flexible Zahlung</span>
+              </div>
+              <h2 class="klarna-title" id="klarna-title">Gute Vorbereitung<br>sollte nicht an einer<br><span class="klarna-highlight">Einmalzahlung</span><br>scheitern.</h2>
+              <p class="klarna-lead">Klarna wird als Entlastung kommuniziert, nicht als aggressiver Kaufdruck. Erst wird der Fall verstanden, dann das passende Angebot erklärt und danach die Zahlungsoption transparent eingeordnet.</p>
+              <div class="klarna-benefits" aria-label="Vorteile der flexiblen Zahlung">
+                <article class="klarna-benefit js-card">
+                  <span class="klarna-benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></span>
+                  <h3>Flexibel zahlen</h3>
+                  <p>Zahlung über Klarna möglich.</p>
+                </article>
+                <article class="klarna-benefit js-card">
+                  <span class="klarna-benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M15 3v5h5M9 12h6M9 16h5"/></svg></span>
+                  <h3>Klar &amp; verständlich</h3>
+                  <p>Kosten und Optionen werden vor dem Start erklärt.</p>
+                </article>
+                <article class="klarna-benefit js-card">
+                  <span class="klarna-benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13.5c0-4.1 3.6-7.4 8-7.4s8 3.3 8 7.4-3.6 7.4-8 7.4c-1.1 0-2.2-.2-3.1-.6L4.5 21l1.2-3.4A7 7 0 0 1 4 13.5Z"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01"/></svg></span>
+                  <h3>Persönliche Beratung</h3>
+                  <p>Kostenloses Erstgespräch - kein versteckter Checkout.</p>
+                </article>
+                <article class="klarna-benefit js-card">
+                  <span class="klarna-benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 5.5 6.2v5.2c0 4.1 2.6 7.8 6.5 9.1 3.9-1.3 6.5-5 6.5-9.1V6.2L12 3.5Z"/><path d="M12 9v4.2"/><path d="M12 16.1h.01"/></svg></span>
+                  <h3>Transparenz zuerst</h3>
+                  <p>Zahlungsarten hängen von Verfügbarkeit und Prüfung ab.</p>
+                </article>
+              </div>
+            </div>
+            <aside class="klarna-payment-card tilt-card js-card" aria-label="Klarna Zahlungsoptionen">
+              <div class="klarna-card-head">
+                <div class="klarna-brand-pill">Klarna</div>
+                <div class="klarna-card-title">Zahlungsoptionen</div>
+              </div>
+              <div class="klarna-plan-visual" aria-hidden="true">
+                <div class="klarna-float-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg><span>Rate</span></div>
+                <div class="klarna-float-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l3 3v13a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M9 9h6M9 13h6M9 17h3"/></svg><span>Plan</span></div>
+                <div class="klarna-float-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-8 11h6l-1 9 8-12h-6l1-8Z"/></svg><span>Sofort</span></div>
+                <div class="klarna-float-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 7.7c0 5.2-8.4 10.7-8.4 10.7S3.6 12.9 3.6 7.7A4.1 4.1 0 0 1 12 6a4.1 4.1 0 0 1 8.4 1.7Z"/></svg><span>Ruhe</span></div>
+                <div class="klarna-plan-main"><div><span>Einmalbetrag wird</span><strong>planbar</strong></div></div>
+              </div>
+              <div class="klarna-options">
+                <div class="klarna-option">
+                  <span class="klarna-radio" aria-hidden="true"></span>
+                  <span><strong>Einmalzahlung</strong><small>Direkt bezahlen und starten.</small></span>
+                  <span class="klarna-option-tag">Option</span>
+                </div>
+                <div class="klarna-option is-selected">
+                  <span class="klarna-radio" aria-hidden="true"></span>
+                  <span><strong>Klarna Teilzahlung</strong><small>Je nach Verfügbarkeit in flexiblen Beträgen zahlen.</small></span>
+                  <span class="klarna-option-tag">Beliebt</span>
+                </div>
+                <div class="klarna-option">
+                  <span class="klarna-radio" aria-hidden="true"></span>
+                  <span><strong>Individuell klären</strong><small>Im Erstgespräch transparent besprechen.</small></span>
+                  <span class="klarna-option-tag">Fair</span>
+                </div>
+              </div>
+              <div class="klarna-note">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 5.5 6.2v5.2c0 4.1 2.6 7.8 6.5 9.1 3.9-1.3 6.5-5 6.5-9.1V6.2L12 3.5Z"/><path d="M12 9v4.2"/><path d="M12 16.1h.01"/></svg>
+                <p>Die konkreten Zahlungsarten hängen von Verfügbarkeit und Prüfung durch Klarna ab. Es wird keine Zusage gemacht, bevor die Option tatsächlich verfügbar ist.</p>
+              </div>
+            </aside>
+            <div class="klarna-actions">
+              <a class="klarna-action klarna-action-primary" href="#kontakt">Klarna Option anfragen →</a>
+              <a class="klarna-action klarna-action-secondary" href="#faq">Fragen zur Zahlung</a>
+            </div>
+            <div class="klarna-trust" aria-label="Vertrauensmerkmale">
+              <div class="klarna-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.2 5 6v5.6c0 4.5 2.9 8.2 7 9.4 4.1-1.2 7-4.9 7-9.4V6l-7-2.8Z"/><path d="m9 12.2 2 2 4.2-4.3"/></svg><span>Sicher &amp;<br>DSGVO-konform</span></div>
+              <div class="klarna-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="m8.7 12.2 2.2 2.2 4.7-4.8"/></svg><span>Keine versteckten<br>Kosten</span></div>
+              <div class="klarna-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7.7a4 4 0 0 1 8 0V10"/></svg><span>Vertraulich &amp;<br>diskret</span></div>
+            </div>
+          </div>
+        </section>
         <section class="premium-section simulation-section"><div class="premium-shell"><div class="simulation-stage js-reveal"><div class="simulation-content"><div class="simulation-copy"><div class="eyebrow">Gesprächstraining</div><h2>Sie müssen nicht perfekt klingen. Sie müssen glaubwürdig sein.</h2><p>Viele Antworten wirken erst im Kopf klar. Unter Druck werden sie unscharf. Deshalb trainieren wir die Gesprächssituation realistisch: ruhig, ehrlich, mit Feedback.</p><div class="simulation-checks"><div class="simulation-check">kritische Nachfragen</div><div class="simulation-check">ruhige Antwortstruktur</div><div class="simulation-check">ehrliches Feedback</div></div></div><div class="dialogue-card tilt-card"><div class="dialogue-row"><div class="avatar-dot">G</div><div class="dialogue-bubble"><strong>Gutachter-Frage</strong><p>Was genau hat sich seit dem Vorfall verändert?</p></div></div><div class="dialogue-row client"><div class="avatar-dot">S</div><div class="dialogue-bubble"><strong>Vorbereitung</strong><p>Nicht auswendig lernen. Wir bauen eine Antwort, die Ursache, Veränderung und Alltag nachvollziehbar verbindet.</p></div></div><div class="dialogue-row"><div class="avatar-dot">G</div><div class="dialogue-bubble"><strong>Kritische Nachfrage</strong><p>Warum sollte das heute dauerhaft anders bleiben?</p></div></div><div class="dialogue-row client"><div class="avatar-dot">S</div><div class="dialogue-bubble"><strong>Trainierte Struktur</strong><p>Konkrete Veränderungen, Belege und neue Routinen werden klar und ruhig erklärt.</p></div></div></div></div></div></div></section>
         <section id="ablauf" class="premium-section route-section-premium"><div class="premium-shell"><div class="section-head-center js-reveal"><div class="eyebrow">Ablauf</div><h2 class="premium-title small">Der Weg nach Ihrer Anfrage ist bewusst einfach.</h2><p class="premium-lead">Keine langen Formulare, kein Druck, keine falschen Garantien. Erst verstehen, dann empfehlen.</p></div><div class="route-wrap"><div class="route-line" aria-hidden="true"></div><div class="route-cards"><article class="route-card glass-card js-card"><div class="route-step">1</div><div><h3>Anfrage oder WhatsApp</h3><p>Sie nennen MPU-Grund, Frist und offene Fragen kurz und vertraulich.</p><div class="route-time">ca. 2 Minuten</div></div></article><article class="route-card glass-card js-card"><div class="route-step">2</div><div><h3>Kostenloses Erstgespräch</h3><p>Wir prüfen, was relevant ist, und nehmen den ersten Druck raus.</p><div class="route-time">realistische Einschätzung</div></div></article><article class="route-card glass-card js-card"><div class="route-step">3</div><div><h3>Fahrplan & Angebot</h3><p>Sie erhalten Umfang, nächste Schritte und mögliche Klarna-Zahlungsoptionen.</p><div class="route-time">transparent</div></div></article><article class="route-card glass-card js-card"><div class="route-step">4</div><div><h3>Training starten</h3><p>Analyse, Nachweise und Gesprächstraining greifen in einem Plan zusammen.</p><div class="route-time">strukturiert</div></div></article></div></div></div></section>
         <section id="programme" class="premium-section program-section"><div class="premium-shell"><div class="section-head-center js-reveal"><div class="eyebrow">Programme</div><h2 class="premium-title small">Nicht jedes Paket passt zu jedem Fall.</h2><p class="premium-lead">Die Darstellung verkauft Orientierung, nicht Blindbuchung. Die konkrete Empfehlung entsteht nach der Einschätzung.</p></div><div class="program-grid"><article class="program-card glass-card tilt-card js-card"><div class="program-top"><span class="program-type">Orientierung</span><span class="program-badge">Start</span></div><h3>Fall-Check</h3><p>Für Menschen, die erst wissen wollen, wo sie stehen.</p><div class="program-price"><strong>Kostenloses Erstgespräch</strong><small>danach klare Empfehlung</small></div><ul class="program-list"><li>MPU-Grund und Ausgangslage sortieren</li><li>Fristen und Nachweise grob einordnen</li><li>Nächste sinnvolle Schritte erkennen</li></ul><div class="program-actions"><a href="#kontakt" class="btn-line">Fall prüfen lassen</a><span class="program-note">Keine Bestehensgarantie. Seriöse Einschätzung vor Angebot.</span></div></article><article class="program-card featured glass-card tilt-card js-card"><div class="program-top"><span class="program-type">Intensiv</span><span class="program-badge">Empfohlen</span></div><h3>MPU Training</h3><p>Für strukturierte Vorbereitung mit Analyse, Nachweislogik und Gesprächssimulation.</p><div class="program-price"><strong>Klarna möglich</strong><small>sofern verfügbar und im Angebot ausgewählt</small></div><ul class="program-list"><li>Individueller Fahrplan</li><li>Ursachen- und Veränderungsarbeit</li><li>Simulation mit ehrlichem Feedback</li><li>Finaler Check vor dem Termin</li></ul><div class="program-actions"><a href="#kontakt" class="btn-premium">Intensiv anfragen</a><span class="program-note">Transparentes Angebot nach Erstgespräch.</span></div></article><article class="program-card glass-card tilt-card js-card"><div class="program-top"><span class="program-type">Komplex</span><span class="program-badge">Neustart</span></div><h3>Gutachten-Review</h3><p>Für negative Gutachten, Mischfälle oder Situationen mit hohem Fristdruck.</p><div class="program-price"><strong>Individuell planbar</strong><small>Umfang abhängig vom Fall</small></div><ul class="program-list"><li>Schwachstellen im Gutachten prüfen</li><li>Widersprüche und Risiken klären</li><li>Neuen Fahrplan aufbauen</li><li>Intensives Gesprächstraining</li></ul><div class="program-actions"><a href="#kontakt" class="btn-line">Review besprechen</a><span class="program-note">Besonders sinnvoll nach vorherigem Misserfolg.</span></div></article></div></div></section>
@@ -1016,7 +1623,7 @@
       const sticky=document.querySelector(".mobile-sticky-cta");
       if(!sticky)return;
       const mq=window.matchMedia("(max-width: 768px)");
-      const watched=[{el:document.querySelector(".clarity-rise"),cls:"clarity-rise-active"},{el:document.querySelector(".fall-check-section"),cls:"fall-check-active"}].filter(item=>item.el);
+      const watched=[{el:document.querySelector(".clarity-rise"),cls:"clarity-rise-active"},{el:document.querySelector(".fall-check-section"),cls:"fall-check-active"},{el:document.querySelector(".klarna-redesign"),cls:"klarna-active"}].filter(item=>item.el);
       if(!watched.length)return;
       const setState=()=>{
         const vh=window.innerHeight||document.documentElement.clientHeight;
