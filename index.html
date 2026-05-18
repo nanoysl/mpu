@@ -466,7 +466,8 @@
       body.clarity-rise-active .mobile-sticky-cta,
       body.fall-check-active .mobile-sticky-cta,
       body.klarna-active .mobile-sticky-cta,
-      body.falltypes-active .mobile-sticky-cta{
+      body.falltypes-active .mobile-sticky-cta,
+      body.method-active .mobile-sticky-cta{
         opacity:0;
         visibility:hidden;
         pointer-events:none;
@@ -1570,6 +1571,461 @@
       .falltypes-trust-icon,.falltypes-trust-item span{width:2.65rem;height:2.65rem;}
       .falltypes-trust-lead .falltypes-trust-mobile,.falltypes-trust-item strong{font-size:.66rem;line-height:1.22;overflow-wrap:break-word;}
     }
+    .method-redesign{
+      --mm-ink:#061325;
+      --mm-muted:#2f3e53;
+      --mm-line:rgba(6,19,37,.08);
+      --mm-cyan:#079aa6;
+      --mm-cyan-2:#12c8ca;
+      --mm-green:#20a510;
+      --mm-blue:#1874ea;
+      --mm-purple:#7a35c9;
+      --mm-shadow:0 22px 64px rgba(14,33,48,.075),0 8px 22px rgba(14,33,48,.05);
+      min-height:100svh;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      color:var(--mm-ink);
+      padding:clamp(1.8rem,3.35svh,2.25rem) 0;
+      background:
+        radial-gradient(43rem 30rem at 77% 10%,rgba(92,225,230,.11),transparent 68%),
+        radial-gradient(42rem 28rem at 6% 70%,rgba(92,225,230,.075),transparent 72%),
+        radial-gradient(36rem 24rem at 78% 72%,rgba(122,53,201,.07),transparent 72%),
+        linear-gradient(180deg,#fff 0%,#fbfdfe 60%,#f7fbfc 100%);
+    }
+    .method-shell{
+      width:min(1432px,calc(100% - clamp(4rem,6.4vw,6.25rem)));
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:minmax(21rem,26.9rem) 2.1rem minmax(0,1fr);
+      grid-template-rows:auto auto auto;
+      grid-template-areas:"intro timeline steps" "goal timeline steps" "trust trust trust";
+      column-gap:1.55rem;
+      row-gap:1.25rem;
+      align-items:start;
+    }
+    .method-intro{grid-area:intro;min-width:0;}
+    .method-kicker{
+      display:inline-flex;
+      align-items:center;
+      min-height:1.95rem;
+      padding:0 .72rem;
+      border-radius:.45rem;
+      color:#008895;
+      background:rgba(92,225,230,.18);
+      border:1px solid rgba(7,154,166,.08);
+      font-size:.78rem;
+      line-height:1;
+      letter-spacing:.045em;
+      font-weight:950;
+      text-transform:uppercase;
+    }
+    .method-title{
+      margin:1.25rem 0 0;
+      color:var(--mm-ink);
+      font-size:clamp(3.15rem,4.85vw,4.8rem);
+      line-height:.94;
+      letter-spacing:-.068em;
+      font-weight:950;
+      text-wrap:balance;
+    }
+    .method-title span{display:block;}
+    .method-title .method-highlight{
+      color:transparent;
+      background:linear-gradient(90deg,#078391 0%,#0daeb9 48%,#1fc9c8 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+    }
+    .method-rule{width:3.28rem;height:.18rem;border-radius:999px;background:linear-gradient(90deg,var(--mm-cyan),var(--mm-cyan-2));margin:1.65rem 0 1.45rem;}
+    .method-copy{
+      max-width:23.4rem;
+      margin:0;
+      color:#25354a;
+      font-size:clamp(1rem,1.1vw,1.13rem);
+      line-height:1.55;
+      font-weight:520;
+      letter-spacing:-.018em;
+    }
+    .method-cta{
+      width:min(21.75rem,100%);
+      min-height:3.55rem;
+      margin-top:1.65rem;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      align-items:center;
+      gap:.95rem;
+      padding:0 1.35rem;
+      border-radius:999px;
+      color:#fff;
+      background:linear-gradient(135deg,#078c99,#08aeb8 60%,#07939f);
+      box-shadow:0 14px 32px rgba(7,154,166,.22),inset 0 1px 0 rgba(255,255,255,.22);
+      font-size:.95rem;
+      letter-spacing:.035em;
+      font-weight:950;
+      text-transform:uppercase;
+    }
+    .method-cta svg{width:1.32rem;height:1.32rem;stroke-width:2.15;}
+    .method-cta .method-cta-arrow{justify-self:end;width:1.18rem;height:1.18rem;stroke-width:2.35;}
+    .method-progress{
+      margin-top:1.75rem;
+      padding:1rem 1.02rem;
+      border-radius:1rem;
+      border:1px solid var(--mm-line);
+      background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.72));
+      box-shadow:var(--mm-shadow),inset 0 1px 0 rgba(255,255,255,.86);
+      display:grid;
+      gap:.85rem;
+    }
+    .method-progress-row{
+      display:grid;
+      grid-template-columns:2.25rem 6rem minmax(6rem,1fr) 2.6rem;
+      align-items:center;
+      gap:.88rem;
+      color:#071528;
+      font-size:.79rem;
+      letter-spacing:.05em;
+      font-weight:950;
+      text-transform:uppercase;
+    }
+    .method-progress-icon{
+      width:2.25rem;
+      height:2.25rem;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      color:var(--mm-cyan);
+      background:rgba(92,225,230,.15);
+    }
+    .method-progress-icon svg{width:1.16rem;height:1.16rem;stroke-width:2.1;}
+    .method-meter{height:.56rem;border-radius:999px;background:#e7eef2;overflow:hidden;}
+    .method-meter span{display:block;width:var(--value);height:100%;border-radius:inherit;background:linear-gradient(90deg,#0797a4,#31d5d6);box-shadow:0 0 16px rgba(7,154,166,.24);}
+    .method-progress-value{justify-self:end;color:#122033;font-size:.78rem;letter-spacing:0;text-transform:none;}
+    .method-goal{
+      grid-area:goal;
+      margin-top:1.15rem;
+      min-height:6.65rem;
+      display:grid;
+      grid-template-columns:auto minmax(0,1fr);
+      align-items:center;
+      gap:1rem;
+      padding:1rem 1.15rem;
+      border-radius:1rem;
+      border:1px solid var(--mm-line);
+      background:linear-gradient(110deg,rgba(240,253,254,.92),rgba(255,255,255,.78));
+      box-shadow:var(--mm-shadow),inset 0 1px 0 rgba(255,255,255,.88);
+    }
+    .method-goal-icon{
+      width:4.12rem;
+      height:4.12rem;
+      border-radius:1.3rem;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      background:radial-gradient(circle at 62% 20%,rgba(255,255,255,.35),transparent 35%),linear-gradient(135deg,#0aa2b5,#087a91);
+      box-shadow:0 13px 30px rgba(7,154,166,.22),0 0 0 .95rem rgba(122,53,201,.06);
+    }
+    .method-goal-icon svg{width:2rem;height:2rem;stroke-width:2.35;}
+    .method-goal strong{display:block;font-size:1rem;line-height:1.18;font-weight:950;letter-spacing:-.025em;}
+    .method-goal p{margin:.34rem 0 0;color:#26364b;font-size:.91rem;line-height:1.36;font-weight:520;}
+    .method-goal-arrow{display:none;}
+    .method-timeline{
+      grid-area:timeline;
+      align-self:stretch;
+      display:grid;
+      grid-template-rows:repeat(4,1fr);
+      justify-items:center;
+      position:relative;
+      min-height:100%;
+    }
+    .method-timeline:before{
+      content:"";
+      position:absolute;
+      top:2.7rem;
+      bottom:2.7rem;
+      left:50%;
+      width:1px;
+      transform:translateX(-50%);
+      background:linear-gradient(180deg,rgba(7,154,166,.16),rgba(24,116,234,.2),rgba(122,53,201,.22));
+    }
+    .method-dot{
+      width:.78rem;
+      height:.78rem;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      align-self:center;
+      color:#fff;
+      background:var(--step-color);
+      box-shadow:0 0 0 .24rem rgba(255,255,255,.9),0 7px 16px rgba(7,154,166,.16);
+      z-index:1;
+    }
+    .method-dot svg{width:.46rem;height:.46rem;stroke-width:3;}
+    .method-dot[data-tone="green"]{--step-color:var(--mm-green);}
+    .method-dot[data-tone="blue"]{--step-color:var(--mm-blue);}
+    .method-dot[data-tone="purple"]{--step-color:var(--mm-purple);}
+    .method-steps{grid-area:steps;display:grid;gap:1.25rem;}
+    .method-step-card{
+      --step-color:var(--mm-cyan);
+      --step-rgb:7,154,166;
+      position:relative;
+      min-height:11.65rem;
+      display:grid;
+      grid-template-columns:5rem 5.8rem minmax(0,1fr) 3.8rem;
+      align-items:center;
+      gap:1.25rem;
+      padding:1.35rem 1.65rem 1.35rem 2.25rem;
+      border-radius:1.05rem;
+      border:1px solid var(--mm-line);
+      background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.78));
+      box-shadow:var(--mm-shadow),inset 0 1px 0 rgba(255,255,255,.9);
+      overflow:hidden;
+    }
+    .method-step-card:before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:0;
+      bottom:0;
+      width:.34rem;
+      background:linear-gradient(180deg,var(--step-color),rgba(var(--step-rgb),.72));
+    }
+    .method-step-card[data-tone="green"]{--step-color:var(--mm-green);--step-rgb:32,165,16;}
+    .method-step-card[data-tone="blue"]{--step-color:var(--mm-blue);--step-rgb:24,116,234;}
+    .method-step-card[data-tone="purple"]{--step-color:var(--mm-purple);--step-rgb:122,53,201;}
+    .method-step-number{
+      width:4.55rem;
+      height:4.55rem;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      color:var(--step-color);
+      background:rgba(var(--step-rgb),.1);
+      font-size:1.42rem;
+      font-weight:950;
+      letter-spacing:-.02em;
+    }
+    .method-step-icon{
+      width:5.72rem;
+      height:5.72rem;
+      border-radius:1.05rem;
+      display:grid;
+      place-items:center;
+      color:var(--step-color);
+      background:linear-gradient(135deg,rgba(var(--step-rgb),.11),rgba(var(--step-rgb),.045));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.82);
+    }
+    .method-step-icon svg{width:2.8rem;height:2.8rem;stroke-width:1.85;}
+    .method-step-copy h3{margin:0;color:var(--mm-ink);font-size:clamp(1.45rem,2.05vw,2.05rem);line-height:1.02;letter-spacing:-.052em;font-weight:950;}
+    .method-step-copy p{margin:.62rem 0 0;color:#102033;font-size:clamp(.9rem,1.08vw,1rem);line-height:1.38;font-weight:520;max-width:43rem;}
+    .method-tags{display:flex;flex-wrap:wrap;gap:.56rem;margin-top:.9rem;}
+    .method-tags span{
+      min-height:1.72rem;
+      display:inline-flex;
+      align-items:center;
+      padding:0 .8rem;
+      border-radius:999px;
+      color:var(--step-color);
+      background:rgba(var(--step-rgb),.1);
+      border:1px solid rgba(var(--step-rgb),.08);
+      font-size:.74rem;
+      font-weight:950;
+      letter-spacing:-.01em;
+    }
+    .method-step-arrow{
+      justify-self:end;
+      width:3.8rem;
+      height:3.8rem;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      color:var(--step-color);
+      background:rgba(255,255,255,.9);
+      border:1px solid rgba(6,19,37,.07);
+      box-shadow:0 10px 26px rgba(14,33,48,.075);
+    }
+    .method-step-arrow svg{width:1.32rem;height:1.32rem;stroke-width:2.35;}
+    .method-trust{
+      grid-area:trust;
+      min-height:6.55rem;
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      align-items:center;
+      border-radius:1.05rem;
+      border:1px solid rgba(6,19,37,.055);
+      background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(247,252,253,.78));
+      box-shadow:0 20px 54px rgba(14,33,48,.055),inset 0 1px 0 rgba(255,255,255,.9);
+      overflow:hidden;
+    }
+    .method-trust-item{
+      min-height:4.85rem;
+      display:grid;
+      grid-template-columns:auto minmax(0,1fr);
+      align-items:center;
+      gap:1.05rem;
+      padding:0 2rem;
+      border-right:1px solid rgba(6,19,37,.1);
+    }
+    .method-trust-item:last-child{border-right:0;}
+    .method-trust-icon{
+      width:3.9rem;
+      height:3.9rem;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      color:var(--trust-color,var(--mm-cyan));
+      background:rgba(var(--trust-rgb,7,154,166),.1);
+    }
+    .method-trust-icon svg{width:1.9rem;height:1.9rem;stroke-width:1.9;}
+    .method-trust-item strong{display:block;color:var(--mm-ink);font-size:.92rem;line-height:1.15;font-weight:950;letter-spacing:-.016em;}
+    .method-trust-item p{margin:.36rem 0 0;color:#26364b;font-size:.82rem;line-height:1.36;font-weight:520;}
+    .method-trust-item[data-tone="cyan"]{--trust-color:var(--mm-cyan);--trust-rgb:7,154,166;}
+    .method-trust-item[data-tone="blue"]{--trust-color:var(--mm-blue);--trust-rgb:24,116,234;}
+    .method-trust-item[data-tone="purple"]{--trust-color:var(--mm-purple);--trust-rgb:122,53,201;}
+    @media (max-height:1000px) and (min-width:1051px){
+      .method-redesign{padding:1.3rem 0;}
+      .method-shell{width:min(1360px,calc(100% - 4.5rem));grid-template-columns:minmax(21.5rem,27.35rem) 1.8rem minmax(0,1fr);column-gap:1.25rem;row-gap:.95rem;}
+      .method-kicker{min-height:1.7rem;font-size:.68rem;}
+      .method-title{font-size:clamp(2.75rem,4.25vw,3.9rem);margin-top:.85rem;}
+      .method-rule{margin:1rem 0 .95rem;width:2.9rem;}
+      .method-copy{font-size:.98rem;line-height:1.46;max-width:22rem;}
+      .method-cta{min-height:3.2rem;width:20.9rem;margin-top:1.12rem;font-size:.86rem;padding:0 1.16rem;}
+      .method-progress{margin-top:1.05rem;padding:.78rem .82rem;gap:.58rem;border-radius:.85rem;}
+      .method-progress-row{grid-template-columns:1.9rem 5.2rem minmax(5.5rem,1fr) 2.35rem;gap:.65rem;font-size:.68rem;}
+      .method-progress-icon{width:1.9rem;height:1.9rem;}
+      .method-meter{height:.46rem;}
+      .method-goal{min-height:5.1rem;margin-top:.82rem;padding:.78rem .9rem;gap:.75rem;border-radius:.85rem;}
+      .method-goal-icon{width:3.25rem;height:3.25rem;border-radius:1rem;}
+      .method-goal strong{font-size:.86rem;}
+      .method-goal p{font-size:.74rem;line-height:1.28;}
+      .method-steps{gap:.95rem;}
+      .method-step-card{min-height:10rem;grid-template-columns:4.2rem 4.8rem minmax(0,1fr) 3.25rem;gap:.95rem;padding:1.05rem 1.18rem 1.05rem 1.45rem;border-radius:1rem;}
+      .method-step-number{width:3.8rem;height:3.8rem;font-size:1.22rem;}
+      .method-step-icon{width:4.55rem;height:4.55rem;border-radius:.95rem;}
+      .method-step-icon svg{width:2.28rem;height:2.28rem;}
+      .method-step-copy h3{font-size:1.56rem;}
+      .method-step-copy p{font-size:.88rem;line-height:1.34;margin-top:.5rem;}
+      .method-tags{margin-top:.62rem;gap:.42rem;}
+      .method-tags span{min-height:1.5rem;font-size:.66rem;padding:0 .62rem;}
+      .method-step-arrow{width:3.25rem;height:3.25rem;}
+      .method-trust{min-height:5.1rem;border-radius:.9rem;}
+      .method-trust-item{min-height:4.1rem;padding:0 1.25rem;gap:.72rem;}
+      .method-trust-icon{width:3rem;height:3rem;}
+      .method-trust-icon svg{width:1.45rem;height:1.45rem;}
+      .method-trust-item strong{font-size:.78rem;}
+      .method-trust-item p{font-size:.68rem;line-height:1.25;}
+    }
+    @media (max-height:820px) and (min-width:1051px){
+      .method-redesign{padding:1rem 0;}
+      .method-shell{width:min(1272px,calc(100% - 4.2rem));grid-template-columns:minmax(20rem,25rem) 1.55rem minmax(0,1fr);row-gap:.72rem;}
+      .method-title{font-size:clamp(2.4rem,3.8vw,3.2rem);}
+      .method-copy{font-size:.8rem;line-height:1.36;}
+      .method-cta{min-height:2.65rem;width:18.2rem;margin-top:.82rem;font-size:.72rem;}
+      .method-progress{margin-top:.82rem;gap:.48rem;padding:.64rem .7rem;}
+      .method-progress-row{grid-template-columns:1.7rem 4.8rem minmax(4.5rem,1fr) 2.1rem;font-size:.62rem;}
+      .method-progress-icon{width:1.7rem;height:1.7rem;}
+      .method-goal{min-height:4.4rem;margin-top:.62rem;}
+      .method-goal-icon{width:2.85rem;height:2.85rem;}
+      .method-goal strong{font-size:.8rem;}
+      .method-goal p{font-size:.68rem;}
+      .method-steps{gap:.64rem;}
+      .method-step-card{min-height:7.95rem;grid-template-columns:2.9rem 3.35rem minmax(0,1fr) 2.45rem;gap:.64rem;padding:.78rem .85rem .78rem 1.15rem;}
+      .method-step-number{width:2.95rem;height:2.95rem;font-size:1rem;}
+      .method-step-icon{width:3.45rem;height:3.45rem;}
+      .method-step-copy h3{font-size:1.16rem;}
+      .method-step-copy p{font-size:.7rem;line-height:1.28;}
+      .method-tags span{min-height:1.18rem;font-size:.56rem;}
+      .method-step-arrow{width:2.55rem;height:2.55rem;}
+      .method-trust{min-height:4.55rem;}
+      .method-trust-icon{width:2.6rem;height:2.6rem;}
+      .method-trust-item p{font-size:.62rem;}
+    }
+    @media (max-width:1180px){
+      .method-shell{width:min(calc(100% - 3.5rem),1040px);grid-template-columns:minmax(18rem,23rem) 1.8rem minmax(0,1fr);}
+      .method-step-card{grid-template-columns:4rem 4.5rem minmax(0,1fr) 3.1rem;}
+      .method-step-icon{width:4.4rem;height:4.4rem;}
+      .method-step-number{width:3.6rem;height:3.6rem;}
+    }
+    @media (max-width:1050px){
+      .method-redesign{
+        min-height:auto;
+        display:block;
+        padding:2.85rem 0 2.9rem;
+        background:
+          radial-gradient(34rem 26rem at 100% 0%,rgba(92,225,230,.09),transparent 72%),
+          radial-gradient(28rem 22rem at 0% 72%,rgba(92,225,230,.08),transparent 70%),
+          linear-gradient(180deg,#fff 0%,#fbfdfe 62%,#f7fbfc 100%);
+      }
+      .method-shell{width:min(calc(100% - 3rem),760px);display:grid;grid-template-columns:1fr;grid-template-areas:"intro" "steps" "goal" "trust";gap:1.45rem;}
+      .method-intro{display:block;}
+      .method-kicker{min-height:2.12rem;padding:0 .75rem;font-size:1rem;border-radius:.48rem;}
+      .method-title{margin-top:1.55rem;font-size:clamp(3rem,8.05vw,4.35rem);line-height:.99;letter-spacing:-.065em;}
+      .method-rule,.method-progress,.method-timeline{display:none;}
+      .method-copy{margin-top:1.55rem;max-width:43rem;font-size:clamp(1.15rem,2.9vw,1.42rem);line-height:1.48;}
+      .method-cta{width:min(100%,36.8rem);min-height:4.55rem;margin-top:2rem;padding:0 2rem;font-size:1.22rem;gap:1.25rem;}
+      .method-cta svg{width:1.65rem;height:1.65rem;}
+      .method-cta .method-cta-arrow{width:1.5rem;height:1.5rem;}
+      .method-steps{display:grid;gap:.9rem;}
+      .method-step-card{
+        min-height:12.2rem;
+        grid-template-columns:7.45rem 4.5rem minmax(0,1fr) 2.45rem;
+        gap:1rem;
+        padding:1.45rem 1.85rem 1.45rem 1.85rem;
+        border-radius:1.35rem;
+      }
+      .method-step-card:before{width:.42rem;border-radius:999px;}
+      .method-step-icon,
+      .method-step-number,
+      .method-step-copy,
+      .method-step-arrow{grid-row:1;align-self:center;}
+      .method-step-icon{grid-column:1;width:7.1rem;height:7.1rem;border-radius:1rem;}
+      .method-step-icon svg{width:3.7rem;height:3.7rem;}
+      .method-step-number{grid-column:2;width:3.85rem;height:3.85rem;color:#fff;background:linear-gradient(135deg,var(--step-color),rgba(var(--step-rgb),.78));font-size:1.35rem;box-shadow:0 12px 26px rgba(var(--step-rgb),.2);}
+      .method-step-copy{grid-column:3;min-width:0;}
+      .method-step-copy h3{font-size:clamp(1.35rem,3.45vw,1.75rem);line-height:1.05;letter-spacing:-.045em;}
+      .method-step-copy p{font-size:clamp(1rem,2.75vw,1.3rem);line-height:1.42;margin-top:.72rem;}
+      .method-tags{display:none;}
+      .method-step-arrow{grid-column:4;width:2.2rem;height:2.2rem;background:transparent;border:0;box-shadow:none;}
+      .method-step-arrow svg{width:1.55rem;height:1.55rem;stroke-width:2.6;}
+      .method-goal{grid-area:goal;margin-top:.1rem;min-height:7.9rem;border-radius:1rem;padding:1.35rem 1.6rem;grid-template-columns:5.5rem minmax(0,1fr) 1.6rem;background:linear-gradient(105deg,rgba(231,250,252,.92),rgba(255,255,255,.74));}
+      .method-goal-icon{width:4.6rem;height:4.6rem;border-radius:1.25rem;}
+      .method-goal strong{font-size:clamp(1.06rem,3vw,1.35rem);}
+      .method-goal p{font-size:clamp(1rem,2.8vw,1.3rem);line-height:1.42;}
+      .method-goal-arrow{display:grid;place-items:center;color:var(--mm-cyan);}
+      .method-goal-arrow svg{width:1.45rem;height:1.45rem;stroke-width:2.55;}
+      .method-trust{grid-area:trust;min-height:11.8rem;grid-template-columns:repeat(4,minmax(0,1fr));border-radius:1rem;}
+      .method-trust-item{min-height:8.9rem;display:flex;flex-direction:column;text-align:center;justify-content:flex-start;gap:.65rem;padding:1.25rem .72rem .95rem;}
+      .method-trust-icon{width:3.55rem;height:3.55rem;}
+      .method-trust-icon svg{width:1.95rem;height:1.95rem;}
+      .method-trust-item strong{font-size:clamp(.84rem,2.45vw,1rem);}
+      .method-trust-item p{font-size:clamp(.78rem,2.28vw,.95rem);line-height:1.28;}
+    }
+    @media (max-width:430px){
+      .method-redesign{padding:2.35rem 0 2.6rem;}
+      .method-shell{width:min(calc(100% - 2rem),760px);gap:1rem;}
+      .method-kicker{min-height:1.86rem;font-size:.78rem;}
+      .method-title{margin-top:1.25rem;font-size:clamp(2.25rem,9.7vw,2.65rem);}
+      .method-copy{font-size:.98rem;line-height:1.45;margin-top:1.18rem;}
+      .method-cta{min-height:3.5rem;margin-top:1.55rem;padding:0 1.2rem;font-size:.9rem;}
+      .method-step-card{min-height:9.8rem;grid-template-columns:3.95rem 2.85rem minmax(0,1fr) 1.45rem;gap:.62rem;padding:1rem .95rem 1rem 1rem;border-radius:1rem;}
+      .method-step-icon{width:3.75rem;height:3.75rem;border-radius:.8rem;}
+      .method-step-icon svg{width:2.05rem;height:2.05rem;}
+      .method-step-number{width:2.55rem;height:2.55rem;font-size:.95rem;}
+      .method-step-copy h3{font-size:1.1rem;}
+      .method-step-copy p{font-size:.86rem;line-height:1.38;margin-top:.48rem;}
+      .method-step-arrow svg{width:1.18rem;height:1.18rem;}
+      .method-goal{min-height:6.25rem;grid-template-columns:3.85rem minmax(0,1fr) 1.2rem;padding:1rem .95rem;border-radius:.9rem;gap:.72rem;}
+      .method-goal-icon{width:3.45rem;height:3.45rem;border-radius:.9rem;}
+      .method-goal-icon svg{width:1.75rem;height:1.75rem;}
+      .method-goal strong{font-size:.96rem;}
+      .method-goal p{font-size:.86rem;line-height:1.36;}
+      .method-goal-arrow svg{width:1.15rem;height:1.15rem;}
+      .method-trust{min-height:9.8rem;}
+      .method-trust-item{min-height:8.1rem;min-width:0;padding:1rem .36rem .72rem;gap:.5rem;}
+      .method-trust-icon{width:2.75rem;height:2.75rem;}
+      .method-trust-icon svg{width:1.48rem;height:1.48rem;}
+      .method-trust-item strong{font-size:.72rem;overflow-wrap:anywhere;}
+      .method-trust-item p{font-size:.66rem;line-height:1.25;overflow-wrap:anywhere;}
+    }
   </style>
 </head>
 <body class="intro-lock">
@@ -1936,7 +2392,104 @@
             </div>
           </div>
         </section>
-        <section id="methoden" class="premium-section method-section-premium"><div class="premium-shell"><div class="method-layout"><aside class="method-sticky-premium glass-card js-reveal"><div class="eyebrow">Unsere Methode</div><h3>Die 4-Stufen-Methode gegen MPU-Panik.</h3><p>Wir bereiten nicht auf auswendig gelernte Antworten vor. Wir bauen eine belastbare Struktur, mit der Sie ruhig erklären können, was passiert ist und was sich verändert hat.</p><div class="cta-cluster"><a href="#kontakt" class="btn-premium">Methode besprechen</a></div><div class="method-proof-mini" aria-hidden="true"><div class="proof-mini-row"><span>Analyse</span><div class="mini-bar"><span style="--target:92%"></span></div></div><div class="proof-mini-row"><span>Nachweise</span><div class="mini-bar"><span style="--target:84%"></span></div></div><div class="proof-mini-row"><span>Training</span><div class="mini-bar"><span style="--target:88%"></span></div></div></div></aside><div class="method-road"><article class="road-card glass-card js-card"><div class="road-index">01</div><div><h3>Ausgangslage verstehen</h3><p>Wir klären Anlass, Risiken, Fristen und die Frage, was die Begutachtung wirklich sehen möchte.</p><div class="road-tags"><span>Aktenlogik</span><span>Risikopunkte</span><span>Fristen</span></div></div></article><article class="road-card glass-card js-card"><div class="road-index">02</div><div><h3>Nachweise sauber planen</h3><p>Abstinenz, Laborwerte, Unterlagen und zeitliche Schritte werden so geordnet, dass kein Detail unnötig Druck macht.</p><div class="road-tags"><span>Abstinenz</span><span>Unterlagen</span><span>Termine</span></div></div></article><article class="road-card glass-card js-card"><div class="road-index">03</div><div><h3>Veränderung nachvollziehbar machen</h3><p>Was hat sich geändert? Warum ist es heute stabil? Wir übersetzen Veränderung in klare, ehrliche Sprache.</p><div class="road-tags"><span>Einsicht</span><span>Verhalten</span><span>Glaubwürdigkeit</span></div></div></article><article class="road-card glass-card js-card"><div class="road-index">04</div><div><h3>Gespräch realistisch simulieren</h3><p>Wir üben typische Fragen, kritische Nachfragen und klare Antworten ohne Floskeln oder Panik.</p><div class="road-tags"><span>Simulation</span><span>Feedback</span><span>Sicherheit</span></div></div></article></div></div></div></section>
+        <section id="methoden" class="method-redesign" aria-labelledby="method-title">
+          <div class="method-shell">
+            <div class="method-intro">
+              <div class="method-kicker">UNSERE METHODE</div>
+              <h2 class="method-title" id="method-title"><span>Die 4-Stufen-</span><span>Methode gegen</span><span class="method-highlight">MPU-Panik.</span></h2>
+              <div class="method-rule" aria-hidden="true"></div>
+              <p class="method-copy">Wir bereiten nicht auf auswendig gelernte Antworten vor. Wir bauen eine belastbare Struktur, mit der Sie ruhig erklären können, was passiert ist und was sich verändert hat.</p>
+              <a class="method-cta" href="#kontakt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6.8c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v7.4c0 1.1-.9 2-2 2H10l-4.3 3v-3H6c-1.1 0-2-.9-2-2V6.8Z"/><path d="M8.3 10.6h.01M12 10.6h.01M15.7 10.6h.01"/></svg>
+                <span>METHODE BESPRECHEN</span>
+                <svg class="method-cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              </a>
+              <div class="method-progress" aria-label="Methoden-Fortschritt">
+                <div class="method-progress-row">
+                  <span class="method-progress-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/><path d="m8.5 11 1.8 1.8 3.4-3.6"/></svg></span>
+                  <span>ANALYSE</span>
+                  <span class="method-meter" aria-hidden="true"><span style="--value:90%"></span></span>
+                  <span class="method-progress-value">90 %</span>
+                </div>
+                <div class="method-progress-row">
+                  <span class="method-progress-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 8 4-8 4-8-4 8-4Z"/><path d="m4 12 8 4 8-4"/><path d="m4 17 8 4 8-4"/></svg></span>
+                  <span>NACHWEISE</span>
+                  <span class="method-meter" aria-hidden="true"><span style="--value:85%"></span></span>
+                  <span class="method-progress-value">85 %</span>
+                </div>
+                <div class="method-progress-row">
+                  <span class="method-progress-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5 12 3l8 4.5-8 4.5-8-4.5Z"/><path d="M6.5 10v5.2c0 1.7 2.5 3.1 5.5 3.1s5.5-1.4 5.5-3.1V10"/><path d="M20 8v6"/></svg></span>
+                  <span>TRAINING</span>
+                  <span class="method-meter" aria-hidden="true"><span style="--value:95%"></span></span>
+                  <span class="method-progress-value">95 %</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="method-timeline" aria-hidden="true">
+              <span class="method-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m7 12 3 3 7-7"/></svg></span>
+              <span class="method-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m7 12 3 3 7-7"/></svg></span>
+              <span class="method-dot" data-tone="blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m7 12 3 3 7-7"/></svg></span>
+              <span class="method-dot" data-tone="purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m7 12 3 3 7-7"/></svg></span>
+            </div>
+
+            <div class="method-steps" aria-label="Vier Stufen der MPU-Vorbereitung">
+              <article class="method-step-card">
+                <span class="method-step-number">01</span>
+                <span class="method-step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l1 2h3v15H5V6h3l1-2Z"/><path d="M9 11h6M9 15h6M9 19h4"/></svg></span>
+                <div class="method-step-copy">
+                  <h3>Ausgangslage verstehen</h3>
+                  <p>Wir klären Anlass, Risiken, Fristen und die Frage, was die Begutachtung wirklich sehen möchte.</p>
+                  <div class="method-tags"><span>Aktenlogik</span><span>Risikopunkte</span><span>Fristen</span></div>
+                </div>
+                <span class="method-step-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+              </article>
+              <article class="method-step-card" data-tone="green">
+                <span class="method-step-number">02</span>
+                <span class="method-step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5c0-1.1.9-2 2-2h5l2 2h5c1.1 0 2 .9 2 2V18c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V7.5Z"/></svg></span>
+                <div class="method-step-copy">
+                  <h3>Nachweise sauber planen</h3>
+                  <p>Abstinenz, Laborwerte, Unterlagen und zeitliche Schritte werden so geordnet, dass kein Detail unnötig Druck macht.</p>
+                  <div class="method-tags"><span>Abstinenz</span><span>Unterlagen</span><span>Termine</span></div>
+                </div>
+                <span class="method-step-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+              </article>
+              <article class="method-step-card" data-tone="blue">
+                <span class="method-step-number">03</span>
+                <span class="method-step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13c0-4.1 3.6-7.3 8-7.3s8 3.2 8 7.3-3.6 7.3-8 7.3c-1.1 0-2.2-.2-3.1-.6L4.5 21l1.2-3.6A6.8 6.8 0 0 1 4 13Z"/><path d="M8.5 12.7h.01M12 12.7h.01M15.5 12.7h.01"/></svg></span>
+                <div class="method-step-copy">
+                  <h3>Veränderung nachvollziehbar machen</h3>
+                  <p>Was hat sich geändert? Warum ist es heute stabil? Wir übersetzen Veränderung in klare, ehrliche Sprache.</p>
+                  <div class="method-tags"><span>Einsicht</span><span>Verhalten</span><span>Glaubwürdigkeit</span></div>
+                </div>
+                <span class="method-step-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+              </article>
+              <article class="method-step-card" data-tone="purple">
+                <span class="method-step-number">04</span>
+                <span class="method-step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12 20 4"/><path d="M16.5 4H20v3.5"/></svg></span>
+                <div class="method-step-copy">
+                  <h3>Gespräch realistisch simulieren</h3>
+                  <p>Wir üben typische Fragen, kritische Nachfragen und klare Antworten ohne Floskeln oder Panik.</p>
+                  <div class="method-tags"><span>Simulation</span><span>Feedback</span><span>Sicherheit</span></div>
+                </div>
+                <span class="method-step-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+              </article>
+            </div>
+
+            <article class="method-goal">
+              <span class="method-goal-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg></span>
+              <div><strong>Unser Ziel: Sicherheit &amp; Überzeugung</strong><p>Sie gehen vorbereitet, klar und selbstbewusst in Ihr MPU-Gespräch.</p></div>
+              <span class="method-goal-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span>
+            </article>
+
+            <div class="method-trust" aria-label="Vertrauensmerkmale">
+              <div class="method-trust-item"><span class="method-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><path d="M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></svg></span><div><strong>Individuell</strong><p>Maßgeschneiderte Vorbereitung</p></div></div>
+              <div class="method-trust-item"><span class="method-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-3.7 7-9.3V5.5L12 3 5 5.5v6.2C5 17.3 12 21 12 21Z"/><path d="m9 12 2 2 4-5"/></svg></span><div><strong>Erfahren</strong><p>Spezialisiert auf MPU-Begutachtungen</p></div></div>
+              <div class="method-trust-item" data-tone="blue"><span class="method-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="m8.8 12.1 2.2 2.2 4.4-4.7"/></svg></span><div><strong>Strukturiert</strong><p>Klare Schritte statt unsicherem Vorgehen</p></div></div>
+              <div class="method-trust-item" data-tone="purple"><span class="method-trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><div><strong>Diskret</strong><p>Ihre Situation bleibt vertraulich</p></div></div>
+            </div>
+          </div>
+        </section>
         <section id="klarna" class="premium-section klarna-redesign" aria-labelledby="klarna-title">
           <div class="klarna-stage">
             <div class="klarna-left js-reveal">
@@ -2063,7 +2616,7 @@
       const sticky=document.querySelector(".mobile-sticky-cta");
       if(!sticky)return;
       const mq=window.matchMedia("(max-width: 768px)");
-      const watched=[{el:document.querySelector(".clarity-rise"),cls:"clarity-rise-active"},{el:document.querySelector(".fall-check-section"),cls:"fall-check-active"},{el:document.querySelector(".klarna-redesign"),cls:"klarna-active"},{el:document.querySelector(".falltypes-redesign"),cls:"falltypes-active"}].filter(item=>item.el);
+      const watched=[{el:document.querySelector(".clarity-rise"),cls:"clarity-rise-active"},{el:document.querySelector(".fall-check-section"),cls:"fall-check-active"},{el:document.querySelector(".klarna-redesign"),cls:"klarna-active"},{el:document.querySelector(".falltypes-redesign"),cls:"falltypes-active"},{el:document.querySelector(".method-redesign"),cls:"method-active"}].filter(item=>item.el);
       if(!watched.length)return;
       const setState=()=>{
         const vh=window.innerHeight||document.documentElement.clientHeight;
