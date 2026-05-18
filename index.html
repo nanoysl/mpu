@@ -465,7 +465,8 @@
     @media (max-width:768px){
       body.clarity-rise-active .mobile-sticky-cta,
       body.fall-check-active .mobile-sticky-cta,
-      body.klarna-active .mobile-sticky-cta{
+      body.klarna-active .mobile-sticky-cta,
+      body.falltypes-active .mobile-sticky-cta{
         opacity:0;
         visibility:hidden;
         pointer-events:none;
@@ -1230,6 +1231,345 @@
       .klarna-trust-item{gap:.44rem;font-size:.72rem;}
       .klarna-trust-item svg{width:1.38rem;height:1.38rem;}
     }
+    .falltypes-redesign{
+      --ft-ink:#061325;
+      --ft-muted:#314055;
+      --ft-line:rgba(6,19,37,.095);
+      --ft-cyan:#07879a;
+      --ft-cyan-2:#12aeb8;
+      --ft-green:#34aa10;
+      --ft-blue:#1375ec;
+      --ft-purple:#8748c9;
+      --ft-shadow:0 24px 70px rgba(14,33,48,.07),0 9px 24px rgba(14,33,48,.045);
+      min-height:100svh;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      padding:clamp(2.1rem,4.35svh,3.3rem) 0 clamp(2rem,4.05svh,3.05rem);
+      color:var(--ft-ink);
+      background:
+        radial-gradient(44rem 26rem at 17% 78%,rgba(92,225,230,.13),transparent 72%),
+        radial-gradient(42rem 26rem at 84% 78%,rgba(92,225,230,.1),transparent 70%),
+        linear-gradient(180deg,#fff 0%,#fbfdfe 58%,#f6fbfd 100%);
+    }
+    .falltypes-redesign:after{display:none;}
+    .falltypes-shell{width:min(1392px,calc(100% - clamp(4rem,6.8vw,6.2rem)));margin:0 auto;}
+    .falltypes-head{text-align:center;display:flex;flex-direction:column;align-items:center;margin-bottom:clamp(2rem,4.15svh,2.8rem);}
+    .falltypes-pill{
+      min-height:2.08rem;
+      display:inline-flex;
+      align-items:center;
+      gap:.48rem;
+      padding:0 1rem;
+      border-radius:999px;
+      background:linear-gradient(180deg,rgba(229,249,251,.92),rgba(214,244,247,.82));
+      color:#087b90;
+      border:1px solid rgba(8,123,144,.08);
+      box-shadow:0 10px 24px rgba(8,123,144,.08),inset 0 1px 0 rgba(255,255,255,.86);
+      font-size:.82rem;
+      font-weight:950;
+      letter-spacing:.055em;
+      text-transform:uppercase;
+    }
+    .falltypes-pill svg{width:1rem;height:1rem;stroke-width:2.15;}
+    .falltypes-title{
+      margin:1.05rem auto 0;
+      max-width:58rem;
+      color:var(--ft-ink);
+      font-size:clamp(3.35rem,5.3vw,5.15rem);
+      line-height:.9;
+      letter-spacing:-.066em;
+      font-weight:950;
+      text-wrap:balance;
+    }
+    .falltypes-title span{
+      color:transparent;
+      background:linear-gradient(90deg,#087888 0%,#0c9dad 45%,#18bcc4 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+    }
+    .falltypes-lead{
+      max-width:52rem;
+      margin:1.22rem auto 0;
+      color:#334155;
+      font-size:clamp(1rem,1.3vw,1.28rem);
+      line-height:1.48;
+      font-weight:500;
+      letter-spacing:-.015em;
+    }
+    .falltypes-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(1rem,1.45vw,1.35rem);}
+    .falltype-card{
+      --ft-accent:var(--ft-cyan);
+      --ft-accent-rgb:8,135,154;
+      min-height:27.15rem;
+      display:flex;
+      flex-direction:column;
+      padding:1.62rem 1.54rem 1.42rem;
+      border-radius:1.35rem;
+      border:1px solid var(--ft-line);
+      background:linear-gradient(180deg,rgba(255,255,255,.93),rgba(255,255,255,.74));
+      box-shadow:var(--ft-shadow),inset 0 1px 0 rgba(255,255,255,.92);
+      backdrop-filter:blur(18px);
+      position:relative;
+      overflow:hidden;
+      transition:transform .3s var(--ease),box-shadow .3s,border-color .3s;
+    }
+    .falltype-card:hover{transform:translateY(-3px);border-color:rgba(var(--ft-accent-rgb),.24);box-shadow:0 28px 78px rgba(14,33,48,.09),0 16px 42px rgba(var(--ft-accent-rgb),.08);}
+    .falltype-card[data-tone="green"]{--ft-accent:var(--ft-green);--ft-accent-rgb:52,170,16;}
+    .falltype-card[data-tone="blue"]{--ft-accent:var(--ft-blue);--ft-accent-rgb:19,117,236;}
+    .falltype-card[data-tone="purple"]{--ft-accent:var(--ft-purple);--ft-accent-rgb:135,72,201;}
+    .falltype-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;}
+    .falltype-icon{
+      width:5.05rem;
+      height:5.05rem;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      color:var(--ft-accent);
+      background:rgba(var(--ft-accent-rgb),.1);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.75);
+    }
+    .falltype-icon svg{width:2.62rem;height:2.62rem;stroke-width:1.8;}
+    .falltype-badge{
+      width:2.72rem;
+      height:2.72rem;
+      border-radius:.7rem;
+      display:grid;
+      place-items:center;
+      color:var(--ft-accent);
+      background:rgba(var(--ft-accent-rgb),.1);
+      font-size:1.1rem;
+      font-weight:950;
+      letter-spacing:.02em;
+    }
+    .falltype-copy h3{
+      margin:1.55rem 0 0;
+      color:var(--ft-ink);
+      font-size:clamp(1.42rem,1.8vw,1.8rem);
+      line-height:.96;
+      letter-spacing:-.055em;
+      font-weight:950;
+    }
+    .falltype-line{display:block;width:2.35rem;height:.16rem;border-radius:999px;background:var(--ft-accent);margin:1.22rem 0 1.22rem;}
+    .falltype-copy p{margin:0;color:#2f3e53;font-size:clamp(.98rem,1.08vw,1.12rem);line-height:1.55;font-weight:500;letter-spacing:-.018em;}
+    .falltype-cta{
+      margin-top:auto;
+      min-height:3.75rem;
+      border-radius:.72rem;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:0 .72rem 0 .9rem;
+      background:linear-gradient(90deg,rgba(var(--ft-accent-rgb),.105),rgba(var(--ft-accent-rgb),.055));
+      color:var(--ft-accent);
+      font-size:.92rem;
+      font-weight:950;
+      line-height:1;
+      letter-spacing:.02em;
+      text-transform:uppercase;
+    }
+    .falltype-arrow{
+      width:2.2rem;
+      height:2.2rem;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      flex:0 0 auto;
+      color:#fff;
+      background:linear-gradient(135deg,var(--ft-accent),rgba(var(--ft-accent-rgb),.82));
+      box-shadow:0 10px 22px rgba(var(--ft-accent-rgb),.22);
+    }
+    .falltype-arrow svg{width:1.08rem;height:1.08rem;stroke-width:2.45;}
+    .falltypes-trust{
+      margin-top:2rem;
+      min-height:8.35rem;
+      display:grid;
+      grid-template-columns:minmax(0,1.08fr) minmax(0,1.32fr);
+      align-items:center;
+      gap:1.7rem;
+      padding:1.45rem 1.72rem;
+      border-radius:1.35rem;
+      border:1px solid rgba(6,19,37,.055);
+      background:linear-gradient(180deg,rgba(247,252,253,.9),rgba(255,255,255,.72));
+      box-shadow:0 22px 60px rgba(14,33,48,.055),inset 0 1px 0 rgba(255,255,255,.92);
+      backdrop-filter:blur(16px);
+    }
+    .falltypes-trust-lead{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:1.25rem;min-width:0;}
+    .falltypes-trust-lead > div{min-width:0;}
+    .falltypes-trust-icon{
+      width:5.2rem;
+      height:5.2rem;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      background:linear-gradient(135deg,#0aa2b5,#087a91);
+      box-shadow:0 16px 34px rgba(8,123,144,.18);
+    }
+    .falltypes-trust-icon svg{width:2.35rem;height:2.35rem;stroke-width:2.1;}
+    .falltypes-trust-lead strong{display:block;color:var(--ft-ink);font-size:1.22rem;line-height:1.1;font-weight:950;letter-spacing:-.035em;}
+    .falltypes-trust-lead p{margin:.5rem 0 0;color:#334155;font-size:.95rem;line-height:1.45;font-weight:500;}
+    .falltypes-trust-lead .falltypes-trust-mobile{display:none;}
+    .falltypes-trust-items{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:center;border-left:1px solid rgba(6,19,37,.12);}
+    .falltypes-trust-item{min-height:4.5rem;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:.82rem;padding:0 1.35rem;border-right:1px solid rgba(6,19,37,.1);}
+    .falltypes-trust-item:last-child{border-right:0;}
+    .falltypes-trust-item span{width:3.45rem;height:3.45rem;border-radius:999px;display:grid;place-items:center;color:#073247;background:rgba(92,225,230,.16);}
+    .falltypes-trust-item svg{width:1.72rem;height:1.72rem;stroke-width:2;}
+    .falltypes-trust-item strong{color:var(--ft-ink);font-size:.98rem;line-height:1.28;font-weight:800;letter-spacing:-.018em;}
+    @media (max-height:1000px) and (min-width:1051px){
+      .falltypes-redesign{padding:1.7rem 0 1.8rem;}
+      .falltypes-head{margin-bottom:1.75rem;}
+      .falltypes-title{font-size:clamp(3.15rem,4.65vw,4.35rem);margin-top:.86rem;}
+      .falltypes-lead{font-size:1.02rem;line-height:1.38;margin-top:.82rem;max-width:48rem;}
+      .falltype-card{min-height:22.8rem;padding:1.25rem 1.2rem 1.1rem;border-radius:1.2rem;}
+      .falltype-icon{width:4.35rem;height:4.35rem;}
+      .falltype-icon svg{width:2.32rem;height:2.32rem;}
+      .falltype-badge{width:2.38rem;height:2.38rem;font-size:1rem;}
+      .falltype-copy h3{font-size:1.48rem;margin-top:1.18rem;}
+      .falltype-line{margin:.95rem 0 1rem;}
+      .falltype-copy p{font-size:.95rem;line-height:1.43;}
+      .falltype-cta{min-height:3.1rem;font-size:.82rem;border-radius:.64rem;}
+      .falltype-arrow{width:1.95rem;height:1.95rem;}
+      .falltypes-trust{min-height:6.55rem;margin-top:1.2rem;padding:1rem 1.25rem;border-radius:1.15rem;gap:1.15rem;}
+      .falltypes-trust-icon{width:4.1rem;height:4.1rem;}
+      .falltypes-trust-icon svg{width:2rem;height:2rem;}
+      .falltypes-trust-lead{gap:.95rem;}
+      .falltypes-trust-lead strong{font-size:1.06rem;}
+      .falltypes-trust-lead p{font-size:.82rem;line-height:1.34;margin-top:.34rem;}
+      .falltypes-trust-item{min-height:3.85rem;padding:0 .95rem;gap:.65rem;}
+      .falltypes-trust-item span{width:2.9rem;height:2.9rem;}
+      .falltypes-trust-item svg{width:1.42rem;height:1.42rem;}
+      .falltypes-trust-item strong{font-size:.85rem;}
+    }
+    @media (max-height:930px) and (min-width:1051px){
+      .falltypes-redesign{padding:1.4rem 0 1.55rem;}
+      .falltypes-shell{width:min(1260px,calc(100% - 4.6rem));}
+      .falltypes-head{margin-bottom:1.55rem;}
+      .falltypes-pill{min-height:1.8rem;font-size:.72rem;}
+      .falltypes-title{font-size:clamp(2.85rem,4.25vw,3.95rem);margin-top:.75rem;}
+      .falltypes-lead{font-size:.95rem;line-height:1.35;margin-top:.7rem;max-width:46rem;}
+      .falltypes-grid{gap:.9rem;}
+      .falltype-card{min-height:19.2rem;padding:1.08rem 1rem 1rem;border-radius:1.05rem;}
+      .falltype-icon{width:3.9rem;height:3.9rem;}
+      .falltype-icon svg{width:2.05rem;height:2.05rem;}
+      .falltype-badge{width:2.2rem;height:2.2rem;font-size:.95rem;}
+      .falltype-copy h3{font-size:1.22rem;margin-top:1.05rem;letter-spacing:-.045em;}
+      .falltype-line{margin:.72rem 0 .82rem;}
+      .falltype-copy p{font-size:.82rem;line-height:1.42;}
+      .falltype-cta{min-height:2.75rem;font-size:.73rem;border-radius:.58rem;}
+      .falltype-arrow{width:1.8rem;height:1.8rem;}
+      .falltypes-trust{min-height:5.7rem;margin-top:1rem;padding:.9rem 1.1rem;border-radius:1rem;gap:1rem;}
+      .falltypes-trust-icon{width:3.65rem;height:3.65rem;}
+      .falltypes-trust-icon svg{width:1.8rem;height:1.8rem;}
+      .falltypes-trust-lead{gap:.8rem;}
+      .falltypes-trust-lead strong{font-size:1rem;}
+      .falltypes-trust-lead p{font-size:.78rem;line-height:1.32;margin-top:.3rem;}
+      .falltypes-trust-item{min-height:3.6rem;padding:0 .9rem;gap:.62rem;}
+      .falltypes-trust-item span{width:2.75rem;height:2.75rem;}
+      .falltypes-trust-item svg{width:1.35rem;height:1.35rem;}
+      .falltypes-trust-item strong{font-size:.82rem;}
+    }
+    @media (max-height:790px) and (min-width:1051px){
+      .falltypes-redesign{padding:1.1rem 0 1.2rem;}
+      .falltypes-head{margin-bottom:1.12rem;}
+      .falltypes-title{font-size:clamp(2.55rem,3.9vw,3.45rem);}
+      .falltypes-lead{font-size:.86rem;line-height:1.3;max-width:43rem;}
+      .falltype-card{min-height:17.6rem;padding:.95rem .9rem .85rem;}
+      .falltype-copy h3{font-size:1.1rem;margin-top:.78rem;}
+      .falltype-line{margin:.58rem 0 .66rem;}
+      .falltype-copy p{font-size:.76rem;line-height:1.36;}
+      .falltype-cta{min-height:2.45rem;font-size:.68rem;}
+      .falltypes-trust{min-height:5rem;margin-top:.82rem;padding:.72rem .9rem;}
+    }
+    @media (max-width:1180px){
+      .falltypes-shell{width:min(100% - 3.4rem,1040px);}
+      .falltypes-grid{gap:1rem;}
+      .falltype-card{min-height:25rem;padding:1.35rem 1.2rem 1.2rem;}
+    }
+    @media (max-width:1050px){
+      .falltypes-redesign{
+        min-height:auto;
+        display:block;
+        overflow:hidden;
+        padding:3rem 0 3.25rem;
+        background:
+          radial-gradient(33rem 25rem at 92% 1%,rgba(92,225,230,.09),transparent 70%),
+          radial-gradient(28rem 22rem at 0% 78%,rgba(92,225,230,.1),transparent 72%),
+          linear-gradient(180deg,#fff 0%,#fbfdfe 64%,#f6fbfd 100%);
+      }
+      .falltypes-shell{width:min(calc(100% - 3rem),760px);}
+      .falltypes-head{margin-bottom:1.85rem;}
+      .falltypes-pill{min-height:2.2rem;padding:0 1.05rem;font-size:1rem;gap:.55rem;}
+      .falltypes-pill svg{width:1.05rem;height:1.05rem;}
+      .falltypes-title{margin-top:1.3rem;font-size:clamp(3rem,10.9vw,4.55rem);line-height:.98;letter-spacing:-.072em;}
+      .falltypes-lead{margin-top:1.45rem;font-size:clamp(1.08rem,3.25vw,1.45rem);line-height:1.43;max-width:44rem;}
+      .falltypes-grid{grid-template-columns:1fr;gap:.82rem;}
+      .falltype-card{
+        min-height:0;
+        display:grid;
+        grid-template-columns:5.05rem minmax(0,1fr) 3.15rem;
+        grid-template-areas:"icon copy badge" "cta cta cta";
+        column-gap:1rem;
+        row-gap:1.2rem;
+        padding:1.35rem 1.35rem 1.25rem;
+        border-radius:1.35rem;
+      }
+      .falltype-top{display:contents;}
+      .falltype-icon{grid-area:icon;width:4.95rem;height:4.95rem;}
+      .falltype-icon svg{width:2.85rem;height:2.85rem;}
+      .falltype-badge{grid-area:badge;justify-self:end;width:2.65rem;height:2.65rem;border-radius:.72rem;font-size:1.18rem;}
+      .falltype-copy{grid-area:copy;min-width:0;padding-right:3.25rem;}
+      .falltype-copy h3{margin:.35rem 0 0;font-size:clamp(1.35rem,4.4vw,1.85rem);line-height:.98;letter-spacing:-.055em;}
+      .falltype-line{display:none;}
+      .falltype-copy p{margin:.85rem 0 0;font-size:clamp(1rem,3.2vw,1.28rem);line-height:1.43;}
+      .falltype-cta{grid-area:cta;min-height:3rem;justify-content:center;padding:0 .9rem;font-size:clamp(.9rem,2.75vw,1.08rem);border-radius:.74rem;}
+      .falltype-arrow{position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);width:3rem;height:3rem;}
+      .falltype-arrow svg{width:1.32rem;height:1.32rem;}
+      .falltypes-trust{
+        margin-top:1.65rem;
+        min-height:0;
+        grid-template-columns:repeat(4,minmax(0,1fr));
+        gap:0;
+        padding:1.35rem 1rem;
+        border-radius:1.25rem;
+      }
+      .falltypes-trust-lead{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:.55rem;text-align:center;padding:0 .5rem;border-right:1px solid rgba(6,19,37,.1);}
+      .falltypes-trust-lead > div{width:100%;max-width:100%;}
+      .falltypes-trust-icon{width:3.25rem;height:3.25rem;}
+      .falltypes-trust-icon svg{width:1.62rem;height:1.62rem;}
+      .falltypes-trust-lead p,.falltypes-trust-lead .falltypes-trust-desktop{display:none;}
+      .falltypes-trust-lead .falltypes-trust-mobile{display:block;color:var(--ft-ink);font-size:clamp(.78rem,2.8vw,.98rem);line-height:1.18;font-weight:850;letter-spacing:-.018em;}
+      .falltypes-trust-items{display:contents;border-left:0;}
+      .falltypes-trust-item{min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:.55rem;text-align:center;padding:0 .5rem;border-right:1px solid rgba(6,19,37,.1);}
+      .falltypes-trust-item:last-child{border-right:0;}
+      .falltypes-trust-item span{width:3.25rem;height:3.25rem;}
+      .falltypes-trust-item svg{width:1.55rem;height:1.55rem;}
+      .falltypes-trust-item strong{font-size:clamp(.78rem,2.8vw,.98rem);line-height:1.22;font-weight:700;}
+    }
+    @media (min-width:700px) and (max-width:1050px){
+      .falltype-card{min-height:18rem;}
+    }
+    @media (max-width:430px){
+      .falltypes-redesign{padding:2.25rem 0 2.75rem;}
+      .falltypes-shell{width:min(calc(100% - 2rem),760px);}
+      .falltypes-pill{min-height:1.98rem;font-size:.82rem;}
+      .falltypes-title{font-size:clamp(2.08rem,8.9vw,2.38rem);line-height:1;}
+      .falltypes-lead{font-size:.99rem;line-height:1.45;margin-top:1.12rem;}
+      .falltype-card{grid-template-columns:3.95rem minmax(0,1fr) 2.55rem;column-gap:.78rem;row-gap:1rem;padding:1.15rem .92rem 1.02rem;border-radius:1rem;}
+      .falltype-icon{width:3.8rem;height:3.8rem;}
+      .falltype-icon svg{width:2.18rem;height:2.18rem;}
+      .falltype-badge{width:2.18rem;height:2.18rem;border-radius:.58rem;font-size:1rem;}
+      .falltype-copy{padding-right:2.75rem;}
+      .falltype-copy h3{font-size:1.24rem;margin-top:.2rem;}
+      .falltype-copy p{font-size:.92rem;line-height:1.42;margin-top:.62rem;}
+      .falltype-arrow{right:1rem;width:2.45rem;height:2.45rem;}
+      .falltype-cta{min-height:2.62rem;font-size:.78rem;border-radius:.62rem;}
+      .falltypes-trust{padding:1.08rem .55rem;}
+      .falltypes-trust-lead,.falltypes-trust-item{padding:0 .32rem;}
+      .falltypes-trust-icon,.falltypes-trust-item span{width:2.65rem;height:2.65rem;}
+      .falltypes-trust-lead .falltypes-trust-mobile,.falltypes-trust-item strong{font-size:.66rem;line-height:1.22;overflow-wrap:break-word;}
+    }
   </style>
 </head>
 <body class="intro-lock">
@@ -1495,7 +1835,107 @@
             </div>
           </div>
         </section>
-        <section id="falltypen" class="premium-section audience-section"><div class="premium-shell"><div class="section-head-center js-reveal"><div class="eyebrow">Falltypen</div><h2 class="premium-title small">Jede MPU braucht eine andere Sprache.</h2><p class="premium-lead">Alkohol, Drogen, Punkte oder ein negatives Gutachten: Die Website verkaufen nicht alles mit demselben Text, sondern holt jede Situation präzise ab.</p></div><div class="audience-grid"><article class="audience-card glass-card tilt-card js-card"><div class="audience-num">A</div><h3>Alkohol-MPU</h3><p>Trinkverhalten, Anlass, Veränderung und mögliche Abstinenz werden verständlich sortiert.</p><small>Nachweise + Gespräch</small></article><article class="audience-card glass-card tilt-card js-card"><div class="audience-num">D</div><h3>Drogen-MPU</h3><p>Konsummuster, Laborwerte, Abstinenznachweise und kritische Fristen bekommen klare Struktur.</p><small>Fristen + Stabilität</small></article><article class="audience-card glass-card tilt-card js-card"><div class="audience-num">P</div><h3>Punkte-MPU</h3><p>Hier zählt Verhalten: Einsicht, Verantwortung und nachvollziehbare Veränderung im Alltag.</p><small>Reflexion + Alltag</small></article><article class="audience-card glass-card tilt-card js-card"><div class="audience-num">R</div><h3>Nach negativem Gutachten</h3><p>Wir suchen die Schwachstellen, lösen Widersprüche und bauen den Neustart sauber neu auf.</p><small>Review + Neustart</small></article></div></div></section>
+        <section id="falltypen" class="falltypes-redesign" aria-labelledby="falltypes-title">
+          <div class="falltypes-shell">
+            <div class="falltypes-head">
+              <div class="falltypes-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M6 7h12"/><path d="m6 7-3 6h6L6 7Z"/><path d="m18 7-3 6h6l-3-6Z"/></svg>
+                <span>FALLTYPEN</span>
+              </div>
+              <h2 class="falltypes-title" id="falltypes-title">Jede MPU braucht<br>eine <span>andere Sprache.</span></h2>
+              <p class="falltypes-lead">Alkohol, Drogen, Punkte oder ein negatives Gutachten: Die Website verkaufen nicht alles mit demselben Text, sondern holt jede Situation präzise ab.</p>
+            </div>
+
+            <div class="falltypes-grid">
+              <article class="falltype-card">
+                <div class="falltype-top">
+                  <span class="falltype-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10l-1 7.4a4 4 0 0 1-8 0L7 3Z"/><path d="M12 14.5V21"/><path d="M8.5 21h7"/><path d="M7.4 8h9.2"/></svg>
+                  </span>
+                  <span class="falltype-badge">A</span>
+                </div>
+                <div class="falltype-copy">
+                  <h3>Alkohol-MPU</h3>
+                  <span class="falltype-line" aria-hidden="true"></span>
+                  <p>Trinkverhalten, Anlass, Veränderung und mögliche Abstinenz werden verständlich sortiert.</p>
+                </div>
+                <div class="falltype-cta"><span>NACHWEISE + GESPRÄCH</span><span class="falltype-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></div>
+              </article>
+
+              <article class="falltype-card" data-tone="green">
+                <div class="falltype-top">
+                  <span class="falltype-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4c-6.8.5-12.5 4.7-13.3 11.3-.2 1.8.3 3.5 1.3 4.7 1.2.2 2.8-.3 4.2-1.4C17.7 14.3 19.6 8.6 20 4Z"/><path d="M5 21c2.5-5.1 6.3-8.8 11.2-11.2"/></svg>
+                  </span>
+                  <span class="falltype-badge">D</span>
+                </div>
+                <div class="falltype-copy">
+                  <h3>Drogen-MPU</h3>
+                  <span class="falltype-line" aria-hidden="true"></span>
+                  <p>Konsummuster, Laborwerte, Abstinenznachweise und kritische Fristen bekommen klare Struktur.</p>
+                </div>
+                <div class="falltype-cta"><span>FRISTEN + STABILITÄT</span><span class="falltype-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></div>
+              </article>
+
+              <article class="falltype-card" data-tone="blue">
+                <div class="falltype-top">
+                  <span class="falltype-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.2 5.7 9c.3-.8 1-1.3 1.9-1.3h8.8c.9 0 1.6.5 1.9 1.3l1.7 5.2"/><path d="M4.7 14h14.6c.9 0 1.7.8 1.7 1.7V19h-3"/><path d="M3 19h3"/><path d="M8.5 19h7"/><circle cx="7.2" cy="19" r="1.8"/><circle cx="16.8" cy="19" r="1.8"/></svg>
+                  </span>
+                  <span class="falltype-badge">P</span>
+                </div>
+                <div class="falltype-copy">
+                  <h3>Punkte-MPU</h3>
+                  <span class="falltype-line" aria-hidden="true"></span>
+                  <p>Hier zählt Verhalten: Einsicht, Verantwortung und nachvollziehbare Veränderung im Alltag.</p>
+                </div>
+                <div class="falltype-cta"><span>REFLEXION + ALLTAG</span><span class="falltype-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></div>
+              </article>
+
+              <article class="falltype-card" data-tone="purple">
+                <div class="falltype-top">
+                  <span class="falltype-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l1 2h3v15H5V6h3l1-2Z"/><path d="M9 11h6"/><path d="M9 15h5"/><path d="m8 11 1 1 2-2"/><path d="m8 15 1 1 2-2"/></svg>
+                  </span>
+                  <span class="falltype-badge">R</span>
+                </div>
+                <div class="falltype-copy">
+                  <h3>Nach negativem Gutachten</h3>
+                  <span class="falltype-line" aria-hidden="true"></span>
+                  <p>Wir suchen die Schwachstellen, lösen Widersprüche und bauen den Neustart sauber neu auf.</p>
+                </div>
+                <div class="falltype-cta"><span>REVIEW + NEUSTART</span><span class="falltype-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></div>
+              </article>
+            </div>
+
+            <div class="falltypes-trust" aria-label="Vertrauensmerkmale">
+              <div class="falltypes-trust-lead">
+                <span class="falltypes-trust-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+                </span>
+                <div>
+                  <strong class="falltypes-trust-desktop">Individuell. Verständlich. Wirksam.</strong>
+                  <strong class="falltypes-trust-mobile">Individuell.<br>Keine Standard-<br>lösungen.</strong>
+                  <p>Jede Situation ist anders – deshalb gibt es bei uns keine Standardlösungen, sondern eine Strategie, die wirklich zu dir passt.</p>
+                </div>
+              </div>
+              <div class="falltypes-trust-items">
+                <div class="falltypes-trust-item">
+                  <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20a4 4 0 0 0-8 0"/><circle cx="14" cy="10" r="3"/><path d="M7 20a3 3 0 0 1 3-3"/><circle cx="7" cy="11" r="2.3"/></svg></span>
+                  <strong>Persönliche Betreuung</strong>
+                </div>
+                <div class="falltypes-trust-item">
+                  <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-3.7 7-9.3V5.5L12 3 5 5.5v6.2C5 17.3 12 21 12 21Z"/><path d="m9 12 2 2 4-5"/></svg></span>
+                  <strong>Erfahrene MPU-Berater</strong>
+                </div>
+                <div class="falltypes-trust-item">
+                  <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+                  <strong>Diskret &amp; vertraulich</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
         <section id="methoden" class="premium-section method-section-premium"><div class="premium-shell"><div class="method-layout"><aside class="method-sticky-premium glass-card js-reveal"><div class="eyebrow">Unsere Methode</div><h3>Die 4-Stufen-Methode gegen MPU-Panik.</h3><p>Wir bereiten nicht auf auswendig gelernte Antworten vor. Wir bauen eine belastbare Struktur, mit der Sie ruhig erklären können, was passiert ist und was sich verändert hat.</p><div class="cta-cluster"><a href="#kontakt" class="btn-premium">Methode besprechen</a></div><div class="method-proof-mini" aria-hidden="true"><div class="proof-mini-row"><span>Analyse</span><div class="mini-bar"><span style="--target:92%"></span></div></div><div class="proof-mini-row"><span>Nachweise</span><div class="mini-bar"><span style="--target:84%"></span></div></div><div class="proof-mini-row"><span>Training</span><div class="mini-bar"><span style="--target:88%"></span></div></div></div></aside><div class="method-road"><article class="road-card glass-card js-card"><div class="road-index">01</div><div><h3>Ausgangslage verstehen</h3><p>Wir klären Anlass, Risiken, Fristen und die Frage, was die Begutachtung wirklich sehen möchte.</p><div class="road-tags"><span>Aktenlogik</span><span>Risikopunkte</span><span>Fristen</span></div></div></article><article class="road-card glass-card js-card"><div class="road-index">02</div><div><h3>Nachweise sauber planen</h3><p>Abstinenz, Laborwerte, Unterlagen und zeitliche Schritte werden so geordnet, dass kein Detail unnötig Druck macht.</p><div class="road-tags"><span>Abstinenz</span><span>Unterlagen</span><span>Termine</span></div></div></article><article class="road-card glass-card js-card"><div class="road-index">03</div><div><h3>Veränderung nachvollziehbar machen</h3><p>Was hat sich geändert? Warum ist es heute stabil? Wir übersetzen Veränderung in klare, ehrliche Sprache.</p><div class="road-tags"><span>Einsicht</span><span>Verhalten</span><span>Glaubwürdigkeit</span></div></div></article><article class="road-card glass-card js-card"><div class="road-index">04</div><div><h3>Gespräch realistisch simulieren</h3><p>Wir üben typische Fragen, kritische Nachfragen und klare Antworten ohne Floskeln oder Panik.</p><div class="road-tags"><span>Simulation</span><span>Feedback</span><span>Sicherheit</span></div></div></article></div></div></div></section>
         <section id="klarna" class="premium-section klarna-redesign" aria-labelledby="klarna-title">
           <div class="klarna-stage">
@@ -1623,7 +2063,7 @@
       const sticky=document.querySelector(".mobile-sticky-cta");
       if(!sticky)return;
       const mq=window.matchMedia("(max-width: 768px)");
-      const watched=[{el:document.querySelector(".clarity-rise"),cls:"clarity-rise-active"},{el:document.querySelector(".fall-check-section"),cls:"fall-check-active"},{el:document.querySelector(".klarna-redesign"),cls:"klarna-active"}].filter(item=>item.el);
+      const watched=[{el:document.querySelector(".clarity-rise"),cls:"clarity-rise-active"},{el:document.querySelector(".fall-check-section"),cls:"fall-check-active"},{el:document.querySelector(".klarna-redesign"),cls:"klarna-active"},{el:document.querySelector(".falltypes-redesign"),cls:"falltypes-active"}].filter(item=>item.el);
       if(!watched.length)return;
       const setState=()=>{
         const vh=window.innerHeight||document.documentElement.clientHeight;
