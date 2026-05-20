@@ -2171,6 +2171,9 @@
         width:100%;
         margin:0;
         padding:.25rem 0 .55rem;
+        border:0;
+        background:transparent;
+        box-shadow:none;
         overflow-x:auto;
         overflow-y:hidden;
         overscroll-behavior-x:contain;
@@ -2210,26 +2213,60 @@
         background:#087b90;
       }
       .falltypes-trust{
-        grid-template-columns:repeat(2,minmax(0,1fr));
+        min-height:0;
+        display:flex;
+        grid-template-columns:none;
+        align-items:center;
         gap:.72rem;
-        padding:.9rem;
+        margin-top:1.05rem;
+        padding:.15rem 0 .42rem;
+        border:0;
+        border-radius:0;
+        background:transparent;
+        box-shadow:none;
+        backdrop-filter:none;
+        overflow-x:auto;
+        overflow-y:hidden;
+        overscroll-behavior-x:contain;
+        -webkit-overflow-scrolling:touch;
+        scrollbar-width:none;
       }
+      .falltypes-trust::-webkit-scrollbar{display:none;}
       .falltypes-trust-lead,
       .falltypes-trust-item{
-        min-height:8.25rem;
-        padding:.82rem .58rem;
+        flex:0 0 clamp(8.35rem,38vw,10.25rem);
+        min-height:3.5rem;
+        display:grid;
+        grid-template-columns:2.25rem minmax(0,1fr);
+        gap:.52rem;
+        padding:0;
         border-right:0;
-        border-radius:.92rem;
-        background:rgba(255,255,255,.48);
+        border-radius:0;
+        background:transparent;
         align-items:center;
-        justify-content:flex-start;
+        justify-content:normal;
+        text-align:left;
       }
       .falltypes-trust-items{display:contents;border-left:0;}
+      .falltypes-trust-icon,
+      .falltypes-trust-item span{
+        width:2.25rem;
+        height:2.25rem;
+        margin:0;
+      }
+      .falltypes-trust-icon svg,
+      .falltypes-trust-item svg{
+        width:1.18rem;
+        height:1.18rem;
+      }
+      .falltypes-trust-lead > div{min-width:0;}
       .falltypes-trust-lead .falltypes-trust-mobile,
       .falltypes-trust-item strong{
-        font-size:clamp(.72rem,2.9vw,.88rem);
-        line-height:1.22;
-        overflow-wrap:normal;
+        font-size:clamp(.7rem,2.75vw,.8rem);
+        line-height:1.18;
+        font-weight:800;
+        letter-spacing:-.012em;
+        overflow-wrap:break-word;
         word-break:normal;
         hyphens:none;
       }
