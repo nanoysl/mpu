@@ -2147,7 +2147,10 @@
     }
     .falltypes-swipe-hint,.falltypes-carousel-dots{display:none;}
     @media (max-width:768px){
-      .falltypes-redesign{overflow:hidden;}
+      .falltypes-redesign{
+        overflow:hidden;
+        background:#fff;
+      }
       .falltypes-shell{width:min(calc(100% - 2rem),760px);}
       .falltypes-head{margin-bottom:1.1rem;}
       .falltypes-swipe-hint{
@@ -2240,7 +2243,7 @@
         display:flex;
         width:max-content;
         will-change:transform;
-        animation:falltypesTrustLoop 28s linear infinite;
+        animation:falltypesTrustLoop 14s linear infinite;
       }
       .falltypes-trust-set,
       .falltypes-trust-set-clone{
@@ -2275,6 +2278,12 @@
         width:2.25rem;
         height:2.25rem;
         margin:0;
+      }
+      .falltypes-trust-icon{
+        color:#073247;
+        background:rgba(92,225,230,.16);
+        background-image:none;
+        box-shadow:none;
       }
       .falltypes-trust-icon svg,
       .falltypes-trust-item svg{
