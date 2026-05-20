@@ -2143,6 +2143,100 @@
       .falltypes-trust-icon,.falltypes-trust-item span{width:2.65rem;height:2.65rem;}
       .falltypes-trust-lead .falltypes-trust-mobile,.falltypes-trust-item strong{font-size:.66rem;line-height:1.22;overflow-wrap:break-word;}
     }
+    .falltypes-swipe-hint,.falltypes-carousel-dots{display:none;}
+    @media (max-width:768px){
+      .falltypes-redesign{overflow:hidden;}
+      .falltypes-shell{width:min(calc(100% - 2rem),760px);}
+      .falltypes-head{margin-bottom:1.1rem;}
+      .falltypes-swipe-hint{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        min-height:2rem;
+        margin:1.05rem auto 0;
+        padding:0 .9rem;
+        border-radius:999px;
+        border:1px solid rgba(8,123,144,.09);
+        background:rgba(229,249,251,.64);
+        color:#087b90;
+        font-size:.76rem;
+        line-height:1;
+        font-weight:850;
+        letter-spacing:.035em;
+      }
+      .falltypes-grid{
+        display:flex;
+        grid-template-columns:none;
+        gap:.9rem;
+        width:100%;
+        margin:0;
+        padding:.25rem 0 .55rem;
+        overflow-x:auto;
+        overflow-y:hidden;
+        overscroll-behavior-x:contain;
+        scroll-snap-type:x mandatory;
+        scroll-padding-left:0;
+        scroll-behavior:smooth;
+        -webkit-overflow-scrolling:touch;
+        scrollbar-width:none;
+      }
+      .falltypes-grid::-webkit-scrollbar{display:none;}
+      .falltypes-grid .falltype-card{
+        flex:0 0 84vw;
+        width:84vw;
+        max-width:39rem;
+        scroll-snap-align:start;
+        scroll-snap-stop:always;
+      }
+      .falltypes-carousel-dots{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:.46rem;
+        margin:.45rem auto 0;
+      }
+      .falltypes-carousel-dot{
+        width:.42rem;
+        height:.42rem;
+        padding:0;
+        border:0;
+        border-radius:999px;
+        background:rgba(8,123,144,.24);
+        cursor:pointer;
+        transition:width .22s var(--ease),background .22s,opacity .22s;
+      }
+      .falltypes-carousel-dot.is-active{
+        width:1.35rem;
+        background:#087b90;
+      }
+      .falltypes-trust{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:.72rem;
+        padding:.9rem;
+      }
+      .falltypes-trust-lead,
+      .falltypes-trust-item{
+        min-height:8.25rem;
+        padding:.82rem .58rem;
+        border-right:0;
+        border-radius:.92rem;
+        background:rgba(255,255,255,.48);
+        align-items:center;
+        justify-content:flex-start;
+      }
+      .falltypes-trust-items{display:contents;border-left:0;}
+      .falltypes-trust-lead .falltypes-trust-mobile,
+      .falltypes-trust-item strong{
+        font-size:clamp(.72rem,2.9vw,.88rem);
+        line-height:1.22;
+        overflow-wrap:normal;
+        word-break:normal;
+        hyphens:none;
+      }
+    }
+    @media (prefers-reduced-motion:reduce){
+      .falltypes-grid{scroll-behavior:auto;}
+    }
     .method-redesign{
       --mm-ink:#061325;
       --mm-muted:#2f3e53;
@@ -6070,9 +6164,10 @@
               </div>
               <h2 class="falltypes-title" id="falltypes-title">Jede MPU braucht<br>eine <span>andere Sprache.</span></h2>
               <p class="falltypes-lead">Alkohol, Drogen, Punkte oder ein negatives Gutachten: Die Website verkaufen nicht alles mit demselben Text, sondern holt jede Situation präzise ab.</p>
+              <p class="falltypes-swipe-hint">Wischen für weitere Falltypen</p>
             </div>
 
-            <div class="falltypes-grid">
+            <div class="falltypes-grid" id="falltypes-carousel" aria-label="Falltypen Carousel">
               <article class="falltype-card">
                 <div class="falltype-top">
                   <span class="falltype-icon" aria-hidden="true">
@@ -6133,6 +6228,12 @@
                 <div class="falltype-cta"><span>REVIEW + NEUSTART</span><span class="falltype-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></div>
               </article>
             </div>
+            <div class="falltypes-carousel-dots" aria-label="Falltypen auswählen">
+              <button class="falltypes-carousel-dot is-active" type="button" aria-label="Alkohol-MPU anzeigen" aria-current="true"></button>
+              <button class="falltypes-carousel-dot" type="button" aria-label="Drogen-MPU anzeigen"></button>
+              <button class="falltypes-carousel-dot" type="button" aria-label="Punkte-MPU anzeigen"></button>
+              <button class="falltypes-carousel-dot" type="button" aria-label="Nach negativem Gutachten anzeigen"></button>
+            </div>
 
             <div class="falltypes-trust" aria-label="Vertrauensmerkmale">
               <div class="falltypes-trust-lead">
@@ -6141,7 +6242,7 @@
                 </span>
                 <div>
                   <strong class="falltypes-trust-desktop">Individuell. Verständlich. Wirksam.</strong>
-                  <strong class="falltypes-trust-mobile">Individuell.<br>Keine Standard-<br>lösungen.</strong>
+                  <strong class="falltypes-trust-mobile">Individuell.<br>Keine Standardlösungen.</strong>
                   <p>Jede Situation ist anders – deshalb gibt es bei uns keine Standardlösungen, sondern eine Strategie, die wirklich zu dir passt.</p>
                 </div>
               </div>
@@ -7056,6 +7157,82 @@
       window.addEventListener("scroll",setState,{passive:true});
     }
 
+    function initFalltypesCarousel(){
+      const section=document.querySelector(".falltypes-redesign");
+      const track=document.getElementById("falltypes-carousel");
+      if(!section||!track)return;
+      const cards=Array.from(track.querySelectorAll(".falltype-card"));
+      const dots=Array.from(section.querySelectorAll(".falltypes-carousel-dot"));
+      if(cards.length<2||dots.length!==cards.length)return;
+      const mobileMq=window.matchMedia("(max-width: 768px)");
+      let activeIndex=0,autoplayId=null,sectionVisible=false,autoScrollLock=false,userStopped=false,scrollRaf=0;
+      const setActive=index=>{
+        activeIndex=Math.max(0,Math.min(cards.length-1,index));
+        dots.forEach((dot,i)=>{
+          const isActive=i===activeIndex;
+          dot.classList.toggle("is-active",isActive);
+          if(isActive)dot.setAttribute("aria-current","true");
+          else dot.removeAttribute("aria-current");
+        });
+      };
+      const nearestIndex=()=>{
+        const left=track.scrollLeft;
+        return cards.reduce((best,card,index)=>{
+          const distance=Math.abs(card.offsetLeft-left);
+          return distance<best.distance?{index,distance}:best;
+        },{index:0,distance:Infinity}).index;
+      };
+      const stopAutoplay=()=>{userStopped=true;if(autoplayId){window.clearInterval(autoplayId);autoplayId=null;}};
+      const scrollToIndex=index=>{
+        const target=cards[index];
+        if(!target)return;
+        autoScrollLock=true;
+        track.scrollTo({left:target.offsetLeft,behavior:reduceMotion?"auto":"smooth"});
+        window.setTimeout(()=>{autoScrollLock=false;},850);
+        setActive(index);
+      };
+      const startAutoplay=()=>{
+        if(reduceMotion||userStopped||autoplayId||!mobileMq.matches||!sectionVisible)return;
+        autoplayId=window.setInterval(()=>scrollToIndex((activeIndex+1)%cards.length),4500);
+      };
+      const pauseAutoplay=()=>{if(autoplayId){window.clearInterval(autoplayId);autoplayId=null;}};
+      const syncActive=()=>{
+        scrollRaf=0;
+        const index=nearestIndex();
+        if(index!==activeIndex)setActive(index);
+      };
+      track.addEventListener("scroll",()=>{
+        if(!scrollRaf)scrollRaf=window.requestAnimationFrame(syncActive);
+        if(!autoScrollLock&&mobileMq.matches&&track.matches(":hover"))stopAutoplay();
+      },{passive:true});
+      ["touchstart","pointerdown","wheel"].forEach(type=>track.addEventListener(type,stopAutoplay,{passive:true}));
+      dots.forEach((dot,index)=>{
+        dot.addEventListener("click",()=>{
+          stopAutoplay();
+          scrollToIndex(index);
+        });
+      });
+      if("IntersectionObserver" in window){
+        const observer=new IntersectionObserver(entries=>{
+          sectionVisible=entries.some(entry=>entry.isIntersecting);
+          if(sectionVisible)startAutoplay();
+          else pauseAutoplay();
+        },{threshold:.35});
+        observer.observe(section);
+      }else{
+        sectionVisible=true;
+      }
+      const handleModeChange=()=>{
+        pauseAutoplay();
+        setActive(nearestIndex());
+        if(mobileMq.matches)startAutoplay();
+      };
+      mobileMq.addEventListener?.("change",handleModeChange);
+      window.addEventListener("resize",handleModeChange,{passive:true});
+      setActive(0);
+      startAutoplay();
+    }
+
     function initPremiumSystem(){
       const repeatReveal=(el,fromVars,toVars={},start="top 86%")=>{gsap.set(el,fromVars);gsap.to(el,{...toVars,autoAlpha:1,y:0,scale:1,filter:"blur(0px)",duration:toVars.duration||.85,ease:toVars.ease||"power3.out",scrollTrigger:{trigger:el,start,end:"bottom 12%",toggleActions:"play reverse play reverse"}})};
       if(!reduceMotion){
@@ -7076,7 +7253,7 @@
 
     window.addEventListener("load",()=>{
       const tl=gsap.timeline();
-      tl.fromTo("#intro-license",{z:-2000,rotationY:720,rotationZ:-45,opacity:0},{z:0,rotationY:0,rotationZ:0,opacity:1,duration:1.5,ease:"power3.out"}).to("#intro-license",{duration:.5}).to("#intro-license",{scale:4,rotationY:360,filter:"blur(40px)",opacity:0,duration:1.2,ease:"power2.in"}).to(["#line-waves-bg","#page-content"],{opacity:1,duration:1.45,ease:"power2.out"},"-=0.55").from(".hero-reveal",{autoAlpha:0,y:40,filter:"blur(10px)",duration:1.2,stagger:.15,ease:"power4.out"},"-=0.8").add(()=>{document.body.classList.remove("intro-lock");const intro=document.getElementById("intro-container");if(intro)intro.remove();if(!reduceMotion){gsap.to(".hero-bg-image",{y:"8%",scrollTrigger:{trigger:".hero-section",start:"top top",end:"bottom top",scrub:true}});if(!isTouchLike)gsap.to(".license-card",{y:"-15%",scrollTrigger:{trigger:".hero-section",start:"top top",end:"bottom top",scrub:true}})}initScrollStory();initPremiumSystem();initClarityRise();gsap.fromTo(".story-bg-wrapper",{opacity:0},{opacity:1,scrollTrigger:{trigger:"#license-story",start:"top bottom",end:"top center",scrub:true}});ScrollTrigger.refresh();});
+      tl.fromTo("#intro-license",{z:-2000,rotationY:720,rotationZ:-45,opacity:0},{z:0,rotationY:0,rotationZ:0,opacity:1,duration:1.5,ease:"power3.out"}).to("#intro-license",{duration:.5}).to("#intro-license",{scale:4,rotationY:360,filter:"blur(40px)",opacity:0,duration:1.2,ease:"power2.in"}).to(["#line-waves-bg","#page-content"],{opacity:1,duration:1.45,ease:"power2.out"},"-=0.55").from(".hero-reveal",{autoAlpha:0,y:40,filter:"blur(10px)",duration:1.2,stagger:.15,ease:"power4.out"},"-=0.8").add(()=>{document.body.classList.remove("intro-lock");const intro=document.getElementById("intro-container");if(intro)intro.remove();if(!reduceMotion){gsap.to(".hero-bg-image",{y:"8%",scrollTrigger:{trigger:".hero-section",start:"top top",end:"bottom top",scrub:true}});if(!isTouchLike)gsap.to(".license-card",{y:"-15%",scrollTrigger:{trigger:".hero-section",start:"top top",end:"bottom top",scrub:true}})}initScrollStory();initPremiumSystem();initFalltypesCarousel();initClarityRise();gsap.fromTo(".story-bg-wrapper",{opacity:0},{opacity:1,scrollTrigger:{trigger:"#license-story",start:"top bottom",end:"top center",scrub:true}});ScrollTrigger.refresh();});
       if(!isTouchLike&&!reduceMotion){const parallaxWrapper=document.getElementById("parallax-wrapper");if(parallaxWrapper){window.addEventListener("mousemove",e=>{const x=(e.clientX/window.innerWidth-.5)*40,y=(e.clientY/window.innerHeight-.5)*40;gsap.to(parallaxWrapper,{x,y,duration:1,ease:"power2.out"});});}}
     });
   </script>
