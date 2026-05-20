@@ -4429,6 +4429,42 @@
       .training-feature svg{width:1.45rem;height:1.45rem;}
       .training-feature span{font-size:.74rem;line-height:1.18;}
     }
+    @media (max-width:768px){
+      .simulation-section{
+        background:linear-gradient(180deg,#f7fcfd 0%,#fff 100%);
+        padding-bottom:clamp(3.15rem,11vw,4.3rem);
+      }
+      .training-features{
+        grid-template-columns:1fr;
+        gap:.58rem;
+        margin-top:.72rem;
+      }
+      .training-feature{
+        min-height:0;
+        grid-template-columns:2.25rem minmax(0,1fr);
+        align-items:center;
+        justify-items:stretch;
+        gap:.64rem;
+        padding:.78rem .88rem;
+        text-align:left;
+      }
+      .training-feature svg{
+        width:1.55rem;
+        height:1.55rem;
+        justify-self:center;
+      }
+      .training-feature span{
+        max-width:100%;
+        white-space:normal;
+        overflow:visible;
+        text-overflow:clip;
+        overflow-wrap:normal;
+        word-break:normal;
+        hyphens:none;
+        font-size:.86rem;
+        line-height:1.22;
+      }
+    }
 
     .trust-section-premium{
       --trust-ink:#06111f;
